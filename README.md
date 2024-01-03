@@ -12,3 +12,6 @@ https://fptuniversity-my.sharepoint.com/:w:/r/personal/manhnhhe172630_fpt_edu_vn
 
 Back log:
 https://fptuniversity-my.sharepoint.com/:x:/r/personal/manhnhhe172630_fpt_edu_vn/Documents/SWP391_SP2024_SE1763_Group_2/SWP391-AppDevProject_Backlog%20Template.xlsx?d=w894c742dff4944d1979f9edc163e8421&csf=1&web=1&e=kWuWRd
+
+Function:
+https://fptuniversity-my.sharepoint.com/:x:/r/personal/manhnhhe172630_fpt_edu_vn/Documents/SWP391_SP2024_SE1763_Group_2/SWP391-G2-FUHouseFinderProject_Backlog.xlsx?d=w3ff69f2f20e4446995e7d9e52ee3283b&csf=1&web=1&e=s4LeRT
