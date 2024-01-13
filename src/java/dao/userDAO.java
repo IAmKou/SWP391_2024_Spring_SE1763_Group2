@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import model.user;
 
 /**
@@ -100,5 +101,78 @@ public class userDAO {
             System.out.println(e.getMessage());
         }
         return user;
+    }
+      public static boolean ChangePassword(int user_id, String password) {
+        try {
+            DBContext db = new DBContext();
+            Connection con = db.getConnection();
+            if (con != null) {
+                String sql = "UPDATE `house_finder`.`USER` SET `passWord` = '" + password
+                        + "' WHERE (`userId` = '" + user_id + "');";
+                Statement st = con.createStatement();
+                int rows = st.executeUpdate(sql);
+                if (rows < 1) {
+                    throw new Exception();
+                }
+                return true;
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return false;
+    }
+      public static user GetUserInformation(int id) {
+        user user = null;
+        try {
+            DBContext db = new DBContext();
+            Connection con = db.getConnection();
+            if (con != null) {
+                String sql = "Select * from USER where userId=" + id;
+                Statement st = con.createStatement();
+                ResultSet rs = st.executeQuery(sql);
+                while (rs.next()) {
+                    user = new user();
+                    user.setUserID(rs.getInt(1));
+                    user.setFullName(rs.getString(2));
+                    user.setUserName(rs.getString(3));
+                    user.setPassWord(rs.getString(4));
+                    user.setRoleID(rs.getInt(5));
+                    user.setLocation(rs.getString(6));
+                    user.setPhone(rs.getString(7));
+                    user.setEmail(rs.getString(8));
+                }
+                rs.close();
+                st.close();
+                con.close();
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return user;
+    }
+       public user getUserByEmail(String email) {
+        user user = new user();
+        String sql = "Select * from USER where email= '" + email + "';";
+        try {
+            DBContext db = new DBContext();
+            Connection con = db.getConnection();
+            PreparedStatement ps = con.prepareCall(sql);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                user.setUserID(rs.getInt("id"));
+                user.setUserName(rs.getString("userName"));
+                user.setPassWord(rs.getString("passWord"));
+                user.setFullName(rs.getString("fullName"));
+                user.setEmail(rs.getString(email));
+                user.setLocation(rs.getString("location"));
+                user.setPhone(rs.getString("phone"));
+                user.setRoleID(rs.getInt("roleID"));
+                return user;
+
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
     }
 }
