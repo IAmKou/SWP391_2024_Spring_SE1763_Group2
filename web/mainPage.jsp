@@ -12,6 +12,11 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
+        <a href="signUp.jsp">Sign Up</a><br/><!-- comment -->
+        <a href="logIn.jsp">Log In</a><br/><!-- comment -->
+        <a href="userProfile.jsp">Profile</a>
+        <form action="logOutController">
+            <button type="submit">Log Out</button>
+        </form>
     </body>
 </html>
