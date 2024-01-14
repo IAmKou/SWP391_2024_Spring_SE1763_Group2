@@ -12,11 +12,12 @@
         <title>JSP Page</title>
     </head>
     <body>
+        ${requestScope.message}
         <form action="logInController" method="post">
         Username : <input type="text" name="username"><br/><!-- comment -->
         Password : <input type="password" name="password"><br/><!-- comment -->
         <button type="submit">Submit</button>
-        <a href="fotgotPassword.jsp">Forgot Password</a>
+        <a href="forgotPassword.jsp">Forgot Password</a>
         </form>
     </body>
 </html>
