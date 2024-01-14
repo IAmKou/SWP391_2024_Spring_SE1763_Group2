@@ -84,13 +84,12 @@ public class userDAO {
             DBContext db = new DBContext();
             Connection con = db.getConnection();
             if (con != null) {
-                String sql = "Select * from USER where userName = " + "'" + username + "'"
-                        + "AND passWord = " + "'" + pass + "' limit 1";
+                String sql = "Select * from USER where userName = '" + username + "' AND passWord = '" + pass + "'";
                 Statement call = con.createStatement();
                 ResultSet rs = call.executeQuery(sql);
                 while (rs.next()) {
-                    user = new user(rs.getInt("userId"),
-                            username, pass, rs.getString("fullName"), rs.getInt("roleId"),
+                    user = new user(rs.getInt("userID"),rs.getString("fullName"),
+                            username, pass, rs.getInt("roleID"),
                             rs.getString("location"), rs.getString("phone"),
                             rs.getString("email"));
                 }
@@ -107,8 +106,7 @@ public class userDAO {
             DBContext db = new DBContext();
             Connection con = db.getConnection();
             if (con != null) {
-                String sql = "UPDATE `house_finder`.`USER` SET `passWord` = '" + password
-                        + "' WHERE (`userId` = '" + user_id + "');";
+                String sql = "UPDATE USER SET passWord = '" + password + "' where userID = '" + user_id + "'";
                 Statement st = con.createStatement();
                 int rows = st.executeUpdate(sql);
                 if (rows < 1) {
@@ -159,14 +157,14 @@ public class userDAO {
             PreparedStatement ps = con.prepareCall(sql);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                user.setUserID(rs.getInt("id"));
+                user.setUserID(rs.getInt("userID"));
+                user.setFullName(rs.getString("fullName"));
                 user.setUserName(rs.getString("userName"));
                 user.setPassWord(rs.getString("passWord"));
-                user.setFullName(rs.getString("fullName"));
-                user.setEmail(rs.getString(email));
+                user.setRoleID(rs.getInt("roleID"));
+                user.setEmail(rs.getString("email"));
                 user.setLocation(rs.getString("location"));
                 user.setPhone(rs.getString("phone"));
-                user.setRoleID(rs.getInt("roleID"));
                 return user;
 
             }
