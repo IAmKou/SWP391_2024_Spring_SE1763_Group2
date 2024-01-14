@@ -78,8 +78,8 @@ public class sendEmail extends HttpServlet {
 
             // Set up mail server and authentication
             String host = "smtp.gmail.com";
-            String user = "";
-            String password = "";
+            String user = "csgit47@gmail.com";
+            String password = "svvuwvdjrbiucehn";
 
             // Create properties object for the mail session
             Properties props = new Properties();
@@ -106,7 +106,7 @@ public class sendEmail extends HttpServlet {
                 // Send message
                 Transport.send(msg);
                 // Redirect to success page
-                request.getRequestDispatcher("confirmCode.jsp").forward(request, response);
+                request.getRequestDispatcher("verifyCode.jsp").forward(request, response);
             } catch (MessagingException e) {
                 // Redirect to error page
                 response.getWriter().print("ko the gui mail");
