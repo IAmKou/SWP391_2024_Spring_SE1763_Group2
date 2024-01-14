@@ -37,7 +37,7 @@ public class verifyCode extends HttpServlet {
             request.getRequestDispatcher("resetPass.jsp").forward(request, response);
         } else {
             request.setAttribute("AlertC", "Code sai hoac khong ton tai");
-            request.getRequestDispatcher("confirmCode.jsp").forward(request, response);
+            request.getRequestDispatcher("verifyCode.jsp").forward(request, response);
         }
     } 
 
