@@ -12,6 +12,7 @@
         <title>JSP Page</title>
     </head>
     <body>
+        ${requestScope.acc.passWord}
         <a href="signUp.jsp">Sign Up</a><br/><!-- comment -->
         <a href="logIn.jsp">Log In</a><br/><!-- comment -->
         <a href="userProfile.jsp">Profile</a>
