@@ -12,7 +12,8 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <form method="post" action="../house/add">
+        <form method="post" action="../house/update">
+            houseId: <input type="number" name="houseId">
             Location: <input type="text" name="location" required><br>
             Type: <input type="number" name="type" required><br>
             Description: <textarea name="description" required></textarea><br>

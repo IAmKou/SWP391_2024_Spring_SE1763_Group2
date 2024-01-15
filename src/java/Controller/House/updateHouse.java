@@ -68,6 +68,7 @@ public class updateHouse extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
+        String houseId = request.getParameter("houseId");
         String location = request.getParameter("location");
         String description = request.getParameter("description");
         String price = request.getParameter("price");
@@ -77,8 +78,10 @@ public class updateHouse extends HttpServlet {
         
         int price_int = Integer.parseInt(price);
         int type_int = Integer.parseInt(type);
+        int houseId_int = Integer.parseInt(houseId);
         
         House house = new House();
+        house.setHouseId(houseId_int);
         house.setLocation(location);
         house.setDescription(description);
         house.setPicture(picture);
