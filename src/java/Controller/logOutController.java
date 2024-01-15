@@ -3,9 +3,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package Servlet;
+package Controller;
 
-import dao.userDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -14,14 +13,13 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import model.user;
 
 /**
  *
  * @author ACER
  */
-@WebServlet(name="forgotPasswordController", urlPatterns={"/forgotPasswordController"})
-public class forgotPasswordController extends HttpServlet {
+@WebServlet(name="logOutController", urlPatterns={"/logOutController"})
+public class logOutController extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -32,18 +30,14 @@ public class forgotPasswordController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-           String email = request.getParameter("mail");
-           HttpSession ses = request.getSession();
-            userDAO dao = new userDAO();
-            user checkUser = dao.getUserByEmail(email);
-            if(checkUser == null){
-                request.setAttribute("Alert", "Account not found");
-                request.getRequestDispatcher("forgotPassword.jsp").forward(request, response);
-            }else {
-                    ses.setAttribute("userForgetPass", checkUser);
-                    request.getRequestDispatcher("sendEmail").forward(request, response);    
+        try {
+            HttpSession session = request.getSession();
+            session.invalidate();
+            response.sendRedirect("mainPage.jsp");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     } 
-    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /** 

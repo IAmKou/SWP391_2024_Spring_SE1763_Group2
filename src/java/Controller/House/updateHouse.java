@@ -3,23 +3,22 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package Servlet;
+package Controller.House;
 
+import dao.HouseDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
+import model.House;
 
 /**
  *
- * @author ACER
+ * @author FPTSHOP
  */
-@WebServlet(name="logOutController", urlPatterns={"/logOutController"})
-public class logOutController extends HttpServlet {
+public class updateHouse extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -30,12 +29,18 @@ public class logOutController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        try {
-            HttpSession session = request.getSession();
-            session.invalidate();
-            response.sendRedirect("mainPage.jsp");
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
+        response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet updateHouse</title>");  
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet updateHouse at " + request.getContextPath () + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
         }
     } 
 
@@ -63,7 +68,27 @@ public class logOutController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+        String location = request.getParameter("location");
+        String description = request.getParameter("description");
+        String houseOwnerId = request.getParameter("houseOwnerId");
+        String price = request.getParameter("price");
+        String picture = request.getParameter("picture");
+        String type = request.getParameter("type");
+        
+        int houseOwnerId_int = Integer.parseInt(houseOwnerId);
+        int price_int = Integer.parseInt(price);
+        int type_int = Integer.parseInt(type);
+        
+        House house = new House();
+        house.setLocation(location);
+        house.setDescription(description);
+        house.setHouseOwnerId(houseOwnerId_int);
+        house.setPicture(picture);
+        house.setPrice(price_int);
+        house.setType(type_int);
+        
+        HouseDAO houseDAO = new HouseDAO();
+        houseDAO.updateHouse(house);
     }
 
     /** 

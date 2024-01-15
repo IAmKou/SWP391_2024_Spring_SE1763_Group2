@@ -1,5 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+    <servlet>
+        <servlet-name>addHouse</servlet-name>
+        <servlet-class>Controller.House.addHouse</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>updateHouse</servlet-name>
+        <servlet-class>Controller.House.updateHouse</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>addHouse</servlet-name>
+        <url-pattern>/house/add</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>updateHouse</servlet-name>
+        <url-pattern>/house/update</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30
