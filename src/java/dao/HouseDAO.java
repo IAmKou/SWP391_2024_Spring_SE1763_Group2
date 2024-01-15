@@ -52,7 +52,6 @@ public class HouseDAO extends DBContext {
                     + "`Location` = ?,\n"
                     + "`TypeOfHouseID` = ?,\n"
                     + "`Description` = ?,\n"
-                    + "`HouseOwnerID` = ?,\n"
                     + "`PricePerUnit` = ?,\n"
                     + "`Picture` = ?,\n"
                     + "`Available` = ?\n"
@@ -63,11 +62,10 @@ public class HouseDAO extends DBContext {
             stm.setString(1, house.getLocation());
             stm.setInt(2, house.getType());
             stm.setString(3, house.getDescription());
-            stm.setInt(4, house.getHouseOwnerId());
-            stm.setInt(5, house.getPrice());
-            stm.setString(6, house.getPicture());
-            stm.setBoolean(7, house.isStatus());
-            stm.setInt(8, house.getHouseId());
+            stm.setInt(4, house.getPrice());
+            stm.setString(5, house.getPicture());
+            stm.setBoolean(6, house.isStatus());
+            stm.setInt(7, house.getHouseId());
 
             stm.executeUpdate();
 

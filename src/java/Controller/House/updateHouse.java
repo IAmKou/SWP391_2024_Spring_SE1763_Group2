@@ -70,22 +70,21 @@ public class updateHouse extends HttpServlet {
     throws ServletException, IOException {
         String location = request.getParameter("location");
         String description = request.getParameter("description");
-        String houseOwnerId = request.getParameter("houseOwnerId");
         String price = request.getParameter("price");
         String picture = request.getParameter("picture");
         String type = request.getParameter("type");
+        Boolean status = request.getParameter("status")!= null;
         
-        int houseOwnerId_int = Integer.parseInt(houseOwnerId);
         int price_int = Integer.parseInt(price);
         int type_int = Integer.parseInt(type);
         
         House house = new House();
         house.setLocation(location);
         house.setDescription(description);
-        house.setHouseOwnerId(houseOwnerId_int);
         house.setPicture(picture);
         house.setPrice(price_int);
         house.setType(type_int);
+        house.setStatus(status);
         
         HouseDAO houseDAO = new HouseDAO();
         houseDAO.updateHouse(house);

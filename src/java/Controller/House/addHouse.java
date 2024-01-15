@@ -74,11 +74,12 @@ public class addHouse extends HttpServlet {
         String price = request.getParameter("price");
         String picture = request.getParameter("picture");
         String type = request.getParameter("type");
+        boolean status = request.getParameter("status")!= null;
         
         int houseOwnerId_int = Integer.parseInt(houseOwnerId);
         int price_int = Integer.parseInt(price);
         int type_int = Integer.parseInt(type);
-        
+
         House house = new House();
         house.setLocation(location);
         house.setDescription(description);
@@ -86,9 +87,12 @@ public class addHouse extends HttpServlet {
         house.setPicture(picture);
         house.setPrice(price_int);
         house.setType(type_int);
+        house.setStatus(status);
         
         HouseDAO houseDAO = new HouseDAO();
         houseDAO.addHouse(house);
+        request.setAttribute("alert", "add thanh cong!");
+        request.getRequestDispatcher("../houseView/addHouse.jsp").forward(request, response);
     }
 
     /** 
