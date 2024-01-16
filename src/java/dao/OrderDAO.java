@@ -5,6 +5,7 @@
 package dao;
 
 import Context.DBContext;
+import java.sql.Connection;
 import model.Order;
 
 /**
@@ -13,6 +14,9 @@ import model.Order;
  */
 public class OrderDAO extends DBContext{
     public Order getOder(){
+        DBContext db = new DBContext();
+        Connection con = db.getConnection();
+        String sql ="";
         
         
         
