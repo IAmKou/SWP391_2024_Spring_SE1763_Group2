@@ -5,7 +5,6 @@
 
 package Controller.House;
 
-import com.mysql.cj.Session;
 import dao.HouseDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
