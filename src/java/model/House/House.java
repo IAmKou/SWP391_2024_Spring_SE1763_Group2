@@ -2,7 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package model;
+package model.House;
+
+import model.User.User;
 
 /**
  *
@@ -13,15 +15,15 @@ public class House {
     int houseId;
     String location;
     String description;
-    int houseOwnerId;
+    User houseOwnerId;
     int price;
     String picture;
     boolean status;
-    int type;
+    TypeOfHouse type;
     public House() {
     }
 
-    public House(int houseId, String location, String description, int houseOwnerId, int price, String picture, boolean status, int type) {
+    public House(int houseId, String location, String description, User houseOwnerId, int price, String picture, boolean status, TypeOfHouse type) {
         this.houseId = houseId;
         this.location = location;
         this.description = description;
@@ -32,11 +34,11 @@ public class House {
         this.type = type;
     }
 
-    public int getType() {
+    public TypeOfHouse getType() {
         return type;
     }
 
-    public void setType(int type) {
+    public void setType(TypeOfHouse type) {
         this.type = type;
     }
 
@@ -64,11 +66,11 @@ public class House {
         this.description = description;
     }
 
-    public int getHouseOwnerId() {
+    public User getHouseOwnerId() {
         return houseOwnerId;
     }
 
-    public void setHouseOwnerId(int houseOwnerId) {
+    public void setHouseOwnerId(User houseOwnerId) {
         this.houseOwnerId = houseOwnerId;
     }
 

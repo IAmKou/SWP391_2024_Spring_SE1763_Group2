@@ -5,6 +5,7 @@
 
 package Controller.House;
 
+import com.mysql.cj.Session;
 import dao.HouseDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -12,7 +13,10 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import model.House;
+import jakarta.servlet.http.HttpSession;
+import model.House.House;
+import model.House.TypeOfHouse;
+import model.User.User;
 
 /**
  *
@@ -68,25 +72,30 @@ public class addHouse extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("account");
+        
         String location = request.getParameter("location");
         String description = request.getParameter("description");
-        String houseOwnerId = request.getParameter("ownerId");
         String price = request.getParameter("price");
         String picture = request.getParameter("picture");
         String type = request.getParameter("type");
         boolean status = request.getParameter("status")!= null;
         
-        int houseOwnerId_int = Integer.parseInt(houseOwnerId);
         int price_int = Integer.parseInt(price);
         int type_int = Integer.parseInt(type);
 
         House house = new House();
+        
+        TypeOfHouse tOfHouse = new TypeOfHouse();
+        tOfHouse.setTypeOfHouseId(type_int);
+        
         house.setLocation(location);
         house.setDescription(description);
-        house.setHouseOwnerId(houseOwnerId_int);
+        house.setHouseOwnerId(user);
         house.setPicture(picture);
         house.setPrice(price_int);
-        house.setType(type_int);
+        house.setType(tOfHouse);
         house.setStatus(status);
         
         HouseDAO houseDAO = new HouseDAO();

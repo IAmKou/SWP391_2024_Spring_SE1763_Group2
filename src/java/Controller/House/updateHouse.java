@@ -12,7 +12,8 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import model.House;
+import model.House.House;
+import model.House.TypeOfHouse;
 
 /**
  *
@@ -81,12 +82,16 @@ public class updateHouse extends HttpServlet {
         int houseId_int = Integer.parseInt(houseId);
         
         House house = new House();
+        
+        TypeOfHouse tOfHouse = new TypeOfHouse();
+        tOfHouse.setTypeOfHouseId(type_int);
+        
         house.setHouseId(houseId_int);
         house.setLocation(location);
         house.setDescription(description);
         house.setPicture(picture);
         house.setPrice(price_int);
-        house.setType(type_int);
+        house.setType(tOfHouse);
         house.setStatus(status);
         
         HouseDAO houseDAO = new HouseDAO();
