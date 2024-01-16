@@ -22,7 +22,7 @@ public class HouseDAO extends DBContext {
     public House getHouse(int houseId) {
         try {
             String sql = "SELECT * FROM house_finder.house\n"
-                    + "where HouseID = ?";
+                    + "where House_id = ?";
             DBContext db = new DBContext();
             Connection con = db.getConnection();
             PreparedStatement stm = con.prepareStatement(sql);
@@ -30,13 +30,14 @@ public class HouseDAO extends DBContext {
             ResultSet rs = stm.executeQuery();
             if (rs.next()) {
                 House house = new House();
-                house.setHouseId(rs.getInt("HouseID"));
-                house.setLocation(rs.getString("Location"));
-                house.setDescription(rs.getString("Description"));
-                house.setHouseOwnerId(rs.getInt("HouseOwnerID"));
-                house.setPicture(rs.getString("Picture"));
-                house.setPrice(rs.getInt("PricePerUnit"));
-                house.setStatus(rs.getBoolean("Available"));
+                house.setHouseId(rs.getInt("House_id"));
+                house.setLocation(rs.getString("location"));
+                house.setType(rs.getInt("type_of_house_id"));
+                house.setDescription(rs.getString("description"));
+                house.setHouseOwnerId(rs.getInt("house_owner_id"));
+                house.setPicture(rs.getString("picture"));
+                house.setPrice(rs.getInt("price_per_unit"));
+                house.setStatus(rs.getBoolean("status"));
                 return house;
             }
         } catch (SQLException ex) {
@@ -49,13 +50,13 @@ public class HouseDAO extends DBContext {
         try {
             String sql = "UPDATE `house_finder`.`house`\n"
                     + "SET\n"
-                    + "`Location` = ?,\n"
-                    + "`TypeOfHouseID` = ?,\n"
-                    + "`Description` = ?,\n"
-                    + "`PricePerUnit` = ?,\n"
-                    + "`Picture` = ?,\n"
-                    + "`Available` = ?\n"
-                    + "WHERE `HouseID` = ?;";
+                    + "`location` = ?,\n"
+                    + "`type_of_house_id` = ?,\n"
+                    + "`description` = ?,\n"
+                    + "`price_per_unit` = ?,\n"
+                    + "`picture` = ?,\n"
+                    + "`status` = ?\n"
+                    + "WHERE `house_id` = ?;";
             DBContext db = new DBContext();
             Connection con = db.getConnection();
             PreparedStatement stm = con.prepareStatement(sql);
@@ -76,7 +77,7 @@ public class HouseDAO extends DBContext {
 
     public void addHouse(House house) {
         try {
-            String sql = "INSERT INTO house_finder.house (Location, TypeOfHouseID, Description, HouseOwnerID, PricePerUnit, Picture, Available) "
+            String sql = "INSERT INTO house_finder.house (location, type_of_house_id, description, house_owner_id, price_per_unit, picture, status) "
                     + "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
             DBContext db = new DBContext();
