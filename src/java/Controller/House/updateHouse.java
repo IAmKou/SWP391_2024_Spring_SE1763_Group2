@@ -93,7 +93,7 @@ public class updateHouse extends HttpServlet {
         house.setPrice(price_int);
         house.setType(tOfHouse);
         house.setStatus(status);
-        
+
         HouseDAO houseDAO = new HouseDAO();
         houseDAO.updateHouse(house);
     }
