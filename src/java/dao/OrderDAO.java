@@ -33,7 +33,7 @@ public class OrderDAO extends DBContext {
                     + " join user on user.user_id = order_booking.user_id\n"
                     + " join house on order_booking.house_id = house.house_id\n"
                     + " join type_of_house on house.type_of_house_id = type_of_house.type_of_house_id\n"
-                    + "where user.user_id = ?";
+                    + "where order_booking.user_id = ?";
             PreparedStatement stm = con.prepareStatement(sql);
             stm.setInt(1, userId);
             ResultSet rs = stm.executeQuery();
@@ -77,9 +77,10 @@ public class OrderDAO extends DBContext {
                     + " join user on user.user_id = order_booking.user_id\n"
                     + " join house on order_booking.house_id = house.house_id\n"
                     + " join type_of_house on house.type_of_house_id = type_of_house.type_of_house_id\n"
-                    + "where user.user_id = ?";
+                    + "where order_booking.user_id = ? and order_booking.house_id = ?";
             PreparedStatement stm = con.prepareStatement(sql);
             stm.setInt(1, userId);
+            stm.setInt(2, houseId);
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
                 House house = new House();
