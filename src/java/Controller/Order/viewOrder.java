@@ -5,12 +5,15 @@
 
 package Controller.Order;
 
+import dao.OrderDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import model.User.User;
 
 /**
  *
@@ -66,7 +69,16 @@ public class viewOrder extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+        HttpSession s = request.getSession();
+        User user = (User) s.getAttribute("account");
+        
+        String house_id = request.getParameter("house_id");
+        int house_id_int = Integer.parseInt(house_id);
+        
+        OrderDAO orderDAO = new OrderDAO();
+        orderDAO.getOrder(user.getUserId(), house_id_int);
+        
+        
     }
 
     /** 
