@@ -5,7 +5,7 @@
 
 package Controller;
 
-import dao.userDAO;
+import dao.UserDAO;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -13,7 +13,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import model.user;
+import model.User;
 
 /**
  *
@@ -57,7 +57,7 @@ public class registerController extends HttpServlet {
         
           try {
             HttpSession session = request.getSession();
-            userDAO dao = new userDAO();
+            UserDAO dao = new UserDAO();
             String msg = "";
             //Get data from page
             String username = request.getParameter("username");
@@ -83,9 +83,9 @@ public class registerController extends HttpServlet {
                 msg = "This email has already existed!!!";
                 request.getRequestDispatcher("signUp.jsp").forward(request, response);
             }
-//            //Add user to DB
+//            //Add User to DB
             else{
-                user u = new user();
+                User u = new User();
                 u.setUserName(username);
                 u.setPassWord(password);
                 u.setFullName(fullname);

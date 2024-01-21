@@ -8,6 +8,10 @@
         <servlet-name>updateHouse</servlet-name>
         <servlet-class>Controller.House.updateHouse</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>updateUser</servlet-name>
+        <servlet-class>Controller.User.updateUser</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>addHouse</servlet-name>
         <url-pattern>/house/add</url-pattern>
@@ -15,6 +19,10 @@
     <servlet-mapping>
         <servlet-name>updateHouse</servlet-name>
         <url-pattern>/house/update</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>updateUser</servlet-name>
+        <url-pattern>/updateUser</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

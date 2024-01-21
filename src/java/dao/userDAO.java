@@ -11,14 +11,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import model.user;
+import model.User;
 
 /**
  *
  * @author ACER
  */
-public class userDAO {
-    public static void insertUser(user user) {
+public class UserDAO {
+    public static void insertUser(User user) {
         try {
             DBContext db = new DBContext();
             Connection con = db.getConnection();
@@ -42,7 +42,7 @@ public class userDAO {
             }
             st.close();
             con.close();
-            // Any additional code or processing after inserting the user
+            // Any additional code or processing after inserting the User
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -78,8 +78,8 @@ public class userDAO {
         }
         return false;
     }
-     public static user LogIn(String username, String pass) {
-        user user = null;
+     public static User LogIn(String username, String pass) {
+        User user = null;
         try {
             DBContext db = new DBContext();
             Connection con = db.getConnection();
@@ -88,7 +88,7 @@ public class userDAO {
                 Statement call = con.createStatement();
                 ResultSet rs = call.executeQuery(sql);
                 while (rs.next()) {
-                    user = new user(rs.getInt("userID"),rs.getString("fullName"),
+                    user = new User(rs.getInt("userID"),rs.getString("fullName"),
                             username, pass, rs.getInt("roleID"),
                             rs.getString("location"), rs.getString("phone"),
                             rs.getString("email"));
@@ -119,8 +119,8 @@ public class userDAO {
         }
         return false;
     }
-      public static user GetUserInformation(int id) {
-        user user = null;
+      public static User GetUserInformation(int id) {
+        User user = null;
         try {
             DBContext db = new DBContext();
             Connection con = db.getConnection();
@@ -129,7 +129,7 @@ public class userDAO {
                 Statement st = con.createStatement();
                 ResultSet rs = st.executeQuery(sql);
                 while (rs.next()) {
-                    user = new user();
+                    user = new User();
                     user.setUserID(rs.getInt(1));
                     user.setFullName(rs.getString(2));
                     user.setUserName(rs.getString(3));
@@ -148,8 +148,8 @@ public class userDAO {
         }
         return user;
     }
-       public user getUserByEmail(String email) {
-        user user = new user();
+       public User getUserByEmail(String email) {
+        User user = new User();
         String sql = "Select * from USER where email= '" + email + "';";
         try {
             DBContext db = new DBContext();
