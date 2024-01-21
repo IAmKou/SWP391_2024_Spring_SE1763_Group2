@@ -1,5 +1,3 @@
-CREATE DATABASE  IF NOT EXISTS `house_finder_project` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `house_finder_project`;
 -- MySQL dump 10.13  Distrib 8.0.34, for Win64 (x86_64)
 --
 -- Host: localhost    Database: house_finder_project
@@ -89,7 +87,6 @@ CREATE TABLE `house` (
   `description` text,
   `area` int DEFAULT NULL,
   `number_of_room` int DEFAULT NULL,
-  `picture` varchar(500) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
   PRIMARY KEY (`house_id`),
   KEY `type_of_house_id_idx` (`type_of_house_id`),
   KEY `house_owner_id_idx` (`house_owner_id`),
@@ -104,8 +101,34 @@ CREATE TABLE `house` (
 
 LOCK TABLES `house` WRITE;
 /*!40000 ALTER TABLE `house` DISABLE KEYS */;
-INSERT INTO `house` VALUES (1,4,1,'Số 20 Ngõ 45 Đường Lê Lai, Quận Hoàn Kiếm, Hà Nội','Ở góc phố yên bình, có một căn nhà đầy ấn tượng, là biểu tượng của sự ấm cúng và hiện đại. Với màu sơn trắng tinh khôi, căn nhà trở nên nổi bật giữa những cây cỏ xanh mướt. Lối vào rộng lớn được trải bằng gạch đỏ, tạo nên một hành lang sang trọng dẫn đến cửa chính, nơi chiếc cổng gỗ nâu cổ điển chào đón mọi khách.\n\nKhông gian nội thất của căn nhà được thiết kế với sự chú ý đến từng chi tiết. Phòng khách rộng lớn với bức tường kính lớn mở ra hình ảnh của một khu vườn xinh đẹp. Bàn trà và sofa êm ái tạo nên một không gian thoải mái để gia đình và bạn bè quây quần.\n\nNhà bếp rộng lớn và hiện đại với đèn trần sang trọng, tủ bếp gỗ sáng bóng và bàn ăn góc nhỏ tinh tế. Các phòng ngủ được trang trí với màu sắc nhẹ nhàng, cùng với các cửa sổ lớn mang lại ánh sáng tự nhiên.',600,5,NULL),(2,4,2,'Số 123 Đường Nguyễn Văn Linh, Phường Bình Thuận, Quận 7, TP.Hồ Chí Minh','Nhà bếp rộng lớn và hiện đại với đèn trần sang trọng, tủ bếp gỗ sáng bóng và bàn ăn góc nhỏ tinh tế. Các phòng ngủ được trang trí với màu sắc nhẹ nhàng, cùng với các cửa sổ lớn mang lại ánh sáng tự nhiên.\n\nSân sau của căn nhà là nơi lý tưởng để tổ chức các buổi họp mặt gia đình. Sân vườn xanh mát với các loại hoa và cây cỏ được bố trí hài hòa, tạo nên không gian thư giãn dưới bầu trời xanh. Một khu BBQ nhỏ và bàn ghế ngoài trời là nơi lý tưởng để thưởng thức những buổi tiệc nướng ngoại trời.\n\nNhững chiếc cửa sổ lớn và những chiếc đèn trang trí tinh tế tạo nên không gian sống ấm cúng và thoải mái. Đây không chỉ là nơi ở, mà còn là nơi chứa đựng nhiều kỷ niệm đáng nhớ của gia đình, tạo nên một tổ ấm ấm áp và hạnh phúc.',300,6,NULL),(3,4,5,'Số 56 Đường Trần Hưng Đạo, Thành Phố Huế, Tỉnh Thừa Thiên Huế','Tại góc phố yên bình, nằm sâu trong lòng thành phố, có một ngôi nhà độc đáo, kết hợp giữa vẻ đẹp cổ điển và tiện nghi hiện đại. Với lối kiến trúc độc đáo, ngôi nhà toát lên vẻ sang trọng và quý phái. Bức tường màu kem ấm áp nổi bật giữa sự xanh tươi của khu vườn xung quanh.\n\nNgay từ cổng chính, bạn được đón tiếp bởi đường lát gạch đá đẹp mắt dẫn đến cửa gỗ chắc chắn. Sảnh rộng lớn trải thảm đỏ mềm mại, tạo nên không gian lịch lãm và ấm cúng. Nơi đây, một bức tượng nghệ thuật hiện đại góp phần tạo điểm nhấn nghệ thuật.\n\nPhòng khách trang trí bằng những chiếc sofa da cao cấp và bàn trà kính tinh tế, tạo nên không gian sang trọng và thoải mái. Các bức tranh nghệ thuật treo trên tường tạo điểm nhấn cho không gian sống, thể hiện sự tinh tế và gu thẩm mỹ của chủ nhân.\n\nNhà bếp được trang bị đầy đủ tiện nghi hiện đại, từ tủ lạnh đến lò nướng, tạo điều kiện thuận lợi cho việc nấu nướng và tổ chức bữa tiệc gia đình. Phòng ăn với bàn ăn bằng gỗ chất lượng cao và đèn trang trí tạo nên không gian gia đình ấm cúng và ấn tượng.\n\nPhòng ngủ chính với giường lớn, chăn trải mềm mại và bức tường màu trấn an tạo nên không gian nghỉ ngơi tuyệt vời. Phòng tắm sang trọng với đồ nội thất cao cấp và bồn tắm giữa không gian thoáng đãng.\n\nSân sau với hồ bơi và khu vườn riêng tư là nơi lý tưởng để thư giãn và tận hưởng những khoảnh khắc yên bình. Đèn trang trí bài trí xung quanh tạo nên không gian lãng mạn vào buổi tối.\n\nNgôi nhà này không chỉ là một địa điểm ở, mà còn là biểu tượng của phong cách sống đẳng cấp và sự thoải mái đúng nghĩa.',700,6,NULL);
+INSERT INTO `house` VALUES (1,4,1,'Số 20 Ngõ 45 Đường Lê Lai, Quận Hoàn Kiếm, Hà Nội','Ở góc phố yên bình, có một căn nhà đầy ấn tượng, là biểu tượng của sự ấm cúng và hiện đại. Với màu sơn trắng tinh khôi, căn nhà trở nên nổi bật giữa những cây cỏ xanh mướt. Lối vào rộng lớn được trải bằng gạch đỏ, tạo nên một hành lang sang trọng dẫn đến cửa chính, nơi chiếc cổng gỗ nâu cổ điển chào đón mọi khách.\n\nKhông gian nội thất của căn nhà được thiết kế với sự chú ý đến từng chi tiết. Phòng khách rộng lớn với bức tường kính lớn mở ra hình ảnh của một khu vườn xinh đẹp. Bàn trà và sofa êm ái tạo nên một không gian thoải mái để gia đình và bạn bè quây quần.\n\nNhà bếp rộng lớn và hiện đại với đèn trần sang trọng, tủ bếp gỗ sáng bóng và bàn ăn góc nhỏ tinh tế. Các phòng ngủ được trang trí với màu sắc nhẹ nhàng, cùng với các cửa sổ lớn mang lại ánh sáng tự nhiên.',600,5),(2,4,2,'Số 123 Đường Nguyễn Văn Linh, Phường Bình Thuận, Quận 7, TP.Hồ Chí Minh','Nhà bếp rộng lớn và hiện đại với đèn trần sang trọng, tủ bếp gỗ sáng bóng và bàn ăn góc nhỏ tinh tế. Các phòng ngủ được trang trí với màu sắc nhẹ nhàng, cùng với các cửa sổ lớn mang lại ánh sáng tự nhiên.\n\nSân sau của căn nhà là nơi lý tưởng để tổ chức các buổi họp mặt gia đình. Sân vườn xanh mát với các loại hoa và cây cỏ được bố trí hài hòa, tạo nên không gian thư giãn dưới bầu trời xanh. Một khu BBQ nhỏ và bàn ghế ngoài trời là nơi lý tưởng để thưởng thức những buổi tiệc nướng ngoại trời.\n\nNhững chiếc cửa sổ lớn và những chiếc đèn trang trí tinh tế tạo nên không gian sống ấm cúng và thoải mái. Đây không chỉ là nơi ở, mà còn là nơi chứa đựng nhiều kỷ niệm đáng nhớ của gia đình, tạo nên một tổ ấm ấm áp và hạnh phúc.',300,6),(3,4,5,'Số 56 Đường Trần Hưng Đạo, Thành Phố Huế, Tỉnh Thừa Thiên Huế','Tại góc phố yên bình, nằm sâu trong lòng thành phố, có một ngôi nhà độc đáo, kết hợp giữa vẻ đẹp cổ điển và tiện nghi hiện đại. Với lối kiến trúc độc đáo, ngôi nhà toát lên vẻ sang trọng và quý phái. Bức tường màu kem ấm áp nổi bật giữa sự xanh tươi của khu vườn xung quanh.\n\nNgay từ cổng chính, bạn được đón tiếp bởi đường lát gạch đá đẹp mắt dẫn đến cửa gỗ chắc chắn. Sảnh rộng lớn trải thảm đỏ mềm mại, tạo nên không gian lịch lãm và ấm cúng. Nơi đây, một bức tượng nghệ thuật hiện đại góp phần tạo điểm nhấn nghệ thuật.\n\nPhòng khách trang trí bằng những chiếc sofa da cao cấp và bàn trà kính tinh tế, tạo nên không gian sang trọng và thoải mái. Các bức tranh nghệ thuật treo trên tường tạo điểm nhấn cho không gian sống, thể hiện sự tinh tế và gu thẩm mỹ của chủ nhân.\n\nNhà bếp được trang bị đầy đủ tiện nghi hiện đại, từ tủ lạnh đến lò nướng, tạo điều kiện thuận lợi cho việc nấu nướng và tổ chức bữa tiệc gia đình. Phòng ăn với bàn ăn bằng gỗ chất lượng cao và đèn trang trí tạo nên không gian gia đình ấm cúng và ấn tượng.\n\nPhòng ngủ chính với giường lớn, chăn trải mềm mại và bức tường màu trấn an tạo nên không gian nghỉ ngơi tuyệt vời. Phòng tắm sang trọng với đồ nội thất cao cấp và bồn tắm giữa không gian thoáng đãng.\n\nSân sau với hồ bơi và khu vườn riêng tư là nơi lý tưởng để thư giãn và tận hưởng những khoảnh khắc yên bình. Đèn trang trí bài trí xung quanh tạo nên không gian lãng mạn vào buổi tối.\n\nNgôi nhà này không chỉ là một địa điểm ở, mà còn là biểu tượng của phong cách sống đẳng cấp và sự thoải mái đúng nghĩa.',700,6);
 /*!40000 ALTER TABLE `house` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `image`
+--
+
+DROP TABLE IF EXISTS `image`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `image` (
+  `house_id` int NOT NULL,
+  `image_link` text,
+  `image_id` int NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`image_id`,`house_id`),
+  KEY `house_image_id_idx` (`house_id`),
+  CONSTRAINT `house_image_id` FOREIGN KEY (`house_id`) REFERENCES `house` (`house_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `image`
+--
+
+LOCK TABLES `image` WRITE;
+/*!40000 ALTER TABLE `image` DISABLE KEYS */;
+/*!40000 ALTER TABLE `image` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -319,4 +342,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-01-19 16:12:12
+-- Dump completed on 2024-01-21 21:43:48
