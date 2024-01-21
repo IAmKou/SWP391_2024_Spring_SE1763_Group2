@@ -12,10 +12,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import model.House.House;
-import model.House.TypeOfHouse;
-import model.Order.Order;
-import model.User.User;
+import model.House;
+import model.TypeOfHouse;
+import model.Order;
+import model.User;
 
 /**
  *

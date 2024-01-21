@@ -11,9 +11,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import model.House.House;
-import model.House.TypeOfHouse;
-import model.User.User;
+import model.House;
+import model.TypeOfHouse;
+import model.User;
 
 /**
  *
@@ -32,21 +32,18 @@ public class HouseDAO extends DBContext {
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
                 House house = new House();
-                
+
                 TypeOfHouse tOfHouse = new TypeOfHouse();
-                tOfHouse.setTypeOfHouseId(rs.getInt("type_of_house_id"));
-                
+                tOfHouse.setType_of_house_id(rs.getInt("type_of_house_id"));
+
                 User user = new User();
-                user.setUserId(rs.getInt("house_owner_id"));
-                
-                house.setHouseId(rs.getInt("House_id"));
-                house.setLocation(rs.getString("location"));
-                house.setType(tOfHouse);
+                user.setUser_id(rs.getInt("house_owner_id"));
+
+                house.setHouse_id(rs.getInt("house_id"));
+                house.setHouse_owner(user);
+                house.setType_of_house(tOfHouse);
+                house.setLocation(rs.getString("address"));
                 house.setDescription(rs.getString("description"));
-                house.setHouseOwnerId(user);
-                house.setPicture(rs.getString("picture"));
-                house.setPrice(rs.getInt("price_per_unit"));
-                house.setStatus(rs.getBoolean("status"));
                 return house;
             }
         } catch (SQLException ex) {
@@ -57,25 +54,24 @@ public class HouseDAO extends DBContext {
 
     public void updateHouse(House house) {
         try {
-            String sql = "UPDATE `house_finder`.`house`\n"
-                    + "SET\n"
-                    + "`location` = ?,\n"
-                    + "`type_of_house_id` = ?,\n"
-                    + "`description` = ?,\n"
-                    + "`price_per_unit` = ?,\n"
-                    + "`picture` = ?,\n"
-                    + "`status` = ?\n"
-                    + "WHERE `house_id` = ?;";
+            String sql = "UPDATE house\n"
+                    + "SET house.house_owner_id = ?,\n"
+                    + "    house.type_of_house_id = ?,\n"
+                    + "    house.address = ?,\n"
+                    + "    house.description = ?,\n"
+                    + "    house.area = ?,\n"
+                    + "    house.number_of_room = ?,\n"
+                    + "WHERE house.house_id = ?;";
             DBContext db = new DBContext();
             Connection con = db.getConnection();
             PreparedStatement stm = con.prepareStatement(sql);
-            stm.setString(1, house.getLocation());
-            stm.setInt(2, house.getType().getTypeOfHouseId());
-            stm.setString(3, house.getDescription());
-            stm.setInt(4, house.getPrice());
-            stm.setString(5, house.getPicture());
-            stm.setBoolean(6, house.isStatus());
-            stm.setInt(7, house.getHouseId());
+            stm.setInt(1, house.getHouse_owner().getUser_id());
+            stm.setInt(2, house.getType_of_house().getType_of_house_id());
+            stm.setString(3, house.getLocation());
+            stm.setString(4, house.getDescription());
+            stm.setInt(5, house.getArea());
+            stm.setInt(6, house.getNumber_of_room());
+            stm.setInt(7, house.getHouse_id());
 
             stm.executeUpdate();
 

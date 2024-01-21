@@ -12,8 +12,8 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import model.House.House;
-import model.House.TypeOfHouse;
+import model.House;
+import model.TypeOfHouse;
 
 /**
  *

@@ -2,11 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package model.Order;
+package model;
 
-import model.House.House;
+import model.House;
 import java.sql.Time;
-import model.User.User;
 
 /**
  *

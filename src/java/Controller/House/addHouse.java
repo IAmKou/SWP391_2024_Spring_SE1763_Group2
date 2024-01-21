@@ -13,9 +13,9 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import model.House.House;
-import model.House.TypeOfHouse;
-import model.User.User;
+import model.House;
+import model.TypeOfHouse;
+import model.User;
 
 /**
  *
