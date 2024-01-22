@@ -4,6 +4,8 @@
  */
 package model;
 
+import java.util.List;
+
 /**
  *
  * @author FPTSHOP
@@ -16,6 +18,7 @@ public class House {
     String description;
     int area;
     int number_of_room;
+    List<String> image_URL;
 
     public House() {
     }
@@ -74,6 +77,14 @@ public class House {
 
     public void setNumber_of_room(int number_of_room) {
         this.number_of_room = number_of_room;
+    }
+
+    public List<String> getImage_URL() {
+        return image_URL;
+    }
+
+    public void setImage_URL(List<String> image_URL) {
+        this.image_URL = image_URL;
     }
     
     

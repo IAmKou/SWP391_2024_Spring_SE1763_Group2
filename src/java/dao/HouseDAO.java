@@ -9,11 +9,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.House;
-import model.TypeOfHouse;
-import model.User;
+import model.Post;
 
 /**
  *
@@ -21,38 +21,8 @@ import model.User;
  */
 public class HouseDAO extends DBContext {
 
-    public House getHouse(int houseId) {
-        try {
-            String sql = "SELECT * FROM house_finder.house\n"
-                    + "where House_id = ?";
-            DBContext db = new DBContext();
-            Connection con = db.getConnection();
-            PreparedStatement stm = con.prepareStatement(sql);
-            stm.setInt(1, houseId);
-            ResultSet rs = stm.executeQuery();
-            while (rs.next()) {
-                House house = new House();
-
-                TypeOfHouse tOfHouse = new TypeOfHouse();
-                tOfHouse.setType_of_house_id(rs.getInt("type_of_house_id"));
-
-                User user = new User();
-                user.setUser_id(rs.getInt("house_owner_id"));
-
-                house.setHouse_id(rs.getInt("house_id"));
-                house.setHouse_owner(user);
-                house.setType_of_house(tOfHouse);
-                house.setLocation(rs.getString("address"));
-                house.setDescription(rs.getString("description"));
-                return house;
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(HouseDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
-    }
-
     public void updateHouse(House house) {
+
         try {
             String sql = "UPDATE house\n"
                     + "SET house.house_owner_id = ?,\n"
@@ -78,30 +48,81 @@ public class HouseDAO extends DBContext {
         } catch (SQLException ex) {
             Logger.getLogger(HouseDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
 
-    public void addHouse(House house) {
         try {
-            String sql = "INSERT INTO house_finder.house (location, type_of_house_id, description, house_owner_id, price_per_unit, picture, status) "
-                    + "VALUES (?, ?, ?, ?, ?, ?, ?)";
-
+            String sql = "UPDATE `house_finder_project`.`image`\n"
+                    + "SET\n"
+                    + "`house_id` = ?,\n"
+                    + "`image_link` = ?\n"
+                    + "WHERE `house_id` = ?;";
             DBContext db = new DBContext();
             Connection con = db.getConnection();
             PreparedStatement stm = con.prepareStatement(sql);
 
-            stm.setString(1, house.getLocation());
-            stm.setInt(2, house.getType().getTypeOfHouseId());
-            stm.setString(3, house.getDescription());
-            stm.setInt(4, house.getHouseOwnerId().getUserId());
-            stm.setInt(5, house.getPrice());
-            stm.setString(6, house.getPicture());
-            stm.setBoolean(7, house.isStatus());
+            for (String imageLink : house.getImage_URL()) {
 
-            stm.executeUpdate();
+                stm.setInt(1, house.getHouse_id());
+                stm.setString(2, imageLink);
+                stm.setInt(3, house.getHouse_id());
 
+                stm.executeUpdate();
+
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(HouseDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    public void addHouse(House house, Post post) {
+        try {
+            String sql = "INSERT INTO house (house_owner_id, type_of_house_id,"
+                    + " address, description, area, number_of_room) "
+                    + "VALUES (?, ?, ?, ?, ?, ?)";
+            DBContext db = new DBContext();
+             Connection con = db.getConnection();
+             PreparedStatement stm = con.prepareStatement(sql);
+
+            stm.setInt(1, house.getHouse_owner().getUser_id());
+            stm.setInt(2, house.getType_of_house().getType_of_house_id());
+            stm.setString(3, house.getLocation());
+            stm.setString(4, house.getDescription());
+            stm.setInt(5, house.getArea());
+            stm.setInt(6, house.getNumber_of_room());
+
+            // Thực hiện INSERT và lấy house_id được tạo tự động
+            int rowsAffected = stm.executeUpdate();
+            if (rowsAffected > 0) {
+                ResultSet generatedKeys = stm.getGeneratedKeys();
+                if (generatedKeys.next()) {
+                    int houseId = generatedKeys.getInt(1);
+
+                    addImagesForHouse(houseId, house.getImage_URL());
+                    
+                    PostDAO postDAO = new PostDAO();
+                    postDAO.addPost(houseId, post);
+                }
+            }
         } catch (SQLException ex) {
             Logger.getLogger(HouseDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    private void addImagesForHouse(int houseId, List<String> imageLinks) {
+    try {
+        String insertImageSQL = "INSERT INTO image (house_id, image_link) VALUES (?, ?)";
+        DBContext db = new DBContext();
+             Connection con = db.getConnection();
+             PreparedStatement stm = con.prepareStatement(insertImageSQL);
+             
+            for (String imageLink : imageLinks) {
+                stm.setInt(1, houseId);
+                stm.setString(2, imageLink);
 
+                stm.executeUpdate();
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(HouseDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
 }

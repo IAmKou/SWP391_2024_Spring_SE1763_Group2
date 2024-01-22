@@ -17,11 +17,8 @@
             Location: <input type="text" name="location" required><br>
             Type: <input type="number" name="type" required><br>
             Description: <textarea name="description" required></textarea><br>
-            <input type="hidden" name="ownerId" value="1"><br>
             Price: <input type="number" name="price" required><br>
-            Picture: <input type="text" name="picture"><br>
-            Available: 
-            <input type="checkbox" name="status" >
+            Picture: <input type="file" name="image" multiple><br>
             <br>
             <input type="submit" value="Add House">
             <h1>${alert}</h1>
