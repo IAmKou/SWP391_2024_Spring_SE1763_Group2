@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -80,8 +81,10 @@ public class HouseDAO extends DBContext {
                     + " address, description, area, number_of_room) "
                     + "VALUES (?, ?, ?, ?, ?, ?)";
             DBContext db = new DBContext();
-             Connection con = db.getConnection();
-             PreparedStatement stm = con.prepareStatement(sql);
+            Connection con = db.getConnection();
+
+            // Thêm tham số Statement.RETURN_GENERATED_KEYS vào prepareStatement
+            PreparedStatement stm = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
             stm.setInt(1, house.getHouse_owner().getUser_id());
             stm.setInt(2, house.getType_of_house().getType_of_house_id());
@@ -97,8 +100,10 @@ public class HouseDAO extends DBContext {
                 if (generatedKeys.next()) {
                     int houseId = generatedKeys.getInt(1);
 
-                    addImagesForHouse(houseId, house.getImage_URL());
-                    
+                    // Thêm hình ảnh cho nhà vừa thêm
+                    //addImagesForHouse(houseId, house.getImage_URL());
+
+                    // Thêm thông tin Post
                     PostDAO postDAO = new PostDAO();
                     postDAO.addPost(houseId, post);
                 }
@@ -107,22 +112,27 @@ public class HouseDAO extends DBContext {
             Logger.getLogger(HouseDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
     private void addImagesForHouse(int houseId, List<String> imageLinks) {
     try {
         String insertImageSQL = "INSERT INTO image (house_id, image_link) VALUES (?, ?)";
         DBContext db = new DBContext();
-             Connection con = db.getConnection();
-             PreparedStatement stm = con.prepareStatement(insertImageSQL);
-             
-            for (String imageLink : imageLinks) {
-                stm.setInt(1, houseId);
-                stm.setString(2, imageLink);
+        Connection con = db.getConnection();
+        PreparedStatement stm = con.prepareStatement(insertImageSQL);
 
-                stm.executeUpdate();
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(HouseDAO.class.getName()).log(Level.SEVERE, null, ex);
+        for (String imageLink : imageLinks) {
+            stm.setInt(1, houseId);
+            stm.setString(2, imageLink);
+
+            // Thêm vào batch
+            stm.addBatch();
         }
+
+        // Thực hiện batch update
+        stm.executeBatch();
+    } catch (SQLException ex) {
+        Logger.getLogger(HouseDAO.class.getName()).log(Level.SEVERE, null, ex);
     }
-    
+}
+
 }
