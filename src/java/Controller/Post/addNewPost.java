@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package Controller.House;
+package Controller.Post;
 
 import dao.HouseDAO;
 import java.io.IOException;
@@ -24,6 +24,8 @@ import java.util.UUID;
 import static jdk.nashorn.internal.objects.NativeError.getFileName;
 import model.House;
 import model.Post;
+import model.Purpose;
+import model.Status;
 import model.TypeOfHouse;
 import model.User;
 
@@ -87,29 +89,27 @@ public class addNewPost extends HttpServlet {
             throws ServletException, IOException {
 //        HttpSession session = request.getSession();
 //        User user = (User) session.getAttribute("account");
-    String location = request.getParameter("location");
-    System.out.println("Purpose value: " + location);
+        String location = request.getParameter("location");
         String purpose_str = request.getParameter("purpose");
-        System.out.println("Purpose value: " + purpose_str);
-        int purpose = Integer.parseInt(purpose_str);
+        int purpose_id = Integer.parseInt(purpose_str);
         String price_str = request.getParameter("price");
         int price = Integer.parseInt(price_str);
         //int poster = user.getUser_id();
-     
+
         String poster_str = request.getParameter("user");
         int poster = Integer.parseInt(poster_str);
         User user = new User();
         user.setUser_id(4);
-        
-        
+
         String type_str = request.getParameter("type");
         int type = Integer.parseInt(type_str);
-        
+
         String description = request.getParameter("description");
         String area_str = request.getParameter("area");
         int area = Integer.parseInt(area_str);
         String number_of_room_str = request.getParameter("number_of_room");
         int number_of_room = Integer.parseInt(number_of_room_str);
+        
         // Lấy danh sách các phần (ảnh) từ yêu cầu
 //        Collection<Part> imageParts = request.getParts();
 //        List<String> imageUrls = new ArrayList<>();
@@ -140,12 +140,19 @@ public class addNewPost extends HttpServlet {
 //                imageUrls.add(imageUrl);
 //            }
 //        }
+        
+        Purpose purpose = new Purpose();
+        purpose.setPurpose_id(purpose_id);
+        
+        Status house_status = new Status();
+        house_status.setStatus_id(4);
+        
         House house = new House();
 
         Post post = new Post();
-        post.setHouse_status(4);
+        post.setHouse_status(house_status);
         post.setPrice(price);
-        post.setPurpose_id(purpose);
+        post.setPurpose(purpose);
         post.setPoster_id(poster);
 
         TypeOfHouse tOfHouse = new TypeOfHouse();
@@ -158,11 +165,13 @@ public class addNewPost extends HttpServlet {
         house.setArea(area);
         house.setType_of_house(tOfHouse);
         house.setNumber_of_room(number_of_room);
+
 //        house.setImage_URL(imageUrls);
+
         // Thêm house và post vào cơ sở dữ liệu
         HouseDAO houseDAO = new HouseDAO();
         houseDAO.addHouse(house, post);
-        
+
         request.setAttribute("alert", "Add successfully!");
 
         // Chuyển hướng người dùng sau khi thêm ngôi nhà

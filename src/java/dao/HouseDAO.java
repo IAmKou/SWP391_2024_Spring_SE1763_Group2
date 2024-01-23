@@ -22,7 +22,7 @@ import model.Post;
  */
 public class HouseDAO extends DBContext {
 
-    public void updateHouse(House house) {
+    public void updateHouse(House house, Post post) {
 
         try {
             String sql = "UPDATE house\n"
@@ -31,7 +31,7 @@ public class HouseDAO extends DBContext {
                     + "    house.address = ?,\n"
                     + "    house.description = ?,\n"
                     + "    house.area = ?,\n"
-                    + "    house.number_of_room = ?,\n"
+                    + "    house.number_of_room = ?\n"
                     + "WHERE house.house_id = ?;";
             DBContext db = new DBContext();
             Connection con = db.getConnection();
@@ -45,33 +45,35 @@ public class HouseDAO extends DBContext {
             stm.setInt(7, house.getHouse_id());
 
             stm.executeUpdate();
-
+            
+            PostDAO postDAO = new PostDAO();
+            postDAO.updatePost(post);
         } catch (SQLException ex) {
             Logger.getLogger(HouseDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        try {
-            String sql = "UPDATE `house_finder_project`.`image`\n"
-                    + "SET\n"
-                    + "`house_id` = ?,\n"
-                    + "`image_link` = ?\n"
-                    + "WHERE `house_id` = ?;";
-            DBContext db = new DBContext();
-            Connection con = db.getConnection();
-            PreparedStatement stm = con.prepareStatement(sql);
-
-            for (String imageLink : house.getImage_URL()) {
-
-                stm.setInt(1, house.getHouse_id());
-                stm.setString(2, imageLink);
-                stm.setInt(3, house.getHouse_id());
-
-                stm.executeUpdate();
-
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(HouseDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//        try {
+//            String sql = "UPDATE `house_finder_project`.`image`\n"
+//                    + "SET\n"
+//                    + "`house_id` = ?,\n"
+//                    + "`image_link` = ?\n"
+//                    + "WHERE `house_id` = ?;";
+//            DBContext db = new DBContext();
+//            Connection con = db.getConnection();
+//            PreparedStatement stm = con.prepareStatement(sql);
+//
+//            for (String imageLink : house.getImage_URL()) {
+//
+//                stm.setInt(1, house.getHouse_id());
+//                stm.setString(2, imageLink);
+//                stm.setInt(3, house.getHouse_id());
+//
+//                stm.executeUpdate();
+//
+//            }
+//        } catch (SQLException ex) {
+//            Logger.getLogger(HouseDAO.class.getName()).log(Level.SEVERE, null, ex);
+//        }
 
     }
 
@@ -81,31 +83,32 @@ public class HouseDAO extends DBContext {
                     + " address, description, area, number_of_room) "
                     + "VALUES (?, ?, ?, ?, ?, ?)";
             DBContext db = new DBContext();
-            Connection con = db.getConnection();
-
-            // Thêm tham số Statement.RETURN_GENERATED_KEYS vào prepareStatement
-            PreparedStatement stm = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-
-            stm.setInt(1, house.getHouse_owner().getUser_id());
-            stm.setInt(2, house.getType_of_house().getType_of_house_id());
-            stm.setString(3, house.getLocation());
-            stm.setString(4, house.getDescription());
-            stm.setInt(5, house.getArea());
-            stm.setInt(6, house.getNumber_of_room());
-
-            // Thực hiện INSERT và lấy house_id được tạo tự động
-            int rowsAffected = stm.executeUpdate();
-            if (rowsAffected > 0) {
-                ResultSet generatedKeys = stm.getGeneratedKeys();
-                if (generatedKeys.next()) {
-                    int houseId = generatedKeys.getInt(1);
-
-                    // Thêm hình ảnh cho nhà vừa thêm
-                    //addImagesForHouse(houseId, house.getImage_URL());
-
-                    // Thêm thông tin Post
-                    PostDAO postDAO = new PostDAO();
-                    postDAO.addPost(houseId, post);
+            
+            try (Connection con = db.getConnection()) {
+                // Thêm tham số Statement.RETURN_GENERATED_KEYS vào prepareStatement
+                PreparedStatement stm = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+                
+                stm.setInt(1, house.getHouse_owner().getUser_id());
+                stm.setInt(2, house.getType_of_house().getType_of_house_id());
+                stm.setString(3, house.getLocation());
+                stm.setString(4, house.getDescription());
+                stm.setInt(5, house.getArea());
+                stm.setInt(6, house.getNumber_of_room());
+                
+                // Thực hiện INSERT và lấy house_id được tạo tự động
+                int rowsAffected = stm.executeUpdate();
+                if (rowsAffected > 0) {
+                    ResultSet generatedKeys = stm.getGeneratedKeys();
+                    if (generatedKeys.next()) {
+                        int houseId = generatedKeys.getInt(1);
+                        
+                        // Thêm hình ảnh cho nhà vừa thêm
+                        //addImagesForHouse(houseId, house.getImage_URL());
+                        
+                        // Thêm thông tin Post
+                        PostDAO postDAO = new PostDAO();
+                        postDAO.addPost(houseId, post);
+                    }
                 }
             }
         } catch (SQLException ex) {
@@ -117,19 +120,19 @@ public class HouseDAO extends DBContext {
     try {
         String insertImageSQL = "INSERT INTO image (house_id, image_link) VALUES (?, ?)";
         DBContext db = new DBContext();
-        Connection con = db.getConnection();
-        PreparedStatement stm = con.prepareStatement(insertImageSQL);
-
-        for (String imageLink : imageLinks) {
-            stm.setInt(1, houseId);
-            stm.setString(2, imageLink);
-
-            // Thêm vào batch
-            stm.addBatch();
+        try (Connection con = db.getConnection()) {
+            PreparedStatement stm = con.prepareStatement(insertImageSQL);
+            
+            for (String imageLink : imageLinks) {
+                stm.setInt(1, houseId);
+                stm.setString(2, imageLink);
+                
+                // Thêm vào batch
+                stm.addBatch();
+            }
+            
+            stm.executeBatch();
         }
-
-        // Thực hiện batch update
-        stm.executeBatch();
     } catch (SQLException ex) {
         Logger.getLogger(HouseDAO.class.getName()).log(Level.SEVERE, null, ex);
     }

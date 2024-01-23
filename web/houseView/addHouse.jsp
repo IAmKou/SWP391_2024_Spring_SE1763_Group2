@@ -24,7 +24,7 @@
             <br>
             Area: <input type="number" name="area"><br>
             nubmer of room: <input type="number" name="number_of_room">
-            <input type="submit" value="Add House">
+            <input type="submit" value="Add post">
             <h1>${alert}</h1>
         </form>
     </body>

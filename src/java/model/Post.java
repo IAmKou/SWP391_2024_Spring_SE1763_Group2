@@ -10,13 +10,13 @@ package model;
  */
 public class Post {
     int post_id;
-    int house_id;
-    int purpose_id;
+    House house;
+    Purpose purpose;
     int price;
     int poster_id;
-    int house_status;
+    Status house_status;
     int admin_id;
-    int post_status;
+    Status post_status;
 
     public Post() {
     }
@@ -29,20 +29,20 @@ public class Post {
         this.post_id = post_id;
     }
 
-    public int getHouse_id() {
-        return house_id;
+    public House getHouse() {
+        return house;
     }
 
-    public void setHouse_id(int house_id) {
-        this.house_id = house_id;
+    public void setHouse(House house) {
+        this.house = house;
     }
 
-    public int getPurpose_id() {
-        return purpose_id;
+    public Purpose getPurpose() {
+        return purpose;
     }
 
-    public void setPurpose_id(int purpose_id) {
-        this.purpose_id = purpose_id;
+    public void setPurpose(Purpose purpose) {
+        this.purpose = purpose;
     }
 
     public int getPrice() {
@@ -61,11 +61,11 @@ public class Post {
         this.poster_id = poster_id;
     }
 
-    public int getHouse_status() {
+    public Status getHouse_status() {
         return house_status;
     }
 
-    public void setHouse_status(int house_status) {
+    public void setHouse_status(Status house_status) {
         this.house_status = house_status;
     }
 
@@ -77,12 +77,14 @@ public class Post {
         this.admin_id = admin_id;
     }
 
-    public int getPost_status() {
+    public Status getPost_status() {
         return post_status;
     }
 
-    public void setPost_status(int post_status) {
+    public void setPost_status(Status post_status) {
         this.post_status = post_status;
     }
+
+    
     
 }

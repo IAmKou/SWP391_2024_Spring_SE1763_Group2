@@ -2,7 +2,7 @@
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
     <servlet>
         <servlet-name>updateHouse</servlet-name>
-        <servlet-class>Controller.House.updateHouse</servlet-class>
+        <servlet-class>Controller.Post.updatePost</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>viewOrder</servlet-name>
@@ -10,7 +10,11 @@
     </servlet>
     <servlet>
         <servlet-name>addNewPost</servlet-name>
-        <servlet-class>Controller.House.addNewPost</servlet-class>
+        <servlet-class>Controller.Post.addNewPost</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewPost</servlet-name>
+        <servlet-class>Controller.Post.ViewPost</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>updateHouse</servlet-name>
@@ -23,6 +27,10 @@
     <servlet-mapping>
         <servlet-name>addNewPost</servlet-name>
         <url-pattern>/house/add</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewPost</servlet-name>
+        <url-pattern>/post/view</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

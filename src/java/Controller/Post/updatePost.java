@@ -3,9 +3,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package Controller.Order;
+package Controller.Post;
 
-import dao.OrderDAO;
+import dao.HouseDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -13,13 +13,18 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import model.House;
+import model.Post;
+import model.Purpose;
+import model.Status;
+import model.TypeOfHouse;
 import model.User;
 
 /**
  *
  * @author FPTSHOP
  */
-public class viewOrder extends HttpServlet {
+public class updatePost extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -36,10 +41,10 @@ public class viewOrder extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet viewOrder</title>");  
+            out.println("<title>Servlet updateHouse</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet viewOrder at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet updateHouse at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -56,7 +61,9 @@ public class viewOrder extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+//        processRequest(request, response);
+        
+        
     } 
 
     /** 
@@ -69,15 +76,53 @@ public class viewOrder extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        HttpSession s = request.getSession();
-        User user = (User) s.getAttribute("account");
+//        HttpSession session = request.getSession();
+//        Post post = (Post) session.getAttribute("post");
+//        User user = (User) session.getAttribute("account");
+        String user_str = request.getParameter("user");
+        int user_int = Integer.parseInt(user_str);
+        User user = new User();
+        user.setUser_id(user_int);
+
+        String purpose_str = request.getParameter("purpose");
+        String price_str = request.getParameter("price");
+        String location = request.getParameter("location");
+        String type_of_house_str = request.getParameter("type");
+        String description = request.getParameter("description");
+        String area_str = request.getParameter("area");
+        String number_of_room_str = request.getParameter("number_of_room");
         
-        String house_id = request.getParameter("house_id");
-        int house_id_int = Integer.parseInt(house_id);
+        int purpose_id = Integer.parseInt(purpose_str);
+        int price = Integer.parseInt(price_str);
+        int type_of_house = Integer.parseInt(type_of_house_str);
+        int area = Integer.parseInt(area_str);
+        int number_of_room = Integer.parseInt(number_of_room_str);
+        TypeOfHouse typeOfHouse = new  TypeOfHouse();
+        typeOfHouse.setType_of_house_id(type_of_house);
         
-        OrderDAO orderDAO = new OrderDAO();
-        orderDAO.getOrder(user.getUserId(), house_id_int);
+        House house = new House();
+        house.setHouse_owner(user);
+        house.setLocation(location);
+        house.setType_of_house(typeOfHouse);
+        house.setDescription(description);
+        house.setArea(area);
+        house.setNumber_of_room(number_of_room);
+        house.setHouse_id(21);
         
+        Purpose purpose = new Purpose();
+        purpose.setPurpose_id(purpose_id);
+        
+        Status post_status = new Status();
+        post_status.setStatus_id(2);
+        
+        Post post = new Post();
+        post.setPurpose(purpose);
+        post.setPrice(price);
+        post.setAdmin_id(1);
+        post.setPost_status(post_status);
+        
+        HouseDAO houseDAO = new HouseDAO();
+        houseDAO.updateHouse(house,post);
     }
 
     /** 
