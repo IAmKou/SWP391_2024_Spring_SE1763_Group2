@@ -15,11 +15,14 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
+drop database if exists house_finder;
+create database house_finder;
+use house_finder;
 --
 -- Table structure for table `account`
 --
+ 
 
-DROP TABLE IF EXISTS `account`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `account` (
@@ -48,7 +51,7 @@ UNLOCK TABLES;
 -- Table structure for table `feedback`
 --
 
-DROP TABLE IF EXISTS `feedback`;
+
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `feedback` (
@@ -76,7 +79,7 @@ UNLOCK TABLES;
 -- Table structure for table `house`
 --
 
-DROP TABLE IF EXISTS `house`;
+
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `house` (
@@ -109,7 +112,7 @@ UNLOCK TABLES;
 -- Table structure for table `image`
 --
 
-DROP TABLE IF EXISTS `image`;
+
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `image` (
@@ -135,7 +138,7 @@ UNLOCK TABLES;
 -- Table structure for table `post`
 --
 
-DROP TABLE IF EXISTS `post`;
+
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `post` (
@@ -177,7 +180,7 @@ UNLOCK TABLES;
 -- Table structure for table `purpose`
 --
 
-DROP TABLE IF EXISTS `purpose`;
+
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `purpose` (
@@ -201,7 +204,7 @@ UNLOCK TABLES;
 -- Table structure for table `request`
 --
 
-DROP TABLE IF EXISTS `request`;
+
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `request` (
@@ -237,7 +240,7 @@ UNLOCK TABLES;
 -- Table structure for table `request_status`
 --
 
-DROP TABLE IF EXISTS `request_status`;
+
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `request_status` (
@@ -261,7 +264,7 @@ UNLOCK TABLES;
 -- Table structure for table `role`
 --
 
-DROP TABLE IF EXISTS `role`;
+
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `role` (
@@ -285,7 +288,7 @@ UNLOCK TABLES;
 -- Table structure for table `type_of_house`
 --
 
-DROP TABLE IF EXISTS `type_of_house`;
+
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `type_of_house` (
@@ -309,7 +312,7 @@ UNLOCK TABLES;
 -- Table structure for table `user`
 --
 
-DROP TABLE IF EXISTS `user`;
+
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `user` (
