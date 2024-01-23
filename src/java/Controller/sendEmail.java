@@ -23,7 +23,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.util.Properties;
 import java.util.Random;
-import model.user;
+import model.User;
 
 /**
  *
@@ -65,7 +65,7 @@ public class sendEmail extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        user newUser = (user) request.getSession().getAttribute("userForgetPass");
+        User newUser = (User) request.getSession().getAttribute("userForgetPass");
         String recipient = newUser.getEmail();
         if (recipient!=null) {
             // Get recipient email address and message from form data

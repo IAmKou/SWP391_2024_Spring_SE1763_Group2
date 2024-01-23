@@ -9,6 +9,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.House;
@@ -99,5 +101,49 @@ public class HouseDAO extends DBContext {
             Logger.getLogger(HouseDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+      public List<House> searchHouses(String searchTerm) {
+        List<House> searchResults = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM house_finder.house\n"
+                    + "WHERE Location LIKE ? OR Description LIKE ?";
+            DBContext db = new DBContext();
+            Connection con = db.getConnection();
+            PreparedStatement stm = con.prepareStatement(sql);
+            stm.setString(1, "%" + searchTerm + "%");
+            stm.setString(2, "%" + searchTerm + "%");
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                House house = new House();
+                house.setHouseId(rs.getInt("HouseID"));
+                house.setLocation(rs.getString("Location"));
+                house.setDescription(rs.getString("Description"));
+                house.setHouseOwnerId(rs.getInt("HouseOwnerID"));
+                house.setPicture(rs.getString("Picture"));
+                house.setPrice(rs.getInt("PricePerUnit"));
+                house.setStatus(rs.getBoolean("Available"));
+                searchResults.add(house);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(HouseDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return searchResults;
+    }
+    
+  public static void main(String[] args) {
+        HouseDAO houseDAO = new HouseDAO();
 
+        // Testing getHouse method
+        int houseIdToSearch = 1;
+        House foundHouse = houseDAO.getHouse(houseIdToSearch);
+        System.out.println("House with ID " + houseIdToSearch + ": " + foundHouse);
+
+        // Testing searchHouses method
+        String searchTerm = "City"; // You can change this to your desired search term
+        List<House> searchResults = houseDAO.searchHouses(searchTerm);
+
+        System.out.println("Search results for term '" + searchTerm + "':");
+        for (House result : searchResults) {
+            System.out.println(result);
+        }
+    }
 }

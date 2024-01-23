@@ -11,14 +11,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import model.user;
+import model.User;
 
 /**
  *
  * @author ACER
  */
 public class userDAO {
-    public static void insertUser(user user) {
+    public static void insertUser(User user) {
         try {
             DBContext db = new DBContext();
             Connection con = db.getConnection();
@@ -78,8 +78,8 @@ public class userDAO {
         }
         return false;
     }
-     public static user LogIn(String username, String pass) {
-        user user = null;
+     public static User LogIn(String username, String pass) {
+        User user = null;
         try {
             DBContext db = new DBContext();
             Connection con = db.getConnection();
@@ -88,7 +88,7 @@ public class userDAO {
                 Statement call = con.createStatement();
                 ResultSet rs = call.executeQuery(sql);
                 while (rs.next()) {
-                    user = new user(rs.getInt("userID"),rs.getString("fullName"),
+                    user = new User(rs.getInt("userID"),rs.getString("fullName"),
                             username, pass, rs.getInt("roleID"),
                             rs.getString("location"), rs.getString("phone"),
                             rs.getString("email"));
@@ -119,8 +119,8 @@ public class userDAO {
         }
         return false;
     }
-      public static user GetUserInformation(int id) {
-        user user = null;
+      public static User GetUserInformation(int id) {
+        User user = null;
         try {
             DBContext db = new DBContext();
             Connection con = db.getConnection();
@@ -129,7 +129,7 @@ public class userDAO {
                 Statement st = con.createStatement();
                 ResultSet rs = st.executeQuery(sql);
                 while (rs.next()) {
-                    user = new user();
+                    user = new User();
                     user.setUserID(rs.getInt(1));
                     user.setFullName(rs.getString(2));
                     user.setUserName(rs.getString(3));
@@ -148,8 +148,8 @@ public class userDAO {
         }
         return user;
     }
-       public user getUserByEmail(String email) {
-        user user = new user();
+       public User getUserByEmail(String email) {
+        User user = new User();
         String sql = "Select * from USER where email= '" + email + "';";
         try {
             DBContext db = new DBContext();
@@ -173,4 +173,27 @@ public class userDAO {
         }
         return null;
     }
+       
+         public static void main(String[] args) {
+        // Replace 'your_username' and 'your_password' with actual credentials
+        String username = "admin";
+        String password = "admin";
+
+        // Call the LogIn method to check login
+        User loggedInUser = LogIn(username, password);
+
+        if (loggedInUser != null) {
+            System.out.println("Login successful!");
+            System.out.println("User ID: " + loggedInUser.getUserID());
+            System.out.println("Full Name: " + loggedInUser.getFullName());
+            System.out.println("Username: " + loggedInUser.getUserName());
+            System.out.println("Role ID: " + loggedInUser.getRoleID());
+            System.out.println("Location: " + loggedInUser.getLocation());
+            System.out.println("Phone: " + loggedInUser.getPhone());
+            System.out.println("Email: " + loggedInUser.getEmail());
+        } else {
+            System.out.println("Login failed. Invalid username or password.");
+        }
+    }
+       
 }

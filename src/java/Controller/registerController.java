@@ -13,7 +13,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import model.user;
+import model.User;
 
 /**
  *
@@ -85,7 +85,7 @@ public class registerController extends HttpServlet {
             }
 //            //Add user to DB
             else{
-                user u = new user();
+                User u = new User();
                 u.setUserName(username);
                 u.setPassWord(password);
                 u.setFullName(fullname);

@@ -8,6 +8,10 @@
         <servlet-name>updateHouse</servlet-name>
         <servlet-class>Controller.House.updateHouse</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>searchHouse</servlet-name>
+        <servlet-class>Controller.House.searchHouse</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>addHouse</servlet-name>
         <url-pattern>/house/add</url-pattern>
@@ -15,6 +19,10 @@
     <servlet-mapping>
         <servlet-name>updateHouse</servlet-name>
         <url-pattern>/house/update</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>searchHouse</servlet-name>
+        <url-pattern>/search-house</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

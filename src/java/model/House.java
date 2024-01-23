@@ -10,14 +10,14 @@ package model;
  */
 public class House {
 
-    int houseId;
-    String location;
-    String description;
-    int houseOwnerId;
-    int price;
-    String picture;
-    boolean status;
-    int type;
+ private int houseId;
+  private String location;
+ private String description;
+private int houseOwnerId;
+ private int price;
+ private String picture;
+ private boolean status;
+ private   int type;
     public House() {
     }
 

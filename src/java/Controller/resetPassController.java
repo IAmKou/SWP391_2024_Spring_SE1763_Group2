@@ -14,7 +14,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import model.user;
+import model.User;
 
 /**
  *
@@ -36,7 +36,7 @@ public class resetPassController extends HttpServlet {
         String newCfPass = request.getParameter("cfpass");
         userDAO dao = new userDAO();
         HttpSession session = request.getSession();
-        user newUser = (user) request.getSession().getAttribute("userForgetPass");
+        User newUser = (User) request.getSession().getAttribute("userForgetPass");
         if (newPass.equals(newCfPass)) {
             dao.ChangePassword(newUser.getUserID(), newPass);
             session.invalidate();

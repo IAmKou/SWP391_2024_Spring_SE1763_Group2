@@ -8,7 +8,7 @@ package model;
  *
  * @author ACER
  */
-public class user {
+public class User {
     private int userID;
     private String fullName;
     private String userName;
@@ -18,7 +18,7 @@ public class user {
     private String phone;
     private String email;
 
-    public user(int userID, String fullName, String userName, String passWord, int roleID, String location, String phone, String email) {
+    public User(int userID, String fullName, String userName, String passWord, int roleID, String location, String phone, String email) {
         this.userID = userID;
         this.fullName = fullName;
         this.userName = userName;
@@ -29,7 +29,7 @@ public class user {
         this.email = email;
     }
 
-    public user() {
+    public User() {
     }
 
     public void setEmail(String email) {
