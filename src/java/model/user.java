@@ -4,96 +4,79 @@
  */
 package model;
 
+import java.sql.Date;
+
 /**
  *
  * @author ACER
  */
 public class user {
-    private int userID;
-    private String fullName;
-    private String userName;
-    private String passWord;
-    private int roleID;
-    private String location;
-    private String phone;
+    private int user_id;
+    private String full_name;
+    private Date date_of_birth;
+    private String address;
+    private int phone_number;
     private String email;
-
-    public user(int userID, String fullName, String userName, String passWord, int roleID, String location, String phone, String email) {
-        this.userID = userID;
-        this.fullName = fullName;
-        this.userName = userName;
-        this.passWord = passWord;
-        this.roleID = roleID;
-        this.location = location;
-        this.phone = phone;
-        this.email = email;
-    }
 
     public user() {
     }
 
-    public void setEmail(String email) {
+    public user(int user_id, String full_name, Date date_of_birth, String address, int phone_number, String email) {
+        this.user_id = user_id;
+        this.full_name = full_name;
+        this.date_of_birth = date_of_birth;
+        this.address = address;
+        this.phone_number = phone_number;
         this.email = email;
     }
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public String getAddress() {
+        return address;
     }
 
-    public void setPassWord(String passWord) {
-        this.passWord = passWord;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public void setRoleID(int roleID) {
-        this.roleID = roleID;
-    }
-
-    public void setUserID(int userID) {
-        this.userID = userID;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public Date getDate_of_birth() {
+        return date_of_birth;
     }
 
     public String getEmail() {
         return email;
     }
 
-    public String getFullName() {
-        return fullName;
+    public String getFull_name() {
+        return full_name;
     }
 
-    public String getLocation() {
-        return location;
+    public int getPhone_number() {
+        return phone_number;
     }
 
-    public String getPassWord() {
-        return passWord;
+    public int getUser_id() {
+        return user_id;
     }
 
-    public String getPhone() {
-        return phone;
+    public void setDate_of_birth(Date date_of_birth) {
+        this.date_of_birth = date_of_birth;
     }
 
-    public int getRoleID() {
-        return roleID;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public int getUserID() {
-        return userID;
+    public void setFull_name(String full_name) {
+        this.full_name = full_name;
     }
 
-    public String getUserName() {
-        return userName;
+    public void setPhone_number(int phone_number) {
+        this.phone_number = phone_number;
     }
+
+    public void setUser_id(int user_id) {
+        this.user_id = user_id;
+    }
+
     
 }
