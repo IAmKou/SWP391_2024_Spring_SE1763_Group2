@@ -24,7 +24,7 @@ public class UserDAO {
             Connection con = db.getConnection();
 
             // Prepare the SQL statement
-            String sql = "INSERT INTO USER (fullName, userName, passWord, roleID, location, phone, email)"
+            String sql = "INSERT INTO USER ( fullName, userName, passWord, roleID, location, phone, email)"
                     + "VALUES (?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement st = con.prepareStatement(sql);
             st = con.prepareStatement(sql);
@@ -125,7 +125,7 @@ public class UserDAO {
             DBContext db = new DBContext();
             Connection con = db.getConnection();
             if (con != null) {
-                String sql = "Select * from USER where userId=" + id;
+                String sql = "Select * from USER where user_id=" + id;
                 Statement st = con.createStatement();
                 ResultSet rs = st.executeQuery(sql);
                 while (rs.next()) {
