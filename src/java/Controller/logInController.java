@@ -7,15 +7,14 @@ package Controller;
 
 import dao.userDAO;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import model.account;
 import model.user;
-
 /**
  *
  * @author ACER
@@ -50,7 +49,6 @@ public class logInController extends HttpServlet {
      * Handles the HTTP <code>POST</code> method.
      * @param req
      * @param resp
-     * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
@@ -60,14 +58,16 @@ public class logInController extends HttpServlet {
        String user = req.getParameter("username");
         String pass = req.getParameter("password");
         userDAO dao = new userDAO();
-        user account = dao.LogIn(user, pass);
+        account account = dao.LogIn(user, pass);
+        int uid = account.getUser_id();
+        user userInfo = dao.getUserInformation(uid);
         if (account==null){
             req.setAttribute("message", "Login Failed.");
             req.getRequestDispatcher("logIn.jsp").forward(req, resp);
         }
         else {
             HttpSession session = req.getSession();
-            session.setAttribute("account", account);
+            session.setAttribute("account", userInfo);
             req.getRequestDispatcher("mainPage.jsp").forward(req, resp);
         }
     }
