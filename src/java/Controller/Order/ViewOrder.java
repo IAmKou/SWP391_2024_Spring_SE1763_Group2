@@ -5,7 +5,7 @@
 
 package Controller.Order;
 
-import dao.OrderDAO;
+import dao.StatusDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -13,13 +13,14 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import model.User;
+import java.util.List;
+import model.Status;
 
 /**
  *
  * @author FPTSHOP
  */
-public class viewOrder extends HttpServlet {
+public class ViewOrder extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -31,18 +32,11 @@ public class viewOrder extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet viewOrder</title>");  
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet viewOrder at " + request.getContextPath () + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
+        StatusDAO status_DAO = new StatusDAO();
+        List<Status> statuses = status_DAO.getStatus();
+        HttpSession session = request.getSession();
+        session.setAttribute("statuses", statuses);
+        request.getRequestDispatcher("../views/profile.jsp").forward(request, response);
     } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -69,15 +63,7 @@ public class viewOrder extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        HttpSession s = request.getSession();
-        User user = (User) s.getAttribute("account");
-        
-        String house_id = request.getParameter("house_id");
-        int house_id_int = Integer.parseInt(house_id);
-        
-        OrderDAO orderDAO = new OrderDAO();
-        orderDAO.getOrder(user.getUserId(), house_id_int);
-        
+        processRequest(request, response);
     }
 
     /** 

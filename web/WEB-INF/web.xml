@@ -5,10 +5,6 @@
         <servlet-class>Controller.Post.updatePost</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>viewOrder</servlet-name>
-        <servlet-class>Controller.Order.viewOrder</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>addNewPost</servlet-name>
         <servlet-class>Controller.Post.addNewPost</servlet-class>
     </servlet>
@@ -16,21 +12,33 @@
         <servlet-name>ViewPost</servlet-name>
         <servlet-class>Controller.Post.ViewPost</servlet-class>
     </servlet>
-    <servlet-mapping>
-        <servlet-name>updateHouse</servlet-name>
-        <url-pattern>/house/update</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>viewOrder</servlet-name>
-        <url-pattern>/order/view</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>addNewPost</servlet-name>
-        <url-pattern>/house/add</url-pattern>
-    </servlet-mapping>
+    <servlet>
+        <servlet-name>ViewPostByStatus</servlet-name>
+        <servlet-class>Controller.Post.ViewPostByStatus</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewOrder</servlet-name>
+        <servlet-class>Controller.Order.ViewOrder</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ViewPost</servlet-name>
         <url-pattern>/post/view</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>addNewPost</servlet-name>
+        <url-pattern>/post/add</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>updateHouse</servlet-name>
+        <url-pattern>/post/update</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewOrder</servlet-name>
+        <url-pattern>/order/view</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewPostByStatus</servlet-name>
+        <url-pattern>/status</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

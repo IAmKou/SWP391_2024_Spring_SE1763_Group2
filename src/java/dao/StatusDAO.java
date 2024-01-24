@@ -28,18 +28,18 @@ public class StatusDAO extends DBContext {
             String sql = "SELECT * FROM house_finder_project.request_status\n"
                     + "WHERE status_id NOT IN (4, 5);";
             DBContext db = new DBContext();
-            Connection con = db.getConnection();
-            PreparedStatement stm = con.prepareStatement(sql);
-            ResultSet rs = stm.executeQuery();
-            
-            while (rs.next()) {                
-                Status status = new Status();
-                status.setStatus_id(rs.getInt(1));
-                status.setStatus_name(rs.getString(2));
+            try (Connection con = db.getConnection(); PreparedStatement stm = con.prepareStatement(sql)) {
+                ResultSet rs = stm.executeQuery();
                 
-                statuses.add(status);
+                while (rs.next()) {
+                    Status status = new Status();
+                    status.setStatus_id(rs.getInt(1));
+                    status.setStatus_name(rs.getString(2));
+                    
+                    statuses.add(status);
+                }
+                
             }
-
         } catch (SQLException ex) {
             Logger.getLogger(StatusDAO.class.getName()).log(Level.SEVERE, null, ex);
         }

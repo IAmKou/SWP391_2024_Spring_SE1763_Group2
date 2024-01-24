@@ -5,6 +5,8 @@
 package Controller.Post;
 
 import dao.HouseDAO;
+import dao.PurposeDAO;
+import dao.TypeOfHouseDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -73,7 +75,15 @@ public class addNewPost extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        TypeOfHouseDAO type_of_house_DAO = new TypeOfHouseDAO();
+        List<TypeOfHouse> types = type_of_house_DAO.getType();
+        
+        PurposeDAO purpose_DAO = new PurposeDAO();
+        List<Purpose> purposes = purpose_DAO.getPurpose();
+        
+        request.setAttribute("purposes", purposes);
+        request.setAttribute("types", types);
+        request.getRequestDispatcher("../views/addPost.jsp").forward(request, response);
     }
 
     /**
@@ -96,8 +106,6 @@ public class addNewPost extends HttpServlet {
         int price = Integer.parseInt(price_str);
         //int poster = user.getUser_id();
 
-        String poster_str = request.getParameter("user");
-        int poster = Integer.parseInt(poster_str);
         User user = new User();
         user.setUser_id(4);
 
@@ -109,37 +117,6 @@ public class addNewPost extends HttpServlet {
         int area = Integer.parseInt(area_str);
         String number_of_room_str = request.getParameter("number_of_room");
         int number_of_room = Integer.parseInt(number_of_room_str);
-        
-        // Lấy danh sách các phần (ảnh) từ yêu cầu
-//        Collection<Part> imageParts = request.getParts();
-//        List<String> imageUrls = new ArrayList<>();
-//
-//// Thư mục lưu trữ ảnh trên máy chủ
-//        String uploadPath = getServletContext().getRealPath("") + File.separator + "uploads";
-//
-//// Tạo thư mục nếu nó chưa tồn tại
-//        File uploadDir = new File(uploadPath);
-//        if (!uploadDir.exists()) {
-//            uploadDir.mkdir();
-//        }
-//
-//// Lặp qua từng phần ảnh và lưu trữ nó trên máy chủ
-//        for (Part part : imageParts) {
-//            String fileName = UUID.randomUUID().toString() + "_" + getFileName(part);
-//            String imageUrl = "uploads" + File.separator + fileName;
-//
-//            try ( InputStream is = part.getInputStream();  OutputStream os = new FileOutputStream(uploadPath + File.separator + fileName)) {
-//                // Lưu trữ ảnh trên máy chủ
-//                byte[] buffer = new byte[1024];
-//                int bytesRead;
-//                while ((bytesRead = is.read(buffer)) != -1) {
-//                    os.write(buffer, 0, bytesRead);
-//                }
-//
-//                // Thêm đường dẫn ảnh vào danh sách
-//                imageUrls.add(imageUrl);
-//            }
-//        }
         
         Purpose purpose = new Purpose();
         purpose.setPurpose_id(purpose_id);
@@ -153,7 +130,7 @@ public class addNewPost extends HttpServlet {
         post.setHouse_status(house_status);
         post.setPrice(price);
         post.setPurpose(purpose);
-        post.setPoster_id(poster);
+        post.setPoster_id(user.getUser_id());
 
         TypeOfHouse tOfHouse = new TypeOfHouse();
         tOfHouse.setType_of_house_id(type);
@@ -166,16 +143,12 @@ public class addNewPost extends HttpServlet {
         house.setType_of_house(tOfHouse);
         house.setNumber_of_room(number_of_room);
 
-//        house.setImage_URL(imageUrls);
-
         // Thêm house và post vào cơ sở dữ liệu
         HouseDAO houseDAO = new HouseDAO();
         houseDAO.addHouse(house, post);
 
         request.setAttribute("alert", "Add successfully!");
-
-        // Chuyển hướng người dùng sau khi thêm ngôi nhà
-        request.getRequestDispatcher("../houseView/addHouse.jsp").forward(request, response);
+        request.getRequestDispatcher("../views/addPost.jsp").forward(request, response);
     }
 
     /**

@@ -66,11 +66,8 @@ public class ViewPost extends HttpServlet {
         int user_id = 4;
         PostDAO postDAO = new PostDAO();
         List<Post> posts = postDAO.getAllPost(user_id);
-        StatusDAO statusDAO = new StatusDAO();
-        List<Status> statuses = statusDAO.getStatus();
-        request.setAttribute("statuses", statuses);
         request.setAttribute("posts", posts);
-        request.getRequestDispatcher("../houseView/viewPost.jsp").forward(request, response);
+        request.getRequestDispatcher("../views/viewPost.jsp").forward(request, response);
     }
 
     /**
