@@ -14,6 +14,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import model.account;
 import model.user;
 
 /**
@@ -38,14 +39,13 @@ public class changePasswordController extends HttpServlet {
         String newPass = request.getParameter("newpass");
         String newCfPass = request.getParameter("cfpass");
         userDAO dao = new userDAO();
-        HttpSession ses = request.getSession();
-        user user = (user) request.getSession().getAttribute("account");
-        if (!oldPass.equals(user.getPassWord())) {
+        account user = (account) request.getSession().getAttribute("userInfo");
+        if (!oldPass.equals(user.getPass_word())) {
             request.setAttribute("mess1", "Old password not match");
             request.getRequestDispatcher("changePassword.jsp").forward(request, response);
         } else {
             if (newPass.equals(newCfPass)) {
-                dao.ChangePassword(user.getUserID(), newPass);
+                dao.ChangePassword(user.getUser_id(), newPass);
                 request.getRequestDispatcher("mainPage.jsp").forward(request, response);
             } else {
                 request.setAttribute("mess1", "New pass and confirm not match");
