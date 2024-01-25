@@ -15,9 +15,9 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
-drop database if exists house_finder;
-create database house_finder;
-use house_finder;
+drop database if exists house_finder_project;
+create database house_finder_project;
+use house_finder_project;
 --
 -- Table structure for table `account`
 --
