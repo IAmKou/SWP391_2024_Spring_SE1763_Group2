@@ -3,23 +3,20 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package Controller.User;
+package Controller;
 
-
-import dao.UserDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import model.User;
 
 /**
  *
- * @author FPTSHOP
+ * @author khoih
  */
-public class updateUser extends HttpServlet {
+public class displayOwnerHouse extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -36,10 +33,10 @@ public class updateUser extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet updateUser</title>");  
+            out.println("<title>Servlet displayOwnerHouse</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet updateHouse at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet displayOwnerHouse at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -66,28 +63,10 @@ public class updateUser extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        String fullName = request.getParameter("fullName");
-        String userName = request.getParameter("userName");
-        String passWord = request.getParameter("passWord");
-        String location = request.getParameter("location");
-        String phone = request.getParameter("phone");
-        String email = request.getParameter("email");
-        
-       
-        User user = new User();
-        user.setFullName(fullName);
-        user.setUserName(userName);
-        user.setPassWord(passWord);
-        user.setLocation(location);
-        user.setPhone(phone);
-        user.setEmail(email);
-
-        UserDAO UserDAO = new UserDAO();
-        UserDAO.(updateUser);
+        processRequest(request, response);
     }
 
     /** 
