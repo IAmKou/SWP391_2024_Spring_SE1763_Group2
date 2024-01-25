@@ -39,8 +39,10 @@ public class changePasswordController extends HttpServlet {
         String newPass = request.getParameter("newpass");
         String newCfPass = request.getParameter("cfpass");
         userDAO dao = new userDAO();
-        account user = (account) request.getSession().getAttribute("userInfo");
-        if (!oldPass.equals(user.getPass_word())) {
+        user user = (user) request.getSession().getAttribute("account");
+        int uid = user.getUser_id();
+        account account = dao.getAccount(uid);        
+        if (!oldPass.equals(account.getPass_word())){
             request.setAttribute("mess1", "Old password not match");
             request.getRequestDispatcher("changePassword.jsp").forward(request, response);
         } else {
