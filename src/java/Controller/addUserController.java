@@ -82,12 +82,7 @@ public class addUserController extends HttpServlet {
                  try {        
                     java.util.Date date = availDate.parse(DoB);
                     java.sql.Date sqlDate = new java.sql.Date(date.getTime());
-                     user u = new user();
-                     u.setFull_name(fullname);
-                     u.setDate_of_birth(sqlDate);
-                     u.setAddress(address);
-                     u.setPhone_number(phone);
-                     u.setEmail(email);
+                    dao.insertUser(fullname,sqlDate,address,phone,email);
                      request.setAttribute("email", email);
                     request.getRequestDispatcher("account.jsp").forward(request, response);
                 } catch (Exception e) {
