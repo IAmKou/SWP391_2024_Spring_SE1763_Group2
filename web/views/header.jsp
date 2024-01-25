@@ -23,13 +23,13 @@
                         <ul class="clear">
                             <li class="active"><a href="#">Buy</a></li>
                             <li class="active"><a href="#">Rent</a></li>
-                            <li class="active"><a href="addPost.jsp">Sell</a></li>
-                            <li class="active"><a href="index.html">Help</a></li>
+                            <li class="active"><a href="${pageContext.request.contextPath}/views/addPost.jsp">Sell</a></li>
+                            <li class="active"><a href="#">Help</a></li>
                         </ul>
                     </nav>
 
                     <nav id="mainav" class="hnc2">
-                        <a href="#"> <img src="${pageContext.request.contextPath}/images/demo/image-removebg-preview.png" alt="image" class="logo"></a>
+                        <a href="${pageContext.request.contextPath}/views/home.jsp"> <img src="${pageContext.request.contextPath}/images/demo/image-removebg-preview.png" alt="image" class="logo"></a>
 
                     </nav>
 
@@ -37,7 +37,7 @@
                         <ul class="clear">
                             <li class="active"><a href="#">Home</a></li>
                             <li class="active"><a href="#">My Rentals</a></li>
-                            <li><a class="drop" href="#">Profile</a>
+                            <li><a class="drop" href="${pageContext.request.contextPath}/order/view">Profile</a>
                                 <!-- ghi ten user -->
                                 <ul>
                                     <li><a href="profile.html">My Account</a></li>
