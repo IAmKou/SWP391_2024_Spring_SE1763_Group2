@@ -6,7 +6,6 @@ package Controller.Post;
 
 import dao.PostDAO;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -14,6 +13,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.util.List;
 import model.Post;
+import model.User;
 
 /**
  *
@@ -33,13 +33,13 @@ public class ViewPostByStatus extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        //        HttpSession session = request.getSession();
-//        Account acc = session.getAttribute("account");
+        HttpSession session = request.getSession();
+        User acc =  (User) session.getAttribute("account");
         String status_str = request.getParameter("status");
         int status_id = Integer.parseInt(status_str);
 
         PostDAO post_DAO = new PostDAO();
-        List<Post> posts = post_DAO.getPostByStatus(4, status_id);
+        List<Post> posts = post_DAO.getPostByStatus(acc.getUser_id(), status_id);
         request.setAttribute("posts", posts);
         request.getRequestDispatcher("/views/profile.jsp").forward(request, response);
     }

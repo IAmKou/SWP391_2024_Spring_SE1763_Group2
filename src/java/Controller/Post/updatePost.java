@@ -67,10 +67,11 @@ public class updatePost extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //String post_id_str = request.getParameter("post_id");
-        //int post_id = Integer.parseInt(post_id_str);
+        
+        String post_id_str = request.getParameter("post");
+        int post_id = Integer.parseInt(post_id_str);
         PostDAO post_DAO = new PostDAO();
-        Post post = post_DAO.getPost(2);
+        Post post = post_DAO.getPost(post_id);
 
         TypeOfHouseDAO type_of_house_DAO = new TypeOfHouseDAO();
         List<TypeOfHouse> types = type_of_house_DAO.getType();
@@ -113,7 +114,6 @@ public class updatePost extends HttpServlet {
         typeOfHouse.setType_of_house_id(type_of_house);
 
         House house = new House();
-        house.setHouse_id(2);
         house.setLocation(location);
         house.setType_of_house(typeOfHouse);
         house.setDescription(description);
@@ -123,14 +123,9 @@ public class updatePost extends HttpServlet {
         Purpose purpose = new Purpose();
         purpose.setPurpose_id(purpose_id);
 
-        Status post_status = new Status();
-        post_status.setStatus_id(2);
-
         Post post = new Post();
-        post.setPost_id(2);
         post.setPurpose(purpose);
         post.setPrice(price);
-        post.setPost_status(post_status);
 
         HouseDAO houseDAO = new HouseDAO();
         houseDAO.updateHouse(house);

@@ -5,7 +5,6 @@
 package Controller.Post;
 
 import dao.PostDAO;
-import dao.StatusDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -15,7 +14,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.util.List;
 import model.Post;
-import model.Status;
+import model.User;
 
 /**
  *
@@ -62,10 +61,11 @@ public class ViewPost extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
-        session.getAttribute("account");
-        int user_id = 4;
+        User user = (User) session.getAttribute("account");
+        
         PostDAO postDAO = new PostDAO();
-        List<Post> posts = postDAO.getAllPost(user_id);
+        List<Post> posts = postDAO.getAllPost(user.getUser_id());
+        
         request.setAttribute("posts", posts);
         request.getRequestDispatcher("../views/viewPost.jsp").forward(request, response);
     }

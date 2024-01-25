@@ -14,16 +14,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import jakarta.servlet.http.Part;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import java.util.UUID;
-import static jdk.nashorn.internal.objects.NativeError.getFileName;
 import model.House;
 import model.Post;
 import model.Purpose;
@@ -97,24 +88,25 @@ public class addNewPost extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-//        HttpSession session = request.getSession();
-//        User user = (User) session.getAttribute("account");
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("account");
+        
         String location = request.getParameter("location");
+        
         String purpose_str = request.getParameter("purpose");
         int purpose_id = Integer.parseInt(purpose_str);
+        
         String price_str = request.getParameter("price");
         int price = Integer.parseInt(price_str);
-        //int poster = user.getUser_id();
-
-        User user = new User();
-        user.setUser_id(4);
 
         String type_str = request.getParameter("type");
         int type = Integer.parseInt(type_str);
 
         String description = request.getParameter("description");
+        
         String area_str = request.getParameter("area");
         int area = Integer.parseInt(area_str);
+        
         String number_of_room_str = request.getParameter("number_of_room");
         int number_of_room = Integer.parseInt(number_of_room_str);
         
