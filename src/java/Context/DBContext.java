@@ -17,13 +17,15 @@ public class DBContext {
         String db = "house_finder";
         String url = "jdbc:mysql://localhost:3306/"+db;
         String user = "root";
-        String password = "123456";
+        String password = "12345678";
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
+            
             return DriverManager.getConnection(url, user, password);
         } catch (Exception ex) {
             System.out.println("loi"+ex.getMessage());
         } 
         return null;
     }
+        
 }
