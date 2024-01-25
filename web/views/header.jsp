@@ -23,7 +23,7 @@
                         <ul class="clear">
                             <li class="active"><a href="#">Buy</a></li>
                             <li class="active"><a href="#">Rent</a></li>
-                            <li class="active"><a href="${pageContext.request.contextPath}/views/addPost.jsp">Sell</a></li>
+                            <li class="active"><a href="${pageContext.request.contextPath}/post/add">Sell</a></li>
                             <li class="active"><a href="#">Help</a></li>
                         </ul>
                     </nav>

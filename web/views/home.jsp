@@ -40,22 +40,15 @@
                     <p>House has most number of order</p>
                 </div>
                 <div id="latest" class="group">
-
                     <article class="one_third first borderEntity topproheight"><a class="imgover" href="#">
                             <img class="imgAuth" src="${pageContext.request.contextPath}/images/house1.jpg" style="border-radius: 4px;" alt=""></a>
                         <div class="excerpt">
-                            <!-- <time datetime="2045-04-03T08:15+00:00">
-                            <i class="far fa-calendar-alt"></i> 03<sup>rd</sup> April 2045 @
-                            15:00pm
-                          </time> -->
                             <time>
                                 <h6 class="heading" style="white-space: nowrap; overflow: hidden;"
                                     title=" Hà Nôi City, Tran Duy Hung Street,1234567890">
-                                    <!-- phần inner html sẽ bị ẩn 1 phần nếu quá dài, cần cập nhật vào title để hiển thị đầy đủ -->
                                     Hà Nôi City, Tran Duy Hung Street, 1234567890
                                 </h6>
                                 <ul class="meta">
-                                    <!-- <li><i class="fas fa-dollar-sign rgtspace-5"></i> <a href="#">100.000<span>VND</span></a></li> -->
                                     <li style="line-height: 1.8;">
                                         <i class="fas fa-tags rgtspace-5"></i>
                                         <a href="search.html">4 <span> rooms</span> </a>,
@@ -79,22 +72,15 @@
                             </p>
                         </div>
                     </article>
-
                     <article class="one_third borderEntity topproheight"><a class="imgover" href="#">
                             <img class="imgAuth" src="${pageContext.request.contextPath}/images/house2.jpg" style="border-radius: 4px;" alt=""></a>
                         <div class="excerpt">
-                            <!-- <time datetime="2045-04-03T08:15+00:00">
-                            <i class="far fa-calendar-alt"></i> 03<sup>rd</sup> April 2045 @
-                            15:00pm
-                          </time> -->
                             <time>
                                 <h6 class="heading" style="white-space: nowrap; overflow: hidden;"
                                     title=" Hà Nôi City, Tran Duy Hung Street,1234567890">
-                                    <!-- phần inner html sẽ bị ẩn 1 phần nếu quá dài, cần cập nhật vào title để hiển thị đầy đủ -->
                                     Hà Nôi City, Tran Duy Hung Street, 1234567890
                                 </h6>
                                 <ul class="meta">
-                                    <!-- <li><i class="fas fa-dollar-sign rgtspace-5"></i> <a href="#">100.000<span>VND</span></a></li> -->
                                     <li style="line-height: 1.8;">
                                         <i class="fas fa-tags rgtspace-5"></i>
                                         <a href="#">4 <span> rooms</span> </a>,
