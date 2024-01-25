@@ -14,7 +14,7 @@
     <body>
         <form action="addAccountController" method="post">
             <input type="hidden" name="email" value=${requestScope.email}>
-            Username: <input type="text" name="username"><br/><!-- comment -->
+            Username: <input type="text" name="uname"><br/><!-- comment -->
             Password: <input type="password" name="pass"><br/>
             Confirm password: <input type="password" name="cfpass"><br/>         
             <button type="submit">Submit</button>
