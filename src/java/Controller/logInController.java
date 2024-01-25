@@ -5,21 +5,22 @@
 
 package Controller;
 
+import dao.userDAO;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-
+import model.account;
+import model.user;
 /**
  *
  * @author ACER
  */
-@WebServlet(name="verifyCode", urlPatterns={"/verifyCode"})
-public class verifyCode extends HttpServlet {
+@WebServlet(name="logInController", urlPatterns={"/logInController"})
+public class logInController extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -28,18 +29,7 @@ public class verifyCode extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-        String verifyCode = request.getParameter("cfcode");
-        HttpSession verifyUser = request.getSession();
-        String Code = String.valueOf(verifyUser.getAttribute("verifyCode"));
-        if (verifyCode.equals(Code)) {
-            request.getRequestDispatcher("resetPass.jsp").forward(request, response);
-        } else {
-            request.setAttribute("AlertC", "Code is not exist or wrong");
-            request.getRequestDispatcher("verifyCode.jsp").forward(request, response);
-        }
-    } 
+
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /** 
@@ -52,20 +42,35 @@ public class verifyCode extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+        
     } 
 
     /** 
      * Handles the HTTP <code>POST</code> method.
-     * @param request servlet request
-     * @param response servlet response
+     * @param req
+     * @param resp
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
     throws ServletException, IOException {
-        processRequest(request, response);
+       String user = req.getParameter("username");
+        String pass = req.getParameter("password");
+        userDAO dao = new userDAO();
+        account account = dao.LogIn(user, pass);
+        int uid = account.getUser_id();
+        user userInfo = dao.getUserInformation(uid);
+        if (account==null){
+            req.setAttribute("message", "Login Failed.");
+            req.getRequestDispatcher("logIn.jsp").forward(req, resp);
+        }
+        else {
+            HttpSession session = req.getSession();
+            req.setAttribute("message", "Login succesful");
+            session.setAttribute("account", userInfo);
+            req.getRequestDispatcher("mainPage.jsp").forward(req, resp);
+        }
     }
 
     /** 

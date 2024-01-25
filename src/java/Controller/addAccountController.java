@@ -5,6 +5,7 @@
 
 package Controller;
 
+import dao.userDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -12,14 +13,15 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
+import model.account;
+import model.user;
 
 /**
  *
  * @author ACER
  */
-@WebServlet(name="verifyCode", urlPatterns={"/verifyCode"})
-public class verifyCode extends HttpServlet {
+@WebServlet(name="addAccountController", urlPatterns={"/addAccountController"})
+public class addAccountController extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -30,14 +32,18 @@ public class verifyCode extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        String verifyCode = request.getParameter("cfcode");
-        HttpSession verifyUser = request.getSession();
-        String Code = String.valueOf(verifyUser.getAttribute("verifyCode"));
-        if (verifyCode.equals(Code)) {
-            request.getRequestDispatcher("resetPass.jsp").forward(request, response);
-        } else {
-            request.setAttribute("AlertC", "Code is not exist or wrong");
-            request.getRequestDispatcher("verifyCode.jsp").forward(request, response);
+        response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet addAccountController</title>");  
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet addAccountController at " + request.getContextPath () + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
         }
     } 
 
@@ -52,7 +58,7 @@ public class verifyCode extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+        
     } 
 
     /** 
@@ -65,7 +71,21 @@ public class verifyCode extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+        String email = request.getParameter("email");
+        String uname = request.getParameter("uname");
+        String pass = request.getParameter("pass");
+        String cfpass = request.getParameter("cfpass");
+        
+        userDAO dao = new userDAO();
+        user user = dao.getUserByEmail(email);
+        int uid = user.getUser_id();
+        if(!pass.equals(cfpass)){
+            request.setAttribute("msg", "confirm password not match password");
+            request.getRequestDispatcher("account.jsp").forward(request, response);
+        }else{
+            dao.insertAccount(uid, uname, pass, 2);
+            request.getRequestDispatcher("logIn.jsp").forward(request, response);
+        }
     }
 
     /** 

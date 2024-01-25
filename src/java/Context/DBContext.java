@@ -17,7 +17,7 @@ public class DBContext {
         String db = "house_finder";
         String url = "jdbc:mysql://localhost:3306/"+db;
         String user = "root";
-        String password = "12345678";
+        String password = "123456";
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             

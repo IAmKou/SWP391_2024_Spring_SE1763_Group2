@@ -3,8 +3,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package Controller;
+package Servlet;
 
+import dao.userDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -13,13 +14,15 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import model.account;
+import model.user;
 
 /**
  *
  * @author ACER
  */
-@WebServlet(name="verifyCode", urlPatterns={"/verifyCode"})
-public class verifyCode extends HttpServlet {
+@WebServlet(name="resetPassController", urlPatterns={"/resetPassController"})
+public class resetPassController extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -30,14 +33,18 @@ public class verifyCode extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        String verifyCode = request.getParameter("cfcode");
-        HttpSession verifyUser = request.getSession();
-        String Code = String.valueOf(verifyUser.getAttribute("verifyCode"));
-        if (verifyCode.equals(Code)) {
-            request.getRequestDispatcher("resetPass.jsp").forward(request, response);
+        String newPass = request.getParameter("newpass");
+        String newCfPass = request.getParameter("cfpass");
+        userDAO dao = new userDAO();
+        HttpSession session = request.getSession();
+        account newUser = (account) request.getSession().getAttribute("userForgetPass");
+        if (newPass.equals(newCfPass)) {
+            dao.ChangePassword(newUser.getUser_id(), newPass);
+            session.invalidate();
+            request.getRequestDispatcher("logIn.jsp").forward(request, response);
         } else {
-            request.setAttribute("AlertC", "Code is not exist or wrong");
-            request.getRequestDispatcher("verifyCode.jsp").forward(request, response);
+            request.setAttribute("Boy", "New Pass not match Confirm Pass");
+            request.getRequestDispatcher("resetPassword.jsp").forward(request, response);
         }
     } 
 
