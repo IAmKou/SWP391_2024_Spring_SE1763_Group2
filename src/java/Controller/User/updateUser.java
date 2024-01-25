@@ -1,12 +1,14 @@
 package Controller.User;
 
-import dao.UserDAO;
+import dao.userDAO;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import model.User;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
+import model.user;
 
 public class updateUser extends HttpServlet {
 
@@ -14,27 +16,27 @@ public class updateUser extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try {
-            
-            String fullName = request.getParameter("fullName");
-            String userName = request.getParameter("userName");
-            String passWord = request.getParameter("passWord");
-            String location = request.getParameter("location");
-            String phone = request.getParameter("phone");
-            String email = request.getParameter("email");
-            
-  
-            User user = new User();
-            user.setFullName(fullName);
-            user.setUserName(userName);
-            user.setPassWord(passWord);
-            user.setLocation(location);
-            user.setPhone(phone);
-            user.setEmail(email);
-            
+    int user_id = Integer.parseInt(request.getParameter("user_id"));
+    String full_name = request.getParameter("full_name");
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+     Date date_of_birth = (Date) dateFormat.parse(request.getParameter("date_of_birth"));
+    String address = request.getParameter("address");
+    int phone_number = Integer.parseInt(request.getParameter("phone_number"));
+    String email = request.getParameter("email");
+
+    
+    user user = new user();
+    user.setUser_id(user_id);
+    user.setFull_name(full_name);
+    user.setDate_of_birth(date_of_birth);
+    user.setAddress(address);
+    user.setPhone_number(phone_number);
+    user.setEmail(email);
+
             // Update the user in the database
-            UserDAO userDAO = new UserDAO();
+            userDAO userDAO = new userDAO();
             userDAO.updateUser(user);
-            
+
             // Redirect to a success page
             response.sendRedirect("userProfile.jsp");
         } catch (Exception e) {

@@ -12,6 +12,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.account;
 import model.user;
 
@@ -205,4 +207,30 @@ public class userDAO {
         }
         return null;
     } 
+        public void updateUser(user user) {
+    try {
+        String sql = "UPDATE user\n"
+                + "SET\n"
+                + "    full_name = ?,\n"
+                + "    date_of_birth = ?,\n"
+                + "    address = ?,\n"
+                + "    phone_number = ?,\n"
+                + "    email = ?\n"
+                + "WHERE user_id = ?;";
+        
+        DBContext db = new DBContext();
+        try (Connection con = db.getConnection(); PreparedStatement stm = con.prepareStatement(sql)) {
+            stm.setString(1, user.getFull_name());
+            stm.setDate(2, user.getDate_of_birth());
+            stm.setString(3, user.getAddress());
+            stm.setInt(4, user.getPhone_number());
+            stm.setString(5, user.getEmail());
+            stm.setInt(6, user.getUser_id());
+            
+            stm.executeUpdate();
+        }
+    } catch (SQLException ex) {
+        Logger.getLogger(userDAO.class.getName()).log(Level.SEVERE, null, ex);
+    } 
+}
 }
