@@ -6,6 +6,7 @@ package dao;
 
 import Context.DBContext;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -19,7 +20,7 @@ import model.user;
  * @author ACER
  */
 public class userDAO {
-    public static void insertUser(user user) {
+    public void insertUser(String fullname, Date dob, String address, int phone, String email) {
         try {
             DBContext db = new DBContext();
             Connection con = db.getConnection();
@@ -29,16 +30,12 @@ public class userDAO {
                     + "VALUES (?, ?, ?, ?, ?)";
             PreparedStatement st = con.prepareStatement(sql);
             st = con.prepareStatement(sql);
-            st.setString(1, user.getFull_name());
-            st.setDate(2, user.getDate_of_birth());
-            st.setString(3, user.getAddress());
-            st.setInt(4, user.getPhone_number());
-            st.setString(5, user.getEmail());
-
-            // Execute the SQL statement
-            if (st.executeUpdate() != 1) {
-                System.out.println("ERROR INSERTING User");
-            }
+            st.setString(1, fullname);
+            st.setDate(2, dob);
+            st.setString(3, address);
+            st.setInt(4, phone);
+            st.setString(5, email);
+            int row = st.executeUpdate(); 
             st.close();
             con.close();
             // Any additional code or processing after inserting the user
@@ -166,29 +163,46 @@ public class userDAO {
         }
         return null;
     }
-      public static void insertAccount(account account) {
+      public void insertAccount(int uid, String uname, String pass, int rid) {
         try {
             DBContext db = new DBContext();
             Connection con = db.getConnection();
 
             // Prepare the SQL statement
-            String sql = "INSERT INTO `account` (`user_id`,`user_name`, `pass_word`,`role_id`)"
+            String sql = "INSERT INTO `account` (user_id,user_name,pass_word,role_id)"
                     + "VALUES (?, ?, ?, ?)";
             PreparedStatement st = con.prepareStatement(sql);
             st = con.prepareStatement(sql);
-            st.setInt(1, account.getUser_id());
-            st.setString(2, account.getUser_name());
-            st.setString(3, account.getPass_word());
-            st.setInt(4, account.getRole_id());
-            // Execute the SQL statement
-            if (st.executeUpdate() != 1) {
-                System.out.println("ERROR INSERTING User");
-            }
+            st.setInt(1, uid);
+            st.setString(2, uname);
+            st.setString(3, pass);
+            st.setInt(4, rid);
+            int row = st.executeUpdate(); 
             st.close();
             con.close();
             // Any additional code or processing after inserting the user
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+    } 
+      public static account getAccount(int id) {
+        account acc = new account();
+        String sql = "Select * from `account` where `user_id` = '" + id + "';";
+        try {
+            DBContext db = new DBContext();
+            Connection con = db.getConnection();
+            PreparedStatement ps = con.prepareCall(sql);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                acc.setUser_id(rs.getInt("user_id"));
+                acc.setUser_name(rs.getString("user_name"));
+                acc.setPass_word(rs.getString("pass_word"));
+                acc.setRole_id(rs.getInt("role_id"));        
+                return acc;
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
     } 
 }
