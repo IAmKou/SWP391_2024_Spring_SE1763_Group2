@@ -38,7 +38,7 @@ public class updateUser extends HttpServlet {
             userDAO.updateUser(user);
 
             // Redirect to a success page
-            response.sendRedirect("userProfile.jsp");
+            response.sendRedirect("userProfileUpdate.jsp");
         } catch (Exception e) {
             // Handle any exceptions
             request.setAttribute("error", e.getMessage());
