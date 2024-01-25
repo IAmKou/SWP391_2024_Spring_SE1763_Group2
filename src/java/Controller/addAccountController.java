@@ -83,12 +83,8 @@ public class addAccountController extends HttpServlet {
             request.setAttribute("msg", "confirm password not match password");
             request.getRequestDispatcher("account.jsp").forward(request, response);
         }else{
-            account a = new account();
-            a.setUser_id(uid);
-            a.setUser_name(uname);
-            a.setPass_word(pass);
-            a.setRole_id(2);
-            request.getRequestDispatcher("mainPage.jsp").forward(request, response);
+            dao.insertAccount(uid, uname, pass, 2);
+            request.getRequestDispatcher("logIn.jsp").forward(request, response);
         }
     }
 
