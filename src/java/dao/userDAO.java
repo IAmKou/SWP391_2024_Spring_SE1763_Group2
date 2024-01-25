@@ -11,9 +11,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 import model.account;
-import model.user;
+import model.User;
 
 /**
  *
@@ -112,8 +111,8 @@ public class userDAO {
         }
         return false;
     }
-      public static user getUserInformation(int id) {
-        user user = null;
+      public static User getUserInformation(int id) {
+        User user = null;
         try {
             DBContext db = new DBContext();
             Connection con = db.getConnection();
@@ -122,7 +121,7 @@ public class userDAO {
                 Statement st = con.createStatement();
                 ResultSet rs = st.executeQuery(sql);
                 while (rs.next()) {
-                    user = new user();
+                    user = new User();
                     user.setUser_id(rs.getInt(1));
                     user.setFull_name(rs.getString(2));
                     user.setDate_of_birth(rs.getDate(3));
@@ -139,8 +138,8 @@ public class userDAO {
         }
         return user;
     }
-       public static user getUserByEmail(String email) {
-        user user = new user();
+       public static User getUserByEmail(String email) {
+        User user = new User();
         String sql = "Select * from `user` where `email` = '" + email + "';";
         try {
             DBContext db = new DBContext();
