@@ -74,36 +74,10 @@ public class HouseDAO extends DBContext {
                     ResultSet generatedKeys = stm.getGeneratedKeys();
                     if (generatedKeys.next()) {
                         int houseId = generatedKeys.getInt(1);
-
-                        // Thêm hình ảnh cho nhà vừa thêm
-                        //addImagesForHouse(houseId, house.getImage_URL());
-                        // Thêm thông tin Post
                         PostDAO postDAO = new PostDAO();
                         postDAO.addPost(houseId, post);
                     }
                 }
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(HouseDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    private void addImagesForHouse(int houseId, List<String> imageLinks) {
-        try {
-            String insertImageSQL = "INSERT INTO image (house_id, image_link) VALUES (?, ?)";
-            DBContext db = new DBContext();
-            try ( Connection con = db.getConnection()) {
-                PreparedStatement stm = con.prepareStatement(insertImageSQL);
-
-                for (String imageLink : imageLinks) {
-                    stm.setInt(1, houseId);
-                    stm.setString(2, imageLink);
-
-                    // Thêm vào batch
-                    stm.addBatch();
-                }
-
-                stm.executeBatch();
             }
         } catch (SQLException ex) {
             Logger.getLogger(HouseDAO.class.getName()).log(Level.SEVERE, null, ex);
