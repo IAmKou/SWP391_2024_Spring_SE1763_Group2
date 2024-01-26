@@ -5,7 +5,7 @@
 
 package Controller;
 
-import dao.userDAO;
+import dao.UserDAO;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -36,7 +36,7 @@ public class changePasswordController extends HttpServlet {
         String oldPass = request.getParameter("oldpass");
         String newPass = request.getParameter("newpass");
         String newCfPass = request.getParameter("cfpass");
-        userDAO dao = new userDAO();
+        UserDAO dao = new UserDAO();
         User user = (User) request.getSession().getAttribute("account");
         int uid = user.getUser_id();
         Account account = dao.getAccount(uid);        

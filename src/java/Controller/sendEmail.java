@@ -67,7 +67,7 @@ public class sendEmail extends HttpServlet {
     throws ServletException, IOException {
         Account newUser = (Account) request.getSession().getAttribute("userForgetPass");
         int uid = newUser.getUser_id();
-        User nuser = dao.userDAO.getUserInformation(uid);
+        User nuser = dao.UserDAO.getUserInformation(uid);
         String recipient = nuser.getEmail();
         if (recipient!=null) {
             // Get recipient email address and message from form data

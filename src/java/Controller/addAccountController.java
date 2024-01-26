@@ -5,7 +5,7 @@
 
 package Controller;
 
-import dao.userDAO;
+import dao.UserDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -76,7 +76,7 @@ public class addAccountController extends HttpServlet {
         String pass = request.getParameter("pass");
         String cfpass = request.getParameter("cfpass");
         
-        userDAO dao = new userDAO();
+        UserDAO dao = new UserDAO();
         User user = dao.getUserByEmail(email);
         int uid = user.getUser_id();
         if(!pass.equals(cfpass)){

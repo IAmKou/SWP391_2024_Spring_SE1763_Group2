@@ -18,7 +18,7 @@ import model.User;
  *
  * @author ACER
  */
-public class userDAO {
+public class UserDAO {
     public void insertUser(String fullname, Date dob, String address, int phone, String email) {
         try {
             DBContext db = new DBContext();

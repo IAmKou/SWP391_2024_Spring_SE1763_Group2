@@ -5,7 +5,7 @@
 
 package Controller;
 
-import dao.userDAO;
+import dao.UserDAO;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -57,7 +57,7 @@ public class logInController extends HttpServlet {
     throws ServletException, IOException {
        String user = req.getParameter("username");
         String pass = req.getParameter("password");
-        userDAO dao = new userDAO();
+        UserDAO dao = new UserDAO();
         Account account = dao.LogIn(user, pass);
         int uid = account.getUser_id();
         User userInfo = dao.getUserInformation(uid);
