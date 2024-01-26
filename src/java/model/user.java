@@ -10,7 +10,7 @@ import java.sql.Date;
  *
  * @author ACER
  */
-public class User {
+public class User { 
     private int user_id;
     private String full_name;
     private Date date_of_birth;
