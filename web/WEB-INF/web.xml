@@ -1,20 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
     <servlet>
-        <servlet-name>addHouse</servlet-name>
-        <servlet-class>Controller.House.addHouse</servlet-class>
+        <servlet-name>updateHouse</servlet-name>
+        <servlet-class>Controller.Post.updatePost</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>updateHouse</servlet-name>
-        <servlet-class>Controller.House.updateHouse</servlet-class>
+        <servlet-name>addNewPost</servlet-name>
+        <servlet-class>Controller.Post.addNewPost</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewPost</servlet-name>
+        <servlet-class>Controller.Post.ViewPost</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewPostByStatus</servlet-name>
+        <servlet-class>Controller.Post.ViewPostByStatus</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewOrder</servlet-name>
+        <servlet-class>Controller.Order.ViewOrder</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>addHouse</servlet-name>
-        <url-pattern>/house/add</url-pattern>
+        <servlet-name>ViewPost</servlet-name>
+        <url-pattern>/post/view</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>addNewPost</servlet-name>
+        <url-pattern>/post/add</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>updateHouse</servlet-name>
-        <url-pattern>/house/update</url-pattern>
+        <url-pattern>/post/update</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewOrder</servlet-name>
+        <url-pattern>/order/view</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewPostByStatus</servlet-name>
+        <url-pattern>/status</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
@@ -22,6 +46,6 @@
         </session-timeout>
     </session-config>
     <welcome-file-list>
-        <welcome-file>mainPage.jsp</welcome-file>
+        <welcome-file>addHouse.jsp</welcome-file>
     </welcome-file-list>
 </web-app>

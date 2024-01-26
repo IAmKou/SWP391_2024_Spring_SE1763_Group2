@@ -14,7 +14,6 @@ import jakarta.mail.Transport;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -23,8 +22,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.util.Properties;
 import java.util.Random;
-import model.account;
-import model.user;
+import model.User;
+import model.Account;
 
 /**
  *
@@ -66,9 +65,9 @@ public class sendEmail extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        account newUser = (account) request.getSession().getAttribute("userForgetPass");
+        Account newUser = (Account) request.getSession().getAttribute("userForgetPass");
         int uid = newUser.getUser_id();
-        user nuser = dao.userDAO.getUserInformation(uid);
+        User nuser = dao.UserDAO.getUserInformation(uid);
         String recipient = nuser.getEmail();
         if (recipient!=null) {
             // Get recipient email address and message from form data

@@ -4,48 +4,47 @@
  */
 package model;
 
+import java.util.List;
+
 /**
  *
  * @author FPTSHOP
  */
 public class House {
-
-    int houseId;
+    int house_id;
+    User house_owner;
+    TypeOfHouse type_of_house;
     String location;
     String description;
-    int houseOwnerId;
-    int price;
-    String picture;
-    boolean status;
-    int type;
+    int area;
+    int number_of_room;
+    List<String> image_URL;
+
     public House() {
     }
 
-    public House(int houseId, String location, String description, int houseOwnerId, int price, String picture, boolean status, int type) {
-        this.houseId = houseId;
-        this.location = location;
-        this.description = description;
-        this.houseOwnerId = houseOwnerId;
-        this.price = price;
-        this.picture = picture;
-        this.status = status;
-        this.type = type;
+    public int getHouse_id() {
+        return house_id;
     }
 
-    public int getType() {
-        return type;
+    public void setHouse_id(int house_id) {
+        this.house_id = house_id;
     }
 
-    public void setType(int type) {
-        this.type = type;
+    public User getHouse_owner() {
+        return house_owner;
     }
 
-    public int getHouseId() {
-        return houseId;
+    public void setHouse_owner(User house_owner) {
+        this.house_owner = house_owner;
     }
 
-    public void setHouseId(int houseId) {
-        this.houseId = houseId;
+    public TypeOfHouse getType_of_house() {
+        return type_of_house;
+    }
+
+    public void setType_of_house(TypeOfHouse type_of_house) {
+        this.type_of_house = type_of_house;
     }
 
     public String getLocation() {
@@ -64,36 +63,29 @@ public class House {
         this.description = description;
     }
 
-    public int getHouseOwnerId() {
-        return houseOwnerId;
+    public int getArea() {
+        return area;
     }
 
-    public void setHouseOwnerId(int houseOwnerId) {
-        this.houseOwnerId = houseOwnerId;
+    public void setArea(int area) {
+        this.area = area;
     }
 
-    public int getPrice() {
-        return price;
+    public int getNumber_of_room() {
+        return number_of_room;
     }
 
-    public void setPrice(int price) {
-        this.price = price;
+    public void setNumber_of_room(int number_of_room) {
+        this.number_of_room = number_of_room;
     }
 
-    public String getPicture() {
-        return picture;
+    public List<String> getImage_URL() {
+        return image_URL;
     }
 
-    public void setPicture(String picture) {
-        this.picture = picture;
+    public void setImage_URL(List<String> image_URL) {
+        this.image_URL = image_URL;
     }
-
-    public boolean isStatus() {
-        return status;
-    }
-
-    public void setStatus(boolean status) {
-        this.status = status;
-    }
-
+    
+    
 }

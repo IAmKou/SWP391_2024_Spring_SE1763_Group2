@@ -5,7 +5,7 @@
 
 package Controller;
 
-import dao.userDAO;
+import dao.UserDAO;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -13,8 +13,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import model.account;
-import model.user;
+import model.User;
+import model.Account;
 /**
  *
  * @author ACER
@@ -57,10 +57,10 @@ public class logInController extends HttpServlet {
     throws ServletException, IOException {
        String user = req.getParameter("username");
         String pass = req.getParameter("password");
-        userDAO dao = new userDAO();
-        account account = dao.LogIn(user, pass);
+        UserDAO dao = new UserDAO();
+        Account account = dao.LogIn(user, pass);
         int uid = account.getUser_id();
-        user userInfo = dao.getUserInformation(uid);
+        User userInfo = dao.getUserInformation(uid);
         if (account==null){
             req.setAttribute("message", "Login Failed.");
             req.getRequestDispatcher("logIn.jsp").forward(req, resp);

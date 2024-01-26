@@ -1,0 +1,80 @@
+.logo{
+    width: 50px;
+    height: 50px;
+}
+.borderEntity {
+    border: 1px solid #D7D7D7;
+    padding: 10px;
+    border-radius: 5px;
+  }
+
+  .topproheight {
+    height: 500px;
+  }
+
+  .func {
+    height: 350px;
+  }
+
+  .func :hover {
+    transform: scale(1.08);
+  }
+
+  #mainav img {
+    height: 70px;
+    width: auto;
+  }
+  /* logo */
+
+  .imgAuth {
+    height: 247px;
+    width: 348px;
+    object-fit: cover;
+  }
+  .hnc1 {
+    grid-column: 1/2;
+    grid-row: 1;
+    width: 100%;
+  }
+
+  .hnc2 {
+    width: 100%;
+    grid-column: 2 / 3;
+    grid-row: 1;
+    display: flex;
+    justify-content: center;
+    height: 100%;
+    align-items: center;
+  }
+
+  .hnc3 {
+    width: 100%;
+    justify-content: center;
+    grid-column: 0/1;
+    grid-row: 1;
+  }
+  .truncate-text span {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Số dòng tối đa trước khi bị cắt */
+    -webkit-box-orient: vertical;
+  }
+  
+  .truncate-text:after {
+    content: '';
+    display: inline-block;
+    width: 100%; /* Đảm bảo chiều rộng của dấu chấm (...) là 100% */
+  }
+  
+  .view-more {
+    display: none; /* Ẩn nút View more ban đầu */
+    opacity: 0;
+    transition: opacity 0.3s ease; /* Hiệu ứng chuyển động trong 0.3 giây */
+  }
+  
+  .truncate-text:hover .view-more {
+    display: inline; /* Hiển thị nút View more khi di chuột qua đoạn văn bản */
+    opacity: 1;
+  }
+  
+  
