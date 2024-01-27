@@ -1,6 +1,6 @@
 <%-- 
     Document   : resetPass
-    Created on : Jan 27, 2024, 5:02:18 PM
+    Created on : Jan 14, 2024, 6:40:13 PM
     Author     : ACER
 --%>
 
@@ -12,6 +12,10 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
+        <form action="resetPassController" method="post">
+        New Password : <input type="text" name="newpass"><br/><!-- comment -->
+        Confirm Password : <input type="text" name="cfpass"><br/>
+        <button type="submit">Submit</button>
+        </form>
     </body>
 </html>
