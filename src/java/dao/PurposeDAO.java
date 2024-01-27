@@ -37,6 +37,7 @@ public class PurposeDAO extends DBContext {
                 
                 purposes.add(purpose);
             }
+            rs.close();
         } catch (SQLException ex) {
             Logger.getLogger(PurposeDAO.class.getName()).log(Level.SEVERE, null, ex);
         }

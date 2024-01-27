@@ -60,14 +60,19 @@ public class ViewPost extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+//        HttpSession session = request.getSession();
+//        User user = (User) session.getAttribute("account");
+//        
+//        PostDAO postDAO = new PostDAO();
+//        List<Post> posts = postDAO.getAllPost(user.getUser_id());
+//        
+//        request.setAttribute("posts", posts);
+//        request.getRequestDispatcher("../views/viewPost.jsp").forward(request, response);
+        User user = new User();
+        user.setUser_id(4);
         HttpSession session = request.getSession();
-        User user = (User) session.getAttribute("account");
+        session.setAttribute("account", user);
         
-        PostDAO postDAO = new PostDAO();
-        List<Post> posts = postDAO.getAllPost(user.getUser_id());
-        
-        request.setAttribute("posts", posts);
-        request.getRequestDispatcher("../views/viewPost.jsp").forward(request, response);
     }
 
     /**

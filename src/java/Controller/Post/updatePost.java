@@ -104,35 +104,41 @@ public class updatePost extends HttpServlet {
         String description = request.getParameter("description");
         String area_str = request.getParameter("area");
         String number_of_room_str = request.getParameter("number_of_room");
-
+        String house_id_str = request.getParameter("house_id");
+        String post_id_str = request.getParameter("post_id");
+        
+        int house_id = Integer.parseInt(house_id_str);
+        int post_id = Integer.parseInt(post_id_str);
         int purpose_id = Integer.parseInt(purpose_str);
         int price = Integer.parseInt(price_str);
         int type_of_house = Integer.parseInt(type_of_house_str);
         int area = Integer.parseInt(area_str);
         int number_of_room = Integer.parseInt(number_of_room_str);
+        
         TypeOfHouse typeOfHouse = new TypeOfHouse();
         typeOfHouse.setType_of_house_id(type_of_house);
-
+        
         House house = new House();
+        house.setHouse_id(house_id);
         house.setLocation(location);
         house.setType_of_house(typeOfHouse);
         house.setDescription(description);
         house.setArea(area);
         house.setNumber_of_room(number_of_room);
-
+        
         Purpose purpose = new Purpose();
         purpose.setPurpose_id(purpose_id);
 
         Post post = new Post();
+        post.setPost_id(post_id);
         post.setPurpose(purpose);
         post.setPrice(price);
 
         HouseDAO houseDAO = new HouseDAO();
         houseDAO.updateHouse(house);
-
+        
         PostDAO postDAO = new PostDAO();
         postDAO.updatePost(post);
-
     }
 
     /**

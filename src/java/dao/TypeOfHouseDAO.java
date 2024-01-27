@@ -29,14 +29,14 @@ public class TypeOfHouseDAO extends DBContext {
             DBContext db = new DBContext();
             Connection con = db.getConnection();
             PreparedStatement stm = con.prepareStatement(sql);
-            ResultSet rs = stm.executeQuery();
-
-            while (rs.next()) {
-                TypeOfHouse type = new TypeOfHouse();
-                type.setType_of_house_id(rs.getInt(1));
-                type.setType_of_house_name(rs.getString(2));
-
-                types.add(type);
+            try (ResultSet rs = stm.executeQuery()) {
+                while (rs.next()) {
+                    TypeOfHouse type = new TypeOfHouse();
+                    type.setType_of_house_id(rs.getInt(1));
+                    type.setType_of_house_name(rs.getString(2));
+                    
+                    types.add(type);
+                }
             }
         } catch (SQLException ex) {
             Logger.getLogger(TypeOfHouseDAO.class.getName()).log(Level.SEVERE, null, ex);
