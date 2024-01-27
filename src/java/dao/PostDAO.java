@@ -18,7 +18,7 @@ import model.Post;
 import model.Purpose;
 import model.Status;
 import model.TypeOfHouse;
-import model.User;
+import model.user;
 
 /**
  *
@@ -71,7 +71,7 @@ public class PostDAO {
                     Purpose purpose = new Purpose();
                     purpose.setPurpose_name(rs.getString("purpose_name"));
                     
-                    User poster = new User();
+                    user poster = new user();
                     poster.setUser_id(rs.getInt("poster_id"));
                     poster.setFull_name(rs.getString("full_name"));
                     poster.setDate_of_birth(rs.getDate("date_of_birth"));
@@ -152,7 +152,7 @@ public class PostDAO {
                     Purpose purpose = new Purpose();
                     purpose.setPurpose_name(rs.getString("purpose_name"));
                     
-                    User poster = new User();
+                    user poster = new user();
                     poster.setUser_id(rs.getInt("poster_id"));
                     poster.setFull_name(rs.getString("full_name"));
                     poster.setDate_of_birth(rs.getDate("date_of_birth"));
@@ -269,7 +269,7 @@ public class PostDAO {
                     Purpose purpose = new Purpose();
                     purpose.setPurpose_name(rs.getString("purpose_name"));
                     
-                    User poster = new User();
+                    user poster = new user();
                     poster.setUser_id(rs.getInt("poster_id"));
                     poster.setFull_name(rs.getString("full_name"));
                     poster.setDate_of_birth(rs.getDate("date_of_birth"));

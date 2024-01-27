@@ -8,7 +8,7 @@ package model;
  *
  * @author ACER
  */
-public class Account {
+public class account {
     private int user_id;
     private String user_name;
     private String pass_word;

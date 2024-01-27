@@ -10,7 +10,7 @@ import java.sql.Date;
  *
  * @author ACER
  */
-public class User {
+public class user {
     private int user_id;
     private String full_name;
     private Date date_of_birth;
@@ -18,10 +18,10 @@ public class User {
     private int phone_number;
     private String email;
 
-    public User() {
+    public user() {
     }
 
-    public User(int user_id, String full_name, Date date_of_birth, String address, int phone_number, String email) {
+    public user(int user_id, String full_name, Date date_of_birth, String address, int phone_number, String email) {
         this.user_id = user_id;
         this.full_name = full_name;
         this.date_of_birth = date_of_birth;

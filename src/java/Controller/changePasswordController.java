@@ -5,15 +5,15 @@
 
 package Controller;
 
-import dao.UserDAO;
+import dao.userDAO;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import model.Account;
-import model.User;
+import model.account;
+import model.user;
 
 /**
  *
@@ -36,10 +36,10 @@ public class changePasswordController extends HttpServlet {
         String oldPass = request.getParameter("oldpass");
         String newPass = request.getParameter("newpass");
         String newCfPass = request.getParameter("cfpass");
-        UserDAO dao = new UserDAO();
-        User user = (User) request.getSession().getAttribute("account");
+        userDAO dao = new userDAO();
+        user user = (user) request.getSession().getAttribute("account");
         int uid = user.getUser_id();
-        Account account = dao.getAccount(uid);        
+        account account = dao.getAccount(uid);        
         if (!oldPass.equals(account.getPass_word())){
             request.setAttribute("mess1", "Old password not match");
             request.getRequestDispatcher("changePassword.jsp").forward(request, response);

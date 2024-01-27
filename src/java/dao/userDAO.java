@@ -11,14 +11,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import model.Account;
-import model.User;
+import model.account;
+import model.user;
 
 /**
  *
  * @author ACER
  */
-public class UserDAO {
+public class userDAO {
     public void insertUser(String fullname, Date dob, String address, int phone, String email) {
         try {
             DBContext db = new DBContext();
@@ -73,8 +73,8 @@ public class UserDAO {
         }
         return false;
     }
-     public static Account LogIn(String username, String pass) {
-        Account account = null;
+     public static account LogIn(String username, String pass) {
+        account account = null;
         try {
             DBContext db = new DBContext();
             Connection con = db.getConnection();
@@ -83,7 +83,7 @@ public class UserDAO {
                 Statement call = con.createStatement();
                 ResultSet rs = call.executeQuery(sql);
                 while (rs.next()) {
-                    account = new Account(rs.getInt("user_id"),username, pass, rs.getInt("role_id"));
+                    account = new account(rs.getInt("user_id"),username, pass, rs.getInt("role_id"));
                 }
                 call.close();
                 con.close();
@@ -111,8 +111,8 @@ public class UserDAO {
         }
         return false;
     }
-      public static User getUserInformation(int id) {
-        User user = null;
+      public static user getUserInformation(int id) {
+        user user = null;
         try {
             DBContext db = new DBContext();
             Connection con = db.getConnection();
@@ -121,7 +121,7 @@ public class UserDAO {
                 Statement st = con.createStatement();
                 ResultSet rs = st.executeQuery(sql);
                 while (rs.next()) {
-                    user = new User();
+                    user = new user();
                     user.setUser_id(rs.getInt(1));
                     user.setFull_name(rs.getString(2));
                     user.setDate_of_birth(rs.getDate(3));
@@ -138,8 +138,8 @@ public class UserDAO {
         }
         return user;
     }
-       public static User getUserByEmail(String email) {
-        User user = new User();
+       public static user getUserByEmail(String email) {
+        user user = new user();
         String sql = "Select * from `user` where `email` = '" + email + "';";
         try {
             DBContext db = new DBContext();
@@ -184,8 +184,8 @@ public class UserDAO {
             System.out.println(e.getMessage());
         }
     } 
-      public static Account getAccount(int id) {
-        Account acc = new Account();
+      public static account getAccount(int id) {
+        account acc = new account();
         String sql = "Select * from `account` where `user_id` = '" + id + "';";
         try {
             DBContext db = new DBContext();

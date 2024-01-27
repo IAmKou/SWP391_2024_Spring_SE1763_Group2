@@ -21,7 +21,7 @@ import model.Post;
 import model.Purpose;
 import model.Status;
 import model.TypeOfHouse;
-import model.User;
+import model.user;
 
 /**
  *

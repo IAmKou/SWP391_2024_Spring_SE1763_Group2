@@ -7,22 +7,23 @@ package Controller;
 
 import dao.userDAO;
 import java.io.IOException;
+import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import java.text.SimpleDateFormat;
+import model.account;
 import model.user;
 
 /**
  *
  * @author ACER
  */
-@WebServlet(name="addUserController", urlPatterns={"/addUserController"})
-public class addUserController extends HttpServlet {
-   
+@WebServlet(name="forgotPasswordController", urlPatterns={"/forgotPasswordController"})
+public class forgotPasswordController extends HttpServlet {
+
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
      * @param request servlet request
@@ -30,6 +31,22 @@ public class addUserController extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+    throws ServletException, IOException {
+           String email = request.getParameter("mail");
+           HttpSession ses = request.getSession();
+            userDAO dao = new userDAO();
+            user checkUser = dao.getUserByEmail(email);
+            int uid = checkUser.getUser_id();
+            account checkAccount = dao.getAccount(uid);
+            if(checkUser == null){
+                request.setAttribute("Alert", "Account not found");
+                request.getRequestDispatcher("forgotPassword.jsp").forward(request, response);
+            }else {
+                    ses.setAttribute("userForgetPass", checkAccount);
+                    request.getRequestDispatcher("sendEmail").forward(request, response);    
+    } 
+    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /** 
@@ -42,7 +59,7 @@ public class addUserController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-      
+        processRequest(request, response);
     } 
 
     /** 
@@ -55,45 +72,7 @@ public class addUserController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        
-          try {
-            HttpSession session = request.getSession();
-            userDAO dao = new userDAO();
-            String msg = "";
-            //Get data from page
-            String fullname = request.getParameter("fullname");
-            String DoB = request.getParameter("dob");
-            SimpleDateFormat availDate = new SimpleDateFormat("yyyy-MM-dd");
-            String address = request.getParameter("address");
-            int phone = Integer.parseInt(request.getParameter("phone"));
-            String email = request.getParameter("email");          
-            //Validate phone 
-            if (dao.phoneIsExist(phone)) {
-                msg = "This username has already existed!!!";
-                request.getRequestDispatcher("signUp.jsp").forward(request, response);
-            }
-            //validate email
-            else if (dao.emailIsExist(email)) {
-                msg = "This email has already existed!!!";
-                request.getRequestDispatcher("signUp.jsp").forward(request, response);
-            }
-//            //Add user to DB
-            else{
-                 try {        
-                    java.util.Date date = availDate.parse(DoB);
-                    java.sql.Date sqlDate = new java.sql.Date(date.getTime());
-                    dao.insertUser(fullname,sqlDate,address,phone,email);
-                     request.setAttribute("email", email);
-                    request.getRequestDispatcher("account.jsp").forward(request, response);
-                } catch (Exception e) {
-                    System.out.println(e.getMessage());
-        }
-            }                   
-        } 
-        catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-
+        processRequest(request, response);
     }
 
     /** 
