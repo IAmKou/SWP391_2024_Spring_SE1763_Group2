@@ -5,7 +5,6 @@
 
 package Servlet;
 
-import dao.userDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -14,15 +13,13 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import model.account;
-import model.user;
 
 /**
  *
  * @author ACER
  */
-@WebServlet(name="resetPassController", urlPatterns={"/resetPassController"})
-public class resetPassController extends HttpServlet {
+@WebServlet(name="logOutController", urlPatterns={"/logOutController"})
+public class logOutController extends HttpServlet {
 
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -33,18 +30,12 @@ public class resetPassController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        String newPass = request.getParameter("newpass");
-        String newCfPass = request.getParameter("cfpass");
-        userDAO dao = new userDAO();
-        HttpSession session = request.getSession();
-        account newUser = (account) request.getSession().getAttribute("userForgetPass");
-        if (newPass.equals(newCfPass)) {
-            dao.ChangePassword(newUser.getUser_id(), newPass);
+        try {
+            HttpSession session = request.getSession();
             session.invalidate();
-            request.getRequestDispatcher("logIn.jsp").forward(request, response);
-        } else {
-            request.setAttribute("Boy", "New Pass not match Confirm Pass");
-            request.getRequestDispatcher("resetPass.jsp").forward(request, response);
+            response.sendRedirect("mainPage.jsp");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
     } 
 
