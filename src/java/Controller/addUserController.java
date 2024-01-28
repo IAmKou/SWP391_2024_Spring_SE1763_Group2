@@ -5,7 +5,7 @@
 
 package Controller;
 
-import dao.UserDAO;
+import dao.userDAO;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -14,7 +14,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
-import model.User;
+import model.user;
 
 /**
  *
@@ -58,7 +58,7 @@ public class addUserController extends HttpServlet {
         
           try {
             HttpSession session = request.getSession();
-            UserDAO dao = new UserDAO();
+            userDAO dao = new userDAO();
             String msg = "";
             //Get data from page
             String fullname = request.getParameter("fullname");

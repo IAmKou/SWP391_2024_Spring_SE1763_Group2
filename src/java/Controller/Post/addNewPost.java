@@ -20,7 +20,7 @@ import model.Post;
 import model.Purpose;
 import model.Status;
 import model.TypeOfHouse;
-import model.User;
+import model.user;
 
 /**
  *
@@ -91,7 +91,7 @@ public class addNewPost extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("account");
-
+      
         String location = request.getParameter("location");
         String regex = "^[\\p{L}0-9.,\\/\\s]+$";
 
