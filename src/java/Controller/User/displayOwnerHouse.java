@@ -3,22 +3,20 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package Controller.House;
+package Controller.User;
 
-import dao.HouseDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import model.House;
 
 /**
  *
- * @author FPTSHOP
+ * @author khoih
  */
-public class updateHouse extends HttpServlet {
+public class displayOwnerHouse extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -35,10 +33,10 @@ public class updateHouse extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet updateHouse</title>");  
+            out.println("<title>Servlet displayOwnerHouse</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet updateHouse at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet displayOwnerHouse at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -68,27 +66,7 @@ public class updateHouse extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        String location = request.getParameter("location");
-        String description = request.getParameter("description");
-        String houseOwnerId = request.getParameter("houseOwnerId");
-        String price = request.getParameter("price");
-        String picture = request.getParameter("picture");
-        String type = request.getParameter("type");
-        
-        int houseOwnerId_int = Integer.parseInt(houseOwnerId);
-        int price_int = Integer.parseInt(price);
-        int type_int = Integer.parseInt(type);
-        
-        House house = new House();
-        house.setLocation(location);
-        house.setDescription(description);
-        house.setHouseOwnerId(houseOwnerId_int);
-        house.setPicture(picture);
-        house.setPrice(price_int);
-        house.setType(type_int);
-        
-        HouseDAO houseDAO = new HouseDAO();
-        houseDAO.updateHouse(house);
+        processRequest(request, response);
     }
 
     /** 

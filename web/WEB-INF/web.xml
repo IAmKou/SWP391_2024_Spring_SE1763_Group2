@@ -14,7 +14,7 @@
     </servlet>
     <servlet>
         <servlet-name>displayOwnerHouse</servlet-name>
-        <servlet-class>Controller.displayOwnerHouse</servlet-class>
+        <servlet-class>Controller.User.displayOwnerHouse</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>viewProfile</servlet-name>
