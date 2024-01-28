@@ -21,7 +21,6 @@ import model.Post;
 import model.Purpose;
 import model.Status;
 import model.TypeOfHouse;
-import model.User;
 
 /**
  *
@@ -69,9 +68,9 @@ public class updatePost extends HttpServlet {
             throws ServletException, IOException {
 
         String post_id_str = request.getParameter("post");
-//        int post_id = Integer.parseInt(post_id_str);
+        int post_id = Integer.parseInt(post_id_str);
         PostDAO post_DAO = new PostDAO();
-        Post post = post_DAO.getPost(1);
+        Post post = post_DAO.getPost(post_id);
 
         TypeOfHouseDAO type_of_house_DAO = new TypeOfHouseDAO();
         List<TypeOfHouse> types = type_of_house_DAO.getType();
