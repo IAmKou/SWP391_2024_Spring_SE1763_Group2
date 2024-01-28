@@ -16,6 +16,10 @@
         <servlet-name>displayOwnerHouse</servlet-name>
         <servlet-class>Controller.displayOwnerHouse</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>viewProfile</servlet-name>
+        <servlet-class>Controller.User.viewProfile</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>addHouse</servlet-name>
         <url-pattern>/house/add</url-pattern>
@@ -31,6 +35,10 @@
     <servlet-mapping>
         <servlet-name>displayOwnerHouse</servlet-name>
         <url-pattern>/displayOwnerHouse</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>viewProfile</servlet-name>
+        <url-pattern>/viewProfile</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
