@@ -60,7 +60,7 @@ public class HouseDAO extends DBContext {
                 // Thêm tham số Statement.RETURN_GENERATED_KEYS vào prepareStatement
                 PreparedStatement stm = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
-                stm.setInt(1, house.getHouse_owner().getUser_id());
+                stm.setInt(1, post.getPoster_id());
                 stm.setInt(2, house.getType_of_house().getType_of_house_id());
                 stm.setString(3, house.getLocation());
                 stm.setString(4, house.getDescription());

@@ -68,12 +68,13 @@ public class addNewPost extends HttpServlet {
             throws ServletException, IOException {
         TypeOfHouseDAO type_of_house_DAO = new TypeOfHouseDAO();
         List<TypeOfHouse> types = type_of_house_DAO.getType();
-        
+
         PurposeDAO purpose_DAO = new PurposeDAO();
         List<Purpose> purposes = purpose_DAO.getPurpose();
-        
-        request.setAttribute("purposes", purposes);
-        request.setAttribute("types", types);
+
+        HttpSession session = request.getSession();
+        session.setAttribute("purposes", purposes);
+        session.setAttribute("types", types);
         request.getRequestDispatcher("../views/addPost.jsp").forward(request, response);
     }
 
@@ -90,57 +91,88 @@ public class addNewPost extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("account");
-        
+
         String location = request.getParameter("location");
-        
-        String purpose_str = request.getParameter("purpose");
-        int purpose_id = Integer.parseInt(purpose_str);
-        
-        String price_str = request.getParameter("price");
-        int price = Integer.parseInt(price_str);
+        String regex = "^[\\p{L}0-9.,\\/\\s]+$";
 
-        String type_str = request.getParameter("type");
-        int type = Integer.parseInt(type_str);
+        if (location.matches(regex)) {
+            String purpose_str = request.getParameter("purpose");
+            int purpose_id = Integer.parseInt(purpose_str);
 
-        String description = request.getParameter("description");
-        
-        String area_str = request.getParameter("area");
-        int area = Integer.parseInt(area_str);
-        
-        String number_of_room_str = request.getParameter("number_of_room");
-        int number_of_room = Integer.parseInt(number_of_room_str);
-        
-        Purpose purpose = new Purpose();
-        purpose.setPurpose_id(purpose_id);
-        
-        Status house_status = new Status();
-        house_status.setStatus_id(4);
-        
-        House house = new House();
+            String price_str = request.getParameter("price");
+            int price = Integer.parseInt(price_str);
 
-        Post post = new Post();
-        post.setHouse_status(house_status);
-        post.setPrice(price);
-        post.setPurpose(purpose);
-        post.setPoster_id(user.getUser_id());
+            String type_str = request.getParameter("type");
+            int type = Integer.parseInt(type_str);
 
-        TypeOfHouse tOfHouse = new TypeOfHouse();
-        tOfHouse.setType_of_house_id(type);
+            String description = request.getParameter("description");
 
-        // Đặt giá trị cho đối tượng House
-        house.setLocation(location);
-        house.setDescription(description);
-        house.setHouse_owner(user);
-        house.setArea(area);
-        house.setType_of_house(tOfHouse);
-        house.setNumber_of_room(number_of_room);
+            String area_str = request.getParameter("area");
+            int area = Integer.parseInt(area_str);
 
-        // Thêm house và post vào cơ sở dữ liệu
-        HouseDAO houseDAO = new HouseDAO();
-        houseDAO.addHouse(house, post);
+            String number_of_room_str = request.getParameter("number_of_room");
 
-        request.setAttribute("alert", "Add successfully!");
-        request.getRequestDispatcher("../views/addPost.jsp").forward(request, response);
+            if (location.length() < 150 && description.length() < 2000) {
+
+                if (price > 0 && area > 0) {
+                    Purpose purpose = new Purpose();
+                    purpose.setPurpose_id(purpose_id);
+
+                    Status house_status = new Status();
+                    house_status.setStatus_id(4);
+                    
+                    Status post_status = new Status();
+                    post_status.setStatus_id(1);
+                    
+                    House house = new House();
+
+                    Post post = new Post();
+                    post.setHouse_status(house_status);
+                    post.setPrice(price);
+                    post.setPurpose(purpose);
+                    post.setPoster_id(user.getUser_id());
+                    post.setPost_status(post_status);
+                    TypeOfHouse tOfHouse = new TypeOfHouse();
+                    tOfHouse.setType_of_house_id(type);
+
+                    house.setLocation(location);
+                    house.setDescription(description);
+                    house.setHouse_owner(user);
+                    house.setArea(area);
+                    house.setType_of_house(tOfHouse);
+
+                    if (!number_of_room_str.isEmpty()) {
+                        int number_of_room = Integer.parseInt(number_of_room_str);
+                        if (number_of_room > 0) {
+                            house.setNumber_of_room(number_of_room);
+                        } else {
+                            String alert = "Invalid data format. Please enter valid numeric values.";
+                            request.setAttribute("alert", alert);
+                            request.getRequestDispatcher("../views/addPost.jsp").forward(request, response);
+                        }
+                    }
+
+                    HouseDAO houseDAO = new HouseDAO();
+                    houseDAO.addHouse(house, post);
+
+                    request.setAttribute("alert", "Add successfully.");
+                    request.getRequestDispatcher("../views/addPost.jsp").forward(request, response);
+                } else {
+                    String alert = "Invalid data format. Please enter valid numeric values.";
+                    request.setAttribute("alert", alert);
+                    request.getRequestDispatcher("../views/addPost.jsp").forward(request, response);
+                }
+            } else {
+                String alert = "Location or description too long.";
+                request.setAttribute("alert", alert);
+                request.getRequestDispatcher("../views/addPost.jsp").forward(request, response);
+            }
+
+        } else {
+            String alert = "Your location have invalid characters.";
+            request.setAttribute("alert", alert);
+            request.getRequestDispatcher("../views/addPost.jsp").forward(request, response);
+        }
     }
 
     /**

@@ -19,14 +19,14 @@
     </head>
     <body>
         <jsp:include page="header.jsp"/>
-        
+
         <div class="container justify-content-center align-items-center vh-100">
             <form method="post" action="../post/add" class="p-5" style="background-color: #2b3035; border-radius: 30px">
                 <fieldset>
                     <h1 class="text-center mt-4">Create your new post</h1>
 
                     <div class="row mb-3">
-                        <label for="address" class="col-sm-3 col-form-label text-end">Address:</label>
+                        <label for="address" class="col-sm-3 col-form-label text-end">Location:</label>
                         <div class="col-sm">
                             <input id="address" type="text" name="location" class="form-control" placeholder="Enter your address" required>
                         </div>
@@ -36,8 +36,10 @@
                         <label for="type" class="col-sm-3 col-form-label text-end">Type:</label>
                         <div class="col-sm">
                             <select id="type" name="type" class="form-select">
-                                <c:forEach items="${types}" var="type">
-                                    <option value="${type.type_of_house_id}">${type.type_of_house_name}</option>
+                                <c:forEach items="${sessionScope.types}" var="type">
+                                    <option value="${type.type_of_house_id}">
+                                        ${type.type_of_house_name}
+                                    </option>
                                 </c:forEach>
                             </select>
                         </div>
@@ -46,28 +48,28 @@
                     <div class="row mb-3">
                         <label for="price" class="col-sm-3 col-form-label text-end">Price:</label>
                         <div class="col-sm">
-                            <input type="number" id="price" name="price" class="form-control" placeholder="Enter the price">
+                            <input type="number" id="price" name="price" class="form-control" placeholder="Enter the price" required>
                         </div>
                     </div>
 
                     <div class="row mb-3">
                         <label for="roomNumber" class="col-sm-3 col-form-label text-end">Number of Rooms:</label>
                         <div class="col-sm">
-                            <input id="roomNumber" type="text" name="number_of_room" class="form-control" placeholder="Enter the number of rooms">
+                            <input id="roomNumber" type="number" name="number_of_room" class="form-control" placeholder="Enter the number of rooms">
                         </div>
                     </div>
 
                     <div class="row mb-3">
                         <label for="area" class="col-sm-3 col-form-label text-end">Area(m<sup>2</sup>):</label>
                         <div class="col-sm">
-                            <input id="area" type="text" name="area" class="form-control" placeholder="Enter the area">
+                            <input id="area" type="number" name="area" class="form-control" placeholder="Enter the area" required>
                         </div>
                     </div>
 
                     <div class="row mb-3">
                         <label for="moreInformation" class="col-sm-3 col-form-label text-end">Description:</label>
                         <div class="col-sm">
-                            <input id="moreInformation" type="text" name="description" class="form-control" placeholder="Enter more information">
+                            <input id="moreInformation" type="text" name="description" class="form-control" placeholder="Enter more information" required>
                         </div>
                     </div>
 
@@ -81,9 +83,9 @@
                     <div class="row mb-3">
                         <label class="col-sm-3 col-form-label text-end">Purpose:</label>
                         <div class="col-sm">
-                            <c:forEach items="${purposes}" var="purpose">
+                            <c:forEach items="${sessionScope.purposes}" var="purpose">
                                 <div class="form-check form-check-inline">
-                                    <input type="radio" id="purpose_${purpose.purpose_id}" name="purpose" value="${purpose.purpose_id}" class="form-check-input">
+                                    <input type="radio" id="purpose_${purpose.purpose_id}" name="purpose" value="${purpose.purpose_id}" class="form-check-input" required>
                                     <label for="purpose_${purpose.purpose_id}" class="form-check-label">${purpose.purpose_name}</label>
                                 </div>
                             </c:forEach>
@@ -91,6 +93,7 @@
                     </div>
                 </fieldset>
                 <div class="text-end">
+                    <p style="display: inline-block;">${requestScope.alert}</p>   
                     <input type="submit" class="btn btn-light" value="Create">
                 </div>
             </form>

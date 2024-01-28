@@ -189,8 +189,8 @@ public class PostDAO {
     public void addPost(int houseId, Post post) {
         try {
             String postSql = "INSERT INTO post (house_id, purpose_id,"
-                    + " price, poster_id, house_status)"
-                    + " VALUES (?, ?, ?, ?, ?)";
+                    + " price, poster_id, house_status, post_status)"
+                    + " VALUES (?, ?, ?, ?, ?, ?)";
             DBContext db = new DBContext();
             try ( Connection con = db.getConnection();  PreparedStatement stm = con.prepareStatement(postSql)) {
 
@@ -199,6 +199,7 @@ public class PostDAO {
                 stm.setInt(3, post.getPrice());
                 stm.setInt(4, post.getPoster_id());
                 stm.setInt(5, post.getHouse_status().getStatus_id());
+                stm.setInt(6, post.getPost_status().getStatus_id());
 
                 stm.executeUpdate();
             }
@@ -212,14 +213,16 @@ public class PostDAO {
             String sql = "UPDATE `house_finder_project`.`post`\n"
                     + "SET\n"
                     + "`purpose_id` = ?,\n"
-                    + "`price` = ?\n"
+                    + "`price` = ?,\n"
+                    + "`post_status` = ?\n"
                     + "WHERE `post_id` = ?;";
             DBContext db = new DBContext();
             try ( Connection con = db.getConnection();  PreparedStatement stm = con.prepareStatement(sql)) {
                 stm.setInt(1, post.getPurpose().getPurpose_id());
                 stm.setInt(2, post.getPrice());
-                stm.setInt(3, post.getPost_id());
-
+                stm.setInt(3, post.getPost_status().getStatus_id());
+                stm.setInt(4, post.getPost_id());
+                
                 stm.executeUpdate();
                 stm.close();
             }
