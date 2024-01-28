@@ -1,0 +1,54 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : Jan 25, 2024, 1:24:36 PM
+    Author     : FPTSHOP
+*/
+#mainav img {
+    height: 70px;
+    width: auto;
+}
+
+.grid1_4 {
+    grid-column: 1;
+    grid-row: 1;
+    /* width: 87.3684%; */
+    width: 19.8421%;
+    float: left;
+    /* border: 1px solid red; */
+}
+
+.gridmain {
+    grid-template-columns: 1fr 3fr;
+    grid-template-rows: 1fr;
+    /* border: 1px solid yellow; */
+}
+
+.grid3_4 {
+    grid-column: 1/2;
+    grid-row: 1;
+    float: right;
+    width: 77.3684%;
+}
+
+.borderEntity {
+    border: 1px solid #D7D7D7;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.ftco-section {
+    overflow: hidden;
+}
+
+
+.status {
+    background-color: #28a745; /* Màu xanh lá của Bootstrap */
+    border: 1px solid #218838; /* Màu đậm hơn của xanh lá */
+    border-radius: 4px; /* Độ cong border */
+    padding: 3px; /* Thêm padding nếu cần thiết */
+    color: #fff; /* Màu chữ trắng hoặc tùy chỉnh */
+    margin: 3px;
+}

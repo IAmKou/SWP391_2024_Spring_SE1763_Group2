@@ -5,12 +5,13 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DBContext {
+
     public Connection getConnection() {
         String db = "house_finder_project1";
         String url = "jdbc:sqlserver://localhost:1433;databaseName=house_finder_project1"; // Use the correct MySQL URL
         String user = "sa";
         String password = "123";
-        
+
         try {
             return DriverManager.getConnection(url, user, password);
         } catch (SQLException ex) {

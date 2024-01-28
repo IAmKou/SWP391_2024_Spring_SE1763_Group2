@@ -14,7 +14,9 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import model.User;
+
+import model.account;
+import model.user;
 
 /**
  *
@@ -22,7 +24,7 @@ import model.User;
  */
 @WebServlet(name="resetPassController", urlPatterns={"/resetPassController"})
 public class resetPassController extends HttpServlet {
-   
+
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
      * @param request servlet request
@@ -36,14 +38,15 @@ public class resetPassController extends HttpServlet {
         String newCfPass = request.getParameter("cfpass");
         userDAO dao = new userDAO();
         HttpSession session = request.getSession();
-        User newUser = (User) request.getSession().getAttribute("userForgetPass");
+
+        account newUser = (account) request.getSession().getAttribute("userForgetPass");
         if (newPass.equals(newCfPass)) {
-            dao.ChangePassword(newUser.getUserID(), newPass);
+            dao.ChangePassword(newUser.getUser_id(), newPass);
             session.invalidate();
             request.getRequestDispatcher("logIn.jsp").forward(request, response);
         } else {
             request.setAttribute("Boy", "New Pass not match Confirm Pass");
-            request.getRequestDispatcher("resetPassword.jsp").forward(request, response);
+            request.getRequestDispatcher("resetPass.jsp").forward(request, response);
         }
     } 
 

@@ -6,14 +6,18 @@ package model;
 
 /**
  *
+
  * @author KinNhun
  */
 public class TypeOfHouse {
     private int type_of_house;
     private String type_house_name;
+    private int type_of_house_id;
+
 
     public TypeOfHouse() {
     }
+
 
     public TypeOfHouse(int type_of_house, String type_house_name) {
         this.type_of_house = type_of_house;
@@ -36,9 +40,17 @@ public class TypeOfHouse {
         this.type_house_name = type_house_name;
     }
 
+    public int getType_of_house_id() {
+        return type_of_house_id;
+    }
+
+    public void setType_of_house_id(int type_of_house_id) {
+        this.type_of_house_id = type_of_house_id;
+    }
+
     @Override
     public String toString() {
         return "typeOfHouse{" + "type_of_house=" + type_of_house + ", type_house_name=" + type_house_name + '}';
     }
-    
+
 }

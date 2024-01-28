@@ -12,7 +12,6 @@
         <title>JSP Page</title>
     </head>
     <body>
-        ${requestScope.message}
         <form action="logInController" method="post">
         Username : <input type="text" name="username"><br/><!-- comment -->
         Password : <input type="password" name="password"><br/><!-- comment -->

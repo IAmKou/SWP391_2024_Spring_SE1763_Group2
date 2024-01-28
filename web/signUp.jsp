@@ -12,14 +12,12 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <form action="registerController" method="post">
-            Username: <input type="text" name="username"><br/><!-- comment -->
-            Password: <input type="password" name="password"><br/>
-            Confirm Password: <input type="password" name="cfpassword"><br/>
+        <form action="addUserController" method="post">
             Fullname: <input type="text" name="fullname"><br/><!-- comment -->
-            Email: <input type="text" name="email"><br/>
+            DoB: <input type="date" name="dob"><br/>
+            Address: <input type="text" name="address"><br/>
             Phone number: <input type="number" name="phone"><br/>
-            Location: <input type="text" name="location"><br/>
+            Email: <input type="text" name="email"><br/>          
             <button type="submit">Submit</button>
         </form>
     </body>
