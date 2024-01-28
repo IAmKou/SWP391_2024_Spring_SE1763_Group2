@@ -26,11 +26,11 @@ import model.user;
  */
 public class PostDAO {
 
-    public List<Post> getPostByStatus(int user_id,int status_id) {
+    public List<Post> getPostByStatus(int user_id, int status_id) {
         List<Post> posts = new ArrayList<>();
-        
+
         try {
-            String sql="SELECT post.post_id, post.house_id, purpose.purpose_name, post.price,"
+            String sql = "SELECT post.post_id, post.house_id, purpose.purpose_name, post.price,"
                     + " house_status.status_name as 'house_status', \n"
                     + "post_status.status_name as'post_status', "
                     + "type_of_house.type_of_house_name, house.address as 'location', "
@@ -54,31 +54,32 @@ public class PostDAO {
                     + "    where poster_id = ? and post.post_status = ?\n"
                     + "    ";
             DBContext db = new DBContext();
-            try (Connection con = db.getConnection(); PreparedStatement stm = con.prepareStatement(sql)) {
+            try ( Connection con = db.getConnection();  PreparedStatement stm = con.prepareStatement(sql)) {
                 stm.setInt(1, user_id);
                 stm.setInt(2, status_id);
                 ResultSet rs = stm.executeQuery();
                 while (rs.next()) {
                     TypeOfHouse type_of_house = new TypeOfHouse();
                     type_of_house.setType_of_house_name(rs.getString("type_of_house_name"));
-                    
+
                     Status house_status = new Status();
                     house_status.setStatus_name(rs.getString("house_status"));
-                    
+
                     Status post_status = new Status();
                     post_status.setStatus_name(rs.getString("post_status"));
-                    
+
                     Purpose purpose = new Purpose();
                     purpose.setPurpose_name(rs.getString("purpose_name"));
-                    
-                    user poster = new user();
+
+
+                    User poster = new User();                                       
                     poster.setUser_id(rs.getInt("poster_id"));
                     poster.setFull_name(rs.getString("full_name"));
                     poster.setDate_of_birth(rs.getDate("date_of_birth"));
                     poster.setAddress(rs.getString("address"));
                     poster.setPhone_number(rs.getInt("phone_number"));
                     poster.setEmail(rs.getString("email"));
-                    
+
                     House house = new House();
                     house.setHouse_id(rs.getInt("house_id"));
                     house.setLocation(rs.getString("location"));
@@ -87,7 +88,7 @@ public class PostDAO {
                     house.setDescription(rs.getString("description"));
                     house.setNumber_of_room(rs.getInt("number_of_room"));
                     house.setHouse_owner(poster);
-                    
+
                     Post post = new Post();
                     post.setPost_id(rs.getInt("post_id"));
                     post.setPrice(rs.getInt("price"));
@@ -95,15 +96,15 @@ public class PostDAO {
                     post.setHouse_status(house_status);
                     post.setPost_status(post_status);
                     post.setPurpose(purpose);
-                    
+
                     posts.add(post);
                 }
-                
+
             }
         } catch (SQLException ex) {
             Logger.getLogger(PostDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         return posts;
     }
 
@@ -135,31 +136,31 @@ public class PostDAO {
                     + "    where poster_id = ?\n"
                     + "    ";
             DBContext db = new DBContext();
-            try (Connection con = db.getConnection(); PreparedStatement stm = con.prepareStatement(sql)) {
+            try ( Connection con = db.getConnection();  PreparedStatement stm = con.prepareStatement(sql)) {
                 stm.setInt(1, user_id);
                 ResultSet rs = stm.executeQuery();
                 while (rs.next()) {
-                    
+
                     TypeOfHouse type_of_house = new TypeOfHouse();
                     type_of_house.setType_of_house_name(rs.getString("type_of_house_name"));
-                    
+
                     Status house_status = new Status();
                     house_status.setStatus_name(rs.getString("house_status"));
-                    
+
                     Status post_status = new Status();
                     post_status.setStatus_name(rs.getString("post_status"));
-                    
+
                     Purpose purpose = new Purpose();
                     purpose.setPurpose_name(rs.getString("purpose_name"));
-                    
-                    user poster = new user();
+
+                    User poster = new User();
                     poster.setUser_id(rs.getInt("poster_id"));
                     poster.setFull_name(rs.getString("full_name"));
                     poster.setDate_of_birth(rs.getDate("date_of_birth"));
                     poster.setAddress(rs.getString("address"));
                     poster.setPhone_number(rs.getInt("phone_number"));
                     poster.setEmail(rs.getString("email"));
-                    
+
                     House house = new House();
                     house.setHouse_id(rs.getInt("house_id"));
                     house.setLocation(rs.getString("location"));
@@ -168,7 +169,7 @@ public class PostDAO {
                     house.setDescription(rs.getString("description"));
                     house.setNumber_of_room(rs.getInt("number_of_room"));
                     house.setHouse_owner(poster);
-                    
+
                     Post post = new Post();
                     post.setPost_id(rs.getInt("post_id"));
                     post.setPrice(rs.getInt("price"));
@@ -176,7 +177,7 @@ public class PostDAO {
                     post.setHouse_status(house_status);
                     post.setPost_status(post_status);
                     post.setPurpose(purpose);
-                    
+
                     posts.add(post);
                 }
             }
@@ -189,17 +190,18 @@ public class PostDAO {
     public void addPost(int houseId, Post post) {
         try {
             String postSql = "INSERT INTO post (house_id, purpose_id,"
-                    + " price, poster_id, house_status)"
-                    + " VALUES (?, ?, ?, ?, ?)";
+                    + " price, poster_id, house_status, post_status)"
+                    + " VALUES (?, ?, ?, ?, ?, ?)";
             DBContext db = new DBContext();
-            try (Connection con = db.getConnection(); PreparedStatement stm = con.prepareStatement(postSql)) {
-                
+            try ( Connection con = db.getConnection();  PreparedStatement stm = con.prepareStatement(postSql)) {
+
                 stm.setInt(1, houseId);
                 stm.setInt(2, post.getPurpose().getPurpose_id());
                 stm.setInt(3, post.getPrice());
                 stm.setInt(4, post.getPoster_id());
                 stm.setInt(5, post.getHouse_status().getStatus_id());
-                
+                stm.setInt(6, post.getPost_status().getStatus_id());
+
                 stm.executeUpdate();
             }
         } catch (SQLException ex) {
@@ -212,27 +214,31 @@ public class PostDAO {
             String sql = "UPDATE `house_finder_project`.`post`\n"
                     + "SET\n"
                     + "`purpose_id` = ?,\n"
-                    + "`price` = ?\n"
+                    + "`price` = ?,\n"
+                    + "`post_status` = ?\n"
                     + "WHERE `post_id` = ?;";
             DBContext db = new DBContext();
-            try (Connection con = db.getConnection(); PreparedStatement stm = con.prepareStatement(sql)) {
+            try ( Connection con = db.getConnection();  PreparedStatement stm = con.prepareStatement(sql)) {
                 stm.setInt(1, post.getPurpose().getPurpose_id());
                 stm.setInt(2, post.getPrice());
-                stm.setInt(3, post.getPost_id());
+                stm.setInt(3, post.getPost_status().getStatus_id());
+                stm.setInt(4, post.getPost_id());
                 
                 stm.executeUpdate();
+                stm.close();
             }
         } catch (SQLException ex) {
             Logger.getLogger(PostDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
-    public Post getPost(int post_id){
+
+    public Post getPost(int post_id) {
         try {
-            String sql = "SELECT post.post_id, post.house_id, purpose.purpose_name, post.price,"
+            String sql = "SELECT post.post_id, post.house_id,purpose.purpose_id, purpose.purpose_name, post.price,"
                     + " house_status.status_name as 'house_status', \n"
                     + "post_status.status_name as'post_status', "
-                    + "type_of_house.type_of_house_name, house.address as 'location', "
+                    + "type_of_house.type_of_house_name,type_of_house.type_of_house_id, house.address as 'location', "
                     + "house.description,\n"
                     + "house.area,house.number_of_room,post.poster_id,"
                     + "user.full_name, user.date_of_birth, user.address,user.phone_number,user.email\n"
@@ -253,49 +259,52 @@ public class PostDAO {
                     + "    where post_id = ?\n"
                     + "    ";
             DBContext db = new DBContext();
-            try (Connection con = db.getConnection(); PreparedStatement stm = con.prepareStatement(sql)) {
+            try ( Connection con = db.getConnection();  PreparedStatement stm = con.prepareStatement(sql)) {
                 stm.setInt(1, post_id);
-                ResultSet rs = stm.executeQuery();
-                while (rs.next()) {
-                    TypeOfHouse type_of_house = new TypeOfHouse();
-                    type_of_house.setType_of_house_name(rs.getString("type_of_house_name"));
-                    
-                    Status house_status = new Status();
-                    house_status.setStatus_name(rs.getString("house_status"));
-                    
-                    Status post_status = new Status();
-                    post_status.setStatus_name(rs.getString("post_status"));
-                    
-                    Purpose purpose = new Purpose();
-                    purpose.setPurpose_name(rs.getString("purpose_name"));
-                    
-                    user poster = new user();
-                    poster.setUser_id(rs.getInt("poster_id"));
-                    poster.setFull_name(rs.getString("full_name"));
-                    poster.setDate_of_birth(rs.getDate("date_of_birth"));
-                    poster.setAddress(rs.getString("address"));
-                    poster.setPhone_number(rs.getInt("phone_number"));
-                    poster.setEmail(rs.getString("email"));
-                    
-                    House house = new House();
-                    house.setHouse_id(rs.getInt("house_id"));
-                    house.setLocation(rs.getString("location"));
-                    house.setType_of_house(type_of_house);
-                    house.setArea(rs.getInt("area"));
-                    house.setDescription(rs.getString("description"));
-                    house.setNumber_of_room(rs.getInt("number_of_room"));
-                    house.setHouse_owner(poster);
-                    
-                    Post post = new Post();
-                    post.setPost_id(rs.getInt("post_id"));
-                    post.setPrice(rs.getInt("price"));
-                    post.setHouse(house);
-                    post.setHouse_status(house_status);
-                    post.setPost_status(post_status);
-                    post.setPurpose(purpose);
-                    
-                    return post;
-                    
+                try (ResultSet rs = stm.executeQuery()) {
+                    while (rs.next()) {
+                        TypeOfHouse type_of_house = new TypeOfHouse();
+                        type_of_house.setType_of_house_id(rs.getInt("type_of_house_id"));
+                        type_of_house.setType_of_house_name(rs.getString("type_of_house_name"));
+                        
+                        Status house_status = new Status();
+                        house_status.setStatus_name(rs.getString("house_status"));
+                        
+                        Status post_status = new Status();
+                        post_status.setStatus_name(rs.getString("post_status"));
+                        
+                        Purpose purpose = new Purpose();
+                        purpose.setPurpose_id(rs.getInt("purpose_id"));
+                        purpose.setPurpose_name(rs.getString("purpose_name"));
+                        
+                        User poster = new User();
+                        poster.setUser_id(rs.getInt("poster_id"));
+                        poster.setFull_name(rs.getString("full_name"));
+                        poster.setDate_of_birth(rs.getDate("date_of_birth"));
+                        poster.setAddress(rs.getString("address"));
+                        poster.setPhone_number(rs.getInt("phone_number"));
+                        poster.setEmail(rs.getString("email"));
+                        
+                        House house = new House();
+                        house.setHouse_id(rs.getInt("house_id"));
+                        house.setLocation(rs.getString("location"));
+                        house.setType_of_house(type_of_house);
+                        house.setArea(rs.getInt("area"));
+                        house.setDescription(rs.getString("description"));
+                        house.setNumber_of_room(rs.getInt("number_of_room"));
+                        house.setHouse_owner(poster);
+                        
+                        Post post = new Post();
+                        post.setPost_id(rs.getInt("post_id"));
+                        post.setPrice(rs.getInt("price"));
+                        post.setHouse(house);
+                        post.setHouse_status(house_status);
+                        post.setPost_status(post_status);
+                        post.setPurpose(purpose);
+                        
+                        return post;
+                    }
+
                 }
             }
         } catch (SQLException ex) {

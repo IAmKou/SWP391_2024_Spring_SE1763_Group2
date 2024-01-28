@@ -67,11 +67,11 @@ public class updatePost extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         String post_id_str = request.getParameter("post");
-        int post_id = Integer.parseInt(post_id_str);
+//        int post_id = Integer.parseInt(post_id_str);
         PostDAO post_DAO = new PostDAO();
-        Post post = post_DAO.getPost(post_id);
+        Post post = post_DAO.getPost(1);
 
         TypeOfHouseDAO type_of_house_DAO = new TypeOfHouseDAO();
         List<TypeOfHouse> types = type_of_house_DAO.getType();
@@ -79,9 +79,10 @@ public class updatePost extends HttpServlet {
         PurposeDAO purpose_DAO = new PurposeDAO();
         List<Purpose> purposes = purpose_DAO.getPurpose();
 
-        request.setAttribute("purposes", purposes);
-        request.setAttribute("types", types);
-        request.setAttribute("post", post);
+        HttpSession session = request.getSession();
+        session.setAttribute("purposes", purposes);
+        session.setAttribute("types", types);
+        session.setAttribute("post", post);
         request.getRequestDispatcher("../views/editPost.jsp").forward(request, response);
     }
 
@@ -97,41 +98,84 @@ public class updatePost extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        String purpose_str = request.getParameter("purpose");
-        String price_str = request.getParameter("price");
         String location = request.getParameter("location");
-        String type_of_house_str = request.getParameter("type");
-        String description = request.getParameter("description");
-        String area_str = request.getParameter("area");
-        String number_of_room_str = request.getParameter("number_of_room");
+        String regex = "^[\\p{L}0-9.,\\/\\s]+$";
+        if (location.matches(regex)) {
+            String type_of_house_str = request.getParameter("type");
+            String description = request.getParameter("description");
+            String area_str = request.getParameter("area");
+            String house_id_str = request.getParameter("house_id");
+            String post_id_str = request.getParameter("post_id");
+            String purpose_str = request.getParameter("purpose");
+            String price_str = request.getParameter("price");
+            String number_of_room_str = request.getParameter("number_of_room");
 
-        int purpose_id = Integer.parseInt(purpose_str);
-        int price = Integer.parseInt(price_str);
-        int type_of_house = Integer.parseInt(type_of_house_str);
-        int area = Integer.parseInt(area_str);
-        int number_of_room = Integer.parseInt(number_of_room_str);
-        TypeOfHouse typeOfHouse = new TypeOfHouse();
-        typeOfHouse.setType_of_house_id(type_of_house);
+            int house_id = Integer.parseInt(house_id_str);
+            int post_id = Integer.parseInt(post_id_str);
+            int purpose_id = Integer.parseInt(purpose_str);
+            int price = Integer.parseInt(price_str);
+            int type_of_house = Integer.parseInt(type_of_house_str);
+            int area = Integer.parseInt(area_str);
 
-        House house = new House();
-        house.setLocation(location);
-        house.setType_of_house(typeOfHouse);
-        house.setDescription(description);
-        house.setArea(area);
-        house.setNumber_of_room(number_of_room);
+            if (location.length() < 150 && description.length() < 2000) {
+                if (price > 0 && area > 0) {
+                    TypeOfHouse typeOfHouse = new TypeOfHouse();
+                    typeOfHouse.setType_of_house_id(type_of_house);
+                    
+                    Status post_status = new Status();
+                    post_status.setStatus_id(1);
+                    
+                    Purpose purpose = new Purpose();
+                    purpose.setPurpose_id(purpose_id);
 
-        Purpose purpose = new Purpose();
-        purpose.setPurpose_id(purpose_id);
+                    Post post = new Post();
+                    post.setPost_id(post_id);
+                    post.setPurpose(purpose);
+                    post.setPrice(price);
+                    post.setPost_status(post_status);
+                    
+                    House house = new House();
+                    house.setHouse_id(house_id);
+                    house.setLocation(location);
+                    house.setType_of_house(typeOfHouse);
+                    house.setDescription(description);
+                    house.setArea(area);
+                    if (!number_of_room_str.isEmpty()) {
+                        int number_of_room = Integer.parseInt(number_of_room_str);
 
-        Post post = new Post();
-        post.setPurpose(purpose);
-        post.setPrice(price);
+                        if (number_of_room > 0) {
+                            house.setNumber_of_room(number_of_room);
+                        } else {
+                            String alert = "Invalid data format. Please enter valid numeric values.";
+                            request.setAttribute("alert", alert);
+                            request.getRequestDispatcher("../views/editPost.jsp").forward(request, response);
+                        }
+                    }
 
-        HouseDAO houseDAO = new HouseDAO();
-        houseDAO.updateHouse(house);
+                    HouseDAO houseDAO = new HouseDAO();
+                    houseDAO.updateHouse(house);
 
-        PostDAO postDAO = new PostDAO();
-        postDAO.updatePost(post);
+                    PostDAO postDAO = new PostDAO();
+                    postDAO.updatePost(post);
+                    
+                    request.setAttribute("alert", "Update successfully.");
+                    request.getRequestDispatcher("../views/editPost.jsp").forward(request, response);
+                } else {
+                    String alert = "Invalid data format. Please enter valid numeric values.";
+                    request.setAttribute("alert", alert);
+                    request.getRequestDispatcher("../views/editPost.jsp").forward(request, response);
+                }
+
+            } else {
+                String alert = "Location or description too long.";
+                request.setAttribute("alert", alert);
+                request.getRequestDispatcher("../views/editPost.jsp").forward(request, response);
+            }
+        } else {
+            String alert = "Your location have invalid characters.";
+            request.setAttribute("alert", alert);
+            request.getRequestDispatcher("../views/editPost.jsp").forward(request, response);
+        }
 
     }
 
