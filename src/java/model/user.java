@@ -19,10 +19,10 @@ public class User {
     private int phone_number;
     private String email;
 
-    public user() {
+    public User() {
     }
 
-    public user(int user_id, String full_name, Date date_of_birth, String address, int phone_number, String email) {
+    public User(int user_id, String full_name, Date date_of_birth, String address, int phone_number, String email) {
         this.user_id = user_id;
         this.full_name = full_name;
         this.date_of_birth = date_of_birth;
