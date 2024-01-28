@@ -11,6 +11,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.account;
 import model.User;
 
@@ -19,6 +22,7 @@ import model.User;
  * @author ACER
  */
 public class userDAO {
+
     public void insertUser(String fullname, Date dob, String address, int phone, String email) {
         try {
             DBContext db = new DBContext();
@@ -34,7 +38,7 @@ public class userDAO {
             st.setString(3, address);
             st.setInt(4, phone);
             st.setString(5, email);
-            int row = st.executeUpdate(); 
+            int row = st.executeUpdate();
             st.close();
             con.close();
             // Any additional code or processing after inserting the user
@@ -42,7 +46,8 @@ public class userDAO {
             System.out.println(e.getMessage());
         }
     }
-        public boolean phoneIsExist(int phone) {
+
+    public boolean phoneIsExist(int phone) {
         try {
             DBContext db = new DBContext();
             Connection con = db.getConnection();
@@ -73,7 +78,8 @@ public class userDAO {
         }
         return false;
     }
-     public static account LogIn(String username, String pass) {
+
+    public static account LogIn(String username, String pass) {
         account account = null;
         try {
             DBContext db = new DBContext();
@@ -83,7 +89,7 @@ public class userDAO {
                 Statement call = con.createStatement();
                 ResultSet rs = call.executeQuery(sql);
                 while (rs.next()) {
-                    account = new account(rs.getInt("user_id"),username, pass, rs.getInt("role_id"));
+                    account = new account(rs.getInt("user_id"), username, pass, rs.getInt("role_id"));
                 }
                 call.close();
                 con.close();
@@ -93,7 +99,8 @@ public class userDAO {
         }
         return account;
     }
-      public static boolean ChangePassword(int user_id, String password) {
+
+    public static boolean ChangePassword(int user_id, String password) {
         try {
             DBContext db = new DBContext();
             Connection con = db.getConnection();
@@ -111,7 +118,8 @@ public class userDAO {
         }
         return false;
     }
-      public static User getUserInformation(int id) {
+
+    public static User getUserInformation(int id) {
         User user = null;
         try {
             DBContext db = new DBContext();
@@ -138,7 +146,8 @@ public class userDAO {
         }
         return user;
     }
-       public static User getUserByEmail(String email) {
+
+    public static User getUserByEmail(String email) {
         User user = new User();
         String sql = "Select * from `user` where `email` = '" + email + "';";
         try {
@@ -153,7 +162,7 @@ public class userDAO {
                 user.setAddress(rs.getString("address"));
                 user.setPhone_number(rs.getInt("phone_number"));
                 user.setEmail(rs.getString("email"));
-                
+
                 return user;
 
             }
@@ -162,7 +171,8 @@ public class userDAO {
         }
         return null;
     }
-      public void insertAccount(int uid, String uname, String pass, int rid) {
+
+    public void insertAccount(int uid, String uname, String pass, int rid) {
         try {
             DBContext db = new DBContext();
             Connection con = db.getConnection();
@@ -176,15 +186,16 @@ public class userDAO {
             st.setString(2, uname);
             st.setString(3, pass);
             st.setInt(4, rid);
-            int row = st.executeUpdate(); 
+            int row = st.executeUpdate();
             st.close();
             con.close();
             // Any additional code or processing after inserting the user
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-    } 
-      public static account getAccount(int id) {
+    }
+
+    public static account getAccount(int id) {
         account acc = new account();
         String sql = "Select * from `account` where `user_id` = '" + id + "';";
         try {
@@ -196,12 +207,114 @@ public class userDAO {
                 acc.setUser_id(rs.getInt("user_id"));
                 acc.setUser_name(rs.getString("user_name"));
                 acc.setPass_word(rs.getString("pass_word"));
-                acc.setRole_id(rs.getInt("role_id"));        
+                acc.setRole_id(rs.getInt("role_id"));
                 return acc;
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
         return null;
-    } 
+    }
+
+    public void updateUser(User user) {
+        try {
+            String sql = "UPDATE user\n"
+                    + "SET\n"
+                    + "    full_name = ?,\n"
+                    + "    date_of_birth = ?,\n"
+                    + "    address = ?,\n"
+                    + "    phone_number = ?,\n"
+                    + "    email = ?\n"
+                    + "WHERE user_id = ?;";
+
+            DBContext db = new DBContext();
+            try ( Connection con = db.getConnection();  PreparedStatement stm = con.prepareStatement(sql)) {
+                stm.setString(1, user.getFull_name());
+                stm.setDate(2, user.getDate_of_birth());
+                stm.setString(3, user.getAddress());
+                stm.setInt(4, user.getPhone_number());
+                stm.setString(5, user.getEmail());
+                stm.setInt(6, user.getUser_id());
+
+                stm.executeUpdate();
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(userDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public ArrayList<User> allUserList() {
+        ArrayList<User> list = new ArrayList<>();
+        Connection con = new DBContext().getConnection();
+        try {
+            String sql = "SELECT * FROM user";
+
+            try ( PreparedStatement stm = con.prepareStatement(sql);  ResultSet resultSet = stm.executeQuery();) {
+                while (resultSet.next()) {
+                    User u = new User();
+                    u.setAddress(resultSet.getString("address"));
+                    u.setUser_id(resultSet.getInt("user_id"));
+                    u.setFull_name(resultSet.getString("full_name"));
+                    u.setPhone_number(resultSet.getInt("phone_number"));
+                    u.setEmail(resultSet.getString("email"));
+                    u.setDate_of_birth(resultSet.getDate("date_of_birth"));
+                    list.add(u);
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(userDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return list;
+    }
+
+    public User getUserByID(int uID) {
+        Connection con = new DBContext().getConnection();
+        User u = null;
+        try {
+            String sql = "SELECT * FROM house_finder.account "
+                    + "JOIN house_finder.user ON house_finder.user.user_id = house_finder.account.user_id "
+                    + "WHERE house_finder.user.user_id = ? "
+                    + "LIMIT 1"; // Giới hạn kết quả trả về chỉ là 1 dòng
+            try ( PreparedStatement stm = con.prepareStatement(sql)) {
+                stm.setInt(1, uID);
+                ResultSet resultSet = stm.executeQuery();
+                if (resultSet.next()) {
+                    u = new User(); // Khởi tạo đối tượng User
+                    u.setAddress(resultSet.getString("address"));
+                    u.setUser_id(resultSet.getInt("user_id"));
+                    u.setFull_name(resultSet.getString("full_name"));
+                    u.setPhone_number(resultSet.getInt("phone_number"));
+                    u.setEmail(resultSet.getString("email"));
+                    u.setDate_of_birth(resultSet.getDate("date_of_birth"));
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(userDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return u;
+    }
+
+    public int getRoleForUID(int uID) {
+        Connection con = new DBContext().getConnection();
+        int role = 0;
+        try {
+
+            String sql = "select house_finder.account.role_id from house_finder.account\n"
+                    + "join house_finder.user on house_finder.user.user_id = house_finder.account.user_id\n"
+                    + "where house_finder.user.user_id = ?";
+
+            try (
+                     PreparedStatement stm = con.prepareStatement(sql);) {
+                stm.setInt(1, uID);
+
+                ResultSet resultSet = stm.executeQuery();
+                while (resultSet.next()) {
+                    role = resultSet.getInt("role_id");
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(userDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return role;
+    }
 }

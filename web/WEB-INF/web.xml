@@ -20,6 +20,14 @@
         <servlet-name>ViewOrder</servlet-name>
         <servlet-class>Controller.Order.ViewOrder</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>viewUserList</servlet-name>
+        <servlet-class>Controller.User.viewUserList</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>userProfile</servlet-name>
+        <servlet-class>Controller.User.userProfile</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ViewPost</servlet-name>
         <url-pattern>/post/view</url-pattern>
@@ -39,6 +47,14 @@
     <servlet-mapping>
         <servlet-name>ViewPostByStatus</servlet-name>
         <url-pattern>/status</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>viewUserList</servlet-name>
+        <url-pattern>/viewUserList</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>userProfile</servlet-name>
+        <url-pattern>/userProfile</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
