@@ -12,7 +12,7 @@ import java.util.List;
  */
 public class House {
     int house_id;
-    user house_owner;
+    User house_owner;
     TypeOfHouse type_of_house;
     String location;
     String description;
@@ -31,11 +31,11 @@ public class House {
         this.house_id = house_id;
     }
 
-    public user getHouse_owner() {
+    public User getHouse_owner() {
         return house_owner;
     }
 
-    public void setHouse_owner(user house_owner) {
+    public void setHouse_owner(User house_owner) {
         this.house_owner = house_owner;
     }
 
