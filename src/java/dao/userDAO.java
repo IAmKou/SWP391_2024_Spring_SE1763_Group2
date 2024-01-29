@@ -220,4 +220,23 @@ public class userDAO {
         }
         return null;
     } 
+      
+      
+      
+      public static void main(String[] args) {
+        // Replace 'your_username' and 'your_password' with actual values
+        String username = "admin";
+        String password = "admin";
+
+        account loggedInAccount = LogIn(username, password);
+
+        if (loggedInAccount != null) {
+            System.out.println("Login successful!");
+            System.out.println("User ID: " + loggedInAccount.getUser_id());
+            System.out.println("Username: " + loggedInAccount.getUser_name());
+            System.out.println("Role ID: " + loggedInAccount.getRole_id());
+        } else {
+            System.out.println("Login failed. Invalid username or password.");
+        }
+    }
 }

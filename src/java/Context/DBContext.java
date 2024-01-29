@@ -8,7 +8,7 @@ public class DBContext {
 
     public Connection getConnection() {
         String db = "house_finder_project1";
-        String url = "jdbc:sqlserver://localhost:1433;databaseName=house_finder_project1"; // Use the correct MySQL URL
+        String url = "jdbc:sqlserver://DESKTOP-KFBA1BO\\SQLEXPRESS:1433;databaseName=house_finder_project1"; // Use the correct MySQL URL
         String user = "sa";
         String password = "123";
 
