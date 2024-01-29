@@ -24,6 +24,10 @@
         <servlet-name>searchHouse</servlet-name>
         <servlet-class>Controller.House.searchHouse</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>houseDetailController</servlet-name>
+        <servlet-class>Controller.House.houseDetailController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ViewPost</servlet-name>
         <url-pattern>/post/view</url-pattern>
@@ -47,6 +51,10 @@
     <servlet-mapping>
         <servlet-name>searchHouse</servlet-name>
         <url-pattern>/search-house</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>houseDetailController</servlet-name>
+        <url-pattern>/house-detail</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
