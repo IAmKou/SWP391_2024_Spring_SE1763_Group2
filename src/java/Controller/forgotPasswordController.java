@@ -37,12 +37,12 @@ public class forgotPasswordController extends HttpServlet {
            HttpSession ses = request.getSession();
             userDAO dao = new userDAO();
             User checkUser = dao.getUserByEmail(email);
-            int uid = checkUser.getUser_id();
-            account checkAccount = dao.getAccount(uid);
             if(checkUser == null){
                 request.setAttribute("Alert", "Account not found");
                 request.getRequestDispatcher("forgotPassword.jsp").forward(request, response);
             }else {
+                    int uid = checkUser.getUser_id();
+                    account checkAccount = dao.getAccount(uid);
                     ses.setAttribute("userForgetPass", checkAccount);
                     request.getRequestDispatcher("sendEmail").forward(request, response);    
     } 
