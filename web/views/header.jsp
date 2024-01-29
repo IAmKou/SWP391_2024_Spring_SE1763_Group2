@@ -30,7 +30,6 @@
 
                     <nav id="mainav" class="hnc2">
                         <a href="${pageContext.request.contextPath}/views/home.jsp"> <img src="${pageContext.request.contextPath}/images/demo/image-removebg-preview.png" alt="image" class="logo"></a>
-
                     </nav>
 
                     <nav id="mainav" class="hnc3">
@@ -43,7 +42,7 @@
                                     <li><a href="profile.html">My Account</a></li>
                                     <li><a href="profile.html">My Rentals</a></li>
                                     <li><a href="profile.html">My Requests</a></li>
-                                    <li><a href="non_logined.html">Log out</a></li>
+                                    <li><a href="${pageContext.request.contextPath}/logOutController">Log out</a></li>
                                 </ul>
                             </li>
                         </ul>

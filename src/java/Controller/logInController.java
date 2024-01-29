@@ -69,7 +69,7 @@ public class logInController extends HttpServlet {
             HttpSession session = req.getSession();
             req.setAttribute("message", "Login succesful");
             session.setAttribute("account", userInfo);
-            req.getRequestDispatcher("mainPage.jsp").forward(req, resp);
+            req.getRequestDispatcher("/views/home.jsp").forward(req, resp);
         }
     }
 

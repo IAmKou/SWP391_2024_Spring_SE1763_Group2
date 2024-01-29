@@ -104,7 +104,6 @@ public class PostDAO {
         } catch (SQLException ex) {
             Logger.getLogger(PostDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-
         return posts;
     }
 
