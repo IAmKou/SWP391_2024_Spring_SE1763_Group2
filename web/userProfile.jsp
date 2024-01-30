@@ -17,7 +17,7 @@
     </head>
     <body>
         <jsp:include page="header.jsp"/>
-        
+
         <div class="container">
             <div class=" row">
                 <div class="col-md-3 sidebar">
@@ -62,16 +62,13 @@
                         </c:forEach>
                     </c:if>
                 </div>
-
             </div>
         </div>
-    <div class="col-md-9">
-   
-    
-    <a href="userProfileUpdate.jsp" class="btn btn-primary">Go to Update Profile</a>
-    
-   
-</div>
-    <jsp:include page="footer.jsp"/>
-</body>
+        <div class="col-md-9">
+
+            <a href="userProfileUpdate.jsp" class="btn btn-primary">Go to Update Profile</a>
+
+        </div>
+        <jsp:include page="footer.jsp"/>
+    </body>
 </html>

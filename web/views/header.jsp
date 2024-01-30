@@ -27,21 +27,18 @@
                             <li class="active"><a href="#">Help</a></li>
                         </ul>
                     </nav>
-
                     <nav id="mainav" class="hnc2">
                         <a href="${pageContext.request.contextPath}/views/home.jsp"> <img src="${pageContext.request.contextPath}/images/demo/image-removebg-preview.png" alt="image" class="logo"></a>
                     </nav>
-
                     <nav id="mainav" class="hnc3">
                         <ul class="clear">
                             <li class="active"><a href="#">Home</a></li>
                             <li class="active"><a href="#">My Rentals</a></li>
-                            <li><a class="drop" href="${pageContext.request.contextPath}/order/view">Profile</a>
-                                <!-- ghi ten user -->
+                            <li>${sessionScope.account.getFull_name()}
                                 <ul>
                                     <li><a href="profile.html">My Account</a></li>
                                     <li><a href="profile.html">My Rentals</a></li>
-                                    <li><a href="profile.html">My Requests</a></li>
+                                    <li><a href="${pageContext.request.contextPath}/order/view">My Requests</a></li>
                                     <li><a href="${pageContext.request.contextPath}/logOutController">Log out</a></li>
                                 </ul>
                             </li>

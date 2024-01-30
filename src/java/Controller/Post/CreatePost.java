@@ -26,7 +26,7 @@ import model.User;
  *
  * @author FPTSHOP
  */
-public class addNewPost extends HttpServlet {
+public class CreatePost extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>

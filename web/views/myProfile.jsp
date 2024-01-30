@@ -66,11 +66,7 @@
 
             <div class="wrapper row3" style="top: -45px;">
                 <main class="hoc container clear gridmain">
-                    <!-- main body -->
-                    <!-- ################################################################################################ -->
                     <div class="sidebar grid1_4">
-                        <!-- ################################################################################################ -->
-                        <!--<h6>Youz</h6>-->
                         <nav class="sdb_holder">
                             <ul>
                                 <li><a href="home.html">Home</a></li>
@@ -92,11 +88,7 @@
                                 </li>
                             </ul>
                         </nav>
-
-                        <!-- ################################################################################################ -->
                     </div>
-                    <!-- ################################################################################################ -->
-                    <!-- ################################################################################################ -->
                     <div class="content grid3_4 borderEntity " style="height: 450px;">
                         <!-- <div class="clear"> -->
                         <section class="ftco-section">
@@ -152,8 +144,6 @@
                             <a href="${pageContext.request.contextPath}/updateProfile"><button class="btn " style="float: right 45px;">Edit</button></a>
                     </section>
                 </div>
-
-
         </div>
     </div>
 </main>

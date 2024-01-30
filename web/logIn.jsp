@@ -17,7 +17,7 @@
 
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
-        <link rel="stylesheet" href="layout/css/style.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/layout/styles/style.css">
         <style>
             body {
                 background-color: #f2f2f2; /* Màu xám cho nền */

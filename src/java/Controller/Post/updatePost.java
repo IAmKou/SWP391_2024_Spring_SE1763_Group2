@@ -26,7 +26,7 @@ import model.TypeOfHouse;
  *
  * @author FPTSHOP
  */
-public class updatePost extends HttpServlet {
+public class UpdatePost extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -67,7 +67,7 @@ public class updatePost extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        String post_id_str = request.getParameter("post");
+        String post_id_str = request.getParameter("post_id");
         int post_id = Integer.parseInt(post_id_str);
         PostDAO post_DAO = new PostDAO();
         Post post = post_DAO.getPost(post_id);

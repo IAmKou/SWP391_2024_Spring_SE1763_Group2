@@ -2,15 +2,15 @@
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
     <servlet>
         <servlet-name>updateHouse</servlet-name>
-        <servlet-class>Controller.Post.updatePost</servlet-class>
+        <servlet-class>Controller.Post.UpdatePost</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>addNewPost</servlet-name>
-        <servlet-class>Controller.Post.addNewPost</servlet-class>
+        <servlet-class>Controller.Post.CreatePost</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ViewPost</servlet-name>
-        <servlet-class>Controller.Post.ViewPost</servlet-class>
+        <servlet-class>Controller.Post.ViewUserPost</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ViewPostByStatus</servlet-name>

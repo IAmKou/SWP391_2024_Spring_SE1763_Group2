@@ -17,7 +17,7 @@
     </head>
     <body>
         <jsp:include page="header.jsp"/>
-        
+
         <div class="container">
             <div class=" row">
                 <div class="col-md-3 sidebar">
@@ -33,7 +33,7 @@
                             </li>
                             <li><a href="#">View Rentals</a>
                                 <ul>
-                                    <li><a href="#">Your Post</a></li>
+                                    <li><a href="${pageContext.request.contextPath}/post/view">Your Post</a></li>
                                     <li><a href="#">Customer's Requests</a></li>
                                 </ul>
                             </li>
@@ -41,6 +41,7 @@
                     </nav>
                 </div>
                 <div class="col-md-9">
+                    <!--This is for view order-->
                     <c:if test="${not empty posts}">
                         <c:forEach items="${posts}" var="post">
                             <div class="card m-2">
@@ -59,6 +60,28 @@
                                     </div>
                                 </div>
                             </div>
+                        </c:forEach>
+                    </c:if>
+                    <!--This is for view owner post-->
+                    <c:if test="${not empty ownerPost}">
+                        <c:forEach items="${ownerPost}" var="ownerPost">
+                                <div class="card m-2">
+                                    <div class="row no-gutters">
+                                        <div class="col-md-9">
+                                            <div class="card-body">
+                                                <p class="fs-4 text-primary mb-3">${ownerPost.house.location}</p>
+                                                <p class="card-text"style="color: black">
+                                                    Price: ${ownerPost.price} $<br>
+                                                    <span class=" status">${ownerPost.post_status.status_name}</span>
+                                                </p>
+                                                <button class="btn btn-outline-primary"><a href="${pageContext.request.contextPath}/post/update?post_id=${ownerPost.post_id}">Update</a></button>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <img src="${pageContext.request.contextPath}/images/house1.jpg" alt="hinh anh" class="img-fluid">
+                                        </div>
+                                    </div>
+                                </div>
                         </c:forEach>
                     </c:if>
                 </div>
