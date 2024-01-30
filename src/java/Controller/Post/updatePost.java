@@ -98,10 +98,12 @@ public class updatePost extends HttpServlet {
             throws ServletException, IOException {
 
         String location = request.getParameter("location");
+        location = location.trim();
         String regex = "^[\\p{L}0-9.,\\/\\s]+$";
         if (location.matches(regex)) {
             String type_of_house_str = request.getParameter("type");
             String description = request.getParameter("description");
+            description = description.trim();
             String area_str = request.getParameter("area");
             String house_id_str = request.getParameter("house_id");
             String post_id_str = request.getParameter("post_id");
