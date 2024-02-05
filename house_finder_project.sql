@@ -15,14 +15,14 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
-drop database if exists house_finder_project;
+drop database if exists `house_finder_project`;
 create database house_finder_project;
 use house_finder_project;
 --
 -- Table structure for table `account`
 --
- 
 
+DROP TABLE IF EXISTS `account`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `account` (
@@ -30,6 +30,7 @@ CREATE TABLE `account` (
   `user_name` varchar(45) DEFAULT NULL,
   `pass_word` varchar(45) DEFAULT NULL,
   `role_id` int DEFAULT NULL,
+  `active` tinyint NOT NULL,
   PRIMARY KEY (`user_id`),
   KEY `role_id_idx` (`role_id`),
   CONSTRAINT `role_id` FOREIGN KEY (`role_id`) REFERENCES `role` (`role_id`),
@@ -43,7 +44,7 @@ CREATE TABLE `account` (
 
 LOCK TABLES `account` WRITE;
 /*!40000 ALTER TABLE `account` DISABLE KEYS */;
-INSERT INTO `account` VALUES (1,'admin','admin',1),(3,'mai','mai',2),(4,'hoanganh','1',2);
+INSERT INTO `account` VALUES (1,'admin','admin',1,0),(3,'mai','mai',2,0),(4,'hoanganh','1',2,0);
 /*!40000 ALTER TABLE `account` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -51,7 +52,7 @@ UNLOCK TABLES;
 -- Table structure for table `feedback`
 --
 
-
+DROP TABLE IF EXISTS `feedback`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `feedback` (
@@ -79,23 +80,23 @@ UNLOCK TABLES;
 -- Table structure for table `house`
 --
 
-
+DROP TABLE IF EXISTS `house`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `house` (
   `house_id` int NOT NULL AUTO_INCREMENT,
-  `house_owner_id` int DEFAULT NULL,
+  `house_owner_id` int NOT NULL,
   `type_of_house_id` int DEFAULT NULL,
   `address` varchar(150) DEFAULT NULL,
   `description` text,
   `area` int DEFAULT NULL,
   `number_of_room` int DEFAULT NULL,
-  PRIMARY KEY (`house_id`),
+  PRIMARY KEY (`house_id`,`house_owner_id`),
   KEY `type_of_house_id_idx` (`type_of_house_id`),
   KEY `house_owner_id_idx` (`house_owner_id`),
   CONSTRAINT `owner_id` FOREIGN KEY (`house_owner_id`) REFERENCES `user` (`user_id`),
   CONSTRAINT `type_of_house_id` FOREIGN KEY (`type_of_house_id`) REFERENCES `type_of_house` (`type_of_house_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -104,7 +105,7 @@ CREATE TABLE `house` (
 
 LOCK TABLES `house` WRITE;
 /*!40000 ALTER TABLE `house` DISABLE KEYS */;
-INSERT INTO `house` VALUES (1,4,1,'Số 20 Ngõ 45 Đường Lê Lai, Quận Hoàn Kiếm, Hà Nội','Ở góc phố yên bình, có một căn nhà đầy ấn tượng, là biểu tượng của sự ấm cúng và hiện đại. Với màu sơn trắng tinh khôi, căn nhà trở nên nổi bật giữa những cây cỏ xanh mướt. Lối vào rộng lớn được trải bằng gạch đỏ, tạo nên một hành lang sang trọng dẫn đến cửa chính, nơi chiếc cổng gỗ nâu cổ điển chào đón mọi khách.\n\nKhông gian nội thất của căn nhà được thiết kế với sự chú ý đến từng chi tiết. Phòng khách rộng lớn với bức tường kính lớn mở ra hình ảnh của một khu vườn xinh đẹp. Bàn trà và sofa êm ái tạo nên một không gian thoải mái để gia đình và bạn bè quây quần.\n\nNhà bếp rộng lớn và hiện đại với đèn trần sang trọng, tủ bếp gỗ sáng bóng và bàn ăn góc nhỏ tinh tế. Các phòng ngủ được trang trí với màu sắc nhẹ nhàng, cùng với các cửa sổ lớn mang lại ánh sáng tự nhiên.',600,5),(2,4,2,'Số 123 Đường Nguyễn Văn Linh, Phường Bình Thuận, Quận 7, TP.Hồ Chí Minh','Nhà bếp rộng lớn và hiện đại với đèn trần sang trọng, tủ bếp gỗ sáng bóng và bàn ăn góc nhỏ tinh tế. Các phòng ngủ được trang trí với màu sắc nhẹ nhàng, cùng với các cửa sổ lớn mang lại ánh sáng tự nhiên.\n\nSân sau của căn nhà là nơi lý tưởng để tổ chức các buổi họp mặt gia đình. Sân vườn xanh mát với các loại hoa và cây cỏ được bố trí hài hòa, tạo nên không gian thư giãn dưới bầu trời xanh. Một khu BBQ nhỏ và bàn ghế ngoài trời là nơi lý tưởng để thưởng thức những buổi tiệc nướng ngoại trời.\n\nNhững chiếc cửa sổ lớn và những chiếc đèn trang trí tinh tế tạo nên không gian sống ấm cúng và thoải mái. Đây không chỉ là nơi ở, mà còn là nơi chứa đựng nhiều kỷ niệm đáng nhớ của gia đình, tạo nên một tổ ấm ấm áp và hạnh phúc.',300,6),(3,4,5,'Số 56 Đường Trần Hưng Đạo, Thành Phố Huế, Tỉnh Thừa Thiên Huế','Tại góc phố yên bình, nằm sâu trong lòng thành phố, có một ngôi nhà độc đáo, kết hợp giữa vẻ đẹp cổ điển và tiện nghi hiện đại. Với lối kiến trúc độc đáo, ngôi nhà toát lên vẻ sang trọng và quý phái. Bức tường màu kem ấm áp nổi bật giữa sự xanh tươi của khu vườn xung quanh.\n\nNgay từ cổng chính, bạn được đón tiếp bởi đường lát gạch đá đẹp mắt dẫn đến cửa gỗ chắc chắn. Sảnh rộng lớn trải thảm đỏ mềm mại, tạo nên không gian lịch lãm và ấm cúng. Nơi đây, một bức tượng nghệ thuật hiện đại góp phần tạo điểm nhấn nghệ thuật.\n\nPhòng khách trang trí bằng những chiếc sofa da cao cấp và bàn trà kính tinh tế, tạo nên không gian sang trọng và thoải mái. Các bức tranh nghệ thuật treo trên tường tạo điểm nhấn cho không gian sống, thể hiện sự tinh tế và gu thẩm mỹ của chủ nhân.\n\nNhà bếp được trang bị đầy đủ tiện nghi hiện đại, từ tủ lạnh đến lò nướng, tạo điều kiện thuận lợi cho việc nấu nướng và tổ chức bữa tiệc gia đình. Phòng ăn với bàn ăn bằng gỗ chất lượng cao và đèn trang trí tạo nên không gian gia đình ấm cúng và ấn tượng.\n\nPhòng ngủ chính với giường lớn, chăn trải mềm mại và bức tường màu trấn an tạo nên không gian nghỉ ngơi tuyệt vời. Phòng tắm sang trọng với đồ nội thất cao cấp và bồn tắm giữa không gian thoáng đãng.\n\nSân sau với hồ bơi và khu vườn riêng tư là nơi lý tưởng để thư giãn và tận hưởng những khoảnh khắc yên bình. Đèn trang trí bài trí xung quanh tạo nên không gian lãng mạn vào buổi tối.\n\nNgôi nhà này không chỉ là một địa điểm ở, mà còn là biểu tượng của phong cách sống đẳng cấp và sự thoải mái đúng nghĩa.',700,6);
+INSERT INTO `house` VALUES (1,4,5,'Số nhà 789, đường Lê Lợi, phường Hải Châu, quận Hải Châu, thành phố Đà Nẵng, Việt Nam','Tại góc phố yên bình, nằm sâu trong lòng thành phố, có một ngôi nhà độc đáo, kết hợp giữa vẻ đẹp cổ điển và tiện nghi hiện đại. Với lối kiến trúc độc đáo, ngôi nhà toát lên vẻ sang trọng và quý phái. Bức tường màu kem ấm áp nổi bật giữa sự xanh tươi của khu vườn xung quanh.Ngay từ cổng chính, bạn được đón tiếp bởi đường lát gạch đá đẹp mắt dẫn đến cửa gỗ chắc chắn. Sảnh rộng lớn trải thảm đỏ mềm mại, tạo nên không gian lịch lãm và ấm cúng. Nơi đây, một bức tượng nghệ thuật hiện đại góp phần tạo điểm nhấn nghệ thuật.Phòng khách trang trí bằng những chiếc sofa da cao cấp và bàn trà kính tinh tế, tạo nên không gian sang trọng và thoải mái. Các bức tranh nghệ thuật treo trên tường tạo điểm nhấn cho không gian sống, thể hiện sự tinh tế và gu thẩm mỹ của chủ nhân.Nhà bếp được trang bị đầy đủ tiện nghi hiện đại, từ tủ lạnh đến lò nướng, tạo điều kiện thuận lợi cho việc nấu nướng và tổ chức bữa tiệc gia đình. Phòng ăn với bàn ăn bằng gỗ chất lượng cao và đèn trang trí tạo nên không gian gia đình ấm cúng và ấn tượng.Phòng ngủ chính với giường lớn, chăn trải mềm mại và bức tường màu trấn an tạo nên không gian nghỉ ngơi tuyệt vời. Phòng tắm sang trọng với đồ nội thất cao cấp và bồn tắm giữa không gian thoáng đãng.Sân sau với hồ bơi và khu vườn riêng tư là nơi lý tưởng để thư giãn và tận hưởng những khoảnh khắc yên bình. Đèn trang trí bài trí xung quanh tạo nên không gian lãng mạn vào buổi tối.Ngôi nhà này không chỉ là một địa điểm ở, mà còn là biểu tượng của phong cách sống đẳng cấp và sự thoải mái đúng nghĩa.',700,6),(2,4,1,'Số 56 Đường Trần Hưng Đạo, Thành Phố Huế, Tỉnh Thừa Thiên Huế','Tại góc phố yên bình, nằm sâu trong lòng thành phố, có một ngôi nhà độc đáo, kết hợp giữa vẻ đẹp cổ điển và tiện nghi hiện đại. Với lối kiến trúc độc đáo, ngôi nhà toát lên vẻ sang trọng và quý phái. Bức tường màu kem ấm áp nổi bật giữa sự xanh tươi của khu vườn xung quanh.Ngay từ cổng chính, bạn được đón tiếp bởi đường lát gạch đá đẹp mắt dẫn đến cửa gỗ chắc chắn. Sảnh rộng lớn trải thảm đỏ mềm mại, tạo nên không gian lịch lãm và ấm cúng. Nơi đây, một bức tượng nghệ thuật hiện đại góp phần tạo điểm nhấn nghệ thuật.Phòng khách trang trí bằng những chiếc sofa da cao cấp và bàn trà kính tinh tế, tạo nên không gian sang trọng và thoải mái. Các bức tranh nghệ thuật treo trên tường tạo điểm nhấn cho không gian sống, thể hiện sự tinh tế và gu thẩm mỹ của chủ nhân.Nhà bếp được trang bị đầy đủ tiện nghi hiện đại, từ tủ lạnh đến lò nướng, tạo điều kiện thuận lợi cho việc nấu nướng và tổ chức bữa tiệc gia đình. Phòng ăn với bàn ăn bằng gỗ chất lượng cao và đèn trang trí tạo nên không gian gia đình ấm cúng và ấn tượng.Phòng ngủ chính với giường lớn, chăn trải mềm mại và bức tường màu trấn an tạo nên không gian nghỉ ngơi tuyệt vời. Phòng tắm sang trọng với đồ nội thất cao cấp và bồn tắm giữa không gian thoáng đãng.Sân sau với hồ bơi và khu vườn riêng tư là nơi lý tưởng để thư giãn và tận hưởng những khoảnh khắc yên bình. Đèn trang trí bài trí xung quanh tạo nên không gian lãng mạn vào buổi tối.Ngôi nhà này không chỉ là một địa điểm ở, mà còn là biểu tượng của phong cách sống đẳng cấp và sự thoải mái đúng nghĩa.',350,4),(3,4,1,'Số nhà 456, đường Đống Đa, phường Phan Chu Trinh, quận Hoàn Kiếm, thành phố Hà Nội, Việt Nam','Tại góc phố yên bình, nằm sâu trong lòng thành phố, có một ngôi nhà độc đáo, kết hợp giữa vẻ đẹp cổ điển và tiện nghi hiện đại. Với lối kiến trúc độc đáo, ngôi nhà toát lên vẻ sang trọng và quý phái. Bức tường màu kem ấm áp nổi bật giữa sự xanh tươi của khu vườn xung quanh.Ngay từ cổng chính, bạn được đón tiếp bởi đường lát gạch đá đẹp mắt dẫn đến cửa gỗ chắc chắn. Sảnh rộng lớn trải thảm đỏ mềm mại, tạo nên không gian lịch lãm và ấm cúng. Nơi đây, một bức tượng nghệ thuật hiện đại góp phần tạo điểm nhấn nghệ thuật.Phòng khách trang trí bằng những chiếc sofa da cao cấp và bàn trà kính tinh tế, tạo nên không gian sang trọng và thoải mái. Các bức tranh nghệ thuật treo trên tường tạo điểm nhấn cho không gian sống, thể hiện sự tinh tế và gu thẩm mỹ của chủ nhân.Nhà bếp được trang bị đầy đủ tiện nghi hiện đại, từ tủ lạnh đến lò nướng, tạo điều kiện thuận lợi cho việc nấu nướng và tổ chức bữa tiệc gia đình. Phòng ăn với bàn ăn bằng gỗ chất lượng cao và đèn trang trí tạo nên không gian gia đình ấm cúng và ấn tượng.Phòng ngủ chính với giường lớn, chăn trải mềm mại và bức tường màu trấn an tạo nên không gian nghỉ ngơi tuyệt vời. Phòng tắm sang trọng với đồ nội thất cao cấp và bồn tắm giữa không gian thoáng đãng.Sân sau với hồ bơi và khu vườn riêng tư là nơi lý tưởng để thư giãn và tận hưởng những khoảnh khắc yên bình. Đèn trang trí bài trí xung quanh tạo nên không gian lãng mạn vào buổi tối.Ngôi nhà này không chỉ là một địa điểm ở, mà còn là biểu tượng của phong cách sống đẳng cấp và sự thoải mái đúng nghĩa.',250,4),(36,4,2,'Số nhà 3, đường Nguyễn Đức Cảnh, thành phố Yên Bái, tỉnh Yên Bái, Việt Nam','Nhà rộng rãi thoáng mát, đầy đủ nội thất tiện nghi, có sân vườn và hồ bơi',400,3),(42,4,1,'Hà Nội','thiết kế phong cách hiện đại',321,4);
 /*!40000 ALTER TABLE `house` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -112,14 +113,14 @@ UNLOCK TABLES;
 -- Table structure for table `image`
 --
 
-
+DROP TABLE IF EXISTS `image`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `image` (
   `house_id` int NOT NULL,
   `image_link` text,
   `image_id` int NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`image_id`,`house_id`),
+  PRIMARY KEY (`image_id`),
   KEY `house_image_id_idx` (`house_id`),
   CONSTRAINT `house_image_id` FOREIGN KEY (`house_id`) REFERENCES `house` (`house_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -138,7 +139,7 @@ UNLOCK TABLES;
 -- Table structure for table `post`
 --
 
-
+DROP TABLE IF EXISTS `post`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `post` (
@@ -146,11 +147,13 @@ CREATE TABLE `post` (
   `house_id` int NOT NULL,
   `purpose_id` int DEFAULT NULL,
   `price` decimal(10,0) DEFAULT NULL,
-  `poster_id` int DEFAULT NULL,
+  `poster_id` int NOT NULL,
   `house_status` int DEFAULT NULL,
   `admin_id` int DEFAULT NULL,
   `post_status` int DEFAULT NULL,
-  PRIMARY KEY (`post_id`,`house_id`),
+  `active_feedback` tinyint NOT NULL,
+  `feedback_point` float DEFAULT NULL,
+  PRIMARY KEY (`post_id`),
   KEY `house_id_idx` (`house_id`),
   KEY `user_id_idx` (`poster_id`),
   KEY `admin_id_idx` (`admin_id`),
@@ -163,7 +166,7 @@ CREATE TABLE `post` (
   CONSTRAINT `post_status` FOREIGN KEY (`post_status`) REFERENCES `request_status` (`status_id`),
   CONSTRAINT `poster_id` FOREIGN KEY (`poster_id`) REFERENCES `user` (`user_id`),
   CONSTRAINT `product_id` FOREIGN KEY (`house_id`) REFERENCES `house` (`house_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -172,7 +175,7 @@ CREATE TABLE `post` (
 
 LOCK TABLES `post` WRITE;
 /*!40000 ALTER TABLE `post` DISABLE KEYS */;
-INSERT INTO `post` VALUES (1,1,1,60000,4,4,1,2),(2,2,1,50000,4,4,1,2),(3,3,1,100000,4,4,1,2);
+INSERT INTO `post` VALUES (1,1,2,3500,4,4,1,1,0,NULL),(2,2,2,30000,4,4,1,2,0,NULL),(3,3,2,1500,4,4,1,2,0,NULL),(26,36,2,3500,4,4,1,1,0,NULL),(31,42,2,3200,4,4,NULL,1,0,NULL);
 /*!40000 ALTER TABLE `post` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -180,7 +183,7 @@ UNLOCK TABLES;
 -- Table structure for table `purpose`
 --
 
-
+DROP TABLE IF EXISTS `purpose`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `purpose` (
@@ -204,7 +207,7 @@ UNLOCK TABLES;
 -- Table structure for table `request`
 --
 
-
+DROP TABLE IF EXISTS `request`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `request` (
@@ -240,14 +243,14 @@ UNLOCK TABLES;
 -- Table structure for table `request_status`
 --
 
-
+DROP TABLE IF EXISTS `request_status`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `request_status` (
   `status_id` int NOT NULL AUTO_INCREMENT,
   `status_name` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`status_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -256,7 +259,7 @@ CREATE TABLE `request_status` (
 
 LOCK TABLES `request_status` WRITE;
 /*!40000 ALTER TABLE `request_status` DISABLE KEYS */;
-INSERT INTO `request_status` VALUES (1,'waiting'),(2,'accepted'),(3,'rejected'),(4,'available'),(5,'unavailable');
+INSERT INTO `request_status` VALUES (1,'waiting'),(2,'accepted'),(3,'rejected'),(4,'available'),(5,'unavailable'),(6,'successfully');
 /*!40000 ALTER TABLE `request_status` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -264,7 +267,7 @@ UNLOCK TABLES;
 -- Table structure for table `role`
 --
 
-
+DROP TABLE IF EXISTS `role`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `role` (
@@ -288,7 +291,7 @@ UNLOCK TABLES;
 -- Table structure for table `type_of_house`
 --
 
-
+DROP TABLE IF EXISTS `type_of_house`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `type_of_house` (
@@ -312,16 +315,17 @@ UNLOCK TABLES;
 -- Table structure for table `user`
 --
 
-
+DROP TABLE IF EXISTS `user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `user` (
-  `user_id` int NOT NULL auto_increment,
+  `user_id` int NOT NULL AUTO_INCREMENT,
   `full_name` varchar(250) DEFAULT NULL,
   `date_of_birth` date DEFAULT NULL,
   `address` varchar(250) DEFAULT NULL,
-  `phone_number` int DEFAULT NULL,
+  `phone_number` varchar(12) DEFAULT NULL,
   `email` varchar(250) DEFAULT NULL,
+  `avata` varchar(150) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
   PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -332,7 +336,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'Nguyễn Thị Hồng','1985-07-12','Số 10 Đường Lê Lợi, Quận 1, TP.Hồ Chí Minh',901234567,' nguyenthihong@gmail.com'),(2,'Trần Văn An','1985-05-20','Số 25 Đường Trần Hưng Đạo, Quận Hoàn Kiếm, Hà Nội',912345678,' tranvanan@gmail.com'),(3,' Lê Thị Mai','1992-12-10','Số 30 Nguyễn Du, Quận Hai Bà Trưng, Hà Nội',987654321,'lethimai@gmail.com'),(4,'Nguyễn Hoàng Anh','2003-08-30','Tổ 3, phường Yên Thịnh, Thành phố Yên Bái',828053208,'hn54707@gmail.com');
+INSERT INTO `user` VALUES (1,'Nguyễn Thị Hồng','1985-07-12','Số 10 Đường Lê Lợi, Quận 1, TP.Hồ Chí Minh','901234567',' nguyenthihong@gmail.com',NULL),(2,'Trần Văn An','1985-05-20','Số 25 Đường Trần Hưng Đạo, Quận Hoàn Kiếm, Hà Nội','912345678',' tranvanan@gmail.com',NULL),(3,' Lê Thị Mai','1992-12-10','Số 30 Nguyễn Du, Quận Hai Bà Trưng, Hà Nội','987654321','lethimai@gmail.com',NULL),(4,'Nguyễn Hoàng Anh','2003-08-30','Tổ 3, phường Yên Thịnh, Thành phố Yên Bái','828053208','hn54707@gmail.com',NULL);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -345,4 +349,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-01-21 21:43:48
+-- Dump completed on 2024-02-05 19:26:30
