@@ -7,18 +7,20 @@ import java.sql.SQLException;
 public class DBContext {
 
     public Connection getConnection() {
-        String db = "house_finder_project1";
-        String url = "jdbc:sqlserver://DESKTOP-KFBA1BO\\SQLEXPRESS:1433;databaseName=house_finder_project1"; // Use the correct MySQL URL
-        String user = "sa";
-        String password = "123";
+    String db = "house_finder_project1";
+    String url = "jdbc:sqlserver://DESKTOP-KFBA1BO\\SQLEXPRESS:1433;databaseName=house_finder_project1"; // Use the correct SQL Server URL
+    String user = "sa";
+    String password = "123";
 
-        try {
-            return DriverManager.getConnection(url, user, password);
-        } catch (SQLException ex) {
-            System.out.println("Error: " + ex.getMessage());
-            return null;
-        }
+    try {
+        Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+        return DriverManager.getConnection(url, user, password);
+    } catch (ClassNotFoundException | SQLException ex) {
+        System.out.println("Error: " + ex.getMessage());
+        return null;
     }
+}
+
 
     public static void main(String[] args) {
         DBContext dbContext = new DBContext();
