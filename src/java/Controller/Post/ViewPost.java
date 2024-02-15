@@ -14,7 +14,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.util.List;
 import model.Post;
-import model.user;
+import model.User;
+
 
 /**
  *
@@ -61,7 +62,7 @@ public class ViewPost extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
-        user user = (user) session.getAttribute("account");
+        User user = (User) session.getAttribute("account");
         
         PostDAO postDAO = new PostDAO();
         List<Post> posts = postDAO.getAllPost(user.getUser_id());

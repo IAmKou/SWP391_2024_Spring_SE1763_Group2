@@ -14,7 +14,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-import model.user;
+import model.User;
 import model.account;
 /**
  *
@@ -62,7 +62,7 @@ public class logInController extends HttpServlet {
 
         account account = dao.LogIn(user, pass);
         int uid = account.getUser_id();
-        user userInfo = dao.getUserInformation(uid);
+        User userInfo = dao.getUserInformation(uid);
         if (account==null){
             req.setAttribute("message", "Login Failed.");
             req.getRequestDispatcher("logIn.jsp").forward(req, resp);
@@ -71,7 +71,8 @@ public class logInController extends HttpServlet {
             HttpSession session = req.getSession();
             req.setAttribute("message", "Login succesful");
             session.setAttribute("account", userInfo);
-            req.getRequestDispatcher("mainPage.jsp").forward(req, resp);
+
+            req.getRequestDispatcher("/views/home.jsp").forward(req, resp);
         }
     }
 

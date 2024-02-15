@@ -13,8 +13,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import model.account;
-import model.user;
+
+import model.User;
 
 /**
  *
@@ -77,7 +77,8 @@ public class addAccountController extends HttpServlet {
         String cfpass = request.getParameter("cfpass");
         
         userDAO dao = new userDAO();
-        user user = dao.getUserByEmail(email);
+
+        User user = dao.getUserByEmail(email);
         int uid = user.getUser_id();
         if(!pass.equals(cfpass)){
             request.setAttribute("msg", "confirm password not match password");

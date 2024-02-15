@@ -18,7 +18,8 @@
     <body>
         <jsp:include page="header.jsp"/>
 
-        <div id="pageintro" class="hoc clear">
+
+        <div id="pageintro" class="hoc clear" >
             <article>
                 <h4 class="heading" style="white-space: nowrap;">Explore your new Destination</h4>
                 <footer style="height: 300px;">
@@ -147,6 +148,52 @@
                 </div>
             </section>
         </div>
+
+        <div class="wrapper row3">
+            <main class="hoc container clear">
+                <section id="introblocks">
+                    <div class="sectiontitle">
+                        <h6 class="heading">What do you want</h6>
+                        <p></p>
+                    </div>
+                    <ul class="nospace group func" style="align-items: baseline;
+                        padding: auto;
+                        display: grid;
+                        grid-auto-flow: column;">
+
+                        <li class="one_quarter  borderEntity"
+                            style="display: grid; width: 90%; align-items: center; height: 350px;">
+                            <article><a href="#"><i class="fas fa-golf-ball"></i></a>
+                                <h4 class="heading">Rent</h4>
+                                <p>See all of House for rent wwith a filter</p>
+                                <footer><a class="btn" href="#">More Details</a></footer>
+                            </article>
+                        </li>
+
+                        <li class="one_quarter borderEntity " style=" width: 90%; align-items: center;
+                            display: grid; height: 350px;">
+                            <article><a href="#"><i class="fas fa-ribbon"></i></a>
+                                <h4 class="heading">Buy</h4>
+                                <p></p>See all of House for sale with a filter</p>
+                                <footer><a class="btn" href="#">More Details</a></footer>
+                            </article>
+                        </li>
+
+                        <li class="one_quarter borderEntity"
+                            style=" width: 90%; align-items: center; display: grid; height: 350px;">
+                            <article><a href="#"><i class="fas fa-tablets"></i></a>
+                                <h4 class="heading">Sell</h4>
+                                <p>Create a post to help you selling a House</p>
+                                <footer><a class="btn" href="${pageContext.request.contextPath}/post/add">More Details</a></footer>
+                            </article>
+                        </li>
+
+                    </ul>
+                </section>
+                <div class="clear"></div>
+            </main>
+        </div>               
+
         <jsp:include page="footer.jsp"/>
     </body>
 </html>

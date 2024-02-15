@@ -4,8 +4,10 @@
  */
 package Controller.Post;
 
+
 import dao.PostDAO;
 import java.io.IOException;
+import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -13,14 +15,14 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.util.List;
 import model.Post;
-
 import model.User;
 
 /**
  *
- * @author FPTSHOP
+ * @author trant
  */
-public class ViewPostByStatus extends HttpServlet {
+
+public class ViewUserPost extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,16 +36,19 @@ public class ViewPostByStatus extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        HttpSession session = request.getSession();
+        try ( PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
 
-        User acc =  (User) session.getAttribute("account");
-        String status_str = request.getParameter("status");
-        int status_id = Integer.parseInt(status_str);
-
-        PostDAO post_DAO = new PostDAO();
-        List<Post> posts = post_DAO.getPostByStatus(acc.getUser_id(), status_id);
-        request.setAttribute("posts", posts);
-        request.getRequestDispatcher("/views/profile.jsp").forward(request, response);
+            out.println("<title>Servlet ViewPost</title>");
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet ViewPost at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -57,8 +62,16 @@ public class ViewPostByStatus extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
+
             throws ServletException, IOException {
-        processRequest(request, response);
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("account");
+        
+        PostDAO postDAO = new PostDAO();
+        List<Post> posts = postDAO.getUserPost(user.getUser_id());
+        System.out.println("post"+posts);
+        request.setAttribute("ownerPost", posts);
+        request.getRequestDispatcher("../views/profile.jsp").forward(request, response);        
     }
 
     /**
@@ -71,6 +84,7 @@ public class ViewPostByStatus extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
+
             throws ServletException, IOException {
         processRequest(request, response);
     }

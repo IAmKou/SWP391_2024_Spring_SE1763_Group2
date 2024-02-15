@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package Servlet;
+package Controller;
 
 import dao.userDAO;
 import java.io.IOException;
@@ -16,8 +16,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import model.account;
-import model.user;
-
+import model.User;
+    
 /**
  *
  * @author ACER
@@ -38,7 +38,6 @@ public class resetPassController extends HttpServlet {
         String newCfPass = request.getParameter("cfpass");
         userDAO dao = new userDAO();
         HttpSession session = request.getSession();
-
         account newUser = (account) request.getSession().getAttribute("userForgetPass");
         if (newPass.equals(newCfPass)) {
             dao.ChangePassword(newUser.getUser_id(), newPass);

@@ -20,7 +20,7 @@ import model.Post;
 import model.Purpose;
 import model.Status;
 import model.TypeOfHouse;
-import model.user;
+import model.User;
 
 /**
  *
@@ -89,7 +89,7 @@ public class addNewPost extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
-        user user = (user) session.getAttribute("account");
+        User user = (User) session.getAttribute("account");
         
         String location = request.getParameter("location");
         

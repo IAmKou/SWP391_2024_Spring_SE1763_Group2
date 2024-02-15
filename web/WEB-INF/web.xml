@@ -1,16 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
     <servlet>
-        <servlet-name>updateHouse</servlet-name>
-        <servlet-class>Controller.Post.updatePost</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>addNewPost</servlet-name>
-        <servlet-class>Controller.Post.addNewPost</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>ViewPost</servlet-name>
-        <servlet-class>Controller.Post.ViewPost</servlet-class>
+        <servlet-class>Controller.Post.CreatePost</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ViewPostByStatus</servlet-name>
@@ -21,47 +13,52 @@
         <servlet-class>Controller.Order.ViewOrder</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>searchHouse</servlet-name>
-        <servlet-class>Controller.House.searchHouse</servlet-class>
+        <servlet-name>updateHouse</servlet-name>
+        <servlet-class>Controller.Post.UpdatePost</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>houseDetailController</servlet-name>
-        <servlet-class>Controller.House.houseDetailController</servlet-class>
-    </servlet>
-    <servlet-mapping>
         <servlet-name>ViewPost</servlet-name>
-        <url-pattern>/post/view</url-pattern>
-    </servlet-mapping>
+        <servlet-class>Controller.Post.ViewUserPost</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>userProfile</servlet-name>
+        <servlet-class>Controller.User.userProfile</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>viewUserList</servlet-name>
+        <servlet-class>Controller.User.viewUserList</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>addNewPost</servlet-name>
         <url-pattern>/post/add</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>updateHouse</servlet-name>
-        <url-pattern>/post/update</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>ViewOrder</servlet-name>
-        <url-pattern>/order/view</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ViewPostByStatus</servlet-name>
         <url-pattern>/status</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>searchHouse</servlet-name>
-        <url-pattern>/search-house</url-pattern>
+        <servlet-name>ViewOrder</servlet-name>
+        <url-pattern>/order/view</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>houseDetailController</servlet-name>
-        <url-pattern>/house-detail</url-pattern>
+        <servlet-name>updateHouse</servlet-name>
+        <url-pattern>/post/update</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewPost</servlet-name>
+        <url-pattern>/post/view</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>userProfile</servlet-name>
+        <url-pattern>/userProfile</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>viewUserList</servlet-name>
+        <url-pattern>/viewUserList</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
             30
         </session-timeout>
     </session-config>
-    <welcome-file-list>
-        <welcome-file>mainPage.jsp</welcome-file>
-    </welcome-file-list>
 </web-app>

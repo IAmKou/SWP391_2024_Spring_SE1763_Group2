@@ -6,38 +6,13 @@ package model;
 
 /**
  *
-
- * @author KinNhun
+ * @author FPTSHOP
  */
 public class TypeOfHouse {
-    private int type_of_house;
-    private String type_house_name;
-    private int type_of_house_id;
-
+    int type_of_house_id;
+    String type_of_house_name;
 
     public TypeOfHouse() {
-    }
-
-
-    public TypeOfHouse(int type_of_house, String type_house_name) {
-        this.type_of_house = type_of_house;
-        this.type_house_name = type_house_name;
-    }
-
-    public int getType_of_house() {
-        return type_of_house;
-    }
-
-    public void setType_of_house(int type_of_house) {
-        this.type_of_house = type_of_house;
-    }
-
-    public String getType_house_name() {
-        return type_house_name;
-    }
-
-    public void setType_house_name(String type_house_name) {
-        this.type_house_name = type_house_name;
     }
 
     public int getType_of_house_id() {
@@ -48,9 +23,15 @@ public class TypeOfHouse {
         this.type_of_house_id = type_of_house_id;
     }
 
-    @Override
-    public String toString() {
-        return "typeOfHouse{" + "type_of_house=" + type_of_house + ", type_house_name=" + type_house_name + '}';
+
+    public String getType_of_house_name() {
+        return type_of_house_name;
     }
 
+    public void setType_of_house_name(String type_of_house_name) {
+        this.type_of_house_name = type_of_house_name;
+    }
+
+    
+    
 }

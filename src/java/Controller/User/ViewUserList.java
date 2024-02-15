@@ -2,25 +2,23 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package Controller.Post;
+package Controller.User;
 
-import dao.PostDAO;
+import dao.*;
 import java.io.IOException;
+import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import java.util.List;
-import model.Post;
-
-import model.User;
+import java.util.ArrayList;
+import model.*;
 
 /**
  *
- * @author FPTSHOP
+ * @author Acer
  */
-public class ViewPostByStatus extends HttpServlet {
+public class ViewUserList extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,16 +32,18 @@ public class ViewPostByStatus extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        HttpSession session = request.getSession();
-
-        User acc =  (User) session.getAttribute("account");
-        String status_str = request.getParameter("status");
-        int status_id = Integer.parseInt(status_str);
-
-        PostDAO post_DAO = new PostDAO();
-        List<Post> posts = post_DAO.getPostByStatus(acc.getUser_id(), status_id);
-        request.setAttribute("posts", posts);
-        request.getRequestDispatcher("/views/profile.jsp").forward(request, response);
+        try ( PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet ViewUserList</title>");
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet ViewUserList at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -56,13 +56,22 @@ public class ViewPostByStatus extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        try {
+            userDAO uDAO = new userDAO();
+            ArrayList<User> uList = uDAO.allUserList();
+            System.out.println(uList.isEmpty());
+            request.setAttribute("uList", uList);
+            
+            request.getRequestDispatcher("views/viewUserList.jsp").forward(request, response);
+        } catch (Exception e) {
+            // Xử lý ngoại lệ ở đây
+            e.printStackTrace(); // In ra lỗi trong console cho mục đích gỡ lỗi
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Đã xảy ra lỗi khi lấy danh sách người dùng.");
+        }
     }
 
     /**
-     * Handles the HTTP <code>POST</code> method.
      *
      * @param request servlet request
      * @param response servlet response
