@@ -28,6 +28,14 @@
         <servlet-name>viewUserList</servlet-name>
         <servlet-class>Controller.User.viewUserList</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SearchController</servlet-name>
+        <servlet-class>Controller.House.SearchController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SearchServlet</servlet-name>
+        <servlet-class>Controller.House.SearchServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>addNewPost</servlet-name>
         <url-pattern>/post/add</url-pattern>
@@ -55,6 +63,14 @@
     <servlet-mapping>
         <servlet-name>viewUserList</servlet-name>
         <url-pattern>/viewUserList</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SearchController</servlet-name>
+        <url-pattern>/search</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SearchServlet</servlet-name>
+        <url-pattern>/search-result</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

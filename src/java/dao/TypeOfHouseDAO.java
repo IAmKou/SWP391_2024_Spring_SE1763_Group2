@@ -25,7 +25,7 @@ public class TypeOfHouseDAO extends DBContext {
         List<TypeOfHouse> types = new ArrayList<>();
 
         try {
-            String sql = "SELECT * FROM house_finder_project.type_of_house;";
+            String sql = "SELECT * FROM type_of_house;";
             DBContext db = new DBContext();
             Connection con = db.getConnection();
             PreparedStatement stm = con.prepareStatement(sql);
@@ -43,5 +43,19 @@ public class TypeOfHouseDAO extends DBContext {
             Logger.getLogger(TypeOfHouseDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return types;
+    }
+    
+     public static void main(String[] args) {
+        TypeOfHouseDAO typeOfHouseDAO = new TypeOfHouseDAO();
+
+        // Call the getType method to retrieve the list of types
+        List<TypeOfHouse> types = typeOfHouseDAO.getType();
+
+        // Display the retrieved types
+        for (TypeOfHouse type : types) {
+            System.out.println("Type ID: " + type.getType_of_house_id());
+            System.out.println("Type Name: " + type.getType_of_house_name());
+            System.out.println("-----");
+        }
     }
 }
