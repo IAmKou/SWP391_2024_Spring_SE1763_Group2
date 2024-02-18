@@ -13,7 +13,8 @@
         <title>Profile</title>
         <link rel="stylesheet" href="${pageContext.request.contextPath}/layout/styles/profile.css"/>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
+        </script>
     </head>
     <body>
         <jsp:include page="header.jsp"/>
@@ -64,31 +65,35 @@
                     </c:if>
                     <!--This is for view owner post-->
                     <c:if test="${not empty ownerPost}">
-                        <c:forEach items="${ownerPost}" var="ownerPost">
-                                <div class="card m-2">
-                                    <div class="row no-gutters">
-                                        <div class="col-md-9">
-                                            <div class="card-body">
-                                                <p class="fs-4 text-primary mb-3">${ownerPost.house.location}</p>
-                                                <p class="card-text"style="color: black">
-                                                    Price: ${ownerPost.price} $<br>
-                                                    <span class=" status">${ownerPost.post_status.status_name}</span>
-                                                </p>
-                                                <button class="btn btn-outline-primary"><a href="${pageContext.request.contextPath}/post/update?post_id=${ownerPost.post_id}">Update</a></button>
+                        <div class="row">
+                            <c:forEach items="${ownerPost}" var="ownerPost">
+                                <div class="col-md-12 mb-4">
+                                    <div class="card m-2 custom-card">
+                                        <div class="row no-gutters">
+                                            <div class="col-4">
+                                                <img src="${pageContext.request.contextPath}/images/house1.jpg" alt="hinh anh" class="card-img img-fluid custom-img">
                                             </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <img src="${pageContext.request.contextPath}/images/house1.jpg" alt="hinh anh" class="img-fluid">
+                                            <div class="col-8">
+                                                <div class="card-body custom-card-body">
+                                                    <h5 class="card-title fs-4 text-primary mb-3 custom-card-title">
+                                                        <i class="fas fa-map-marker-alt mr-2"></i> ${ownerPost.house.location}
+                                                    </h5>
+                                                    <p class="card-text custom-card-text">
+                                                        Price: ${ownerPost.price} $
+                                                    </p>
+                                                    <div class="btn-group custom-btn-group">
+                                                        <a href="${pageContext.request.contextPath}/post/update?post_id=${ownerPost.post_id}" class="btn btn-outline-primary custom-btn">Update</a>
+                                                        <a href="${pageContext.request.contextPath}/view?post_id=${ownerPost.post_id}" class="btn btn-outline-primary custom-btn">Overview</a>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                        </c:forEach>
+                            </c:forEach>
+                        </div>
                     </c:if>
                 </div>
-
-            </div>
-        </div>
-    </div>
-    <jsp:include page="footer.jsp"/>
-</body>
-</html>
+                <jsp:include page="footer.jsp"/>
+                </body>
+                </html>

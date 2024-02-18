@@ -45,10 +45,49 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
 
 
 .status {
-    background-color: #28a745; /* Màu xanh lá của Bootstrap */
-    border: 1px solid #218838; /* Màu đậm hơn của xanh lá */
-    border-radius: 4px; /* Độ cong border */
-    padding: 3px; /* Thêm padding nếu cần thiết */
-    color: #fff; /* Màu chữ trắng hoặc tùy chỉnh */
+    background-color: #28a745; 
+    border: 1px solid #218838; 
+    border-radius: 4px; 
+    padding: 3px; 
+    color: #fff; 
     margin: 3px;
 }
+.custom-card {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.custom-img {
+    max-width: 100%;
+    height: auto;
+    margin: 5px;
+}
+
+.custom-card-body {
+    padding: 20px;
+}
+
+.custom-card-title {
+    color: #007bff;
+    font-family: Arial, sans-serif;
+}
+.fa-map-marker-alt {
+    color: red;
+}
+.custom-card-text {
+    font-family: Arial, sans-serif;
+    color: black;
+}
+
+.custom-btn-group {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.custom-btn {
+    margin: 0;
+}
+
+

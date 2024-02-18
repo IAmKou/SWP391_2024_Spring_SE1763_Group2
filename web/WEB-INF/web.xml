@@ -9,7 +9,7 @@
         <servlet-class>Controller.Post.CreatePost</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>ViewPost</servlet-name>
+        <servlet-name>ViewUserPost</servlet-name>
         <servlet-class>Controller.Post.ViewUserPost</servlet-class>
     </servlet>
     <servlet>
@@ -28,10 +28,10 @@
         <servlet-name>userProfile</servlet-name>
         <servlet-class>Controller.User.userProfile</servlet-class>
     </servlet>
-    <servlet-mapping>
+    <servlet>
         <servlet-name>ViewPost</servlet-name>
-        <url-pattern>/post/view</url-pattern>
-    </servlet-mapping>
+        <servlet-class>Controller.Post.ViewPost</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>addNewPost</servlet-name>
         <url-pattern>/post/add</url-pattern>
@@ -55,6 +55,14 @@
     <servlet-mapping>
         <servlet-name>userProfile</servlet-name>
         <url-pattern>/userProfile</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewUserPost</servlet-name>
+        <url-pattern>/post/view</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewPost</servlet-name>
+        <url-pattern>/view</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
