@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import model.account;
+import model.Account;
 import model.User;
 
 
@@ -86,8 +86,8 @@ public class userDAO {
     }
 
 
-    public static account LogIn(String username, String pass) {
-        account account = null;
+    public static Account LogIn(String username, String pass) {
+        Account account = null;
         try {
             DBContext db = new DBContext();
             Connection con = db.getConnection();
@@ -97,7 +97,7 @@ public class userDAO {
                 ResultSet rs = call.executeQuery(sql);
                 while (rs.next()) {
 
-                    account = new account(rs.getInt("user_id"), username, pass, rs.getInt("role_id"));
+                    account = new Account(rs.getInt("user_id"), username, pass, rs.getInt("role_id"));
                 }
                 call.close();
                 con.close();
@@ -210,8 +210,8 @@ public class userDAO {
 
     }
 
-    public static account getAccount(int id) {
-        account acc = new account();
+    public static Account getAccount(int id) {
+        Account acc = new Account();
         String sql = "Select * from `account` where `user_id` = '" + id + "';";
         try {
             DBContext db = new DBContext();

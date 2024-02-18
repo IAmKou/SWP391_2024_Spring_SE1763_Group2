@@ -2,58 +2,54 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
+package Controller.Order;
 
-package Controller;
-
-import dao.userDAO;
+import dao.RequestDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-
-import model.Account;
-import model.User;
+import java.util.List;
+import model.Request;
 
 /**
  *
- * @author ACER
+ * @author trant
  */
-@WebServlet(name="forgotPasswordController", urlPatterns={"/forgotPasswordController"})
-public class forgotPasswordController extends HttpServlet {
+public class DisplayOrderHisroryServlet extends HttpServlet {
 
-    /** 
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-           String email = request.getParameter("mail");
-           HttpSession ses = request.getSession();
-            userDAO dao = new userDAO();
-
-            User checkUser = dao.getUserByEmail(email);
-            if(checkUser == null){
-                request.setAttribute("Alert", "Account not found");
-                request.getRequestDispatcher("forgotPassword.jsp").forward(request, response);
-            }else {
-
-                    int uid = checkUser.getUser_id();
-                    Account checkAccount = dao.getAccount(uid);
-                    ses.setAttribute("userForgetPass", checkAccount);
-                    request.getRequestDispatcher("sendEmail").forward(request, response);    
-    } 
+            throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+        try ( PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet DisplayOrderHisroryServlet</title>");
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet DisplayOrderHisroryServlet at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /** 
+    /**
      * Handles the HTTP <code>GET</code> method.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -61,12 +57,17 @@ public class forgotPasswordController extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-        processRequest(request, response);
-    } 
+            throws ServletException, IOException {
+        RequestDAO requestDAO = new RequestDAO();
+        List<Request> listRequest = requestDAO.getAllRequests();
+        request.setAttribute("listRequest", listRequest);
 
-    /** 
+        request.getRequestDispatcher("displayOrderHisrory.jsp").forward(request, response);
+    }
+
+    /**
      * Handles the HTTP <code>POST</code> method.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -74,12 +75,13 @@ public class forgotPasswordController extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-        processRequest(request, response);
+            throws ServletException, IOException {
+        request.getRequestDispatcher("displayOrderHisrory.jsp").forward(request, response);
     }
 
-    /** 
+    /**
      * Returns a short description of the servlet.
+     *
      * @return a String containing servlet description
      */
     @Override

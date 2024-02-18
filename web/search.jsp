@@ -47,7 +47,7 @@
                                                 <div style="flex: 1; margin-right: 10px;">
 
                                                     <select name="selectedPurpose" style="width: 100%;">
-                                                       
+
                                                         <c:forEach items="${listPurposes}" var="listPu">
                                                             <option value="${listPu.getPurpose_id()}">${listPu.getPurpose_name()}</option>
 
@@ -103,29 +103,29 @@
                                     </div>
                                 </header>
                                 <div class="row list-unstyled">
-    <c:if test="${not empty listResult}">
-        <c:forEach items="${listResult}" var="result">
-            <div class="col-md-3 mb-3" style="width: 25%;">
-                <div>
-                    <a href="#"><img src="./images/demo/gallery/01.png" alt=""></a>
-                </div>
-                <div class="group btmspace-50 demo">
-                    <div class="one_half first border">Cost: ${result.getPrice()}vnd </div>
-                </div>
-                <div>
-                    Address: ${result.getHouse().getHouse_owner().getAddress()}
-                </div>
-            </div>
-        </c:forEach>
-    </c:if>
-    <c:if test="${empty listResult}">
-        <div class="col-md-12">
-            <h1>No results found.</h1>
-        </div>
-    </c:if>
-</div>
+                                    <c:if test="${not empty listResult}">
+                                        <c:forEach items="${listResult}" var="result">
+                                            <div class="col-md-3 mb-3" style="width: 25%;">
+                                                <div>
+                                                    <a href="#"><img src="./images/demo/gallery/01.png" alt=""></a>
+                                                </div>
+                                                <div class="group btmspace-50 demo">
+                                                    <div class="one_half first border">Cost: ${result.getPrice()}vnd </div>
+                                                </div>
+                                                <div>
+                                                    Address: ${result.getHouse().getHouse_owner().getAddress()}
+                                                </div>
+                                            </div>
+                                        </c:forEach>
+                                    </c:if>
+                                    <c:if test="${empty listResult}">
+                                        <div class="col-md-12">
+                                            <h1>No results found.</h1>
+                                        </div>
+                                    </c:if>
+                                </div>
 
-                                
+
                             </figure>
                         </div>
                         <!-- ################################################################################################ -->

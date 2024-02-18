@@ -15,7 +15,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import model.User;
-import model.account;
+import model.Account;
 /**
  *
  * @author ACER
@@ -60,7 +60,7 @@ public class logInController extends HttpServlet {
         String pass = req.getParameter("password");
         userDAO dao = new userDAO();
 
-        account account = dao.LogIn(user, pass);
+        Account account = dao.LogIn(user, pass);
         int uid = account.getUser_id();
         User userInfo = dao.getUserInformation(uid);
         if (account==null){

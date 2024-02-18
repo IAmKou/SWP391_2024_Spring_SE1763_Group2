@@ -25,7 +25,7 @@
                     <nav class="sdb_holder">
                         <ul>
                             <li><a href="profile.html" style="font-weight: bold;">Account Information</a></li>
-                            <li><a href="${pageContext.request.contextPath}/order/view">View Orders</a>
+                            <li><a href="${pageContext.request.contextPath}/display-order-history">View Orders</a>
                                 <ul>
                                     <c:forEach items="${statuses}" var="status">
                                         <li><a href="${pageContext.request.contextPath}/status?status=${status.status_id}">${status.status_name}</a></li>
