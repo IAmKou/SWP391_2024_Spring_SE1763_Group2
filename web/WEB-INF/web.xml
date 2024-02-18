@@ -40,6 +40,14 @@
         <servlet-name>DisplayOrderHisroryServlet</servlet-name>
         <servlet-class>Controller.Order.DisplayOrderHisroryServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SendFeedbackServlet</servlet-name>
+        <servlet-class>Controller.Feedback.SendFeedbackServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewFeedbackServlet</servlet-name>
+        <servlet-class>Controller.Feedback.ViewFeedbackServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>addNewPost</servlet-name>
         <url-pattern>/post/add</url-pattern>
@@ -79,6 +87,14 @@
     <servlet-mapping>
         <servlet-name>DisplayOrderHisroryServlet</servlet-name>
         <url-pattern>/display-order-history</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SendFeedbackServlet</servlet-name>
+        <url-pattern>/send-feedback</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewFeedbackServlet</servlet-name>
+        <url-pattern>/view-feedback</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
