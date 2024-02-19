@@ -72,7 +72,14 @@ public class PostDAO {
                     Purpose purpose = new Purpose();
                     purpose.setPurpose_name(rs.getString("purpose_name"));
                     
+                    User user = new User();
+                    user.setFull_name(rs.getString("full_name"));
+                    user.setAddress(rs.getString("address"));
+                    user.setPhone_number(rs.getString("phone_number"));
+                    user.setEmail(rs.getString("email"));
+                    
                     House house = new House();
+                    house.setHouse_owner(user);
                     house.setHouse_id(rs.getInt("house_id"));
                     house.setLocation(rs.getString("location"));
                     house.setType_of_house(type_of_house);
@@ -149,7 +156,7 @@ public class PostDAO {
                     poster.setFull_name(rs.getString("full_name"));
                     poster.setDate_of_birth(rs.getDate("date_of_birth"));
                     poster.setAddress(rs.getString("address"));
-                    poster.setPhone_number(rs.getInt("phone_number"));
+                    poster.setPhone_number(rs.getString("phone_number"));
                     poster.setEmail(rs.getString("email"));
 
                     House house = new House();
@@ -229,7 +236,7 @@ public class PostDAO {
                     poster.setFull_name(rs.getString("full_name"));
                     poster.setDate_of_birth(rs.getDate("date_of_birth"));
                     poster.setAddress(rs.getString("address"));
-                    poster.setPhone_number(rs.getInt("phone_number"));
+                    poster.setPhone_number(rs.getString("phone_number"));
                     poster.setEmail(rs.getString("email"));
 
                     House house = new House();
@@ -353,7 +360,7 @@ public class PostDAO {
                         poster.setFull_name(rs.getString("full_name"));
                         poster.setDate_of_birth(rs.getDate("date_of_birth"));
                         poster.setAddress(rs.getString("address"));
-                        poster.setPhone_number(rs.getInt("phone_number"));
+                        poster.setPhone_number(rs.getString("phone_number"));
                         poster.setEmail(rs.getString("email"));
 
                         House house = new House();

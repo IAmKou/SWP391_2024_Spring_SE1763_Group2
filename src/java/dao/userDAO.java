@@ -134,7 +134,7 @@ public class userDAO {
                     user.setFull_name(rs.getString(2));
                     user.setDate_of_birth(rs.getDate(3));
                     user.setAddress(rs.getString(4));
-                    user.setPhone_number(rs.getInt(5));
+                    user.setPhone_number(rs.getString(5));
                     user.setEmail(rs.getString(6));
                 }
                 rs.close();
@@ -160,7 +160,7 @@ public class userDAO {
                 user.setFull_name(rs.getString("full_name"));
                 user.setDate_of_birth(rs.getDate("date_of_birth"));
                 user.setAddress(rs.getString("address"));
-                user.setPhone_number(rs.getInt("phone_number"));
+                user.setPhone_number(rs.getString("phone_number"));
                 user.setEmail(rs.getString("email"));
 
                 return user;
@@ -232,7 +232,7 @@ public class userDAO {
                 stm.setString(1, user.getFull_name());
                 stm.setDate(2, user.getDate_of_birth());
                 stm.setString(3, user.getAddress());
-                stm.setInt(4, user.getPhone_number());
+                stm.setString(4, user.getPhone_number());
                 stm.setString(5, user.getEmail());
                 stm.setInt(6, user.getUser_id());
 
@@ -255,7 +255,7 @@ public class userDAO {
                     u.setAddress(resultSet.getString("address"));
                     u.setUser_id(resultSet.getInt("user_id"));
                     u.setFull_name(resultSet.getString("full_name"));
-                    u.setPhone_number(resultSet.getInt("phone_number"));
+                    u.setPhone_number(resultSet.getString("phone_number"));
                     u.setEmail(resultSet.getString("email"));
                     u.setDate_of_birth(resultSet.getDate("date_of_birth"));
                     list.add(u);
@@ -283,7 +283,7 @@ public class userDAO {
                     u.setAddress(resultSet.getString("address"));
                     u.setUser_id(resultSet.getInt("user_id"));
                     u.setFull_name(resultSet.getString("full_name"));
-                    u.setPhone_number(resultSet.getInt("phone_number"));
+                    u.setPhone_number(resultSet.getString("phone_number"));
                     u.setEmail(resultSet.getString("email"));
                     u.setDate_of_birth(resultSet.getDate("date_of_birth"));
                 }

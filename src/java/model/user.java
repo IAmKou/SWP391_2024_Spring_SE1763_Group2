@@ -16,13 +16,13 @@ public class User {
     private String full_name;
     private Date date_of_birth;
     private String address;
-    private int phone_number;
+    private String phone_number;
     private String email;
 
     public User() {
     }
 
-    public User(int user_id, String full_name, Date date_of_birth, String address, int phone_number, String email) {
+    public User(int user_id, String full_name, Date date_of_birth, String address, String phone_number, String email) {
         this.user_id = user_id;
         this.full_name = full_name;
         this.date_of_birth = date_of_birth;
@@ -51,7 +51,7 @@ public class User {
         return full_name;
     }
 
-    public int getPhone_number() {
+    public String getPhone_number() {
         return phone_number;
     }
 
@@ -71,7 +71,7 @@ public class User {
         this.full_name = full_name;
     }
 
-    public void setPhone_number(int phone_number) {
+    public void setPhone_number(String phone_number) {
         this.phone_number = phone_number;
     }
 
