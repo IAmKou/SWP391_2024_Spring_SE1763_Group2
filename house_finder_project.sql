@@ -15,9 +15,6 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
-drop database if exists `house_finder_project`;
-create database house_finder_project;
-use house_finder_project;
 --
 -- Table structure for table `account`
 --
@@ -336,7 +333,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'Nguyễn Thị Hồng','1985-07-12','Số 10 Đường Lê Lợi, Quận 1, TP.Hồ Chí Minh','901234567',' nguyenthihong@gmail.com',NULL),(2,'Trần Văn An','1985-05-20','Số 25 Đường Trần Hưng Đạo, Quận Hoàn Kiếm, Hà Nội','912345678',' tranvanan@gmail.com',NULL),(3,' Lê Thị Mai','1992-12-10','Số 30 Nguyễn Du, Quận Hai Bà Trưng, Hà Nội','987654321','lethimai@gmail.com',NULL),(4,'Nguyễn Hoàng Anh','2003-08-30','Tổ 3, phường Yên Thịnh, Thành phố Yên Bái','828053208','hn54707@gmail.com',NULL);
+INSERT INTO `user` VALUES (1,'Nguyễn Thị Hồng','1985-07-12','Số 10 Đường Lê Lợi, Quận 1, TP.Hồ Chí Minh','0901234567',' nguyenthihong@gmail.com',NULL),(2,'Trần Văn An','1985-05-20','Số 25 Đường Trần Hưng Đạo, Quận Hoàn Kiếm, Hà Nội','0912345678',' tranvanan@gmail.com',NULL),(3,' Lê Thị Mai','1992-12-10','Số 30 Nguyễn Du, Quận Hai Bà Trưng, Hà Nội','0987654321','lethimai@gmail.com',NULL),(4,'Nguyễn Hoàng Anh','2003-08-30','Tổ 3, phường Yên Thịnh, Thành phố Yên Bái','0828053208','hn54707@gmail.com',NULL);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -349,4 +346,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-02-05 19:26:30
+-- Dump completed on 2024-02-19 22:14:28
