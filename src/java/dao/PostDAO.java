@@ -325,27 +325,36 @@ public class PostDAO {
 
     public Post getPost(int post_id) {
         try {
-            String sql = "SELECT post.post_id, post.house_id,purpose.purpose_id, purpose.purpose_name, post.price,"
-                    + " house_status.status_name as 'house_status', \n"
-                    + "post_status.status_name as'post_status', "
-                    + "type_of_house.type_of_house_name,type_of_house.type_of_house_id, house.address as 'location', "
-                    + "house.description,\n"
-                    + "house.area,house.number_of_room,post.poster_id,"
-                    + "user.full_name, user.date_of_birth, user.address,user.phone_number,user.email\n"
-                    + "\n"
-                    + " FROM post\n"
-                    + "join \n"
-                    + "	house on house.house_id = post.house_id\n"
-                    + "join \n"
-                    + "	user on post.poster_id = user.user_id\n"
-                    + "join \n"
-                    + "	purpose on purpose.purpose_id = post.purpose_id\n"
+            String sql = "SELECT \n"
+                    + "    post.post_id, \n"
+                    + "    post.house_id,\n"
+                    + "    purpose.purpose_name, \n"
+                    + "    post.price,\n"
+                    + "    house_status.status_name AS house_status, \n"
+                    + "    post_status.status_name AS post_status, \n"
+                    + "    type_of_house.type_of_house_name,\n"
+                    + "    type_of_house.type_of_house_id, \n"
+                    + "    house.address AS location, \n"
+                    + "    house.description,\n"
+                    + "    house.area,\n"
+                    + "    house.number_of_room,\n"
+                    + "    post.poster_id,\n"
+                    + "    user.phone_number,\n"
+                    + "    user.email\n"
+                    + "FROM \n"
+                    + "    post\n"
+                    + "JOIN \n"
+                    + "    house ON house.house_id = post.house_id\n"
+                    + "JOIN \n"
+                    + "    user ON post.poster_id = user.user_id\n"
+                    + "JOIN \n"
+                    + "    purpose ON purpose.purpose_id = post.purpose_id\n"
                     + "JOIN \n"
                     + "    request_status AS house_status ON house_status.status_id = post.house_status\n"
                     + "JOIN \n"
                     + "    request_status AS post_status ON post_status.status_id = post.post_status\n"
-                    + "join \n"
-                    + "	type_of_house on type_of_house.type_of_house_id = house.type_of_house_id\n"
+                    + "JOIN \n"
+                    + "    type_of_house ON type_of_house.type_of_house_id = house.type_of_house_id\n"
                     + "    where post_id = ?\n"
                     + "    ";
             DBContext db = new DBContext();
@@ -364,14 +373,10 @@ public class PostDAO {
                         post_status.setStatus_name(rs.getString("post_status"));
 
                         Purpose purpose = new Purpose();
-                        purpose.setPurpose_id(rs.getInt("purpose_id"));
                         purpose.setPurpose_name(rs.getString("purpose_name"));
 
                         User poster = new User();
                         poster.setUser_id(rs.getInt("poster_id"));
-                        poster.setFull_name(rs.getString("full_name"));
-                        poster.setDate_of_birth(rs.getDate("date_of_birth"));
-                        poster.setAddress(rs.getString("address"));
                         poster.setPhone_number(rs.getString("phone_number"));
                         poster.setEmail(rs.getString("email"));
 

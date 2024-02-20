@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -36,6 +37,9 @@
                             ">
                             <li class="active"><a href="#">Home</a></li>
                             <li class="active"><a href="#">My Rentals</a></li>
+                                <c:if test="${sessionScope.account eq null}">
+                                <li class="active"><a href="logIn.jsp">Login</a></li>
+                                </c:if>
                             <li>${sessionScope.account.getFull_name()}
                                 <ul>
                                     <li><a href="profile.html">My Account</a></li>
