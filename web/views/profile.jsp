@@ -17,13 +17,13 @@
         </script>
         <script src="${pageContext.request.contextPath}/layout/bootstrap-5.3.2-dist/js/bootstrap.min.js"></script>
         <style>
-    .table-no-border {
-        border: none; /* Bỏ toàn bộ border cho bảng */
-    }
-    .table-no-border td {
-        border: none; /* Bỏ border cho các ô trong bảng */
-    }
-</style>
+            .table-no-border {
+                border: none;
+            }
+            .table-no-border td {
+                border: none;
+            }
+        </style>
     </head>
     <body>
         <jsp:include page="header.jsp"/>
@@ -33,12 +33,13 @@
                 <div class="col-md-3 sidebar">
                     <nav class="sdb_holder">
                         <ul>
-                            <li><a href="profile.html" style="font-weight: bold;">Account Information</a></li>
-                            <li><a href="${pageContext.request.contextPath}/order/view">View Orders</a>
+                            <li><a href="#" style="font-weight: bold;">Account Information</a></li>
+                            <li><a href="#">View Orders</a>
                                 <ul>
-                                    <c:forEach items="${statuses}" var="status">
-                                        <li><a href="${pageContext.request.contextPath}/status?status=${status.status_id}">${status.status_name}</a></li>
-                                        </c:forEach>
+                                    <li><a href="${pageContext.request.contextPath}/status?status=1">Waiting</a></li>
+                                    <li><a href="${pageContext.request.contextPath}/status?status=2">Accepted</a></li>
+                                    <li><a href="${pageContext.request.contextPath}/status?status=3">Rejected</a></li>
+                                    <li><a href="${pageContext.request.contextPath}/status?status=6">Successful</a></li>
                                 </ul>
                             </li>
                             <li><a href="#">View Rentals</a>
@@ -46,7 +47,7 @@
                                     <li><a href="${pageContext.request.contextPath}/post/view">Your Post</a></li>
                                     <li><a href="#">Customer's Requests</a></li>
                                 </ul>
-                            </li>
+                            </li>   
                         </ul>
                     </nav>
                 </div>
@@ -54,24 +55,37 @@
                     <!--This is for view order-->
                     <c:if test="${not empty posts}">
                         <c:forEach items="${posts}" var="post">
-                            <div class="card m-2">
+                            <div class="m-2 custom-card">
                                 <div class="row no-gutters">
-                                    <div class="col-md-9">
-                                        <div class="card-body">
-                                            <p class="fs-4 text-primary mb-3">${post.house.location}</p>
-                                            <p class="card-text"style="color: black">
-                                                Price: ${post.price} $<br>
-                                                <span class=" status">${post.post_status.status_name}</span>
-                                            </p>
-                                        </div>
+                                    <div class="col-md-4">
+                                        <img src="${pageContext.request.contextPath}/images/house1.jpg" alt="hinh anh" class="card-img img-fluid custom-img">
                                     </div>
-                                    <div class="col-md-3">
-                                        <img src="${pageContext.request.contextPath}/images/house1.jpg" alt="hinh anh" class="img-fluid">
+                                    <div class="col-md-8">
+                                        <div class="custom-card-body">
+                                            <h5 class="card-title fs-4 text-primary mb-3 custom-card-title">
+                                                <i class="fas fa-map-marker-alt mr-2"></i> ${post.house.location}
+                                            </h5>
+                                            <p class="custom-card-text">
+                                                Price: ${post.price} $ &#124; For ${post.purpose.purpose_name}
+                                            </p>
+                                            <div>
+                                                <span class=" status" style="background-color:
+                                                      <c:choose>
+                                                          <c:when test="${post.post_status.status_id eq 1}">silver</c:when>
+                                                          <c:when test="${post.post_status.status_id eq 2}">green</c:when>
+                                                          <c:when test="${post.post_status.status_id eq 3}">lightcoral</c:when>
+                                                          <c:otherwise>black</c:otherwise>
+                                                      </c:choose>;">
+                                                    ${post.post_status.status_name}
+                                                </span>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </c:forEach>
                     </c:if>
+
                     <!--This is for view owner post-->
                     <c:if test="${not empty ownerPost}">
                         <div class="row">
@@ -83,24 +97,30 @@
                                                 <img src="${pageContext.request.contextPath}/images/house1.jpg" alt="hinh anh" class="card-img img-fluid custom-img">
                                             </div>
                                             <div class="col-8">
-                                                <div class="card-body custom-card-body">
+                                                <div class="custom-card-body">
                                                     <h5 class="card-title fs-4 text-primary mb-3 custom-card-title">
                                                         <i class="fas fa-map-marker-alt mr-2"></i> ${ownerPost.house.location}
                                                     </h5>
-                                                    <p class="card-text custom-card-text">
-                                                        Price: ${ownerPost.price} $
-                                                    </p>
-                                                    <div class="btn-group custom-btn-group">
-                                                        <a href="${pageContext.request.contextPath}/post/update?post_id=${ownerPost.post_id}" class="btn btn-outline-primary custom-btn">Update</a>
-                                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                                                            Overview
-                                                        </button>
+                                                    <div>
+                                                        <p class=" custom-card-text">
+                                                            Price: ${ownerPost.price} $ &#124; For ${ownerPost.purpose.purpose_name}
+                                                        </p>
                                                     </div>
+
+                                                    <div class="btn-group">
+                                                        <a href="${pageContext.request.contextPath}/post/update?post_id=${ownerPost.post_id}" class="btn btn-outline-info">Update</a>
+                                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Overview</button>
+                                                    </div>
+
                                                     <!-- Modal -->
                                                     <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                                                         <div class="modal-dialog modal-xl">
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
+                                                                    <div class="logo-container">
+                                                                        <img class="logo" src="${pageContext.request.contextPath}/images/demo/image-removebg-preview.png" alt="image"/>
+
+                                                                    </div>
                                                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                                 </div>
                                                                 <div class="modal-body">
@@ -110,15 +130,11 @@
                                                                                 <div class="card m-2">
                                                                                     <div class="card-body" style="color: black;" >
                                                                                         <div id="carouselExampleIndicators" class="carousel slide">
-                                                                                            <div class="carousel-indicators">
-                                                                                                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-label="Slide 1" aria-current="true"></button>
-                                                                                                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2" class=""></button>
-                                                                                                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3" class=""></button>
-                                                                                            </div>
+
                                                                                             <div class="carousel-inner" style="margin-bottom: 20px">
                                                                                                 <div class="carousel-item active">
                                                                                                     <svg class="bd-placeholder-img bd-placeholder-img-lg d-block w-100" width="800" height="400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: First slide" preserveAspectRatio="xMidYMid slice" focusable="false">
-                                                                                                    <rect width="100%" height="100%" fill="#fff"></rect>
+                                                                                                    <rect width="100%" height="100%" fill="#A0A0A0"></rect>
                                                                                                     <image xlink:href="../images/house1.jpg" width="100%" height="100%"  alt="hinh anh"/>
                                                                                                     </svg>
                                                                                                 </div>
@@ -141,13 +157,15 @@
                                                                                             <table class="table-no-border">
                                                                                                 <tr>
                                                                                                     <td>Price: ${ownerPost.price} $</td>
-                                                                                                    <td>Area: ${ownerPost.house.area} sqft</td>
+                                                                                                    <td>Area: ${ownerPost.house.area} m<sup>2</sup></td>
                                                                                                 </tr>
                                                                                                 <tr>
                                                                                                     <td>House Type: ${ownerPost.house.type_of_house.type_of_house_name}</td>
                                                                                                     <td>Number of Rooms: ${ownerPost.house.number_of_room}</td>
                                                                                                 </tr>
-
+                                                                                                <tr>
+                                                                                                    <td>Purpose: ${ownerPost.purpose.purpose_name}</td>
+                                                                                                </tr>
                                                                                             </table>
                                                                                         </div>
                                                                                         <div class="description-section">

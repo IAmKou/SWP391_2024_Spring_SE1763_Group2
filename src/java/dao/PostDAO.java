@@ -55,29 +55,29 @@ public class PostDAO {
             DBContext db = new DBContext();
             PreparedStatement stm;
             ResultSet rs;
-            try (Connection con = db.getConnection()) {
+            try ( Connection con = db.getConnection()) {
                 stm = con.prepareStatement(sql);
                 stm.setInt(1, user_id);
                 rs = stm.executeQuery();
                 while (rs.next()) {
                     TypeOfHouse type_of_house = new TypeOfHouse();
                     type_of_house.setType_of_house_name(rs.getString("type_of_house_name"));
-                    
+
                     Status house_status = new Status();
                     house_status.setStatus_name(rs.getString("house_status"));
-                    
+
                     Status post_status = new Status();
                     post_status.setStatus_name(rs.getString("post_status"));
-                    
+
                     Purpose purpose = new Purpose();
                     purpose.setPurpose_name(rs.getString("purpose_name"));
-                    
+
                     User user = new User();
                     user.setFull_name(rs.getString("full_name"));
                     user.setAddress(rs.getString("address"));
                     user.setPhone_number(rs.getString("phone_number"));
                     user.setEmail(rs.getString("email"));
-                    
+
                     House house = new House();
                     house.setHouse_owner(user);
                     house.setHouse_id(rs.getInt("house_id"));
@@ -86,7 +86,7 @@ public class PostDAO {
                     house.setArea(rs.getInt("area"));
                     house.setDescription(rs.getString("description"));
                     house.setNumber_of_room(rs.getInt("number_of_room"));
-                    
+
                     Post post = new Post();
                     post.setPost_id(rs.getInt("post_id"));
                     post.setPrice(rs.getInt("price"));
@@ -94,7 +94,7 @@ public class PostDAO {
                     post.setHouse_status(house_status);
                     post.setPost_status(post_status);
                     post.setPurpose(purpose);
-                    
+
                     posts.add(post);
                 }
             }
@@ -110,27 +110,39 @@ public class PostDAO {
         List<Post> posts = new ArrayList<>();
 
         try {
-            String sql = "SELECT post.post_id, post.house_id, purpose.purpose_name, post.price,"
-                    + " house_status.status_name as 'house_status', \n"
-                    + "post_status.status_name as'post_status', "
-                    + "type_of_house.type_of_house_name, house.address as 'location', "
-                    + "house.description,\n"
-                    + "house.area,house.number_of_room,post.poster_id,"
-                    + "user.full_name, user.date_of_birth, user.address,user.phone_number,user.email\n"
-                    + "\n"
-                    + " FROM post\n"
-                    + "join \n"
-                    + "	house on house.house_id = post.house_id\n"
-                    + "join \n"
-                    + "	user on post.poster_id = user.user_id\n"
-                    + "join \n"
-                    + "	purpose on purpose.purpose_id = post.purpose_id\n"
+            String sql = "SELECT \n"
+                    + "    post.post_id, \n"
+                    + "    post.house_id, \n"
+                    + "    purpose.purpose_name, \n"
+                    + "    post.price, \n"
+                    + "    post.post_status AS 'post_status_id', \n"
+                    + "    post_status.status_name AS 'post_status_name',\n"
+                    + "    house_status.status_name AS 'house_status', \n"
+                    + "    type_of_house.type_of_house_name, \n"
+                    + "    house.address AS 'location', \n"
+                    + "    house.description, \n"
+                    + "    house.area,\n"
+                    + "    house.number_of_room,\n"
+                    + "    post.poster_id,\n"
+                    + "    user.full_name, \n"
+                    + "    user.date_of_birth, \n"
+                    + "    user.address,\n"
+                    + "    user.phone_number,\n"
+                    + "    user.email\n"
+                    + "FROM \n"
+                    + "    post\n"
+                    + "JOIN \n"
+                    + "    house ON house.house_id = post.house_id\n"
+                    + "JOIN \n"
+                    + "    user ON post.poster_id = user.user_id\n"
+                    + "JOIN \n"
+                    + "    purpose ON purpose.purpose_id = post.purpose_id\n"
                     + "JOIN \n"
                     + "    request_status AS house_status ON house_status.status_id = post.house_status\n"
                     + "JOIN \n"
                     + "    request_status AS post_status ON post_status.status_id = post.post_status\n"
-                    + "join \n"
-                    + "	type_of_house on type_of_house.type_of_house_id = house.type_of_house_id\n"
+                    + "JOIN \n"
+                    + "    type_of_house ON type_of_house.type_of_house_id = house.type_of_house_id"
                     + "    where poster_id = ? and post.post_status = ?\n"
                     + "    ";
             DBContext db = new DBContext();
@@ -146,7 +158,8 @@ public class PostDAO {
                     house_status.setStatus_name(rs.getString("house_status"));
 
                     Status post_status = new Status();
-                    post_status.setStatus_name(rs.getString("post_status"));
+                    post_status.setStatus_id(rs.getInt("post_status_id"));
+                    post_status.setStatus_name(rs.getString("post_status_name"));
 
                     Purpose purpose = new Purpose();
                     purpose.setPurpose_name(rs.getString("purpose_name"));
@@ -175,7 +188,6 @@ public class PostDAO {
                     post.setHouse_status(house_status);
                     post.setPost_status(post_status);
                     post.setPurpose(purpose);
-
                     posts.add(post);
                 }
 

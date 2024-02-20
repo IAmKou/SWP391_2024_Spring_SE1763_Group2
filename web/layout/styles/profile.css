@@ -43,16 +43,35 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
     overflow: hidden;
 }
 
-
 .status {
-    background-color: #28a745; 
-    border: 1px solid #218838; 
-    border-radius: 4px; 
-    padding: 3px; 
-    color: #fff; 
-    margin: 3px;
+    font-size: 15px;
+    border: 1px solid #218838;
+    border-radius: 4px;
+    padding: 6px;
+    color: #fff;
+}
+.logo{
+    width:50px;
+    height: 50px;
+
+}
+.modal-header {
+    background-color: black;
+    display: flex; /* Sử dụng flexbox để căn chỉnh phần tử con */
+    justify-content: center; /* Canh giữa theo chiều ngang */
+    align-items: center; /* Canh giữa theo chiều dọc */
+}
+
+.logo-container {
+    flex: 1; /* Phần tử chứa logo sẽ mở rộng để lấp đầy không gian trống */
+    text-align: center; /* Canh giữa logo trong phần tử cha */
+}
+.btn-close {
+    background-color: white !important; /* Đổi màu nền của nút button thành màu trắng */
+    /* Các thuộc tính CSS khác tùy thuộc vào yêu cầu của bạn */
 }
 .custom-card {
+    background-color: white;
     border: 1px solid #ccc;
     border-radius: 8px;
     overflow: hidden;
@@ -79,15 +98,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
 .custom-card-text {
     font-family: Arial, sans-serif;
     color: black;
+    font-weight: bold;
 }
 
-.custom-btn-group {
-    text-align: center;
-    margin-top: 10px;
-}
 
-.custom-btn {
-    margin: 0;
-}
 
 
