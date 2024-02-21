@@ -53,16 +53,18 @@ DROP TABLE IF EXISTS `feedback`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `feedback` (
-  `post_id` int NOT NULL,
+  `post_id` int DEFAULT NULL,
   `user_id` int DEFAULT NULL,
   `number_of_star` int DEFAULT NULL,
   `comment` varchar(250) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
-  PRIMARY KEY (`post_id`),
+  `house_id` int DEFAULT NULL,
+  `feedback_id` int NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`feedback_id`),
+  UNIQUE KEY `unique_feedback_per_user_per_post` (`post_id`,`user_id`),
   KEY `user_id_idx` (`user_id`),
-  CONSTRAINT `assessor_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`),
+  CONSTRAINT `feedback_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`),
   CONSTRAINT `post_id` FOREIGN KEY (`post_id`) REFERENCES `post` (`post_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `feedback`
