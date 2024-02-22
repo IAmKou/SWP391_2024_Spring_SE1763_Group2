@@ -63,7 +63,7 @@
                                     <div class="form-group d-flex">
                                         <input type="number" name="cfcode"class="form-control rounded-left" placeholder="Verify Code: ex.123456 " required>
                                     </div>
-                                    <p style="color: red">${requestScope.message}</p>
+                                    <p style="color: red">${requestScope.AlertC}</p>
                                     <div class="form-group">
                                         <button type="submit" class="form-control btn btn-primary rounded submit px-3">Submit</button>
                                     </div>               
