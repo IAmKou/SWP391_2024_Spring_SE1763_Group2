@@ -62,7 +62,7 @@
                                 <h3 class="text-center mb-4">Sign In</h3>
                                 <form action="#" class="login-form">
                                     <div class="form-group">
-                                        <input name="username" type="text" class="form-control rounded-left" placeholder="Username: " required>
+                                        <input name="username" type="text" class="form-control rounded-left" placeholder="Username: " required value="${requestScope.username}">
                                     </div>
                                     <div class="form-group d-flex">
                                         <input type="password" name="password"class="form-control rounded-left" placeholder="Password: " required>
