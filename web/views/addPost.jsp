@@ -15,16 +15,58 @@
         <title>Create your post</title>
         <link rel="stylesheet" href="${pageContext.request.contextPath}/layout/styles/fontawesome-free/css/fontawesome-all.min.css"/>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/layout/styles/addPost.css"/>
+        <script src="${pageContext.request.contextPath}/layout/bootstrap-5.3.2-dist/js/bootstrap.bundle.min.js"></script>
+        <script>
+            function chooseFile(fileInput) {
+                var container = document.getElementById("image");
+                container.innerHTML = ''; // Xóa tất cả các ảnh cũ trước khi thêm mới
+                if (fileInput.files && fileInput.files.length > 0) {
+                    for (var i = 0; i < fileInput.files.length; i++) {
+                        var reader = new FileReader();
+                        reader.onload = function (e) {
+                            var img = new Image();
+                            img.onload = function () {
+                                img.style.width = "100px";
+                                img.style.height = "100px";
+                                img.style.margin = "8px";
+                                container.appendChild(img);
+                            };
+                            img.src = e.target.result;
+                        };
+                        reader.readAsDataURL(fileInput.files[i]);
+                    }
+                }
+            }
+
+            function uploadImages() {
+                var formData = new FormData();
+                var fileInput = document.getElementById('fileInput');
+
+                // Lặp qua các tệp đã chọn và thêm chúng vào đối tượng FormData
+                if (fileInput.files.length > 0) {
+                    for (var i = 0; i < fileInput.files.length; i++) {
+                        var file = fileInput.files[i];
+                        formData.append('image[]', file); // Sử dụng 'image[]' để tạo một mảng các hình ảnh
+                    }
+                }
+
+                // Gửi multipart request bằng AJAX
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', '/test', true);
+                xhr.send(formData);
+            }
+        </script>
+
     </head>
     <body>
-        <jsp:include page="header.jsp"/>
 
-        <div class="container justify-content-center align-items-center vh-100">
-            <form method="post" action="../post/add" class="p-5" style="background-color: #2b3035; border-radius: 30px">
+        <div><jsp:include page="header.jsp"/></div>
+        <div class="container justify-content-center align-items-center vh-100 h-100">
+
+            <form method="post" action="../post/add" enctype="multipart/form-data" class="p-5" style="background-color: #2b3035; border-radius: 30px">
                 <fieldset>
-                    <h1 class="text-center mt-4">Create your new post</h1>
-
+                    <h2 class="text-center mt-4">${requestScope.alert}</h2>
                     <div class="row mb-3">
                         <label for="address" class="col-sm-3 col-form-label text-end">Location:</label>
                         <div class="col-sm">
@@ -69,15 +111,7 @@
                     <div class="row mb-3">
                         <label for="moreInformation" class="col-sm-3 col-form-label text-end">Description:</label>
                         <div class="col-sm">
-                            <input id="moreInformation" type="text" name="description" class="form-control" placeholder="Enter more information" required>
-                        </div>
-                    </div>
-
-                    <div class="row mb-3">
-                        <label for="upload" class="col-sm-3 col-form-label text-end">Image:</label>
-                        <div class="col-sm">
-                            <input id="upload" type="file" class="form-control" placeholder="Upload your file">
-                        </div>
+                            <textarea class="form-control" id="exampleFormControlTextarea1" name="description" rows="5" spellcheck="false" style="height: 200px;"></textarea>                        </div>
                     </div>
 
                     <div class="row mb-3">
@@ -91,14 +125,26 @@
                             </c:forEach>
                         </div>
                     </div>
+                    <div class="row mb-3">
+                        <div class="col-sm-3"></div>
+                        <div class="col-sm">
+                            <div id="image" class="image-preview"></div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="upload" class="col-sm-3 col-form-label text-end">Image:</label>
+                        <div class="col-sm">
+                            <input id="upload" id="fileInput" type="file" class="form-control" placeholder="Upload your file" name="image" accept="image/*" onchange="chooseFile(this)" multiple required>
+                        </div>
+                    </div>
+
                 </fieldset>
                 <div class="text-end">
-                    <p style="display: inline-block;">${requestScope.alert}</p>   
-                    <input type="submit" class="btn btn-light" value="Create">
+                    <input type="submit" class="btn btn-light" value="Create" onclick="uploadImages()">
                 </div>
             </form>
+            <div class="mt-5"><jsp:include page="footer.jsp"/></div>
         </div>
-
-        <jsp:include page="footer.jsp"/>
     </body>
 </html>

@@ -38,7 +38,7 @@
                             <li class="active"><a href="#">Home</a></li>
                             <li class="active"><a href="#">My Rentals</a></li>
                                 <c:if test="${sessionScope.account eq null}">
-                                <li class="active"><a href="logIn.jsp">Login</a></li>
+                                <li class="active"><a href="${pageContext.request.contextPath}/logIn.jsp">Login</a></li>
                                 </c:if>
                             <li>${sessionScope.account.getFull_name()}
                                 <ul>

@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/layout/styles/manh.css"/>
 </head>
 
-<body id="top">
+<body>
     <div class="wrapper row4">
         <footer id="footer" class="hoc clear">
             <div class="group btmspace-80">

@@ -13,7 +13,7 @@
         <link rel="stylesheet" href="${pageContext.request.contextPath}/layout/bootstrap-5.3.2-dist/css/bootstrap.min.css"/>
         <link rel="stylesheet" href="${pageContext.request.contextPath}/layout/styles/post.css"/>
         <title>Post</title>
-        <script src="${pageContext.request.contextPath}/layout/bootstrap-5.3.2-dist/js/bootstrap.min.js"></script>
+        <script src="${pageContext.request.contextPath}/layout/bootstrap-5.3.2-dist/js/bootstrap.bundle.min.js"></script>
         <style>
             .table-no-border {
                 border: none;
@@ -28,62 +28,89 @@
         <div class="container">
             <h2 class="text-center">Post Information</h2>
             <div class="card">
-                <div id="carouselExampleIndicators" class="carousel slide">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+                            <div class="carousel-indicators">
+                                <c:forEach items="${images}" var="image" varStatus="status">
+                                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="${status.index}" class="${status.index == 0 ? 'active' : ''}" aria-current="${status.index == 0 ? 'true' : 'false'}" aria-label="Slide ${status.index + 1}"></button>
+                                </c:forEach>
+                            </div>
 
-                    <div class="carousel-inner" style="margin-bottom: 20px">
-                        <div class="carousel-item active">
-                            <svg class="bd-placeholder-img bd-placeholder-img-lg d-block w-100" width="800" height="400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: First slide" preserveAspectRatio="xMidYMid slice" focusable="false">
-                            <rect width="100%" height="100%" fill="#A0A0A0"></rect>
-                            <image xlink:href="images/house1.jpg" width="100%" height="100%"  alt="hinh anh"/>
-                            </svg>
+                            <div class="carousel-inner" style="margin-bottom: 20px">
+                                <c:forEach items="${images}" var="image" varStatus="status">
+                                    <div class="carousel-item ${status.index == 0 ? 'active' : ''}">
+                                        <svg class="bd-placeholder-img bd-placeholder-img-lg d-block w-100" width="800" height="400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Slide ${status.index + 1}" preserveAspectRatio="xMidYMid slice" focusable="false">
+                                        <rect width="100%" height="100%" fill="#3071BC" rx="10" ry="10"></rect>
+                                        <image xlink:href="data:image/jpeg;base64,${image.getImageDataAsBase64()}" width="100%" height="100%"  alt="hinh anh"/>
+                                        </svg>
+                                    </div>
+                                </c:forEach>
+                            </div>
+
+                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            </button>
                         </div>
-                        <div class="carousel-item">
-                            <svg class="bd-placeholder-img bd-placeholder-img-lg d-block w-100" width="800" height="400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Second slide" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#666"></rect><text x="50%" y="50%" fill="#444" dy=".3em">Second slide</text></svg>
+
+                        <h3 class="fs-4 text-primary mb-3 custom-card-title">
+                            <i class="fas fa-map-marker-alt mr-2"></i> ${post.house.location}
+                        </h3>
+                        <div class="profile-container">
+                            <div class="avatar-container">
+                                <img src="${pageContext.request.contextPath}/images/person_1.jpg" alt="Avatar" class="avatar">
+                            </div>
+                            <div class="user-info-container">
+                                <p class="username">${sessionScope.account.getFull_name()}</p>
+                            </div>
                         </div>
-                        <div class="carousel-item">
-                            <svg class="bd-placeholder-img bd-placeholder-img-lg d-block w-100" width="800" height="400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Third slide" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#555"></rect><text x="50%" y="50%" fill="#333" dy=".3em">Third slide</text></svg>
+                        <h5 class="main-heading">House Information</h5>
+                        <table class="table-no-border">
+                            <tbody>
+                                <tr>
+                                    <td><strong>Price: </strong>${post.price}</td>
+                                    <td><strong>Area: </strong>${post.house.area} m<sup>2</sup></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Rooms: </strong>${post.house.number_of_room}</td>
+                                    <td><strong>Purpose: </strong>${post.purpose.purpose_name}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Status: </strong>${post.house_status.status_name}</td> 
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p><strong>Description: </strong><br>${post.house.description}</p>
+                    </div>
+                    <div class="col-md-4 card h-25">
+                        <div class="card-body d-flex flex-column">
+                            <button class="btn btn-danger mb-3 flex-grow-1">Book a tour house</button>
+                            <button class="btn btn-primary flex-grow-1" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Contact information</button>
+                        </div>
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="staticBackdropLabel">Contact information</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p><i class="fas fa-phone" style="color: blue;"></i> ${post.house.house_owner.phone_number}</p>
+                                        <p><i class="fas fa-envelope" style="color: red;"></i> ${post.house.house_owner.email}</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    </button>
+
+
                 </div>
-                <h5 class=" fs-4 text-primary mb-3 custom-card-title">
-                    <i class="fas fa-map-marker-alt mr-2"></i> ${post.house.location}
-                </h5>
-                <div class="profile-container">
-                    <div class="avatar-container">
-                        <img src="${pageContext.request.contextPath}/images/person_1.jpg" alt="Avatar" class="avatar">
-                    </div>
-                    <div class="user-info-container">
-                        <p class="username">${sessionScope.account.getFull_name()}</p>
-                        <details>
-                            <summary>Contact Information</summary><br>
-                            <p><i class="fas fa-phone" style="color: blue;"></i> ${post.house.house_owner.phone_number}</p>
-                            <p><i class="fas fa-envelope" style="color: red;"></i> ${post.house.house_owner.email}</p>
-                        </details>
-                    </div>
-                </div>
-                <table class="table-no-border">
-                    <tbody>
-                        <tr>
-                            <td><strong>Price: </strong>${post.price}</td>
-                            <td><strong>Area: </strong>${post.house.area} m<sup>2</sup></td>
-                        </tr>
-                        <tr>
-                            <td><strong>Rooms: </strong>${post.house.number_of_room}</td>
-                            <td><strong>Purpose: </strong>${post.purpose.purpose_name}</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Status: </strong>${post.house_status.status_name}</td> 
-                            <td></td>
-                        </tr>
-                    </tbody>
-                </table>
-                <p><strong>Description: </strong><br>${post.house.description}</p>
             </div>
         </div>
         <jsp:include page="footer.jsp"/>
