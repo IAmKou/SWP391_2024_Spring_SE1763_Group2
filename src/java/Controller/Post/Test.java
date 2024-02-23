@@ -70,26 +70,7 @@ public class Test extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            // Lấy danh sách hình ảnh từ DAO
-            ImageDAO imageDAO = new ImageDAO();
-            List<Image> images = imageDAO.getAllImages();
-
-            // Mã hóa dữ liệu ảnh từ kiểu Blob sang Base64
-            for (Image image : images) {
-                String imageDataBase64 = Base64.getEncoder().encodeToString(image.getImageData());
-                image.setImageDataAsBase64(imageDataBase64);
-            }
-
-            // Đặt danh sách hình ảnh vào attribute của request để truyền cho JSP hoặc gửi về client
-            request.setAttribute("images", images);
-
-            // Chuyển hướng request và response tới một trang JSP để hiển thị danh sách hình ảnh
-            request.getRequestDispatcher("views/test.jsp").forward(request, response);
-        } catch (SQLException ex) {
-            Logger.getLogger(Test.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
+        
     }
 
     /**
