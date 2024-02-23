@@ -2,9 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-
 package Controller;
 
+import dao.userDAO;
 import jakarta.mail.Authenticator;
 import jakarta.mail.Message;
 import jakarta.mail.MessagingException;
@@ -23,27 +23,28 @@ import jakarta.servlet.http.HttpSession;
 import java.util.Properties;
 import java.util.Random;
 import model.User;
-import model.account;
+import model.Account;
 
 /**
  *
  * @author ACER
  */
-@WebServlet(name="sendEmail", urlPatterns={"/sendEmail"})
+@WebServlet(name = "sendEmail", urlPatterns = {"/sendEmail"})
 public class sendEmail extends HttpServlet {
-   
-    /** 
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
+
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-
-
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /** 
+    /**
      * Handles the HTTP <code>GET</code> method.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -51,12 +52,13 @@ public class sendEmail extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-        
-    } 
+            throws ServletException, IOException {
 
-    /** 
+    }
+
+    /**
      * Handles the HTTP <code>POST</code> method.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -64,12 +66,16 @@ public class sendEmail extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-        account newUser = (account) request.getSession().getAttribute("userForgetPass");
+            throws ServletException, IOException {
+
+        Account newUser = (Account) request.getSession().getAttribute("userForgetPass");
         int uid = newUser.getUser_id();
-        User nuser = dao.userDAO.getUserInformation(uid);
+
+        // Create an instance of userDAO
+        userDAO dao = new userDAO();
+        User nuser = dao.getUserInformation(uid);
         String recipient = nuser.getEmail();
-        if (recipient!=null) {
+        if (recipient != null) {
             // Get recipient email address and message from form data
             String verifyCode = generateVerifyCode();
             String message = generateEmailMessage(verifyCode);
@@ -116,14 +122,16 @@ public class sendEmail extends HttpServlet {
         }
     }
 
-    /** 
+    /**
      * Returns a short description of the servlet.
+     *
      * @return a String containing servlet description
      */
     @Override
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
     public static String generateVerifyCode() {
         Random rand = new Random();
         //random tu 0 den 999999
@@ -132,7 +140,7 @@ public class sendEmail extends HttpServlet {
         return String.format("%06d", number);
     }
 
-    public static String generateEmailMessage(String generateVerifyCode) {  
+    public static String generateEmailMessage(String generateVerifyCode) {
         String message = "Here is your confirmation code, Please do not share this to anybody.\n"
                 + "If you did not request this, please ignore this message\n"
                 + "Your confirmation code is: \n"

@@ -11,11 +11,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
 import java.util.ArrayList;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import model.account;
+import model.Account;
 import model.User;
+
 
 /**
  *
@@ -24,6 +27,7 @@ import model.User;
 public class userDAO {
 
     public void insertUser(String fullname, Date dob, String address, int phone, String email) {
+
         try {
             DBContext db = new DBContext();
             Connection con = db.getConnection();
@@ -38,6 +42,7 @@ public class userDAO {
             st.setString(3, address);
             st.setInt(4, phone);
             st.setString(5, email);
+
             int row = st.executeUpdate();
             st.close();
             con.close();
@@ -46,6 +51,7 @@ public class userDAO {
             System.out.println(e.getMessage());
         }
     }
+
 
     public boolean phoneIsExist(int phone) {
         try {
@@ -79,8 +85,9 @@ public class userDAO {
         return false;
     }
 
-    public static account LogIn(String username, String pass) {
-        account account = null;
+
+    public static Account LogIn(String username, String pass) {
+        Account account = null;
         try {
             DBContext db = new DBContext();
             Connection con = db.getConnection();
@@ -89,7 +96,8 @@ public class userDAO {
                 Statement call = con.createStatement();
                 ResultSet rs = call.executeQuery(sql);
                 while (rs.next()) {
-                    account = new account(rs.getInt("user_id"), username, pass, rs.getInt("role_id"));
+
+                    account = new Account(rs.getInt("user_id"), username, pass, rs.getInt("role_id"));
                 }
                 call.close();
                 con.close();
@@ -119,7 +127,8 @@ public class userDAO {
         return false;
     }
 
-    public static User getUserInformation(int id) {
+
+    public  User getUserInformation(int id) {
         User user = null;
         try {
             DBContext db = new DBContext();
@@ -129,6 +138,7 @@ public class userDAO {
                 Statement st = con.createStatement();
                 ResultSet rs = st.executeQuery(sql);
                 while (rs.next()) {
+
                     user = new User();
                     user.setUser_id(rs.getInt(1));
                     user.setFull_name(rs.getString(2));
@@ -147,7 +157,8 @@ public class userDAO {
         return user;
     }
 
-    public static User getUserByEmail(String email) {
+
+    public User getUserByEmail(String email) {
         User user = new User();
         String sql = "Select * from `user` where `email` = '" + email + "';";
         try {
@@ -163,6 +174,7 @@ public class userDAO {
                 user.setPhone_number(rs.getString("phone_number"));
                 user.setEmail(rs.getString("email"));
 
+
                 return user;
 
             }
@@ -171,6 +183,7 @@ public class userDAO {
         }
         return null;
     }
+
 
     public void insertAccount(int uid, String uname, String pass, int rid) {
         try {
@@ -186,6 +199,7 @@ public class userDAO {
             st.setString(2, uname);
             st.setString(3, pass);
             st.setInt(4, rid);
+
             int row = st.executeUpdate();
             st.close();
             con.close();
@@ -193,10 +207,11 @@ public class userDAO {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+
     }
 
-    public static account getAccount(int id) {
-        account acc = new account();
+    public static Account getAccount(int id) {
+        Account acc = new Account();
         String sql = "Select * from `account` where `user_id` = '" + id + "';";
         try {
             DBContext db = new DBContext();
@@ -207,6 +222,7 @@ public class userDAO {
                 acc.setUser_id(rs.getInt("user_id"));
                 acc.setUser_name(rs.getString("user_name"));
                 acc.setPass_word(rs.getString("pass_word"));
+
                 acc.setRole_id(rs.getInt("role_id"));
                 return acc;
             }
@@ -214,6 +230,7 @@ public class userDAO {
             System.out.println(e.getMessage());
         }
         return null;
+
     }
 
     public void updateUser(User user) {

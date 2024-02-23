@@ -14,7 +14,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import model.account;
+
+import model.Account;
 import model.User;
 
 /**
@@ -36,13 +37,15 @@ public class forgotPasswordController extends HttpServlet {
            String email = request.getParameter("mail");
            HttpSession ses = request.getSession();
             userDAO dao = new userDAO();
+
             User checkUser = dao.getUserByEmail(email);
             if(checkUser == null){
                 request.setAttribute("Alert", "Account not found");
                 request.getRequestDispatcher("forgotPassword.jsp").forward(request, response);
             }else {
+
                     int uid = checkUser.getUser_id();
-                    account checkAccount = dao.getAccount(uid);
+                    Account checkAccount = dao.getAccount(uid);
                     ses.setAttribute("userForgetPass", checkAccount);
                     request.getRequestDispatcher("sendEmail").forward(request, response);    
     } 

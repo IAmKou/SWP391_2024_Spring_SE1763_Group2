@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
 import java.sql.Statement;
 import java.util.List;
 import java.util.logging.Level;
@@ -25,6 +26,7 @@ public class HouseDAO extends DBContext {
     public void updateHouse(House house) {
 
         try {
+
             String sql = "UPDATE `house_finder_project`.`house`\n"
                     + "SET\n"
                     + "`type_of_house_id` = ?,\n"
@@ -42,11 +44,13 @@ public class HouseDAO extends DBContext {
                 stm.setInt(5, house.getNumber_of_room());
                 stm.setInt(6, house.getHouse_id());
 
+
                 stm.executeUpdate();
             }
         } catch (SQLException ex) {
             Logger.getLogger(HouseDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
+
 
     }
 

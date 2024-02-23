@@ -21,6 +21,12 @@ public class Post {
     public Post() {
     }
 
+    public Post(int post_id) {
+        this.post_id = post_id;
+    }
+
+   
+
     public int getPost_id() {
         return post_id;
     }

@@ -8,9 +8,9 @@ import java.sql.Date;
 
 /**
  *
- * @author ACER
+ * @author trant
  */
-public class User { 
+public class User {
 
     private int user_id;
     private String full_name;
@@ -33,6 +33,7 @@ public class User {
         this.avatar = avatar;
     }
 
+
     public String getAvatar() {
         return avatar;
     }
@@ -47,47 +48,64 @@ public class User {
 
     public String getAddress() {
         return address;
-    }
 
-    public Date getDate_of_birth() {
-        return date_of_birth;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getFull_name() {
-        return full_name;
-    }
-
-    public String getPhone_number() {
-        return phone_number;
     }
 
     public int getUser_id() {
         return user_id;
     }
 
-    public void setDate_of_birth(Date date_of_birth) {
-        this.date_of_birth = date_of_birth;
+    public void setUser_id(int user_id) {
+        this.user_id = user_id;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public String getFull_name() {
+        return full_name;
     }
 
     public void setFull_name(String full_name) {
         this.full_name = full_name;
     }
 
+    public Date getDate_of_birth() {
+        return date_of_birth;
+    }
+
+    public void setDate_of_birth(Date date_of_birth) {
+        this.date_of_birth = date_of_birth;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getPhone_number() {
+        return phone_number;
+    }
+
     public void setPhone_number(String phone_number) {
         this.phone_number = phone_number;
     }
 
-    public void setUser_id(int user_id) {
-        this.user_id = user_id;
+    public String getEmail() {
+        return email;
     }
 
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+  
+   
+
+    @Override
+    public String toString() {
+        return "User{" + "user_id=" + user_id + ", full_name=" + full_name + ", date_of_birth=" + date_of_birth + ", address=" + address + ", phone_number=" + phone_number + ", email=" + email + '}';
+    }
+    
     
 }

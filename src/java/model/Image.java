@@ -4,6 +4,7 @@
  */
 package model;
 
+
 /**
  *
  * @author FPTSHOP
@@ -25,6 +26,7 @@ public class Image {
     public Image(int imageId, byte[] imageData) {
         this.image_id = imageId;
         this.imageData = imageData;
+
     }
 
     public int getImage_id() {
@@ -35,6 +37,7 @@ public class Image {
         this.image_id = image_id;
     }
 
+
     public byte[] getImageData() {
         return imageData;
     }
@@ -42,5 +45,6 @@ public class Image {
     public void setImageData(byte[] imageData) {
         this.imageData = imageData;
     }
+
 
 }

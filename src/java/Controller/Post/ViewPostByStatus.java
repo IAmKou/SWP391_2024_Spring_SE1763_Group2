@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.util.List;
 import model.Post;
+
 import model.User;
 
 /**
@@ -34,6 +35,7 @@ public class ViewPostByStatus extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession();
+
         User acc =  (User) session.getAttribute("account");
         String status_str = request.getParameter("status");
         int status_id = Integer.parseInt(status_str);
