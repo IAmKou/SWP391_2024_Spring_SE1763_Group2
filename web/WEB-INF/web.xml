@@ -5,13 +5,11 @@
         <servlet-class>Controller.Post.CreatePost</servlet-class>
     </servlet>
     <servlet>
-<<<<<<< HEAD
-=======
+
         <servlet-name>ViewUserPost</servlet-name>
         <servlet-class>Controller.Post.ViewUserPost</servlet-class>
     </servlet>
     <servlet>
->>>>>>> e9be0e4a0bf34aca34d84f899cc6f87c6f94bbf4
         <servlet-name>ViewPostByStatus</servlet-name>
         <servlet-class>Controller.Post.ViewPostByStatus</servlet-class>
     </servlet>
@@ -32,7 +30,6 @@
         <servlet-class>Controller.User.userProfile</servlet-class>
     </servlet>
     <servlet>
-<<<<<<< HEAD
         <servlet-name>viewUserList</servlet-name>
         <servlet-class>Controller.User.viewUserList</servlet-class>
     </servlet>
@@ -55,10 +52,8 @@
     <servlet>
         <servlet-name>ViewFeedbackServlet</servlet-name>
         <servlet-class>Controller.Feedback.ViewFeedbackServlet</servlet-class>
-=======
         <servlet-name>ViewPost</servlet-name>
         <servlet-class>Controller.Post.ViewPost</servlet-class>
->>>>>>> e9be0e4a0bf34aca34d84f899cc6f87c6f94bbf4
     </servlet>
     <servlet-mapping>
         <servlet-name>addNewPost</servlet-name>
@@ -85,7 +80,6 @@
         <url-pattern>/userProfile</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-<<<<<<< HEAD
         <servlet-name>viewUserList</servlet-name>
         <url-pattern>/viewUserList</url-pattern>
     </servlet-mapping>
@@ -108,24 +102,21 @@
     <servlet-mapping>
         <servlet-name>ViewFeedbackServlet</servlet-name>
         <url-pattern>/view-feedback</url-pattern>
-=======
+
         <servlet-name>ViewUserPost</servlet-name>
         <url-pattern>/post/view</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ViewPost</servlet-name>
         <url-pattern>/view</url-pattern>
->>>>>>> e9be0e4a0bf34aca34d84f899cc6f87c6f94bbf4
     </servlet-mapping>
     <session-config>
         <session-timeout>
             30
         </session-timeout>
     </session-config>
-<<<<<<< HEAD
-=======
+
     <welcome-file-list>
         <welcome-file>views/home.jsp</welcome-file>
     </welcome-file-list>
->>>>>>> e9be0e4a0bf34aca34d84f899cc6f87c6f94bbf4
 </web-app>

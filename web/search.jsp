@@ -133,11 +133,11 @@
                         <nav class="pagination">
                             <ul>
                                 <li><a href="#">&laquo; Previous</a></li>
-                                <li><a href="#">1</a></li>
+                                <li><a href="current">1</a></li>
                                 <li><a href="#">2</a></li>
                                 <li><strong>&hellip;</strong></li>
                                 <li><a href="#">6</a></li>
-                                <li class="current"><strong>7</strong></li>
+                                <li class=""><strong>7</strong></li>
                                 <li><a href="#">8</a></li>
                                 <li><a href="#">9</a></li>
                                 <li><strong>&hellip;</strong></li>
