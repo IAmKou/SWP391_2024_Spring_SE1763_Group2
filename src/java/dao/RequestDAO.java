@@ -90,7 +90,7 @@ public class RequestDAO extends DBContext {
                     seller.setFull_name(rs.getString("full_name"));
                     seller.setDate_of_birth(rs.getDate("date_of_birth"));
                     seller.setAddress(rs.getString("address"));
-                    seller.setPhone_number(rs.getInt("phone_number"));
+                    seller.setPhone_number(rs.getString("phone_number"));
                     seller.setEmail(rs.getString("email"));
 
                     User customer = new User();
@@ -99,7 +99,7 @@ public class RequestDAO extends DBContext {
                     customer.setFull_name(rs.getString("full_name"));
                     customer.setDate_of_birth(rs.getDate("date_of_birth"));
                     customer.setAddress(rs.getString("address"));
-                    customer.setPhone_number(rs.getInt("phone_number"));
+                    customer.setPhone_number(rs.getString("phone_number"));
                     customer.setEmail(rs.getString("email"));
 
                     House house = new House();

@@ -53,12 +53,12 @@ public class updateUser extends HttpServlet {
             java.sql.Date date_of_birth = new java.sql.Date(dateOfBirthUtil.getTime());
 
             // Kiểm tra định dạng của số điện thoại
-            int phone_number;
-            try {
-                phone_number = Integer.parseInt(phone_number_str);
-            } catch (NumberFormatException e) {
-                throw new ServletException("Số điện thoại phải là một số nguyên.");
-            }
+//            int phone_number;
+//            try {
+//                phone_number = Integer.parseInt(phone_number_str);
+//            } catch (NumberFormatException e) {
+//                throw new ServletException("Số điện thoại phải là một số nguyên.");
+//            }
 
             // Kiểm tra định dạng của email
             if (!email.matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
@@ -74,7 +74,7 @@ public class updateUser extends HttpServlet {
             user.setFull_name(full_name);
             user.setDate_of_birth(date_of_birth);
             user.setAddress(address);
-            user.setPhone_number(phone_number);
+            user.setPhone_number(phone_number_str);
             user.setEmail(email);
 
             // Cập nhật người dùng trong cơ sở dữ liệu

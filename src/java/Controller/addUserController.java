@@ -62,12 +62,20 @@ public class addUserController extends HttpServlet {
             userDAO dao = new userDAO();
             String msg = "";
             //Get data from page
+            String email = request.getParameter("email");
+            String uname = request.getParameter("uname");
+            String pass = request.getParameter("pass");
+            String cfpass = request.getParameter("cfpass");
             String fullname = request.getParameter("fullname");
             String DoB = request.getParameter("dob");
             SimpleDateFormat availDate = new SimpleDateFormat("yyyy-MM-dd");
             String address = request.getParameter("address");
             int phone = Integer.parseInt(request.getParameter("phone"));
-            String email = request.getParameter("email");          
+            //Validate pass
+            if(!pass.equals(cfpass)){
+                msg = "Confirm pass not match !!!";
+                request.getRequestDispatcher("signUp.jsp").forward(request, response);
+            }
             //Validate phone 
             if (dao.phoneIsExist(phone)) {
                 msg = "This username has already existed!!!";
@@ -85,8 +93,11 @@ public class addUserController extends HttpServlet {
                     java.util.Date date = availDate.parse(DoB);
                     java.sql.Date sqlDate = new java.sql.Date(date.getTime());
                     dao.insertUser(fullname,sqlDate,address,phone,email);
-                     request.setAttribute("email", email);
-                    request.getRequestDispatcher("account.jsp").forward(request, response);
+                    User u = dao.getUserByEmail(email);
+                    int uid = u.getUser_id();
+                    dao.insertAccount(uid, uname, pass, 2);
+                    request.setAttribute("email", email);
+                    request.getRequestDispatcher("/views/home.jsp").forward(request, response);
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
         }

@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -32,10 +33,18 @@
                         <a href="${pageContext.request.contextPath}/views/home.jsp"> <img src="${pageContext.request.contextPath}/images/demo/image-removebg-preview.png" alt="image" class="logo"></a>
                     </nav>
                     <nav id="mainav" class="hnc3">
-                        <ul class="clear">
+                        <ul class="clear" style="
+                            width: 330px;
+                            ">
                             <li class="active"><a href="#">Home</a></li>
                             <li class="active"><a href="#">My Rentals</a></li>
+<<<<<<< HEAD
 
+=======
+                                <c:if test="${sessionScope.account eq null}">
+                                <li class="active"><a href="logIn.jsp">Login</a></li>
+                                </c:if>
+>>>>>>> e9be0e4a0bf34aca34d84f899cc6f87c6f94bbf4
                             <li>${sessionScope.account.getFull_name()}
                                 <ul>
                                     <li><a href="profile.html">My Account</a></li>

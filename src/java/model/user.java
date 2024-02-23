@@ -16,13 +16,13 @@ public class User {
     private String full_name;
     private Date date_of_birth;
     private String address;
-    private int phone_number;
+    private String phone_number;
     private String email;
 
     public User() {
     }
 
-    public User(int user_id, String full_name, Date date_of_birth, String address, int phone_number, String email) {
+    public User(int user_id, String full_name, Date date_of_birth, String address, String phone_number, String email) {
         this.user_id = user_id;
         this.full_name = full_name;
         this.date_of_birth = date_of_birth;
@@ -31,11 +31,9 @@ public class User {
         this.email = email;
     }
 
-    public User(int user_id) {
-        this.user_id = user_id;
+    public User(int aInt) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-
-    
 
     public int getUser_id() {
         return user_id;
@@ -69,11 +67,11 @@ public class User {
         this.address = address;
     }
 
-    public int getPhone_number() {
+    public String getPhone_number() {
         return phone_number;
     }
 
-    public void setPhone_number(int phone_number) {
+    public void setPhone_number(String phone_number) {
         this.phone_number = phone_number;
     }
 
@@ -84,6 +82,9 @@ public class User {
     public void setEmail(String email) {
         this.email = email;
     }
+
+  
+   
 
     @Override
     public String toString() {

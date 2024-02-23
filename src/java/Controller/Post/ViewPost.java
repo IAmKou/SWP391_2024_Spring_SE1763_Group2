@@ -15,6 +15,8 @@ import jakarta.servlet.http.HttpSession;
 import java.util.List;
 import model.Post;
 import model.User;
+import dao.userDAO; 
+      
 
 
 /**
@@ -40,6 +42,7 @@ public class ViewPost extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
+
             out.println("<title>Servlet ViewPost</title>");
             out.println("</head>");
             out.println("<body>");
@@ -61,14 +64,13 @@ public class ViewPost extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        User user = (User) session.getAttribute("account");
-        
-        PostDAO postDAO = new PostDAO();
-        List<Post> posts = postDAO.getAllPost(user.getUser_id());
-        
-        request.setAttribute("posts", posts);
-        request.getRequestDispatcher("../views/viewPost.jsp").forward(request, response);
+        String post_id_str = request.getParameter("post_id");
+//        int post_id_int  = Integer.parseInt(post_id_str);
+        PostDAO Pdao = new PostDAO();
+        Post post = Pdao.getPost(1);
+        request.setAttribute("post", post);
+        request.getRequestDispatcher("/views/post.jsp").forward(request, response);
+
     }
 
     /**
@@ -82,11 +84,28 @@ public class ViewPost extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String email = request.getParameter("email");
+        String uname = request.getParameter("uname");
+        String pass = request.getParameter("pass");
+        String cfpass = request.getParameter("cfpass");
+
+        userDAO dao = new userDAO();
+
+       User user = dao.getUserByEmail(email);
+        int uid = user.getUser_id();
+        if (!pass.equals(cfpass)) {
+            request.setAttribute("msg", "confirm password not match password");
+            request.getRequestDispatcher("account.jsp").forward(request, response);
+        } else {
+            dao.insertAccount(uid, uname, pass, 2);
+            request.getRequestDispatcher("logIn.jsp").forward(request, response);
+        }
         processRequest(request, response);
     }
 
     /**
-     * Returns a short description of the servlet.
+     * Returns a short description of the servlet. >>>>>>>
+     * e9be0e4a0bf34aca34d84f899cc6f87c6f94bbf4
      *
      * @return a String containing servlet description
      */

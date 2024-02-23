@@ -69,7 +69,6 @@ public class ViewUserPost extends HttpServlet {
         
         PostDAO postDAO = new PostDAO();
         List<Post> posts = postDAO.getUserPost(user.getUser_id());
-        System.out.println("post"+posts);
         request.setAttribute("ownerPost", posts);
         request.getRequestDispatcher("../views/profile.jsp").forward(request, response);        
     }
