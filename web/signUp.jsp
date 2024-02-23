@@ -47,6 +47,13 @@
             a:hover {
                 color: #999999; /* Màu chữ xám nhạt khi hover vào liên kết */
             }
+    .required-field::after {
+        content: "*";
+        color: red;
+        margin-left:2px
+    }
+
+            
         </style>
     </head>
     <body>
@@ -62,28 +69,36 @@
                                 <h3 class="text-center mb-4">Sign Up</h3>
                                 <form action="#" class="login-form">
                                     <div class="form-group">
-                                        <input name="uname" type="text" class="form-control rounded-left" placeholder="Username: " required>
+                                        <label for="uname">Username: <span class="required-field"></span></label>
+                                        <input name="uname" type="text" class="form-control rounded-left" placeholder="Username: " required id="uname" maxlength="10">
                                     </div>
                                     <div class="form-group">
-                                        <input name="pass" type="password" class="form-control rounded-left" placeholder="Password: " required>
+                                        <label for="pass">Password: <span class="required-field"></span></label>
+                                        <input name="pass" type="password" class="form-control rounded-left" placeholder="Password: " required id="pass" maxlength="20" minlength="6">
                                     </div>
                                     <div class="form-group">
-                                        <input name="cfpass" type="password" class="form-control rounded-left" placeholder="Re-input password: " required>
+                                        <label for="cfpass">Re-input password: <span class="required-field"></span></label>
+                                        <input name="cfpass" type="password" class="form-control rounded-left" placeholder="Re-input password: " required id="cfpass" maxlength="20" minlength="6">
                                     </div>
                                     <div class="form-group">
-                                        <input name="fullname" type="text" class="form-control rounded-left" placeholder="Fullname: " required>
+                                        <label for="fullname">Fullname:  <span class="required-field"></span></label>
+                                        <input name="fullname" type="text" class="form-control rounded-left" placeholder="Fullname: " required id="fullname" maxlength="20">
                                     </div>
-                                    <div class="form-group d-flex">
-                                        <input type="date" name="dob"class="form-control rounded-left" required>
+                                    <div class="form-group">
+                                        <label for="dob">DoB: </label>
+                                        <input type="date" name="dob"class="form-control rounded-left" required id="dob">
                                     </div>
-                                    <div class="form-group d-flex">
-                                        <input type="text" name="address"class="form-control rounded-left" placeholder="Ex: Ha Noi " required>
+                                    <div class="form-group">
+                                        <label for="address">Address: <span class="required-field"></span></label>
+                                        <input type="text" name="address"class="form-control rounded-left" placeholder="Ex: Ha Noi " required id="address" maxlength="100">
                                     </div> 
-                                    <div class="form-group d-flex">
-                                        <input type="number" name="phone"class="form-control rounded-left" placeholder="Phone: " required>
+                                    <div class="form-group">
+                                        <label for="phone">Phone Number: <span class="required-field"></span></label>
+                                        <input type="number" name="phone"class="form-control rounded-left" placeholder="Phone: " required id="phone">
                                     </div>
-                                    <div class="form-group d-flex">
-                                        <input type="text" name="email"class="form-control rounded-left" placeholder="Email: " required>
+                                    <div class="form-group">
+                                        <label for="email">Email: <span class="required-field"></span></label>
+                                        <input type="text" name="email"class="form-control rounded-left" placeholder="Email: " required id="email" maxlength="30">
                                     </div>
                                     <p style="color: red">${requestScope.message}</p>
                                     <div class="form-group">

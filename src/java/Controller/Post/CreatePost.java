@@ -5,15 +5,22 @@
 package Controller.Post;
 
 import dao.HouseDAO;
+import dao.ImageDAO;
+import dao.PostDAO;
 import dao.PurposeDAO;
 import dao.TypeOfHouseDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.Part;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.util.Collection;
 import java.util.List;
 import model.House;
 import model.Post;
@@ -26,6 +33,7 @@ import model.User;
  *
  * @author FPTSHOP
  */
+@MultipartConfig
 public class CreatePost extends HttpServlet {
 
     /**
@@ -89,90 +97,129 @@ public class CreatePost extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("account");
-      
+        
+        String description = request.getParameter("description");
+        description = description.trim();
+        
+        String number_of_room_str = request.getParameter("number_of_room");
+        
         String location = request.getParameter("location");
         String regex = "^[\\p{L}0-9.,\\/\\s]+$";
 
-        if (location.matches(regex)) {
+        try {
+            if (!location.matches(regex)) {
+                throw new Exception("Your location contains invalid characters.");
+            }
+            location = location.trim();
+
             String purpose_str = request.getParameter("purpose");
             int purpose_id = Integer.parseInt(purpose_str);
 
             String price_str = request.getParameter("price");
+            price_str = price_str.trim();
             int price = Integer.parseInt(price_str);
 
             String type_str = request.getParameter("type");
             int type = Integer.parseInt(type_str);
 
-            String description = request.getParameter("description");
-
             String area_str = request.getParameter("area");
+            area_str = area_str.trim();
             int area = Integer.parseInt(area_str);
 
-            String number_of_room_str = request.getParameter("number_of_room");
+            if (location.length() >= 150 || description.length() >= 2000) {
+                throw new Exception("Location or description is too long.");
+            }
 
-            if (location.length() < 150 && description.length() < 2000) {
+            if (price <= 0 || area <= 0) {
+                throw new Exception("Price and area must be positive numeric values.");
+            }
 
-                if (price > 0 && area > 0) {
-                    Purpose purpose = new Purpose();
-                    purpose.setPurpose_id(purpose_id);
+            //đặt giá trị cho các thuộc tính của đối tượng
+            Purpose purpose = new Purpose();
+            purpose.setPurpose_id(purpose_id);
 
-                    Status house_status = new Status();
-                    house_status.setStatus_id(4);
-                    
-                    Status post_status = new Status();
-                    post_status.setStatus_id(1);
-                    
-                    House house = new House();
+            Status house_status = new Status();
+            house_status.setStatus_id(4);
 
-                    Post post = new Post();
-                    post.setHouse_status(house_status);
-                    post.setPrice(price);
-                    post.setPurpose(purpose);
-                    post.setPoster_id(user.getUser_id());
-                    post.setPost_status(post_status);
-                    TypeOfHouse tOfHouse = new TypeOfHouse();
-                    tOfHouse.setType_of_house_id(type);
+            Status post_status = new Status();
+            post_status.setStatus_id(1);
 
-                    house.setLocation(location);
-                    house.setDescription(description);
-                    house.setHouse_owner(user);
-                    house.setArea(area);
-                    house.setType_of_house(tOfHouse);
+            House house = new House();
 
-                    if (!number_of_room_str.isEmpty()) {
-                        int number_of_room = Integer.parseInt(number_of_room_str);
-                        if (number_of_room > 0) {
-                            house.setNumber_of_room(number_of_room);
-                        } else {
-                            String alert = "Invalid data format. Please enter valid numeric values.";
-                            request.setAttribute("alert", alert);
-                            request.getRequestDispatcher("../views/addPost.jsp").forward(request, response);
+            Post post = new Post();
+            post.setHouse_status(house_status);
+            post.setPrice(price);
+            post.setPurpose(purpose);
+            post.setPoster_id(user.getUser_id());
+            post.setPost_status(post_status);
+            TypeOfHouse tOfHouse = new TypeOfHouse();
+            tOfHouse.setType_of_house_id(type);
+
+            house.setLocation(location);
+            house.setDescription(description);
+            house.setHouse_owner(user);
+            house.setArea(area);
+            house.setType_of_house(tOfHouse);
+
+            if (!number_of_room_str.isEmpty()) {
+                number_of_room_str = number_of_room_str.trim();
+                int number_of_room = Integer.parseInt(number_of_room_str);
+                if (number_of_room <= 0) {
+                    throw new Exception("Number of rooms must be a positive numeric value.");
+                }
+                house.setNumber_of_room(number_of_room);
+            }
+
+            HouseDAO houseDAO = new HouseDAO();
+            int house_id = houseDAO.addHouse(house);
+
+            PostDAO postDAO = new PostDAO();
+            postDAO.addPost(house_id, post);
+
+            //xử lí phần hình ảnh
+            try {
+                Collection<Part> parts = request.getParts();
+
+                for (Part part : parts) {
+                    if (part.getContentType() != null && part.getContentType().startsWith("image")) {
+                        InputStream fileContent = part.getInputStream();
+                        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                        byte[] buffer = new byte[4096];
+                        int bytesRead;
+                        while ((bytesRead = fileContent.read(buffer)) != -1) {
+                            outputStream.write(buffer, 0, bytesRead);
                         }
+                        byte[] imageData = outputStream.toByteArray();
+
+                        ImageDAO imageDAO = new ImageDAO();
+                        imageDAO.addImages(house_id, imageData);
+
+                        outputStream.close();
+                        fileContent.close();
                     }
 
-                    HouseDAO houseDAO = new HouseDAO();
-                    houseDAO.addHouse(house, post);
-
-                    request.setAttribute("alert", "Add successfully.");
-                    request.getRequestDispatcher("../views/addPost.jsp").forward(request, response);
-                } else {
-                    String alert = "Invalid data format. Please enter valid numeric values.";
-                    request.setAttribute("alert", alert);
-                    request.getRequestDispatcher("../views/addPost.jsp").forward(request, response);
                 }
-            } else {
-                String alert = "Location or description too long.";
-                request.setAttribute("alert", alert);
+
+            } catch (IOException exception) {
+                request.setAttribute("alert", "An error occur when upload image.");
                 request.getRequestDispatcher("../views/addPost.jsp").forward(request, response);
             }
 
-        } else {
-            String alert = "Your location have invalid characters.";
+            request.setAttribute("alert", "Add successfully.");
+            request.getRequestDispatcher("../views/addPost.jsp").forward(request, response);
+        } catch (NumberFormatException ex) {
+            String alert = "Invalid data format. Please enter valid numeric values.";
+            request.setAttribute("alert", alert);
+            request.getRequestDispatcher("../views/addPost.jsp").forward(request, response);
+        } catch (Exception ex) {
+            String alert = ex.getMessage();
             request.setAttribute("alert", alert);
             request.getRequestDispatcher("../views/addPost.jsp").forward(request, response);
         }
+
     }
 
     /**

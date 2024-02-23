@@ -4,6 +4,7 @@
  */
 package Controller.Post;
 
+import dao.ImageDAO;
 import dao.PostDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -11,8 +12,9 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
+import java.util.Base64;
 import java.util.List;
+import model.Image;
 import model.Post;
 import model.User;
 import dao.userDAO; 
@@ -66,8 +68,19 @@ public class ViewPost extends HttpServlet {
             throws ServletException, IOException {
         String post_id_str = request.getParameter("post_id");
 //        int post_id_int  = Integer.parseInt(post_id_str);
+
         PostDAO Pdao = new PostDAO();
         Post post = Pdao.getPost(1);
+        
+        ImageDAO imageDAO = new ImageDAO();
+        List<Image> images = imageDAO.getImages(post.getHouse().getHouse_id());
+        
+        for (Image image : images) {
+            String imageDataBase64 = Base64.getEncoder().encodeToString(image.getImageData());
+            image.setImageDataAsBase64(imageDataBase64);
+        }
+        
+        request.setAttribute("images", images);
         request.setAttribute("post", post);
         request.getRequestDispatcher("/views/post.jsp").forward(request, response);
 

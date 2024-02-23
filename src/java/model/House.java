@@ -19,7 +19,7 @@ public class House {
     String description;
     int area;
     int number_of_room;
-    List<String> image_URL;
+    List<Image> image;
 
     public House() {
     }
@@ -91,12 +91,12 @@ public class House {
         this.number_of_room = number_of_room;
     }
 
-    public List<String> getImage_URL() {
-        return image_URL;
+    public List<Image> getImage() {
+        return image;
     }
 
-    public void setImage_URL(List<String> image_URL) {
-        this.image_URL = image_URL;
+    public void setImage(List<Image> image_URL) {
+        this.image = image;
     }
     
     

@@ -33,7 +33,7 @@ public class logOutController extends HttpServlet {
         try {
             HttpSession session = request.getSession();
             session.invalidate();
-            response.sendRedirect("/views/home.jsp");
+            response.sendRedirect("views/home.jsp");
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }

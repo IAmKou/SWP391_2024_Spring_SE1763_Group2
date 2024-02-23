@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import java.sql.Statement;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.House;
@@ -53,7 +54,7 @@ public class HouseDAO extends DBContext {
 
     }
 
-    public void addHouse(House house, Post post) {
+    public int addHouse(House house) {
         try {
             String sql = "INSERT INTO house (house_owner_id, type_of_house_id,"
                     + " address, description, area, number_of_room) "
@@ -64,27 +65,26 @@ public class HouseDAO extends DBContext {
                 // Thêm tham số Statement.RETURN_GENERATED_KEYS vào prepareStatement
                 PreparedStatement stm = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
-                stm.setInt(1, post.getPoster_id());
+                stm.setInt(1, house.getHouse_owner().getUser_id());
                 stm.setInt(2, house.getType_of_house().getType_of_house_id());
                 stm.setString(3, house.getLocation());
                 stm.setString(4, house.getDescription());
                 stm.setInt(5, house.getArea());
                 stm.setInt(6, house.getNumber_of_room());
 
-                // Thực hiện INSERT và lấy house_id được tạo tự động
-                int rowsAffected = stm.executeUpdate();
-                if (rowsAffected > 0) {
-                    ResultSet generatedKeys = stm.getGeneratedKeys();
-                    if (generatedKeys.next()) {
-                        int houseId = generatedKeys.getInt(1);
-                        PostDAO postDAO = new PostDAO();
-                        postDAO.addPost(houseId, post);
-                    }
+                stm.executeUpdate();
+                
+                // Lấy house_id từ ResultSet
+                ResultSet generatedKeys = stm.getGeneratedKeys();
+                if (generatedKeys.next()) {
+                    int houseId = generatedKeys.getInt(1); 
+                    return houseId;
                 }
             }
         } catch (SQLException ex) {
             Logger.getLogger(HouseDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return -1;
     }
 
 }

@@ -48,7 +48,7 @@ public class changePasswordController extends HttpServlet {
         } else {
             if (newPass.equals(newCfPass)) {
                 dao.ChangePassword(user.getUser_id(), newPass);
-                request.getRequestDispatcher("mainPage.jsp").forward(request, response);
+                request.getRequestDispatcher("profile.jsp").forward(request, response);
             } else {
                 request.setAttribute("mess1", "New pass and confirm not match");
                 request.getRequestDispatcher("changePassword.jsp").forward(request, response);

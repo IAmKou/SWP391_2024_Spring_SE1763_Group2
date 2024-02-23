@@ -201,6 +201,7 @@ public class PostDAO {
         return posts;
     }
 
+
     public List<Post> getAllPost(int user_id) {
         List<Post> posts = new ArrayList<>();
 
@@ -271,6 +272,7 @@ public class PostDAO {
         return posts;
     }
 
+
     public void addPost(int houseId, Post post) {
         try {
             String postSql = "INSERT INTO post (house_id, purpose_id,"
@@ -322,6 +324,7 @@ public class PostDAO {
             String sql = "SELECT \n"
                     + "    post.post_id, \n"
                     + "    post.house_id,\n"
+                    + "    purpose.purpose_id, \n"
                     + "    purpose.purpose_name, \n"
                     + "    post.price,\n"
                     + "    house_status.status_name AS house_status, \n"
@@ -368,6 +371,7 @@ public class PostDAO {
                         post_status.setStatus_name(rs.getString("post_status"));
 
                         Purpose purpose = new Purpose();
+                        purpose.setPurpose_id(rs.getInt("purpose_id"));
                         purpose.setPurpose_name(rs.getString("purpose_name"));
 
                         User poster = new User();

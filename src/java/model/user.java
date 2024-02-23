@@ -18,21 +18,37 @@ public class User {
     private String address;
     private String phone_number;
     private String email;
+    private String avatar;
 
     public User() {
     }
 
-    public User(int user_id, String full_name, Date date_of_birth, String address, String phone_number, String email) {
+    public User(int user_id, String full_name, Date date_of_birth, String address, String phone_number, String email,String avatar) {
         this.user_id = user_id;
         this.full_name = full_name;
         this.date_of_birth = date_of_birth;
         this.address = address;
         this.phone_number = phone_number;
         this.email = email;
+        this.avatar = avatar;
     }
 
-    public User(int aInt) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+    
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getAddress() {
+        return address;
+
     }
 
     public int getUser_id() {

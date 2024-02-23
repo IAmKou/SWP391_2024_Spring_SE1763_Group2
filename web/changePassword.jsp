@@ -69,7 +69,7 @@
                                     <div class="form-group">
                                         <input name="cfpass" type="password" class="form-control rounded-left" placeholder="Re-input password: " required>
                                     </div>
-                                    <p style="color: red">${requestScope.message}</p>
+                                    <p style="color: red">${requestScope.mess1}</p>
                                     <div class="form-group">
                                         <button type="submit" class="form-control btn btn-primary rounded submit px-3">Change</button>
                                     </div>

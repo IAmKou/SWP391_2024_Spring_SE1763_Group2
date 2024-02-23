@@ -5,34 +5,28 @@
 package model;
 
 
+/**
+ *
+ * @author FPTSHOP
+ */
 public class Image {
-    private int house_id;
-    private String image_link;
-    private int image_id;
 
-    public Image() {
+    int image_id;
+    byte[] imageData;
+    String imageDataBase64;
+
+    public String getImageDataAsBase64() {
+        return imageDataBase64;
     }
 
-    public Image(int house_id, String image_link, int image_id) {
-        this.house_id = house_id;
-        this.image_link = image_link;
-        this.image_id = image_id;
+    public void setImageDataAsBase64(String imageDataBase64) {
+        this.imageDataBase64 = imageDataBase64;
     }
 
-    public int getHouse_id() {
-        return house_id;
-    }
+    public Image(int imageId, byte[] imageData) {
+        this.image_id = imageId;
+        this.imageData = imageData;
 
-    public void setHouse_id(int house_id) {
-        this.house_id = house_id;
-    }
-
-    public String getImage_link() {
-        return image_link;
-    }
-
-    public void setImage_link(String image_link) {
-        this.image_link = image_link;
     }
 
     public int getImage_id() {
@@ -43,9 +37,14 @@ public class Image {
         this.image_id = image_id;
     }
 
-    @Override
-    public String toString() {
-        return "imge{" + "house_id=" + house_id + ", image_link=" + image_link + ", image_id=" + image_id + '}';
+
+    public byte[] getImageData() {
+        return imageData;
     }
-    
+
+    public void setImageData(byte[] imageData) {
+        this.imageData = imageData;
+    }
+
+
 }

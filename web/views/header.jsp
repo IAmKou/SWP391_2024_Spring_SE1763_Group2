@@ -42,7 +42,7 @@
 
 =======
                                 <c:if test="${sessionScope.account eq null}">
-                                <li class="active"><a href="logIn.jsp">Login</a></li>
+                                <li class="active"><a href="${pageContext.request.contextPath}/logIn.jsp">Login</a></li>
                                 </c:if>
 >>>>>>> e9be0e4a0bf34aca34d84f899cc6f87c6f94bbf4
                             <li>${sessionScope.account.getFull_name()}
