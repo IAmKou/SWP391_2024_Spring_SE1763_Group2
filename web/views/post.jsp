@@ -86,27 +86,32 @@
                         </table>
                         <p><strong>Description: </strong><br>${post.house.description}</p>
                     </div>
-                    <div class="col-md-4 card h-25">
-                        <div class="card-body d-flex flex-column">
-                            <button class="btn btn-danger mb-3 flex-grow-1">Book a tour house</button>
-                            <button class="btn btn-primary flex-grow-1" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Contact information</button>
-                        </div>
+                    <div class="col-md-4">
+                        <div class="card mb-4">
+                            <div class="card-body d-flex flex-column">
+                                <button class="btn btn-danger mb-3 flex-grow-1">Book a tour house</button>
+                                <button class="btn btn-primary flex-grow-1" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Contact information</button>
+                            </div>
 
-                        <!-- Modal -->
-                        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h1 class="modal-title fs-5" id="staticBackdropLabel">Contact information</h1>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <p><i class="fas fa-phone" style="color: blue;"></i> ${post.house.house_owner.phone_number}</p>
-                                        <p><i class="fas fa-envelope" style="color: red;"></i> ${post.house.house_owner.email}</p>
+                            <!-- Modal -->
+                            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="staticBackdropLabel">Contact information</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p><i class="fas fa-phone" style="color: blue;"></i> ${post.house.house_owner.phone_number}</p>
+                                            <p><i class="fas fa-envelope" style="color: red;"></i> ${post.house.house_owner.email}</p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                                        <div class="card">
+                                            
+                                        </div>
                     </div>
 
 
