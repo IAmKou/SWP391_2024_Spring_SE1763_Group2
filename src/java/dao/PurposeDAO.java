@@ -25,7 +25,7 @@ public class PurposeDAO extends DBContext {
         List<Purpose> purposes = new ArrayList<>();
         
         try {
-            String sql="  SELECT * FROM purpose;";
+            String sql="SELECT * FROM house_finder_project.purpose;";
             DBContext db = new DBContext();
             Connection con = db.getConnection();
             PreparedStatement stm = con.prepareStatement(sql);
@@ -37,24 +37,10 @@ public class PurposeDAO extends DBContext {
                 
                 purposes.add(purpose);
             }
-
             rs.close();
         } catch (SQLException ex) {
             Logger.getLogger(PurposeDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return purposes;
-    }
-    
-    
-     public static void main(String[] args) {
-        PurposeDAO purposeDAO = new PurposeDAO();
-
-        // Call the getPurpose method to retrieve the list of purposes
-        List<Purpose> purposes = purposeDAO.getPurpose();
-
-        // Print the retrieved purposes
-        for (Purpose purpose : purposes) {
-            System.out.println("Purpose ID: " + purpose.getPurpose_id() + ", Purpose Name: " + purpose.getPurpose_name());
-        }
     }
 }

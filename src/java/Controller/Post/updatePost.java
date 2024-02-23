@@ -28,14 +28,11 @@ import model.Purpose;
 import model.Status;
 import model.TypeOfHouse;
 
-
 /**
  *
  * @author FPTSHOP
  */
-
 @MultipartConfig
-
 public class UpdatePost extends HttpServlet {
 
     /**
@@ -88,7 +85,6 @@ public class UpdatePost extends HttpServlet {
         PurposeDAO purpose_DAO = new PurposeDAO();
         List<Purpose> purposes = purpose_DAO.getPurpose();
 
-
         HttpSession session = request.getSession();
         session.setAttribute("purposes", purposes);
         session.setAttribute("types", types);
@@ -107,7 +103,7 @@ public class UpdatePost extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        
         String location = request.getParameter("location");
         String regex = "^[\\p{L}0-9.,\\/\\s]+$";
 

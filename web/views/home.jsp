@@ -18,7 +18,6 @@
     <body>
         <jsp:include page="header.jsp"/>
 
-
         <div id="pageintro" class="hoc clear" >
             <article>
                 <h4 class="heading" style="white-space: nowrap;">Explore your new Destination</h4>
@@ -148,7 +147,6 @@
                 </div>
             </section>
         </div>
-
         <div class="wrapper row3">
             <main class="hoc container clear">
                 <section id="introblocks">

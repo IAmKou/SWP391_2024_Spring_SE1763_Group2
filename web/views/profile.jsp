@@ -28,19 +28,13 @@
     <body>
         <jsp:include page="header.jsp"/>
 
-
         <div class="container">
             <div class=" row">
                 <div class="col-md-3 sidebar">
                     <nav class="sdb_holder">
                         <ul>
-<<<<<<< HEAD
-                            <li><a href="profile.html" style="font-weight: bold;">Account Information</a></li>
-                            <li><a href="${pageContext.request.contextPath}/display-order-history">View Orders</a>
-=======
                             <li><a href="#" style="font-weight: bold;">Account Information</a></li>
                             <li><a href="#">View Orders</a>
->>>>>>> e9be0e4a0bf34aca34d84f899cc6f87c6f94bbf4
                                 <ul>
                                     <li><a href="${pageContext.request.contextPath}/status?status=1">Waiting</a></li>
                                     <li><a href="${pageContext.request.contextPath}/status?status=2">Accepted</a></li>
@@ -50,7 +44,6 @@
                             </li>
                             <li><a href="#">View Rentals</a>
                                 <ul>
-
                                     <li><a href="${pageContext.request.contextPath}/post/view">Your Post</a></li>
                                     <li><a href="#">Customer's Requests</a></li>
                                 </ul>
@@ -59,7 +52,6 @@
                     </nav>
                 </div>
                 <div class="col-md-9">
-
                     <!--This is for view order-->
                     <c:if test="${not empty posts}">
                         <c:forEach items="${posts}" var="post">

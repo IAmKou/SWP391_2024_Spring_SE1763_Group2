@@ -4,7 +4,6 @@
  */
 package Controller.Post;
 
-
 import dao.PostDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -19,9 +18,8 @@ import model.User;
 
 /**
  *
- * @author trant
+ * @author FPTSHOP
  */
-
 public class ViewUserPost extends HttpServlet {
 
     /**
@@ -41,7 +39,6 @@ public class ViewUserPost extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-
             out.println("<title>Servlet ViewPost</title>");
             out.println("</head>");
             out.println("<body>");
@@ -62,7 +59,6 @@ public class ViewUserPost extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("account");
@@ -83,7 +79,6 @@ public class ViewUserPost extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-
             throws ServletException, IOException {
         processRequest(request, response);
     }

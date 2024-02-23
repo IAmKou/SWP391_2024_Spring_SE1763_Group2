@@ -2,38 +2,28 @@ package Context;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.SQLException;
 
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+
+/**
+ *
+ * @author ACER
+ */
 public class DBContext {
-
-    public Connection getConnection() {
-        String db = "house_finder_project1";
-        String url = "jdbc:sqlserver://DESKTOP-KFBA1BO\\SQLEXPRESS:1433;databaseName=house_finder_project1";
-        String user = "sa";
-        String password = "123";
-
+        public  Connection getConnection(){
+        String db = "house_finder_project";
+        String url = "jdbc:mysql://localhost:3306/"+db;
+        String user = "root";
+        String password = "12345678";
         try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            Class.forName("com.mysql.cj.jdbc.Driver");
             return DriverManager.getConnection(url, user, password);
-        } catch (ClassNotFoundException | SQLException ex) {
-            System.out.println("Error: " + ex.getMessage());
-            return null;
-        }
-    }
-
-    public static void main(String[] args) {
-        DBContext dbContext = new DBContext();
-        Connection connection = dbContext.getConnection();
-
-        if (connection != null) {
-            System.out.println("Connected to the database!");
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        } else {
-            System.out.println("Failed to connect to the database.");
-        }
+        } catch (Exception ex) {
+            System.out.println("loi"+ex.getMessage());
+        } 
+        return null;
     }
 }

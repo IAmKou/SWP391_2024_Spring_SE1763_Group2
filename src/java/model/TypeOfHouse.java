@@ -23,7 +23,6 @@ public class TypeOfHouse {
         this.type_of_house_id = type_of_house_id;
     }
 
-
     public String getType_of_house_name() {
         return type_of_house_name;
     }

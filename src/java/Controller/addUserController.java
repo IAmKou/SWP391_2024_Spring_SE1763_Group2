@@ -14,7 +14,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
-
 import model.User;
 
 /**
@@ -88,7 +87,6 @@ public class addUserController extends HttpServlet {
             }
 //            //Add user to DB
             else{
-
                  try {        
                     java.util.Date date = availDate.parse(DoB);
                     java.sql.Date sqlDate = new java.sql.Date(date.getTime());

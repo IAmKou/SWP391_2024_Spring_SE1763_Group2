@@ -11,7 +11,6 @@ import java.util.List;
  * @author FPTSHOP
  */
 public class House {
-
     int house_id;
     User house_owner;
     TypeOfHouse type_of_house;
@@ -24,16 +23,6 @@ public class House {
     public House() {
     }
 
-    public House(int house_id, User house_owner, TypeOfHouse type_of_house, String location, String description, int area, int number_of_room) {
-        this.house_id = house_id;
-        this.house_owner = house_owner;
-        this.type_of_house = type_of_house;
-        this.location = location;
-        this.description = description;
-        this.area = area;
-        this.number_of_room = number_of_room;
-    }
-
     public int getHouse_id() {
         return house_id;
     }
@@ -41,7 +30,6 @@ public class House {
     public void setHouse_id(int house_id) {
         this.house_id = house_id;
     }
-
 
     public User getHouse_owner() {
         return house_owner;
