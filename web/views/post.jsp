@@ -26,10 +26,24 @@
     <body>
         <jsp:include page="header.jsp"/>
         <div class="container">
-            <h2 class="text-center">Post Information</h2>
             <div class="card">
                 <div class="row">
                     <div class="col-md-8">
+                        <c:if test="${alert ne null}">
+                            <div class="alert alert-danger h5">                                   
+                                ${alert}
+                            </div>
+                        </c:if>
+                        <c:if test="${success ne null}">
+                            <div class="alert alert-success h5">
+                                ${success}
+                            </div>
+                        </c:if>
+                        <c:if test="${notification ne null}">
+                            <div class="alert alert-warning h5">
+                                ${notification}
+                            </div>
+                        </c:if>
                         <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
                             <div class="carousel-indicators">
                                 <c:forEach items="${images}" var="image" varStatus="status">
@@ -55,7 +69,6 @@
                                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
                             </button>
                         </div>
-
                         <h3 class="fs-4 text-primary mb-3 custom-card-title">
                             <i class="fas fa-map-marker-alt mr-2"></i> ${post.house.location}
                         </h3>
@@ -88,8 +101,9 @@
                     </div>
                     <div class="col-md-4">
                         <div class="card mb-4">
+
                             <div class="card-body d-flex flex-column">
-                                <button class="btn btn-danger mb-3 flex-grow-1">Book a tour house</button>
+                                <a class="btn btn-danger mb-3 flex-grow-1" href="${pageContext.request.contextPath}/post/booking?house_id=${post.house.house_id}">Book a tour house</a>
                                 <button class="btn btn-primary flex-grow-1" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Contact information</button>
                             </div>
 
@@ -109,9 +123,9 @@
                                 </div>
                             </div>
                         </div>
-                                        <div class="card">
-                                            
-                                        </div>
+                        <div class="card">
+
+                        </div>
                     </div>
 
 

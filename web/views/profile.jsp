@@ -36,7 +36,7 @@
                             <li><a href="#" style="font-weight: bold;">Account Information</a></li>
                             <li><a href="#">View Orders</a>
                                 <ul>
-                                    <li><a href="${pageContext.request.contextPath}/status?status=1">Waiting</a></li>
+                                    <li><a href="${pageContext.request.contextPath}/status?status=1">Pending</a></li>
                                     <li><a href="${pageContext.request.contextPath}/status?status=2">Accepted</a></li>
                                     <li><a href="${pageContext.request.contextPath}/status?status=3">Rejected</a></li>
                                     <li><a href="${pageContext.request.contextPath}/status?status=6">Successful</a></li>

@@ -13,6 +13,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.Base64;
 import java.util.List;
 import model.Image;
@@ -72,9 +73,9 @@ public class ViewPost extends HttpServlet {
             String imageDataBase64 = Base64.getEncoder().encodeToString(image.getImageData());
             image.setImageDataAsBase64(imageDataBase64);
         }
-        
-        request.setAttribute("images", images);
-        request.setAttribute("post", post);
+        HttpSession session = request.getSession();
+        session.setAttribute("images", images);
+        session.setAttribute("post", post);
         request.getRequestDispatcher("/views/post.jsp").forward(request, response);
         
     } 
