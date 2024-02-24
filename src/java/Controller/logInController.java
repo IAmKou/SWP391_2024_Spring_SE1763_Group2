@@ -69,6 +69,7 @@ public class logInController extends HttpServlet {
             User userInfo = dao.getUserInformation(uid);
             HttpSession session = req.getSession();
             req.setAttribute("message", "Login succesful");
+            session.setAttribute("user", account);
             session.setAttribute("account", userInfo);
             req.getRequestDispatcher("/views/home.jsp").forward(req, resp);
         }
