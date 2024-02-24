@@ -6,20 +6,40 @@ package dao;
 
 import Context.DBContext;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.Booking;
 
 /**
  *
  * @author FPTSHOP
  */
 public class BookingDAO extends DBContext {
+    
+    public List<Booking> getBookings(int user_id){
+        try {
+            List<Booking> bookings = new ArrayList<>();
+            String sql ="";
+            DBContext db = new DBContext();
+            Connection con = db.getConnection();
+            PreparedStatement stm = con.prepareStatement(sql);
+            stm.setInt(1, user_id);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {                
+                Booking order = new Booking();
+                order.set
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(BookingDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    
+    
+    }
 
     public boolean checkDuplicateBooking(int house_id, int customer_id) {
         try {

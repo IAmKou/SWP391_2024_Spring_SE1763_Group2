@@ -36,6 +36,10 @@
         <servlet-name>Booking</servlet-name>
         <servlet-class>Controller.Post.Booking</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ViewRequest</servlet-name>
+        <servlet-class>Controller.Post.ViewRequest</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>addNewPost</servlet-name>
         <url-pattern>/post/add</url-pattern>
@@ -71,6 +75,10 @@
     <servlet-mapping>
         <servlet-name>Booking</servlet-name>
         <url-pattern>/post/booking</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewRequest</servlet-name>
+        <url-pattern>/request/view</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

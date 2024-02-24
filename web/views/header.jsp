@@ -43,8 +43,8 @@
                             <li>${sessionScope.account.getFull_name()}
                                 <ul>
                                     <li><a href="profile.html">My Account</a></li>
-                                    <li><a href="profile.html">My Rentals</a></li>
-                                    <li><a href="${pageContext.request.contextPath}/order/view">My Requests</a></li>
+                                    <li><a href="${pageContext.request.contextPath}/post/view">My Post</a></li>
+                                    <li><a href="${pageContext.request.contextPath}/views/profile.jsp">My Requests</a></li>
                                     <li><a href="${pageContext.request.contextPath}/logOutController">Log out</a></li>
                                 </ul>
                             </li>
