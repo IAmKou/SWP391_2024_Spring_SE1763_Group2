@@ -136,6 +136,7 @@ public class userDAO {
                     user.setAddress(rs.getString(4));
                     user.setPhone_number(rs.getString(5));
                     user.setEmail(rs.getString(6));
+                    user.setAvatar(rs.getString(7));
                 }
                 rs.close();
                 st.close();
@@ -224,7 +225,8 @@ public class userDAO {
                     + "    date_of_birth = ?,\n"
                     + "    address = ?,\n"
                     + "    phone_number = ?,\n"
-                    + "    email = ?\n"
+                    + "    email = ?,\n"
+                    + "    avatar = ?\n"
                     + "WHERE user_id = ?;";
 
             DBContext db = new DBContext();
@@ -234,8 +236,8 @@ public class userDAO {
                 stm.setString(3, user.getAddress());
                 stm.setString(4, user.getPhone_number());
                 stm.setString(5, user.getEmail());
-                stm.setInt(6, user.getUser_id());
-
+                stm.setString(6, user.getAvatar());
+                stm.setInt(7, user.getUser_id());
                 stm.executeUpdate();
             }
         } catch (SQLException ex) {
@@ -316,5 +318,23 @@ public class userDAO {
             Logger.getLogger(userDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return role;
+    }
+        public static boolean uploadAvatar(int user_id, String imgurl) {
+        try {
+            DBContext db = new DBContext();
+            Connection con = db.getConnection();
+            if (con != null) {
+                String sql = "UPDATE `user` SET `avatar` = '" + imgurl + "' where `user_id` = '" + user_id + "'";
+                Statement st = con.createStatement();
+                int rows = st.executeUpdate(sql);
+                if (rows < 1) {
+                    throw new Exception();
+                }
+                return true;
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return false;
     }
 }

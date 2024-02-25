@@ -78,6 +78,11 @@
                                         <div class="w-50 text-md-right">
                                             <a href="forgotPassword.jsp">Forgot Password</a>
                                         </div>
+                                         <div>
+                                        <a href="https://accounts.google.com/o/oauth2/auth?scope=email&redirect_uri=http://localhost:8080/AccessGoogle/login-google&response_type=code
+    &client_id=694883380837-tsugat0tqsghukeandttref2sedkn6gk.apps.googleusercontent.com&approval_prompt=force">Login with Google</a>
+                                    </div>
+
                                     </div>
                                 </form>
                             </div>

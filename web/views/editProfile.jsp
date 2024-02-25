@@ -59,6 +59,29 @@
             .ftco-section {
                 overflow: hidden;
             }
+            table {
+                margin-top: 50px;
+                width: 100%;
+                border-radius: 4px;
+            }
+
+            th {
+                text-align: right;
+                padding-right: 10px;
+                background-color: lightgrey;
+                width: 25%;
+            }
+
+            td {
+                text-align: left;
+                padding-left: 10px;
+            }
+            .avatar {
+                width: 100px; /* Adjust the width and height as needed */
+                height: 100px;
+                border-radius: 50%; /* Make it circular */
+                overflow: hidden; /* Hide overflowing content */
+            }
         </style>
     </head>
     <body>
@@ -99,27 +122,9 @@
                     <!-- ################################################################################################ -->
                     <div class="content grid3_4 borderEntity " style="height: 450px;">
                         <!-- <div class="clear"> -->
-                        <form method="post"  action="updateProfile">
-                            <section class="ftco-section">
-                                <style>
-                                    table {
-                                        margin-top: 50px;
-                                        width: 100%;
-                                        border-radius: 4px;
-                                    }
 
-                                    th {
-                                        text-align: right;
-                                        padding-right: 10px;
-                                        background-color: lightgrey;
-                                        width: 25%;
-                                    }
-
-                                    td {
-                                        text-align: left;
-                                        padding-left: 10px;
-                                    }
-                                </style>
+                        <section class="ftco-section">
+                            <form action="updateUser" method="post" enctype="multipart/form-data">
                                 <table>
                                     <tr>
                                         <th>User ID:</th>
@@ -146,17 +151,22 @@
                                     <th>Phone Number:</th>
                                     <td><input type="text" name="phone_number" id="phone" value="${param1.getPhone_number()}"></td>
                                 </tr>
-
-
                                 <tr>
                                     <th>Email:</th>
                                     <td><input type="email" name="email" id="email" value="${param1.getEmail()}"></td>
                                 </tr>
+                                <tr>
+                                    <th>Avatar: <input type="file" name="file"></th>
+                                    <td><img src="${param1.getAvatar()}" class="avatar"></td>
+                                </tr>
+
                             </table>
+                            <p style="color: red">${requestScope.msg}</p>
                             <a href="${pageContext.request.contextPath}/views/myProfile.jsp"><button class="btn "  style="float: right 45px;">Cancel</button></a>
-                            <a href="${pageContext.request.contextPath}/updateProfile"><button class="btn " type="submit" style="float: right 45px;">Submit</button></a>
-                        </section>
-                    </form>
+                            <button class="btn" style="float: right 45px;" type="submit">Submit</button>
+                        </form>            
+                    </section>
+
                 </div>
 
 

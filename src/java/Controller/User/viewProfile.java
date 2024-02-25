@@ -31,18 +31,20 @@ public class viewProfile extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try ( PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet viewProfile</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet viewProfile at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        User user = (User) request.getSession().getAttribute("account");
+        int uid = user.getUser_id();
+        userDAO userDAO = new userDAO();
+        user = userDAO.getUserInformation(uid);
+        if (user != null) {
+            // Đặt thông tin người dùng vào thuộc tính yêu cầu (request attribute)
+            request.setAttribute("user", user);
+
+            // Chuyển tiếp thông tin đến JSP để hiển thị
+            request.getRequestDispatcher("/views/userProfile.jsp").forward(request, response);
+            
+        } else {
+            // Người dùng không được tìm thấy, chuyển hướng đến trang lỗi hoặc thông báo lỗi
+            response.sendRedirect("error.jsp");
         }
     }
 
@@ -58,21 +60,7 @@ public class viewProfile extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        int user_id = 1;
-        processRequest(request, response);
-        userDAO userDAO = new userDAO();
-        User user = userDAO.getUserInformation(user_id);
-        if (user != null) {
-            // Đặt thông tin người dùng vào thuộc tính yêu cầu (request attribute)
-            request.setAttribute("user", user);
-
-            // Chuyển tiếp thông tin đến JSP để hiển thị
-            RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/userProfile.jsp");
-            dispatcher.forward(request, response);
-        } else {
-            // Người dùng không được tìm thấy, chuyển hướng đến trang lỗi hoặc thông báo lỗi
-            response.sendRedirect("error.jsp");
-        }
+        processRequest(request, response);  
     }
 
     /**
