@@ -154,7 +154,7 @@
                             </tr>
                             <tr>
                                 <th>Avatar: </th>
-                                <td><img src="${requestScope.user.avatar}"></td>
+                                <td><img src="${requestScope.user.avatar} " class="avatar"></td>
                             </tr>
                         </table>
                         <a href="updateUser"><button class="btn "  style="float: right 45px;">Update</button></a>
