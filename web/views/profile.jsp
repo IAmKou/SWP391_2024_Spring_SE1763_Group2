@@ -31,12 +31,12 @@
         <div class="container">
             <div class=" row">
                 <div class="col-md-3 sidebar">
-                    <nav class="sdb_holder">
+                    <nav class="sdb_holder mb-4">
                         <ul>
                             <li><a href="#" style="font-weight: bold;">Account Information</a></li>
                             <li><a href="#">View Orders</a>
                                 <ul>
-                                    <li><a href="${pageContext.request.contextPath}/status?status=1">Waiting</a></li>
+                                    <li><a href="${pageContext.request.contextPath}/status?status=1">Pending</a></li>
                                     <li><a href="${pageContext.request.contextPath}/status?status=2">Accepted</a></li>
                                     <li><a href="${pageContext.request.contextPath}/status?status=3">Rejected</a></li>
                                     <li><a href="${pageContext.request.contextPath}/status?status=6">Successful</a></li>
@@ -193,7 +193,17 @@
                             </c:forEach>
                         </div>
                     </c:if>
+                    <!--this is for view request of user-->
+                    <c:if test="${request ne null}">
+                        <div class="row">
+                            <div class="col-md-12 mb-4 card">
+                                
+                            </div>
+                        </div>
+                    </c:if>
                 </div>
-                <jsp:include page="footer.jsp"/>
-                </body>
-                </html>
+            </div>
+            <jsp:include page="footer.jsp"/>
+        </div>
+    </body>
+</html>

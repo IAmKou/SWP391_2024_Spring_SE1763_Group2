@@ -10,17 +10,42 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.House;
-import model.Post;
 
 /**
  *
  * @author FPTSHOP
  */
 public class HouseDAO extends DBContext {
+
+    public int getOwnerId(int house_id) {
+        try {
+            String sql = "SELECT \n"
+                    + "    `house`.`house_owner_id`\n"
+                    + "FROM `house_finder_project`.`house`"
+                    + "where house_id = ?;";
+            DBContext db = new DBContext();
+            Connection con = db.getConnection();
+            PreparedStatement stm = con.prepareStatement(sql);
+            stm.setInt(1, house_id);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                int house_owner_id = rs.getInt("house_owner_id");
+
+                rs.close();
+                stm.close();
+                con.close();
+
+                return house_owner_id;
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(HouseDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return -1;
+    }
 
     public void updateHouse(House house) {
 
@@ -69,11 +94,11 @@ public class HouseDAO extends DBContext {
                 stm.setInt(6, house.getNumber_of_room());
 
                 stm.executeUpdate();
-                
+
                 // Lấy house_id từ ResultSet
                 ResultSet generatedKeys = stm.getGeneratedKeys();
                 if (generatedKeys.next()) {
-                    int houseId = generatedKeys.getInt(1); 
+                    int houseId = generatedKeys.getInt(1);
                     return houseId;
                 }
             }

@@ -3,9 +3,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package Controller.Order;
+package Controller.Post;
 
-import dao.StatusDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -13,14 +12,13 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import java.util.List;
-import model.Status;
+import model.User;
 
 /**
  *
  * @author FPTSHOP
  */
-public class ViewOrder extends HttpServlet {
+public class ViewRequest extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -31,12 +29,11 @@ public class ViewOrder extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        StatusDAO status_DAO = new StatusDAO();
-        List<Status> statuses = status_DAO.getStatus();
         HttpSession session = request.getSession();
-        session.setAttribute("statuses", statuses);
-        request.getRequestDispatcher("../views/profile.jsp").forward(request, response);
+        User user = (User) session.getAttribute("account");
+        
+        int user_id = user.getUser_id();
+        
     } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
