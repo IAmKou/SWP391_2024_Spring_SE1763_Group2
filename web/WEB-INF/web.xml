@@ -54,6 +54,10 @@
             <file-size-threshold>1048576</file-size-threshold>
         </multipart-config>
     </servlet>
+    <servlet>
+        <servlet-name>LoginGoogleHandler</servlet-name>
+        <servlet-class>Controller.LoginGoogleHandler</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>addNewPost</servlet-name>
         <url-pattern>/post/add</url-pattern>
@@ -101,6 +105,10 @@
     <servlet-mapping>
         <servlet-name>updateUser</servlet-name>
         <url-pattern>/updateUser</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LoginGoogleHandler</servlet-name>
+        <url-pattern>/LoginGoogleHandler</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
