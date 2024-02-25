@@ -11,16 +11,16 @@ import java.time.LocalDateTime;
  *
  * @author FPTSHOP
  */
-public class Booking {
+public class booking {
     private int customer_id;
     private Date booking_date;
     private int status_id;
     private int house_id;
 
-    public Booking() {
+    public booking() {
     }
 
-    public Booking(int customer_id, Date booking_date, int status_id, int house_id) {
+    public booking(int customer_id, Date booking_date, int status_id, int house_id) {
         this.customer_id = customer_id;
         this.booking_date = booking_date;
         this.status_id = status_id;
