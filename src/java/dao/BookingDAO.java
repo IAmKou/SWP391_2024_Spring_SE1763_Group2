@@ -19,7 +19,7 @@ import model.Booking;
  *
  * @author FPTSHOP
  */
-public class BookingDAO extends DBContext {
+public class bookingDAO extends DBContext {
     
     public List<Booking> getBookings(int user_id){
         try {
@@ -32,11 +32,12 @@ public class BookingDAO extends DBContext {
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {                
                 Booking order = new Booking();
-                order.set
+                order.set;
             }
         } catch (SQLException ex) {
             Logger.getLogger(BookingDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return null;
     
     
     }
