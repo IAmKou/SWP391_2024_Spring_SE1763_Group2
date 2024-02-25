@@ -19,27 +19,37 @@ import model.Booking;
  *
  * @author FPTSHOP
  */
-public class bookingDAO extends DBContext {
-    
-    public List<Booking> getBookings(int user_id){
+public class BookingDAO extends DBContext {
+
+    public List<Booking> getBookings(int user_id) {
+        List<Booking> bookings = new ArrayList<>();
         try {
-            List<Booking> bookings = new ArrayList<>();
-            String sql ="";
+
+            String sql = "SELECT `booking`.`booking_id`,\n"
+                    + "    `booking`.`customer_id`,\n"
+                    + "    `booking`.`booking_date`,\n"
+                    + "    `booking`.`status_id`,\n"
+                    + "    `booking`.`house_id`\n"
+                    + "FROM `house_finder_project`.`booking`\n"
+                    + "join house on house.house_id = booking.house_id\n"
+                    + "where house.house_owner_id = ?;";
             DBContext db = new DBContext();
             Connection con = db.getConnection();
             PreparedStatement stm = con.prepareStatement(sql);
             stm.setInt(1, user_id);
             ResultSet rs = stm.executeQuery();
-            while (rs.next()) {                
+            while (rs.next()) {
                 Booking order = new Booking();
-                order.set;
+                order.setBooking_id(rs.getInt("booking_id"));
+                order.setBooking_date(rs.getString("booking_date"));
+                order.setCustomer_id(rs.getInt("customer_id"));
+                order.setHouse_id(rs.getInt("house_id"));
+                bookings.add(order);
             }
         } catch (SQLException ex) {
             Logger.getLogger(BookingDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return null;
-    
-    
+        return bookings;
     }
 
     public boolean checkDuplicateBooking(int house_id, int customer_id) {
@@ -55,7 +65,7 @@ public class bookingDAO extends DBContext {
             stm.setInt(1, customer_id);
             stm.setInt(2, house_id);
             ResultSet rs = stm.executeQuery();
-            if(rs.next()){
+            if (rs.next()) {
                 return true;
             }
         } catch (SQLException ex) {

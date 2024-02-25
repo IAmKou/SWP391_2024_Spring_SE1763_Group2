@@ -4,29 +4,37 @@
  */
 package model;
 
-import java.sql.Date;
-import java.time.LocalDateTime;
-
 /**
  *
  * @author FPTSHOP
  */
-public class booking {
+public class Booking {
+
+    private int booking_id;
     private int customer_id;
-    private Date booking_date;
+    private String booking_date;
     private int status_id;
     private int house_id;
 
-    public booking() {
+    public Booking() {
     }
 
-    public booking(int customer_id, Date booking_date, int status_id, int house_id) {
+    public Booking(int customer_id, String booking_date, int status_id, int house_id) {
         this.customer_id = customer_id;
         this.booking_date = booking_date;
         this.status_id = status_id;
         this.house_id = house_id;
     }
 
+    public int getBooking_id() {
+        return booking_id;
+    }
+
+    public void setBooking_id(int booking_id) {
+        this.booking_id = booking_id;
+    }
+
+    
     public int getCustomer_id() {
         return customer_id;
     }
@@ -35,11 +43,11 @@ public class booking {
         this.customer_id = customer_id;
     }
 
-    public Date getBooking_date() {
+    public String getBooking_date() {
         return booking_date;
     }
 
-    public void setBooking_date(Date booking_date) {
+    public void setBooking_date(String booking_date) {
         this.booking_date = booking_date;
     }
 
@@ -58,5 +66,5 @@ public class booking {
     public void setHouse_id(int house_id) {
         this.house_id = house_id;
     }
-    
+
 }
