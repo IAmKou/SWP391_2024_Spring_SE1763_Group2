@@ -11,19 +11,20 @@ package model;
 public class Booking {
 
     private int booking_id;
-    private int customer_id;
+    private User user;
     private String booking_date;
     private int status_id;
-    private int house_id;
+    private House house;
 
-    public Booking() {
-    }
-
-    public Booking(int customer_id, String booking_date, int status_id, int house_id) {
-        this.customer_id = customer_id;
+    public Booking(int booking_id, User user, String booking_date, int status_id, House house) {
+        this.booking_id = booking_id;
+        this.user = user;
         this.booking_date = booking_date;
         this.status_id = status_id;
-        this.house_id = house_id;
+        this.house = house;
+    }
+
+    public Booking() {
     }
 
     public int getBooking_id() {
@@ -34,13 +35,12 @@ public class Booking {
         this.booking_id = booking_id;
     }
 
-    
-    public int getCustomer_id() {
-        return customer_id;
+    public User getUser() {
+        return user;
     }
 
-    public void setCustomer_id(int customer_id) {
-        this.customer_id = customer_id;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public String getBooking_date() {
@@ -59,12 +59,13 @@ public class Booking {
         this.status_id = status_id;
     }
 
-    public int getHouse_id() {
-        return house_id;
+    public House getHouse() {
+        return house;
     }
 
-    public void setHouse_id(int house_id) {
-        this.house_id = house_id;
+    public void setHouse(House house) {
+        this.house = house;
     }
 
+    
 }

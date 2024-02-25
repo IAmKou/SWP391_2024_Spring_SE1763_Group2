@@ -51,7 +51,7 @@
                         </ul>
                     </nav>
                 </div>
-                <div class="col-md-10">
+                <div class="col-md-10 ">
                     <!--This is for view order-->
                     <c:if test="${not empty posts}">
                         <c:forEach items="${posts}" var="post">
@@ -94,7 +94,28 @@
                                     <div class="card m-2 custom-card">
                                         <div class="row no-gutters">
                                             <div class="col-4">
-                                                <img src="${pageContext.request.contextPath}/images/house1.jpg" alt="hinh anh" class="card-img img-fluid custom-img">
+                                                <div id="carouselExampleFade_${ownerPost.post_id}" class="carousel slide carousel-fade">
+                                                    <div class="carousel-inner">
+                                                        <c:forEach items="${ownerPost.house.image}" var="image" varStatus="loop">
+                                                            <c:if test="${not empty image}">
+                                                                <div class=" carousel-item ${loop.first ? 'active' : ''} img-container">
+                                                                    <img src="data:image/jpeg;base64,${image.getImageDataAsBase64()}" class="d-block w-100" alt="hinh anh" style="width: 350px; height: 200px; border-radius: 5px"/>
+                                                                </div>
+                                                            </c:if>
+                                                        </c:forEach>
+
+                                                    </div>
+
+
+                                                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade_${ownerPost.post_id}" data-bs-slide="prev">
+                                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                                        <span class="visually-hidden">Previous</span>
+                                                    </button>
+                                                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade_${ownerPost.post_id}" data-bs-slide="next">
+                                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                                        <span class="visually-hidden">Next</span>
+                                                    </button>
+                                                </div>
                                             </div>
                                             <div class="col-8">
                                                 <div class="custom-card-body">
@@ -109,11 +130,11 @@
 
                                                     <div class="btn-group">
                                                         <a href="${pageContext.request.contextPath}/post/update?post_id=${ownerPost.post_id}" class="btn btn-outline-info">Update</a>
-                                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Overview</button>
+                                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop_${ownerPost.post_id}">Overview</button>
                                                     </div>
 
                                                     <!-- Modal -->
-                                                    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                                    <div class="modal fade" id="staticBackdrop_${ownerPost.post_id}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                                                         <div class="modal-dialog modal-xl">
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
@@ -129,26 +150,28 @@
                                                                             <div class="col-md-12 mb-4">
                                                                                 <div class="card m-2">
                                                                                     <div class="card-body" style="color: black;" >
-                                                                                        <div id="carouselExampleIndicators" class="carousel slide">
+                                                                                        <div id="carouselExampleIndicators_${ownerPost.post_id}" class="carousel slide" data-bs-ride="carousel">
+                                                                                            <div class="carousel-indicators">
+                                                                                                <c:forEach items="${ownerPost.house.image}" var="image" varStatus="status">
+                                                                                                    <button type="button" data-bs-target="#carouselExampleIndicators_${ownerPost.post_id}" data-bs-slide-to="${status.index}" class="${status.index == 0 ? 'active' : ''}" aria-current="${status.index == 0 ? 'true' : 'false'}" aria-label="Slide ${status.index + 1}"></button>
+                                                                                                </c:forEach>
+                                                                                            </div>
 
                                                                                             <div class="carousel-inner" style="margin-bottom: 20px">
-                                                                                                <div class="carousel-item active">
-                                                                                                    <svg class="bd-placeholder-img bd-placeholder-img-lg d-block w-100" width="800" height="400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: First slide" preserveAspectRatio="xMidYMid slice" focusable="false">
-                                                                                                    <rect width="100%" height="100%" fill="#A0A0A0"></rect>
-                                                                                                    <image xlink:href="../images/house1.jpg" width="100%" height="100%"  alt="hinh anh"/>
-                                                                                                    </svg>
-                                                                                                </div>
-                                                                                                <div class="carousel-item">
-                                                                                                    <svg class="bd-placeholder-img bd-placeholder-img-lg d-block w-100" width="800" height="400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Second slide" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#666"></rect><text x="50%" y="50%" fill="#444" dy=".3em">Second slide</text></svg>
-                                                                                                </div>
-                                                                                                <div class="carousel-item">
-                                                                                                    <svg class="bd-placeholder-img bd-placeholder-img-lg d-block w-100" width="800" height="400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Third slide" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#555"></rect><text x="50%" y="50%" fill="#333" dy=".3em">Third slide</text></svg>
-                                                                                                </div>
+                                                                                                <c:forEach items="${ownerPost.house.image}" var="image" varStatus="status">
+                                                                                                    <div class="carousel-item ${status.index == 0 ? 'active' : ''}">
+                                                                                                        <svg class="bd-placeholder-img bd-placeholder-img-lg d-block w-100" width="800" height="400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Slide ${status.index + 1}" preserveAspectRatio="xMidYMid slice" focusable="false">
+                                                                                                        <rect width="100%" height="100%" fill="#3071BC" rx="10" ry="10"></rect>
+                                                                                                        <image xlink:href="data:image/jpeg;base64,${image.getImageDataAsBase64()}" width="100%" height="100%"  alt="hinh anh"/>
+                                                                                                        </svg>
+                                                                                                    </div>
+                                                                                                </c:forEach>
                                                                                             </div>
-                                                                                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+
+                                                                                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators_${ownerPost.post_id}" data-bs-slide="prev">
                                                                                                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                                                                                             </button>
-                                                                                            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                                                                                            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators_${ownerPost.post_id}" data-bs-slide="next">
                                                                                                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
                                                                                             </button>
                                                                                         </div>
@@ -192,6 +215,32 @@
                                 </div>
                             </c:forEach>
                         </div>
+                        <!-- Hiển thị các nút điều hướng phân trang -->
+                        <nav aria-label="Page navigation example" class="m-3">
+                            <ul class="pagination">
+                                <li class="page-item">
+                                    <a class="page-link" href="../post/view?page=${currentPage - 1}" aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                        <span class="sr-only">Previous</span>
+                                    </a>
+                                </li>
+                                <c:forEach begin="1" end="${totalPages}" var="page">
+                                    <c:set var="activeClass" value="" />
+                                    <c:if test="${currentPage eq page}">
+                                        <c:set var="activeClass" value="active" />
+                                    </c:if>
+                                    <li class="page-item ${activeClass}">
+                                        <a class="page-link" href="../post/view?page=${page}">${page}</a>
+                                    </li>
+                                </c:forEach>
+                                <li class="page-item">
+                                    <a class="page-link" href="../post/view?page=${currentPage + 1}" aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                        <span class="sr-only">Next</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
                     </c:if>
                     <!--this is for view request of user-->
                     <c:if test="${not empty requests}">
@@ -202,11 +251,33 @@
                                         <div class="col-md-12">
                                             <div class="row">
                                                 <div class="col-md-8">
-                                                    <p>Booking ID: ${request.booking_id}</p>
-                                                    <p>Booking Date: ${request.booking_date}</p>
+                                                    <p class="custom-card-text">Booking ID: ${request.booking_id}</p>
+                                                    <p class="custom-card-text">Booking Date: ${request.booking_date}</p>
                                                 </div>
                                                 <div class="col-md-4 mt-1">
-                                                    <button class="btn btn-outline-info">View Detail</button>
+                                                    <button class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#staticBackdrop_${request.booking_id}">View Detail</button>
+
+                                                    <!-- Modal -->
+                                                    <div class="modal fade" id="staticBackdrop_${request.booking_id}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                                        <div class="modal-dialog">
+                                                            <div class="modal-content">
+                                                                <div class="modal-body">
+                                                                    <h5 class="card-title fs-4 text-primary mb-3 custom-card-title" ><i class="fas fa-map-marker-alt mr-2"></i> ${request.house.location}</h5>
+                                                                    <p class="custom-card-text">Booking ID: ${request.booking_id}</p>
+                                                                    <p class="custom-card-text">Booking date: ${request.booking_date}</p>
+                                                                    <p class="custom-card-text">Customer name: ${request.user.full_name}</p>
+                                                                    <details>
+                                                                        <summary class="custom-card-text">Contact information</summary><br>
+                                                                        <p class="custom-card-text"><i class="fas fa-phone" style="color: blue;"></i> ${request.user.phone_number}</p>
+                                                                        <p class="custom-card-text"><i class="fas fa-envelope" style="color: red;"></i> ${request.user.email}</p>
+                                                                    </details>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -214,12 +285,37 @@
                                             <button class="btn btn-success">Accept</button>
                                             <button class="btn btn-danger">Cancel</button>
                                         </div>
-
                                     </div>
-
                                 </div>
                             </c:forEach>
                         </div>
+                        <!-- Hiển thị các nút điều hướng phân trang -->
+                        <nav aria-label="Page navigation example" class="m-3">
+                            <ul class="pagination">
+                                <li class="page-item">
+                                    <a class="page-link" href="../request/view?page=${currentPage - 1}" aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                        <span class="sr-only">Previous</span>
+                                    </a>
+                                </li>
+                                <c:forEach begin="1" end="${totalPages}" var="page">
+                                    <c:set var="activeClass" value="" />
+                                    <c:if test="${currentPage eq page}">
+                                        <c:set var="activeClass" value="active" />
+                                    </c:if>
+                                    <li class="page-item ${activeClass}">
+                                        <a class="page-link" href="../request/view?page=${page}">${page}</a>
+                                    </li>
+                                </c:forEach>
+                                <li class="page-item">
+                                    <a class="page-link" href="../request/view?page=${currentPage + 1}" aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                        <span class="sr-only">Next</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+
                     </c:if>
                 </div>
             </div>

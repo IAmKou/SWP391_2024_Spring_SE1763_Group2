@@ -70,7 +70,9 @@ public class ImageDAO extends DBContext {
 
                 int imageId = rs.getInt("image_id");
 
-                Image image = new Image(imageId, imageData);
+                Image image = new Image();
+                image.setImageData(imageData);
+                image.setImage_id(imageId);
                 images.add(image);
             }
 

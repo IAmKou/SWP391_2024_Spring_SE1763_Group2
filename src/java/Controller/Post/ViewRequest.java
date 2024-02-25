@@ -4,7 +4,6 @@
  */
 package Controller.Post;
 
-import dao.AccountDAO;
 import dao.BookingDAO;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
@@ -12,12 +11,9 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import java.util.ArrayList;
 import java.util.List;
 import model.User;
-import model.account;
 import model.Booking;
-
 
 /**
  *
@@ -39,19 +35,37 @@ public class ViewRequest extends HttpServlet {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("account");
 
-        BookingDAO bookingDAO = new BookingDAO();
-        List<Booking> bookings = bookingDAO.getBookings(user.getUser_id());
-        
-        List<account> accounts = new ArrayList<>();
-        
-        for (Booking booking : bookings) {
-            AccountDAO accDAO = new AccountDAO();
-            account acc =  accDAO.getAccountByUserId(booking.getCustomer_id());
-            accounts.add(acc);
+        int currentPage = 1; // Trang hiện tại, mặc định là 1
+        int recordsPerPage = 6; // Số lượng booking trên mỗi trang
+
+        // Xác định trang hiện tại từ tham số "page" của request
+        if (request.getParameter("page") != null) {
+            currentPage = Integer.parseInt(request.getParameter("page"));
+
+            // Kiểm tra nếu requestedPage nhỏ hơn 1, đặt currentPage là 1
+            if (currentPage < 1) {
+                currentPage = 1;
+            }
         }
 
+        BookingDAO bookingDAO = new BookingDAO();
+        List<Booking> allBookings = bookingDAO.getListBookingInformation(user.getUser_id());
+        int totalBookings = allBookings.size();
+        int totalPages = (int) Math.ceil((double) totalBookings / recordsPerPage);
+
+        // Kiểm tra nếu currentPage vượt quá totalPages, đặt lại currentPage là totalPages
+        if (currentPage > totalPages && totalPages > 0) {
+            currentPage = totalPages;
+        }
+
+        int start = (currentPage - 1) * recordsPerPage;
+        int end = Math.min(currentPage * recordsPerPage, totalBookings);
+
+        List<Booking> bookings = allBookings.subList(start, end);
+
         request.setAttribute("requests", bookings);
-        request.setAttribute("accounts", accounts);
+        request.setAttribute("totalPages", totalPages);
+        request.setAttribute("currentPage", currentPage);
         request.getRequestDispatcher("../views/profile.jsp").forward(request, response);
     }
 

@@ -14,6 +14,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Booking;
+import model.House;
+import model.User;
 
 /**
  *
@@ -21,17 +23,14 @@ import model.Booking;
  */
 public class BookingDAO extends DBContext {
 
-    public List<Booking> getBookings(int user_id) {
+    public List<Booking> getListBookingInformation(int user_id) {
         List<Booking> bookings = new ArrayList<>();
         try {
 
-            String sql = "SELECT `booking`.`booking_id`,\n"
-                    + "    `booking`.`customer_id`,\n"
-                    + "    `booking`.`booking_date`,\n"
-                    + "    `booking`.`status_id`,\n"
-                    + "    `booking`.`house_id`\n"
+            String sql = "SELECT *\n"
                     + "FROM `house_finder_project`.`booking`\n"
                     + "join house on house.house_id = booking.house_id\n"
+                    + "join user on user.user_id = booking.customer_id\n"
                     + "where house.house_owner_id = ?;";
             DBContext db = new DBContext();
             Connection con = db.getConnection();
@@ -39,11 +38,20 @@ public class BookingDAO extends DBContext {
             stm.setInt(1, user_id);
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
+                User user = new User();
+                user.setFull_name(rs.getString("full_name"));
+                user.setEmail(rs.getString("email"));
+                user.setPhone_number(rs.getString("phone_number"));
+                
+                House house = new House();
+                house.setLocation(rs.getString(9));
+                
                 Booking order = new Booking();
                 order.setBooking_id(rs.getInt("booking_id"));
                 order.setBooking_date(rs.getString("booking_date"));
-                order.setCustomer_id(rs.getInt("customer_id"));
-                order.setHouse_id(rs.getInt("house_id"));
+                order.setUser(user);
+                order.setHouse(house);
+                
                 bookings.add(order);
             }
         } catch (SQLException ex) {
@@ -66,7 +74,8 @@ public class BookingDAO extends DBContext {
             stm.setInt(2, house_id);
             ResultSet rs = stm.executeQuery();
             if (rs.next()) {
-                return true;
+                int count = rs.getInt("count");
+                return count > 0; // Trả về true nếu count > 0, ngược lại trả về false
             }
         } catch (SQLException ex) {
             Logger.getLogger(BookingDAO.class.getName()).log(Level.SEVERE, null, ex);
