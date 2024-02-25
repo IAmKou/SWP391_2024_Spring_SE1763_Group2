@@ -9,6 +9,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -201,8 +203,8 @@ public class PostDAO {
     public void addPost(int houseId, Post post) {
         try {
             String postSql = "INSERT INTO post (house_id, purpose_id,"
-                    + " price, poster_id, house_status, post_status)"
-                    + " VALUES (?, ?, ?, ?, ?, ?)";
+                    + " price, poster_id, house_status, post_status, start_time, end_time)"
+                    + " VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             DBContext db = new DBContext();
             try ( Connection con = db.getConnection();  PreparedStatement stm = con.prepareStatement(postSql)) {
 
@@ -212,7 +214,8 @@ public class PostDAO {
                 stm.setInt(4, post.getPoster_id());
                 stm.setInt(5, post.getHouse_status().getStatus_id());
                 stm.setInt(6, post.getPost_status().getStatus_id());
-
+                stm.setObject(7, post.getStart_time());
+                stm.setObject(8, post.getEnd_time());
                 stm.executeUpdate();
             }
         } catch (SQLException ex) {
@@ -329,5 +332,63 @@ public class PostDAO {
             Logger.getLogger(PostDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
+    }
+
+    public ArrayList getAllPost() {
+        ArrayList<Post> list = new ArrayList<>();
+        Connection con = new DBContext().getConnection();
+
+        try {
+            String sql = "SELECT * FROM post";
+
+            try ( PreparedStatement stm = con.prepareStatement(sql);  ResultSet rs = stm.executeQuery();) {
+                while (rs.next()) {
+                    Post p = new Post();
+                    House house = new House();
+                    Status status = new Status();
+                    Status house_status = new Status();
+                    house_status.setStatus_name(rs.getString("house_status"));
+
+                    Status post_status = new Status();
+                    post_status.setStatus_name(rs.getString("post_status"));
+
+                    Purpose purpose = new Purpose();
+                    purpose.setPurpose_id(rs.getInt("purpose_id"));
+                    purpose.setPurpose_name(rs.getString("purpose_name"));
+                    p.setPost_id(rs.getInt("post_id"));
+                    p.setHouse(house);
+                    p.setPurpose(purpose);
+                    p.setPrice(rs.getInt("price"));
+                    p.setPoster_id(rs.getInt("poster_id"));
+                    p.setHouse_status(house_status);
+                    p.setAdmin_id(rs.getInt("admin_id"));
+                    p.setPost_status(post_status);
+                    p.setStart_time(rs.getObject("start_time",LocalDateTime.class));
+                    p.setEnd_time(rs.getObject("end_time",LocalDateTime.class));
+                    list.add(p);
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(userDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return list;
+    }
+    public boolean changePostStatus(int post_id,int status){
+        try {
+            DBContext db = new DBContext();
+            Connection con = db.getConnection();
+            if (con != null) {
+                String sql = "UPDATE `post` SET post_status = '" + status + "' where post_id = '" + post_id + "'";
+                Statement st = con.createStatement();
+                int rows = st.executeUpdate(sql);
+                if (rows < 1) {
+                    throw new Exception();
+                }
+                return true;
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return false;
     }
 }
