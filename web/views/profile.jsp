@@ -30,7 +30,7 @@
 
         <div class="container">
             <div class=" row">
-                <div class="col-md-3 sidebar">
+                <div class="col-md-2 sidebar">
                     <nav class="sdb_holder mb-4">
                         <ul>
                             <li><a href="#" style="font-weight: bold;">Account Information</a></li>
@@ -45,13 +45,13 @@
                             <li><a href="#">View Rentals</a>
                                 <ul>
                                     <li><a href="${pageContext.request.contextPath}/post/view">Your Post</a></li>
-                                    <li><a href="#">Customer's Requests</a></li>
+                                    <li><a href="${pageContext.request.contextPath}/request/view">Customer's Requests</a></li>
                                 </ul>
                             </li>   
                         </ul>
                     </nav>
                 </div>
-                <div class="col-md-9">
+                <div class="col-md-10">
                     <!--This is for view order-->
                     <c:if test="${not empty posts}">
                         <c:forEach items="${posts}" var="post">
@@ -194,11 +194,31 @@
                         </div>
                     </c:if>
                     <!--this is for view request of user-->
-                    <c:if test="${request ne null}">
+                    <c:if test="${not empty requests}">
                         <div class="row">
-                            <div class="col-md-12 mb-4 card">
-                                
-                            </div>
+                            <c:forEach items="${requests}" var="request">
+                                <div class="col-md-5 m-2 card">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="row">
+                                                <div class="col-md-8">
+                                                    <p>Booking ID: ${request.booking_id}</p>
+                                                    <p>Booking Date: ${request.booking_date}</p>
+                                                </div>
+                                                <div class="col-md-4 mt-1">
+                                                    <button class="btn btn-outline-info">View Detail</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class=" col-md-12 btn-group mb-1">
+                                            <button class="btn btn-success">Accept</button>
+                                            <button class="btn btn-danger">Cancel</button>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </c:forEach>
                         </div>
                     </c:if>
                 </div>
