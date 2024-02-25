@@ -76,6 +76,12 @@
                 text-align: left;
                 padding-left: 10px;
             }
+            .avatar {
+                width: 100px; /* Adjust the width and height as needed */
+                height: 100px;
+                border-radius: 50%; /* Make it circular */
+                overflow: hidden; /* Hide overflowing content */
+            }
         </style>
     </head>
     <body>
@@ -151,11 +157,11 @@
                                 </tr>
                                 <tr>
                                     <th>Avatar: <input type="file" name="file"></th>
-                                    <td><img src="${param1.getAvatar()}" ></td>
+                                    <td><img src="${param1.getAvatar()}" class="avatar"></td>
                                 </tr>
-                                
+
                             </table>
-                                    <p style="color: red">${requestScope.msg}</p>
+                            <p style="color: red">${requestScope.msg}</p>
                             <a href="${pageContext.request.contextPath}/views/myProfile.jsp"><button class="btn "  style="float: right 45px;">Cancel</button></a>
                             <button class="btn" style="float: right 45px;" type="submit">Submit</button>
                         </form>            
