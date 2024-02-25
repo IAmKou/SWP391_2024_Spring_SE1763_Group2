@@ -33,7 +33,7 @@ import model.TypeOfHouse;
  * @author FPTSHOP
  */
 @MultipartConfig
-public class updatePost extends HttpServlet {
+public class UpdatePost extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
