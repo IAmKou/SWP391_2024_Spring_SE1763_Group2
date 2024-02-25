@@ -40,6 +40,20 @@
         <servlet-name>ViewRequest</servlet-name>
         <servlet-class>Controller.Post.ViewRequest</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>viewProfile</servlet-name>
+        <servlet-class>Controller.User.viewProfile</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>updateUser</servlet-name>
+        <servlet-class>Controller.User.updateUser</servlet-class>
+        <multipart-config>
+            <location>D:\temp</location>
+            <max-file-size>20848820</max-file-size>
+            <max-request-size>418018841</max-request-size>
+            <file-size-threshold>1048576</file-size-threshold>
+        </multipart-config>
+    </servlet>
     <servlet-mapping>
         <servlet-name>addNewPost</servlet-name>
         <url-pattern>/post/add</url-pattern>
@@ -79,6 +93,14 @@
     <servlet-mapping>
         <servlet-name>ViewRequest</servlet-name>
         <url-pattern>/request/view</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>viewProfile</servlet-name>
+        <url-pattern>/viewProfile</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>updateUser</servlet-name>
+        <url-pattern>/updateUser</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
