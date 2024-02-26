@@ -20,9 +20,11 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.util.Base64;
 import java.util.Collection;
 import java.util.List;
 import model.House;
+import model.Image;
 import model.Post;
 import model.Purpose;
 import model.Status;
@@ -85,6 +87,15 @@ public class UpdatePost extends HttpServlet {
         PurposeDAO purpose_DAO = new PurposeDAO();
         List<Purpose> purposes = purpose_DAO.getPurpose();
 
+        ImageDAO imageDAO = new ImageDAO();
+        List<Image> images = imageDAO.getImages(post.getHouse().getHouse_id());
+
+        for (Image image : images) {
+            String imageDataBase64 = Base64.getEncoder().encodeToString(image.getImageData());
+            image.setImageDataAsBase64(imageDataBase64);
+        }
+        post.getHouse().setImage(images);
+
         HttpSession session = request.getSession();
         session.setAttribute("purposes", purposes);
         session.setAttribute("types", types);
@@ -103,7 +114,7 @@ public class UpdatePost extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         String location = request.getParameter("location");
         String regex = "^[\\p{L}0-9.,\\/\\s]+$";
 
@@ -136,7 +147,7 @@ public class UpdatePost extends HttpServlet {
             int type_of_house = Integer.parseInt(type_of_house_str);
 
             String number_of_room_str = request.getParameter("number_of_room");
-            
+
             if (location.length() >= 150 || description.length() >= 2000) {
                 throw new Exception("Location or description is too long.");
             }
@@ -185,29 +196,39 @@ public class UpdatePost extends HttpServlet {
 
             //xử lí phần hình ảnh
             try {
-                
+
                 ImageDAO imageDAO = new ImageDAO();
-                imageDAO.deleteImages(house_id);
-                
                 Collection<Part> parts = request.getParts();
+                boolean hasImage = false;
 
                 for (Part part : parts) {
                     if (part.getContentType() != null && part.getContentType().startsWith("image")) {
-                        InputStream fileContent = part.getInputStream();
-                        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-                        byte[] buffer = new byte[4096];
-                        int bytesRead;
-                        while ((bytesRead = fileContent.read(buffer)) != -1) {
-                            outputStream.write(buffer, 0, bytesRead);
-                        }
-                        byte[] imageData = outputStream.toByteArray();
-                        
-                        imageDAO.addImages(house_id, imageData);
-
-                        outputStream.close();
-                        fileContent.close();
+                        hasImage = true;
+                        break;
                     }
+                }
+                if (hasImage) {
 
+                    imageDAO.deleteImages(house_id);
+
+                    for (Part part : parts) {
+                        if (part.getContentType() != null && part.getContentType().startsWith("image")) {
+                            InputStream fileContent = part.getInputStream();
+                            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                            byte[] buffer = new byte[4096];
+                            int bytesRead;
+                            while ((bytesRead = fileContent.read(buffer)) != -1) {
+                                outputStream.write(buffer, 0, bytesRead);
+                            }
+                            byte[] imageData = outputStream.toByteArray();
+
+                            imageDAO.addImages(house_id, imageData);
+
+                            outputStream.close();
+                            fileContent.close();
+                        }
+
+                    }
                 }
 
             } catch (IOException exception) {
@@ -215,7 +236,7 @@ public class UpdatePost extends HttpServlet {
                 request.getRequestDispatcher("../views/editPost.jsp").forward(request, response);
             }
 
-            request.setAttribute("alert", "Update successfully.");
+            request.setAttribute("success", "Update successfully.");
             request.getRequestDispatcher("../views/editPost.jsp").forward(request, response);
         } catch (NumberFormatException ex) {
             String alert = "Invalid data format. Please enter valid numeric values.";
@@ -226,7 +247,7 @@ public class UpdatePost extends HttpServlet {
             request.setAttribute("alert", alert);
             request.getRequestDispatcher("../views/editPost.jsp").forward(request, response);
         }
-        
+
     }
 
     /**

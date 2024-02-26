@@ -57,6 +57,12 @@
             .ftco-section {
                 overflow: hidden;
             }
+            .avatar {
+                width: 100px; /* Adjust the width and height as needed */
+                height: 100px;
+                border-radius: 50%; /* Make it circular */
+                overflow: hidden; /* Hide overflowing content */
+            }
         </style>
     </head>
     <body>
@@ -128,26 +134,30 @@
                             </tr>
                             <tr>
                                 <th>Full Name:</th>
-                                <td>${user.full_name}</td>
+                                <td>${requestScope.user.full_name}</td>
                             </tr>
                             <tr>
                                 <th>Date Of Birth:</th>
-                                <td>${user.date_of_birth}</td>
+                                <td>${requestScope.user.date_of_birth}</td>
                             </tr>
                             <tr>
                                 <th>Address:</th>
-                                <td>${user.address}</td>
+                                <td>${requestScope.user.address}</td>
                             </tr>
                             <tr>
                                 <th>Phone Number:</th>
-                                <td>${user.phone_number}</td>
+                                <td>${requestScope.user.phone_number}</td>
                             </tr>
                             <tr>
                                 <th>Email:</th>
-                                <td>${user.email}</td>
+                                <td>${requestScope.user.email}</td>
+                            </tr>
+                            <tr>
+                                <th>Avatar: </th>
+                                <td><img src="${requestScope.user.avatar} " class="avatar"></td>
                             </tr>
                         </table>
-
+                        <a href="updateUser"><button class="btn "  style="float: right 45px;">Update</button></a>
                     </section>
                 </div>
                 <!-- </div> -->

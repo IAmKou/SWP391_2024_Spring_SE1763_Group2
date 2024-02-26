@@ -4,6 +4,7 @@
  */
 package Controller.Post;
 
+import dao.ImageDAO;
 import dao.PostDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -12,7 +13,10 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.util.Base64;
 import java.util.List;
+import model.House;
+import model.Image;
 import model.Post;
 import model.User;
 
@@ -62,11 +66,48 @@ public class ViewUserPost extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("account");
-        
+
+        int currentPage = 1; // Trang hiện tại, mặc định là 1
+        int recordsPerPage = 3; // Số lượng booking trên mỗi trang
+
+        // Xác định trang hiện tại từ tham số "page" của request
+        if (request.getParameter("page") != null) {
+            currentPage = Integer.parseInt(request.getParameter("page"));
+
+            // Kiểm tra nếu requestedPage nhỏ hơn 1, đặt currentPage là 1
+            if (currentPage < 1) {
+                currentPage = 1;
+            }
+        }
         PostDAO postDAO = new PostDAO();
-        List<Post> posts = postDAO.getUserPost(user.getUser_id());
+        List<Post> allPosts = postDAO.getUserPost(user.getUser_id());
+        int totalPosts = allPosts.size();
+        int totalPages = (int) Math.ceil((double) totalPosts / recordsPerPage);
+
+        // Kiểm tra nếu currentPage vượt quá totalPages, đặt lại currentPage là totalPages
+        if (currentPage > totalPages && totalPages > 0) {
+            currentPage = totalPages;
+        }
+
+        int start = (currentPage - 1) * recordsPerPage;
+        int end = Math.min(currentPage * recordsPerPage, totalPosts);
+
+        List<Post> posts = allPosts.subList(start, end);
+        ImageDAO imageDAO = new ImageDAO();
+        for (Post post : posts) {
+            List<Image> images = imageDAO.getImages(post.getHouse().getHouse_id());
+
+            for (Image image : images) {
+                String imageDataBase64 = Base64.getEncoder().encodeToString(image.getImageData());
+                image.setImageDataAsBase64(imageDataBase64);
+            }
+            post.getHouse().setImage(images);
+        }
+        
         request.setAttribute("ownerPost", posts);
-        request.getRequestDispatcher("../views/profile.jsp").forward(request, response);        
+        request.setAttribute("totalPages", totalPages);
+        request.setAttribute("currentPage", currentPage);
+        request.getRequestDispatcher("../views/profile.jsp").forward(request, response);
     }
 
     /**

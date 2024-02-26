@@ -4,7 +4,7 @@
  */
 package Controller.User;
 
-import dao.userDAO;
+import dao.UserDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -59,7 +59,7 @@ public class userProfile extends HttpServlet {
             throws ServletException, IOException {
 
         int userId = Integer.parseInt(request.getParameter("id"));
-        userDAO uDAO = new userDAO();
+        UserDAO uDAO = new UserDAO();
         User u = uDAO.getUserByID(userId);
         if (u != null) {
             int uRole = uDAO.getRoleForUID(u.getUser_id());

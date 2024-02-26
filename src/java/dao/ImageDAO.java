@@ -31,6 +31,7 @@ public class ImageDAO extends DBContext {
             PreparedStatement stm = con.prepareStatement(sql);
             stm.setInt(1, house_id);
             stm.executeUpdate();
+            con.close();
         } catch (SQLException ex) {
             Logger.getLogger(ImageDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -70,10 +71,13 @@ public class ImageDAO extends DBContext {
 
                 int imageId = rs.getInt("image_id");
 
-                Image image = new Image(imageId, imageData);
+                Image image = new Image();
+                image.setImageData(imageData);
+                image.setImage_id(imageId);
                 images.add(image);
             }
-
+            rs.close();
+            con.close();
         } catch (SQLException ex) {
             Logger.getLogger(ImageDAO.class.getName()).log(Level.SEVERE, null, ex);
         }

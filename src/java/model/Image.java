@@ -10,9 +10,13 @@ package model;
  */
 public class Image {
 
-    int image_id;
-    byte[] imageData;
-    String imageDataBase64;
+    private int image_id;
+    private byte[] imageData;
+    private String imageDataBase64;
+
+    public Image() {
+    }
+    
 
     public String getImageDataAsBase64() {
         return imageDataBase64;
@@ -20,11 +24,6 @@ public class Image {
 
     public void setImageDataAsBase64(String imageDataBase64) {
         this.imageDataBase64 = imageDataBase64;
-    }
-
-    public Image(int imageId, byte[] imageData) {
-        this.image_id = imageId;
-        this.imageData = imageData;
     }
 
     public int getImage_id() {

@@ -14,6 +14,20 @@
         <link rel="stylesheet" href="${pageContext.request.contextPath}/layout/styles/framework.css" type="text/css"/>
         <link rel="stylesheet" href="${pageContext.request.contextPath}/layout/styles/layout.css"/>
         <link rel="stylesheet" href="${pageContext.request.contextPath}/layout/styles/manh.css"/>
+        <style>
+            .avatar {
+                width: 150px; /* Adjust the width and height as needed */
+                height: 150px;
+                border-radius: 50%; /* Make it circular */
+                overflow: hidden; /* Hide overflowing content */
+            }
+
+            .avatar img {
+                width: 100%; /* Make the image fill the circular container */
+                height: auto;
+                display: block; /* Remove extra space under the image */
+            }
+        </style>
     </head>
     <body id="top">
         <div class="bgded overlay ">
@@ -41,7 +55,9 @@
                                 <li class="active"><a href="${pageContext.request.contextPath}/logIn.jsp">Login</a></li>
                                 </c:if>
                             <li>${sessionScope.user.getUser_name()}
+                                <img src="${sessionScope.account.getAvatar()}" class="avatar">
                                 <ul>
+<<<<<<< HEAD
                                     <li><a href="profile.html">My Account</a></li>
 <<<<<<< Updated upstream
                                     <li><a href="${pageContext.request.contextPath}/post/view">My Post</a></li>
@@ -51,6 +67,11 @@
                                     <li><a href="${pageContext.request.contextPath}/views/userProfile.jsp">My Rentals</a></li>
                                     <li><a href="${pageContext.request.contextPath}/order/view">My Requests</a></li>
 >>>>>>> Stashed changes
+=======
+                                    <li><a href="${pageContext.request.contextPath}/viewProfile">My Account</a></li>
+                                    <li><a href="${pageContext.request.contextPath}/post/view">My Post</a></li>
+                                    <li><a href="${pageContext.request.contextPath}/request/view">My Requests</a></li>
+>>>>>>> d61c4c3bcd173622f4acbd5244556621530f8ee3
                                     <li><a href="${pageContext.request.contextPath}/logOutController">Log out</a></li>
                                 </ul>
                             </li>
