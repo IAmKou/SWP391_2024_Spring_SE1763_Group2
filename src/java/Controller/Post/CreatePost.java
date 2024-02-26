@@ -20,6 +20,8 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import model.House;
@@ -35,6 +37,26 @@ import model.User;
  */
 @MultipartConfig
 public class CreatePost extends HttpServlet {
+
+    private boolean isRunning = true;
+
+    public void startAutoEndPost() {
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (isRunning) {
+                    checkTaskEndTimes();
+                    try {
+                        // Sleep for some time before checking again (e.g., every day)
+                        Thread.sleep(24 * 60 * 60 * 1000); // 24 hours in milliseconds set 60000 for checking every 1 min
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+        thread.start();
+    }
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -74,6 +96,7 @@ public class CreatePost extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
         TypeOfHouseDAO type_of_house_DAO = new TypeOfHouseDAO();
         List<TypeOfHouse> types = type_of_house_DAO.getType();
 
@@ -100,15 +123,17 @@ public class CreatePost extends HttpServlet {
 
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("account");
-        
+
         String description = request.getParameter("description");
         description = description.trim();
-        
+
         String number_of_room_str = request.getParameter("number_of_room");
-        
+
         String location = request.getParameter("location");
         String regex = "^[\\p{L}0-9.,\\/\\s]+$";
 
+        LocalDateTime start_time = LocalDateTime.now();
+        LocalDateTime end_time = start_time.plusMonths(3);
         try {
             if (!location.matches(regex)) {
                 throw new Exception("Your location contains invalid characters.");
@@ -155,6 +180,8 @@ public class CreatePost extends HttpServlet {
             post.setPurpose(purpose);
             post.setPoster_id(user.getUser_id());
             post.setPost_status(post_status);
+            post.setStart_time(start_time);
+            post.setEnd_time(end_time);
             TypeOfHouse tOfHouse = new TypeOfHouse();
             tOfHouse.setType_of_house_id(type);
 
@@ -178,7 +205,10 @@ public class CreatePost extends HttpServlet {
 
             PostDAO postDAO = new PostDAO();
             postDAO.addPost(house_id, post);
-
+            
+            //chay tickRate de quet nhung Post da het han
+            startAutoEndPost();
+            
             //xử lí phần hình ảnh
             try {
                 Collection<Part> parts = request.getParts();
@@ -208,7 +238,7 @@ public class CreatePost extends HttpServlet {
                 request.getRequestDispatcher("../views/addPost.jsp").forward(request, response);
             }
 
-            request.setAttribute("alert", "Add successfully.");
+            request.setAttribute("success", "Add successfully.");
             request.getRequestDispatcher("../views/addPost.jsp").forward(request, response);
         } catch (NumberFormatException ex) {
             String alert = "Invalid data format. Please enter valid numeric values.";
@@ -232,4 +262,25 @@ public class CreatePost extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
+    private void checkTaskEndTimes() {
+        LocalDateTime now = LocalDateTime.now();
+        PostDAO dao = new PostDAO();
+        ArrayList<Post> nepList = dao.getAllPost();
+        for (Post post : nepList) {
+            LocalDateTime endTime = post.getEnd_time();
+            if (now.isAfter(endTime)) {
+                updateStatusInDatabase(post.getPost_id());
+            }
+        }
+    }
+
+    public void stopAutoEndTask() {
+        isRunning = false;
+    }
+
+    private void updateStatusInDatabase(int post_id) {
+
+        PostDAO dao = new PostDAO();
+        dao.changePostStatus(post_id, 6);
+    }
 }

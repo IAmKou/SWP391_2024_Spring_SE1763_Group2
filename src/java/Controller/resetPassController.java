@@ -5,7 +5,7 @@
 
 package Controller;
 
-import dao.userDAO;
+import dao.UserDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -14,7 +14,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import model.account;
+import model.Account;
 import model.User;
 
 /**
@@ -35,9 +35,9 @@ public class resetPassController extends HttpServlet {
     throws ServletException, IOException {
         String newPass = request.getParameter("newpass");
         String newCfPass = request.getParameter("cfpass");
-        userDAO dao = new userDAO();
+        UserDAO dao = new UserDAO();
         HttpSession session = request.getSession();
-        account newUser = (account) request.getSession().getAttribute("userForgetPass");
+        Account newUser = (Account) request.getSession().getAttribute("userForgetPass");
         if (newPass.equals(newCfPass)) {
             dao.ChangePassword(newUser.getUser_id(), newPass);
             session.invalidate();

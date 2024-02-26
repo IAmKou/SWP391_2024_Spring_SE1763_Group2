@@ -61,10 +61,10 @@ public class ViewPost extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         String post_id_str = request.getParameter("post_id");
-//        int post_id_int  = Integer.parseInt(post_id_str);
+        int post_id_int  = Integer.parseInt(post_id_str);
 
         PostDAO Pdao = new PostDAO();
-        Post post = Pdao.getPost(1);
+        Post post = Pdao.getPost(post_id_int);
         
         ImageDAO imageDAO = new ImageDAO();
         List<Image> images = imageDAO.getImages(post.getHouse().getHouse_id());
@@ -73,6 +73,7 @@ public class ViewPost extends HttpServlet {
             String imageDataBase64 = Base64.getEncoder().encodeToString(image.getImageData());
             image.setImageDataAsBase64(imageDataBase64);
         }
+        
         HttpSession session = request.getSession();
         session.setAttribute("images", images);
         session.setAttribute("post", post);

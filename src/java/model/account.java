@@ -8,25 +8,16 @@ package model;
  *
  * @author ACER
  */
-public class account {
+public class Account {
     private int user_id;
     private String user_name;
     private String pass_word;
     private int role_id;
-    private boolean is_active = true;
 
-    public boolean isIs_active() {
-        return is_active;
+    public Account() {
     }
 
-    public void setIs_active(boolean is_active) {
-        this.is_active = is_active;
-    }
-
-    public account() {
-    }
-
-    public account(int user_id, String user_name, String pass_word, int role_id) {
+    public Account(int user_id, String user_name, String pass_word, int role_id) {
         this.user_id = user_id;
         this.user_name = user_name;
         this.pass_word = pass_word;
@@ -63,11 +54,6 @@ public class account {
 
     public void setUser_name(String user_name) {
         this.user_name = user_name;
-    }
-
-    @Override
-    public String toString() {
-        return "account{" + "user_id=" + user_id + ", user_name=" + user_name + ", pass_word=" + pass_word + ", role_id=" + role_id + ", is_active=" + is_active + '}';
     }
     
 }

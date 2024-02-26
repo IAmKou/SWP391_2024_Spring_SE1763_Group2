@@ -8,12 +8,10 @@
         <servlet-name>addNewPost</servlet-name>
         <servlet-class>Controller.Post.CreatePost</servlet-class>
     </servlet>
-    
     <servlet>
         <servlet-name>ViewUserPost</servlet-name>
         <servlet-class>Controller.Post.ViewUserPost</servlet-class>
     </servlet>
-    
     <servlet>
         <servlet-name>ViewPostByStatus</servlet-name>
         <servlet-class>Controller.Post.ViewPostByStatus</servlet-class>
@@ -23,8 +21,8 @@
         <servlet-class>Controller.Order.ViewOrder</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>ViewUserList</servlet-name>
-        <servlet-class>Controller.User.ViewUserList</servlet-class>
+        <servlet-name>viewUserList</servlet-name>
+        <servlet-class>Controller.User.viewUserList</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>userProfile</servlet-name>
@@ -41,6 +39,24 @@
     <servlet>
         <servlet-name>ViewRequest</servlet-name>
         <servlet-class>Controller.Post.ViewRequest</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>viewProfile</servlet-name>
+        <servlet-class>Controller.User.viewProfile</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>updateUser</servlet-name>
+        <servlet-class>Controller.User.updateUser</servlet-class>
+        <multipart-config>
+            <location>D:\temp</location>
+            <max-file-size>20848820</max-file-size>
+            <max-request-size>418018841</max-request-size>
+            <file-size-threshold>1048576</file-size-threshold>
+        </multipart-config>
+    </servlet>
+    <servlet>
+        <servlet-name>DeletePost</servlet-name>
+        <servlet-class>Controller.Post.DeletePost</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>addNewPost</servlet-name>
@@ -59,7 +75,7 @@
         <url-pattern>/status</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>ViewUserList</servlet-name>
+        <servlet-name>viewUserList</servlet-name>
         <url-pattern>/viewUserList</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
@@ -81,6 +97,18 @@
     <servlet-mapping>
         <servlet-name>ViewRequest</servlet-name>
         <url-pattern>/request/view</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>viewProfile</servlet-name>
+        <url-pattern>/viewProfile</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>updateUser</servlet-name>
+        <url-pattern>/updateUser</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeletePost</servlet-name>
+        <url-pattern>/post/delete</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

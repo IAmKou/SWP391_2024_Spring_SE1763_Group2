@@ -58,7 +58,7 @@ public class ViewUserList extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            userDAO uDAO = new userDAO();
+            UserDAO uDAO = new UserDAO();
             ArrayList<User> uList = uDAO.allUserList();
             System.out.println(uList.isEmpty());
             request.setAttribute("uList", uList);

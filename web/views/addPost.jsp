@@ -53,11 +53,23 @@
 
                 // Gửi multipart request bằng AJAX
                 var xhr = new XMLHttpRequest();
-                xhr.open('POST', '/test', true);
+                xhr.open('POST', '/post/add', true);
                 xhr.send(formData);
             }
         </script>
-
+        <style>
+            #image img {
+                width: 100px;
+                height: 100px;
+                margin: 5px;
+                border-radius: 10px; /* Đặt giá trị border-radius tùy ý */
+            }
+            .image-preview {
+                border-radius: 10px;
+                margin-bottom: 10px;
+                background-color: #198754; /* Màu nền mặc định */
+            }
+        </style>
     </head>
     <body>
 
@@ -66,7 +78,21 @@
 
             <form method="post" action="../post/add" enctype="multipart/form-data" class="p-5" style="background-color: #2b3035; border-radius: 30px">
                 <fieldset>
-                    <h2 class="text-center mt-4">${requestScope.alert}</h2>
+                    <div class="row mb-3">
+                        <div class="col-sm-3"></div>
+                        <div class="col-sm">
+                            <c:if test="${alert ne null}">
+                                <div class="alert alert-warning h4">
+                                    ${alert}
+                                </div>
+                            </c:if>
+                            <c:if test="${success ne null}">
+                                <div class="alert alert-success center h4">
+                                    ${success}
+                                </div>
+                            </c:if>
+                        </div>
+                    </div>
                     <div class="row mb-3">
                         <label for="address" class="col-sm-3 col-form-label text-end">Location:</label>
                         <div class="col-sm">

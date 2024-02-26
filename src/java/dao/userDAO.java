@@ -14,14 +14,14 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import model.account;
+import model.Account;
 import model.User;
 
 /**
  *
  * @author ACER
  */
-public class userDAO {
+public class UserDAO {
 
     public void insertUser(String fullname, Date dob, String address, int phone, String email) {
         try {
@@ -79,8 +79,8 @@ public class userDAO {
         return false;
     }
 
-    public static account LogIn(String username, String pass) {
-        account account = null;
+    public static Account LogIn(String username, String pass) {
+        Account account = null;
         try {
             DBContext db = new DBContext();
             Connection con = db.getConnection();
@@ -89,7 +89,7 @@ public class userDAO {
                 Statement call = con.createStatement();
                 ResultSet rs = call.executeQuery(sql);
                 while (rs.next()) {
-                    account = new account(rs.getInt("user_id"), username, pass, rs.getInt("role_id"));
+                    account = new Account(rs.getInt("user_id"), username, pass, rs.getInt("role_id"));
                 }
                 call.close();
                 con.close();
@@ -136,6 +136,7 @@ public class userDAO {
                     user.setAddress(rs.getString(4));
                     user.setPhone_number(rs.getString(5));
                     user.setEmail(rs.getString(6));
+                    user.setAvatar(rs.getString(7));
                 }
                 rs.close();
                 st.close();
@@ -195,8 +196,8 @@ public class userDAO {
         }
     }
 
-    public static account getAccount(int id) {
-        account acc = new account();
+    public static Account getAccount(int id) {
+        Account acc = new Account();
         String sql = "Select * from `account` where `user_id` = '" + id + "';";
         try {
             DBContext db = new DBContext();
@@ -224,7 +225,8 @@ public class userDAO {
                     + "    date_of_birth = ?,\n"
                     + "    address = ?,\n"
                     + "    phone_number = ?,\n"
-                    + "    email = ?\n"
+                    + "    email = ?,\n"
+                    + "    avatar = ?\n"
                     + "WHERE user_id = ?;";
 
             DBContext db = new DBContext();
@@ -234,12 +236,12 @@ public class userDAO {
                 stm.setString(3, user.getAddress());
                 stm.setString(4, user.getPhone_number());
                 stm.setString(5, user.getEmail());
-                stm.setInt(6, user.getUser_id());
-
+                stm.setString(6, user.getAvatar());
+                stm.setInt(7, user.getUser_id());
                 stm.executeUpdate();
             }
         } catch (SQLException ex) {
-            Logger.getLogger(userDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -262,7 +264,7 @@ public class userDAO {
                 }
             }
         } catch (SQLException ex) {
-            Logger.getLogger(userDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return list;
     }
@@ -289,7 +291,7 @@ public class userDAO {
                 }
             }
         } catch (SQLException ex) {
-            Logger.getLogger(userDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return u;
     }
@@ -313,8 +315,26 @@ public class userDAO {
                 }
             }
         } catch (SQLException ex) {
-            Logger.getLogger(userDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return role;
+    }
+        public static boolean uploadAvatar(int user_id, String imgurl) {
+        try {
+            DBContext db = new DBContext();
+            Connection con = db.getConnection();
+            if (con != null) {
+                String sql = "UPDATE `user` SET `avatar` = '" + imgurl + "' where `user_id` = '" + user_id + "'";
+                Statement st = con.createStatement();
+                int rows = st.executeUpdate(sql);
+                if (rows < 1) {
+                    throw new Exception();
+                }
+                return true;
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return false;
     }
 }
