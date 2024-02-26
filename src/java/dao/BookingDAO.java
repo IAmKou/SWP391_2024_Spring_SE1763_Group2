@@ -23,6 +23,22 @@ import model.User;
  */
 public class BookingDAO extends DBContext {
 
+    public void deleteBookingByHouseID(int house_id) {
+        try {
+            String sql = "DELETE FROM `house_finder_project`.`booking`\n"
+                    + "WHERE house_id = ?;";
+            DBContext db = new DBContext();
+            Connection con = db.getConnection();
+            PreparedStatement stm = con.prepareStatement(sql);
+            stm.setInt(1, house_id);
+            stm.executeUpdate();
+            con.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(BookingDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
     public List<Booking> getListBookingInformation(int user_id) {
         List<Booking> bookings = new ArrayList<>();
         try {
@@ -42,16 +58,16 @@ public class BookingDAO extends DBContext {
                 user.setFull_name(rs.getString("full_name"));
                 user.setEmail(rs.getString("email"));
                 user.setPhone_number(rs.getString("phone_number"));
-                
+
                 House house = new House();
                 house.setLocation(rs.getString(9));
-                
+
                 Booking order = new Booking();
                 order.setBooking_id(rs.getInt("booking_id"));
                 order.setBooking_date(rs.getString("booking_date"));
                 order.setUser(user);
                 order.setHouse(house);
-                
+
                 bookings.add(order);
             }
         } catch (SQLException ex) {

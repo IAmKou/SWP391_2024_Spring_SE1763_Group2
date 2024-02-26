@@ -59,7 +59,7 @@
                                 <ul>
                                     <li><a href="${pageContext.request.contextPath}/viewProfile">My Account</a></li>
                                     <li><a href="${pageContext.request.contextPath}/post/view">My Post</a></li>
-                                    <li><a href="${pageContext.request.contextPath}/views/profile.jsp">My Requests</a></li>
+                                    <li><a href="${pageContext.request.contextPath}/request/view">My Requests</a></li>
                                     <li><a href="${pageContext.request.contextPath}/logOutController">Log out</a></li>
                                 </ul>
                             </li>

@@ -5,25 +5,21 @@
 
 package Controller.Post;
 
+import dao.BookingDAO;
+import dao.HouseDAO;
 import dao.ImageDAO;
 import dao.PostDAO;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import java.util.Base64;
-import java.util.List;
-import model.Image;
-import model.Post;
 
 /**
  *
  * @author FPTSHOP
  */
-public class ViewPost extends HttpServlet {
+public class DeletePost extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -34,19 +30,25 @@ public class ViewPost extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ViewPost</title>");  
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ViewPost at " + request.getContextPath () + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
+        String house_id_str = request.getParameter("house_id");
+        int house_id = Integer.parseInt(house_id_str);
+        
+        PostDAO postDAO = new PostDAO();
+        postDAO.deletePostByHouseID(house_id);
+        
+        ImageDAO imageDAO = new ImageDAO();
+        imageDAO.deleteImages(house_id);
+        
+        BookingDAO bookingDAO = new BookingDAO();
+        bookingDAO.deleteBookingByHouseID(house_id);
+        
+        HouseDAO houseDAO = new HouseDAO();
+        houseDAO.deleteHouse(house_id);
+        
+        request.setAttribute("success", "Delete Successfully.");
+        request.getRequestDispatcher("../views/profile.jsp").forward(request, response);
+        
+        
     } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -60,25 +62,7 @@ public class ViewPost extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        String post_id_str = request.getParameter("post_id");
-        int post_id_int  = Integer.parseInt(post_id_str);
-
-        PostDAO Pdao = new PostDAO();
-        Post post = Pdao.getPost(post_id_int);
-        
-        ImageDAO imageDAO = new ImageDAO();
-        List<Image> images = imageDAO.getImages(post.getHouse().getHouse_id());
-        
-        for (Image image : images) {
-            String imageDataBase64 = Base64.getEncoder().encodeToString(image.getImageData());
-            image.setImageDataAsBase64(imageDataBase64);
-        }
-        
-        HttpSession session = request.getSession();
-        session.setAttribute("images", images);
-        session.setAttribute("post", post);
-        request.getRequestDispatcher("/views/post.jsp").forward(request, response);
-        
+        processRequest(request, response);
     } 
 
     /** 

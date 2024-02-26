@@ -20,6 +20,23 @@ import model.House;
  */
 public class HouseDAO extends DBContext {
 
+    public void deleteHouse(int house_id) {
+        try {
+            String sql = "DELETE FROM `house_finder_project`.`house`\n"
+                    + "WHERE house.house_id = ?;";
+            DBContext db = new DBContext();
+            Connection con = db.getConnection();
+            PreparedStatement stm = con.prepareStatement(sql);
+            stm.setInt(1, house_id);
+            stm.executeUpdate();
+
+            con.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(HouseDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
     public int getOwnerId(int house_id) {
         try {
             String sql = "SELECT \n"

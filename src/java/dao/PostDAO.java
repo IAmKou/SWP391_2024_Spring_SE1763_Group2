@@ -28,6 +28,23 @@ import model.User;
  */
 public class PostDAO {
 
+    public void deletePostByHouseID(int house_id) {
+        try {
+            String sql = "DELETE FROM `house_finder_project`.`post`\n"
+                    + "WHERE post.house_id = ?;";
+            DBContext db = new DBContext();
+            Connection con = db.getConnection();
+            PreparedStatement stm = con.prepareStatement(sql);
+            stm.setInt(1, house_id);
+            stm.executeUpdate();
+            
+            con.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(PostDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
     public List<Post> getUserPost(int user_id) {
         List<Post> posts = new ArrayList<>();
         try {
@@ -264,6 +281,7 @@ public class PostDAO {
                     + "    house.area,\n"
                     + "    house.number_of_room,\n"
                     + "    post.poster_id,\n"
+                    + "    user.full_name,\n"
                     + "    user.phone_number,\n"
                     + "    user.email\n"
                     + "FROM \n"
@@ -303,6 +321,7 @@ public class PostDAO {
 
                         User poster = new User();
                         poster.setUser_id(rs.getInt("poster_id"));
+                        poster.setFull_name(rs.getString("full_name"));
                         poster.setPhone_number(rs.getString("phone_number"));
                         poster.setEmail(rs.getString("email"));
 
@@ -354,7 +373,6 @@ public class PostDAO {
 
                     Purpose purpose = new Purpose();
                     purpose.setPurpose_id(rs.getInt("purpose_id"));
-                    purpose.setPurpose_name(rs.getString("purpose_name"));
                     p.setPost_id(rs.getInt("post_id"));
                     p.setHouse(house);
                     p.setPurpose(purpose);
@@ -363,8 +381,8 @@ public class PostDAO {
                     p.setHouse_status(house_status);
                     p.setAdmin_id(rs.getInt("admin_id"));
                     p.setPost_status(post_status);
-                    p.setStart_time(rs.getObject("start_time",LocalDateTime.class));
-                    p.setEnd_time(rs.getObject("end_time",LocalDateTime.class));
+                    p.setStart_time(rs.getObject("start_time", LocalDateTime.class));
+                    p.setEnd_time(rs.getObject("end_time", LocalDateTime.class));
                     list.add(p);
                 }
             }
@@ -373,7 +391,8 @@ public class PostDAO {
         }
         return list;
     }
-    public boolean changePostStatus(int post_id,int status){
+
+    public boolean changePostStatus(int post_id, int status) {
         try {
             DBContext db = new DBContext();
             Connection con = db.getConnection();

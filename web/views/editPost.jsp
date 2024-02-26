@@ -10,9 +10,8 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link rel="stylesheet" href="../layout/styles/fontawesome-free/css/fontawesome-all.min.css"/>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/layout/styles/fontawesome-free/css/fontawesome-all.min.css"/>
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/layout/bootstrap-5.3.2-dist/css/bootstrap.min.css"/>
         <script>
             function chooseFile(fileInput) {
                 var container = document.getElementById("image");
@@ -23,9 +22,6 @@
                         reader.onload = function (e) {
                             var img = new Image();
                             img.onload = function () {
-                                img.style.width = "100px";
-                                img.style.height = "100px";
-                                img.style.margin = "8px";
                                 container.appendChild(img);
                             };
                             img.src = e.target.result;
@@ -49,12 +45,23 @@
 
                 // Gửi multipart request bằng AJAX
                 var xhr = new XMLHttpRequest();
-                xhr.open('POST', '/test', true);
+                xhr.open('POST', '/post/update', true);
                 xhr.send(formData);
             }
         </script>
         <style>
+            #image img {
+                width: 100px;
+                height: 100px;
+                margin: 5px;
+                border-radius: 10px; /* Đặt giá trị border-radius tùy ý */
+            }
             .image-preview {
+                border-radius: 10px;
+                margin-bottom: 10px;
+                background-color: #198754; /* Màu nền mặc định */
+            }
+            .image{
                 border-radius: 10px;
                 margin-bottom: 10px;
                 background-color: #E0E0E0; /* Màu nền mặc định */
@@ -76,7 +83,22 @@
         <div class="container justify-content-center align-items-center vh-100">
             <form method="post" action="../post/update" enctype="multipart/form-data" class="p-5" style="background-color: #2b3035; border-radius: 30px">
                 <fieldset>
-                    <h2 class="text-center mt-4 alert-message">${requestScope.alert}</h2>
+                    <div class="row mb-3">
+                        <div class="col-sm-3"></div>
+                        <div class="col-sm">
+                            <c:if test="${alert ne null}">
+                                <div class="alert alert-warning h4">
+                                    ${alert}
+                                </div>
+                            </c:if>
+                            <c:if test="${success ne null}">
+                                <div class="alert alert-success center h4">
+                                    ${success}
+                                </div>
+                            </c:if>
+                        </div>
+                    </div>
+
                     <input type="hidden" value="${sessionScope.post.house.house_id}" name="house_id">
                     <input type="hidden" name="post_id" value="${sessionScope.post.post_id}">
                     <div class="row mb-3">
@@ -144,6 +166,13 @@
                     <div class="row mb-3">
                         <div class="col-sm-3"></div>
                         <div class="col-sm">
+                            <c:if test="${sessionScope.post.house.image ne null}">
+                                <div class="image">
+                                    <c:forEach items="${sessionScope.post.house.image}" var="image">
+                                        <img src="data:image/jpeg;base64,${image.getImageDataAsBase64()}" alt="hinh anh" style="width: 100px; height: 100px; border-radius: 5px; margin: 5px"/>
+                                    </c:forEach>
+                                </div>
+                            </c:if>
                             <div id="image" class="image-preview"></div>
                         </div>
                     </div>
@@ -151,7 +180,7 @@
                     <div class="row mb-3">
                         <label for="upload" class="col-sm-3 col-form-label text-end">Image:</label>
                         <div class="col-sm">
-                            <input id="upload" id="fileInput" type="file" class="form-control" placeholder="Upload your file" name="image" accept="image/*" onchange="chooseFile(this)" multiple required>
+                            <input id="fileInput" type="file" class="form-control" placeholder="Upload your file" name="image" accept="image/*" onchange="chooseFile(this)" multiple>
                         </div>
                     </div>
 

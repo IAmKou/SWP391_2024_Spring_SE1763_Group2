@@ -205,8 +205,10 @@ public class CreatePost extends HttpServlet {
 
             PostDAO postDAO = new PostDAO();
             postDAO.addPost(house_id, post);
+            
             //chay tickRate de quet nhung Post da het han
             startAutoEndPost();
+            
             //xử lí phần hình ảnh
             try {
                 Collection<Part> parts = request.getParts();
@@ -236,7 +238,7 @@ public class CreatePost extends HttpServlet {
                 request.getRequestDispatcher("../views/addPost.jsp").forward(request, response);
             }
 
-            request.setAttribute("alert", "Add successfully.");
+            request.setAttribute("success", "Add successfully.");
             request.getRequestDispatcher("../views/addPost.jsp").forward(request, response);
         } catch (NumberFormatException ex) {
             String alert = "Invalid data format. Please enter valid numeric values.";

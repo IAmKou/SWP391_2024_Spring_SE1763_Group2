@@ -6,6 +6,16 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
     Created on : Jan 25, 2024, 1:24:36 PM
     Author     : FPTSHOP
 */
+.main-heading {
+    background: #4E658E;
+    border-radius: 10px;
+    font-family: Arial, sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+    color: white; /* Màu chữ đen */
+    margin: 20px 0;
+    padding: 8px;
+}
 .image-container{
     width: 100%;
     height: auto;
