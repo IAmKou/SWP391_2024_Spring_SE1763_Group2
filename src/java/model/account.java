@@ -8,7 +8,7 @@ package model;
  *
  * @author ACER
  */
-public class Account {
+public class account {
     private int user_id;
     private String user_name;
     private String pass_word;
@@ -23,10 +23,10 @@ public class Account {
         this.is_active = is_active;
     }
 
-    public Account() {
+    public account() {
     }
 
-    public Account(int user_id, String user_name, String pass_word, int role_id) {
+    public account(int user_id, String user_name, String pass_word, int role_id) {
         this.user_id = user_id;
         this.user_name = user_name;
         this.pass_word = pass_word;

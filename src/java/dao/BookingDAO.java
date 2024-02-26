@@ -14,66 +14,31 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Booking;
-import model.House;
-import model.User;
 
 /**
  *
  * @author FPTSHOP
  */
 public class BookingDAO extends DBContext {
-
-    public void deleteBookingByHouseID(int house_id) {
+    
+    public List<Booking> getBookings(int user_id){
         try {
-            String sql = "DELETE FROM `house_finder_project`.`booking`\n"
-                    + "WHERE house_id = ?;";
-            DBContext db = new DBContext();
-            Connection con = db.getConnection();
-            PreparedStatement stm = con.prepareStatement(sql);
-            stm.setInt(1, house_id);
-            stm.executeUpdate();
-            con.close();
-        } catch (SQLException ex) {
-            Logger.getLogger(BookingDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-    }
-
-    public List<Booking> getListBookingInformation(int user_id) {
-        List<Booking> bookings = new ArrayList<>();
-        try {
-
-            String sql = "SELECT *\n"
-                    + "FROM `house_finder_project`.`booking`\n"
-                    + "join house on house.house_id = booking.house_id\n"
-                    + "join user on user.user_id = booking.customer_id\n"
-                    + "where house.house_owner_id = ?;";
+            List<Booking> bookings = new ArrayList<>();
+            String sql ="";
             DBContext db = new DBContext();
             Connection con = db.getConnection();
             PreparedStatement stm = con.prepareStatement(sql);
             stm.setInt(1, user_id);
             ResultSet rs = stm.executeQuery();
-            while (rs.next()) {
-                User user = new User();
-                user.setFull_name(rs.getString("full_name"));
-                user.setEmail(rs.getString("email"));
-                user.setPhone_number(rs.getString("phone_number"));
-
-                House house = new House();
-                house.setLocation(rs.getString(9));
-
+            while (rs.next()) {                
                 Booking order = new Booking();
-                order.setBooking_id(rs.getInt("booking_id"));
-                order.setBooking_date(rs.getString("booking_date"));
-                order.setUser(user);
-                order.setHouse(house);
-
-                bookings.add(order);
+                order.set
             }
         } catch (SQLException ex) {
             Logger.getLogger(BookingDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return bookings;
+    
+    
     }
 
     public boolean checkDuplicateBooking(int house_id, int customer_id) {
@@ -89,9 +54,8 @@ public class BookingDAO extends DBContext {
             stm.setInt(1, customer_id);
             stm.setInt(2, house_id);
             ResultSet rs = stm.executeQuery();
-            if (rs.next()) {
-                int count = rs.getInt("count");
-                return count > 0; // Trả về true nếu count > 0, ngược lại trả về false
+            if(rs.next()){
+                return true;
             }
         } catch (SQLException ex) {
             Logger.getLogger(BookingDAO.class.getName()).log(Level.SEVERE, null, ex);

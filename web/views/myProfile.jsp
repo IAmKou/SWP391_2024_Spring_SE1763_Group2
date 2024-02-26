@@ -59,12 +59,6 @@
             .ftco-section {
                 overflow: hidden;
             }
-            .avatar {
-                width: 100px; /* Adjust the width and height as needed */
-                height: 100px;
-                border-radius: 50%; /* Make it circular */
-                overflow: hidden; /* Hide overflowing content */
-            }
         </style>
     </head>
     <body>
@@ -147,7 +141,7 @@
                                 <td>${user.email}</td>
                             </tr>
                         </table>
-                        <a href="${pageContext.request.contextPath}/updateProfile"><button class="btn " style="float: right 45px;">Edit</button></a>
+                            <a href="${pageContext.request.contextPath}/updateProfile"><button class="btn " style="float: right 45px;">Edit</button></a>
                     </section>
                 </div>
         </div>

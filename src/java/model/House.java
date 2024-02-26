@@ -83,7 +83,7 @@ public class House {
         return image;
     }
 
-    public void setImage(List<Image> image) {
+    public void setImage(List<Image> image_URL) {
         this.image = image;
     }
     

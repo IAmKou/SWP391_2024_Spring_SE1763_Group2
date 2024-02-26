@@ -4,53 +4,21 @@
  */
 package model;
 
-import java.time.LocalDateTime;
-
 /**
  *
  * @author FPTSHOP
  */
 public class Post {
-    private int post_id;
-    private House house;
-    private Purpose purpose;
-    private int price;
-    private int poster_id;
-    private Status house_status;
-    private int admin_id;
-    private Status post_status;
-    private LocalDateTime start_time;
-    private LocalDateTime end_time;
+    int post_id;
+    House house;
+    Purpose purpose;
+    int price;
+    int poster_id;
+    Status house_status;
+    int admin_id;
+    Status post_status;
+
     public Post() {
-    }
-
-    public Post(int post_id, House house, Purpose purpose, int price, int poster_id, Status house_status, int admin_id, Status post_status, LocalDateTime start_time, LocalDateTime end_time) {
-        this.post_id = post_id;
-        this.house = house;
-        this.purpose = purpose;
-        this.price = price;
-        this.poster_id = poster_id;
-        this.house_status = house_status;
-        this.admin_id = admin_id;
-        this.post_status = post_status;
-        this.start_time = start_time;
-        this.end_time = end_time;
-    }
-
-    public void setStart_time(LocalDateTime start_time) {
-        this.start_time = start_time;
-    }
-
-    public void setEnd_time(LocalDateTime end_time) {
-        this.end_time = end_time;
-    }
-
-    public LocalDateTime getStart_time() {
-        return start_time;
-    }
-
-    public LocalDateTime getEnd_time() {
-        return end_time;
     }
 
     public int getPost_id() {

@@ -3,23 +3,22 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package Controller.Post;
+package Controller.User;
 
-import dao.BookingDAO;
-import dao.HouseDAO;
-import dao.ImageDAO;
-import dao.PostDAO;
 import java.io.IOException;
+import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author FPTSHOP
+ * @author ACER
  */
-public class DeletePost extends HttpServlet {
+@WebServlet(name="uploadAvatar", urlPatterns={"/uploadAvatar"})
+public class uploadAvatar extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -30,25 +29,19 @@ public class DeletePost extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        String house_id_str = request.getParameter("house_id");
-        int house_id = Integer.parseInt(house_id_str);
-        
-        PostDAO postDAO = new PostDAO();
-        postDAO.deletePostByHouseID(house_id);
-        
-        ImageDAO imageDAO = new ImageDAO();
-        imageDAO.deleteImages(house_id);
-        
-        BookingDAO bookingDAO = new BookingDAO();
-        bookingDAO.deleteBookingByHouseID(house_id);
-        
-        HouseDAO houseDAO = new HouseDAO();
-        houseDAO.deleteHouse(house_id);
-        
-        request.setAttribute("success", "Delete Successfully.");
-        request.getRequestDispatcher("../views/profile.jsp").forward(request, response);
-        
-        
+        response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet uploadAvatar</title>");  
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet uploadAvatar at " + request.getContextPath () + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
+        }
     } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

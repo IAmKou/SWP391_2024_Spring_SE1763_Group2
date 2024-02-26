@@ -6,24 +6,6 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
     Created on : Jan 25, 2024, 1:24:36 PM
     Author     : FPTSHOP
 */
-.main-heading {
-    background: #4E658E;
-    border-radius: 10px;
-    font-family: Arial, sans-serif;
-    font-size: 20px;
-    font-weight: bold;
-    color: white; /* Màu chữ đen */
-    margin: 20px 0;
-    padding: 8px;
-}
-.image-container{
-    width: 100%;
-    height: auto;
-}
-.img-container img {
-    max-width: 100%;
-    max-height: 100%;
-}
 #mainav img {
     height: 70px;
     width: auto;
@@ -117,12 +99,6 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
     font-family: Arial, sans-serif;
     color: black;
     font-weight: bold;
-}
-.avatar {
-    width: 100px; /* Adjust the width and height as needed */
-    height: 100px;
-    border-radius: 50%; /* Make it circular */
-    overflow: hidden; /* Hide overflowing content */
 }
 
 

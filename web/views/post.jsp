@@ -21,17 +21,6 @@
             .table-no-border td {
                 border: none;
             }
-            .poster-avatar {
-                width: 50px;
-                height: 50px;
-                border-radius: 50%;
-                margin: 10px 0;
-                border: 1px #000 solid;
-            }
-
-            .poster-username {
-                font-weight: bold;
-            }
         </style>
     </head>
     <body>
@@ -85,10 +74,10 @@
                         </h3>
                         <div class="profile-container">
                             <div class="avatar-container">
-                                <img src="${pageContext.request.contextPath}/images/person_1.jpg" alt="Avatar" class="poster-avatar">
+                                <img src="${pageContext.request.contextPath}/images/person_1.jpg" alt="Avatar" class="avatar">
                             </div>
                             <div class="user-info-container">
-                                <p class="poster-username">${post.house.house_owner.full_name}</p>
+                                <p class="username">${sessionScope.account.getFull_name()}</p>
                             </div>
                         </div>
                         <h5 class="main-heading">House Information</h5>
