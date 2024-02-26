@@ -14,14 +14,14 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import model.account;
+import model.Account;
 import model.User;
 
 /**
  *
  * @author ACER
  */
-public class userDAO {
+public class UserDAO {
 
     public void insertUser(String fullname, Date dob, String address, int phone, String email) {
         try {
@@ -79,8 +79,8 @@ public class userDAO {
         return false;
     }
 
-    public static account LogIn(String username, String pass) {
-        account account = null;
+    public static Account LogIn(String username, String pass) {
+        Account account = null;
         try {
             DBContext db = new DBContext();
             Connection con = db.getConnection();
@@ -89,7 +89,7 @@ public class userDAO {
                 Statement call = con.createStatement();
                 ResultSet rs = call.executeQuery(sql);
                 while (rs.next()) {
-                    account = new account(rs.getInt("user_id"), username, pass, rs.getInt("role_id"));
+                    account = new Account(rs.getInt("user_id"), username, pass, rs.getInt("role_id"));
                 }
                 call.close();
                 con.close();
@@ -196,8 +196,8 @@ public class userDAO {
         }
     }
 
-    public static account getAccount(int id) {
-        account acc = new account();
+    public static Account getAccount(int id) {
+        Account acc = new Account();
         String sql = "Select * from `account` where `user_id` = '" + id + "';";
         try {
             DBContext db = new DBContext();
@@ -241,7 +241,7 @@ public class userDAO {
                 stm.executeUpdate();
             }
         } catch (SQLException ex) {
-            Logger.getLogger(userDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -264,7 +264,7 @@ public class userDAO {
                 }
             }
         } catch (SQLException ex) {
-            Logger.getLogger(userDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return list;
     }
@@ -291,7 +291,7 @@ public class userDAO {
                 }
             }
         } catch (SQLException ex) {
-            Logger.getLogger(userDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return u;
     }
@@ -315,7 +315,7 @@ public class userDAO {
                 }
             }
         } catch (SQLException ex) {
-            Logger.getLogger(userDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return role;
     }

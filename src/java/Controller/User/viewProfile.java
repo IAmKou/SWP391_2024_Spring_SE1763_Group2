@@ -4,7 +4,7 @@
  */
 package Controller.User;
 
-import dao.userDAO;
+import dao.UserDAO;
 import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -33,7 +33,7 @@ public class viewProfile extends HttpServlet {
             throws ServletException, IOException {
         User user = (User) request.getSession().getAttribute("account");
         int uid = user.getUser_id();
-        userDAO userDAO = new userDAO();
+        UserDAO userDAO = new UserDAO();
         user = userDAO.getUserInformation(uid);
         if (user != null) {
             // Đặt thông tin người dùng vào thuộc tính yêu cầu (request attribute)

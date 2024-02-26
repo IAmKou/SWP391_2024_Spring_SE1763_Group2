@@ -1,6 +1,6 @@
 package Controller.User;
 
-import dao.userDAO;
+import dao.UserDAO;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
@@ -31,7 +31,7 @@ public class updateUser extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        userDAO uDAO = new userDAO();
+        UserDAO uDAO = new UserDAO();
         User user = (User) request.getSession().getAttribute("account");
         request.setAttribute("param1", user);
         System.out.println(user);
@@ -127,7 +127,7 @@ public class updateUser extends HttpServlet {
                     user.setEmail(email);
                     user.setAvatar(imageUrl);
                     // Cập nhật người dùng trong cơ sở dữ liệu
-                    userDAO userDAO = new userDAO();
+                    UserDAO userDAO = new UserDAO();
                     userDAO.updateUser(user);
 
                     request.setAttribute("msg", "ok");

@@ -387,7 +387,7 @@ public class PostDAO {
                 }
             }
         } catch (SQLException ex) {
-            Logger.getLogger(userDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return list;
     }

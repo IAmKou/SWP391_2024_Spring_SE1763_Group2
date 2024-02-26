@@ -11,14 +11,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import model.account;
+import model.Account;
 
 /**
  *
  * @author FPTSHOP
  */
 public class AccountDAO extends DBContext {
-    public account getAccountByUserId(int user_id){
+    public Account getAccountByUserId(int user_id){
         try {
             String sql="Select * from `account` where `user_id` = ?;";
             DBContext db = new DBContext();
@@ -27,7 +27,7 @@ public class AccountDAO extends DBContext {
             stm.setInt(1, user_id);
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {                
-                account acc = new account();
+                Account acc = new Account();
                 acc.setUser_id(rs.getInt("user_id"));
                 acc.setUser_name(rs.getString("user_name"));
                 acc.setPass_word(rs.getString("pass_word"));
