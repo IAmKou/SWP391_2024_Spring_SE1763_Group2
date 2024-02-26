@@ -69,7 +69,7 @@ public class addUserController extends HttpServlet {
             String DoB = request.getParameter("dob");
             SimpleDateFormat availDate = new SimpleDateFormat("yyyy-MM-dd");
             String address = request.getParameter("address");
-            int phone = Integer.parseInt(request.getParameter("phone"));
+            String phone = request.getParameter("phone");
             //Validate pass
             if(!pass.equals(cfpass)){
                 msg = "Confirm pass not match !!!";
@@ -88,9 +88,12 @@ public class addUserController extends HttpServlet {
 //            //Add user to DB
             else{
                  try {        
+                     
                     java.util.Date date = availDate.parse(DoB);
                     java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+                    
                     dao.insertUser(fullname,sqlDate,address,phone,email);
+                    
                     User u = dao.getUserByEmail(email);
                     int uid = u.getUser_id();
                     dao.insertAccount(uid, uname, pass, 2);

@@ -23,7 +23,7 @@ import model.User;
  */
 public class UserDAO {
 
-    public void insertUser(String fullname, Date dob, String address, int phone, String email) {
+    public void insertUser(String fullname, Date dob, String address, String phone, String email) {
         try {
             DBContext db = new DBContext();
             Connection con = db.getConnection();
@@ -36,7 +36,7 @@ public class UserDAO {
             st.setString(1, fullname);
             st.setDate(2, dob);
             st.setString(3, address);
-            st.setInt(4, phone);
+            st.setString(4, phone);
             st.setString(5, email);
             int row = st.executeUpdate();
             st.close();
@@ -47,13 +47,13 @@ public class UserDAO {
         }
     }
 
-    public boolean phoneIsExist(int phone) {
+    public boolean phoneIsExist(String phone) {
         try {
             DBContext db = new DBContext();
             Connection con = db.getConnection();
-            String query = "select count(*) as num from `user` where `phone_number` = ?";
+            String query = "select count(*) as num from `user` where `phone_number` like ?";
             PreparedStatement ps = con.prepareStatement(query);
-            ps.setInt(1, phone);
+            ps.setString(1, phone);
             ResultSet rslt = ps.executeQuery();
             if (rslt.next()) {
                 return Integer.parseInt(rslt.getString(1)) > 0;
