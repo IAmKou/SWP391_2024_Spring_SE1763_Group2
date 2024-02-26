@@ -13,6 +13,15 @@ public class account {
     private String user_name;
     private String pass_word;
     private int role_id;
+    private boolean is_active = true;
+
+    public boolean isIs_active() {
+        return is_active;
+    }
+
+    public void setIs_active(boolean is_active) {
+        this.is_active = is_active;
+    }
 
     public account() {
     }
@@ -54,6 +63,11 @@ public class account {
 
     public void setUser_name(String user_name) {
         this.user_name = user_name;
+    }
+
+    @Override
+    public String toString() {
+        return "account{" + "user_id=" + user_id + ", user_name=" + user_name + ", pass_word=" + pass_word + ", role_id=" + role_id + ", is_active=" + is_active + '}';
     }
     
 }

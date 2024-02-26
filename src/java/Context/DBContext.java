@@ -14,7 +14,7 @@ import java.sql.DriverManager;
  */
 public class DBContext {
         public  Connection getConnection(){
-        String db = "house_finder_project";
+        String db = "house_finder";
         String url = "jdbc:mysql://localhost:3306/"+db;
         String user = "root";
         String password = "12345678";

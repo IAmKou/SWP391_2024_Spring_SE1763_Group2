@@ -8,10 +8,12 @@
         <servlet-name>addNewPost</servlet-name>
         <servlet-class>Controller.Post.CreatePost</servlet-class>
     </servlet>
+    
     <servlet>
         <servlet-name>ViewUserPost</servlet-name>
         <servlet-class>Controller.Post.ViewUserPost</servlet-class>
     </servlet>
+    
     <servlet>
         <servlet-name>ViewPostByStatus</servlet-name>
         <servlet-class>Controller.Post.ViewPostByStatus</servlet-class>
@@ -21,8 +23,8 @@
         <servlet-class>Controller.Order.ViewOrder</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>viewUserList</servlet-name>
-        <servlet-class>Controller.User.viewUserList</servlet-class>
+        <servlet-name>ViewUserList</servlet-name>
+        <servlet-class>Controller.User.ViewUserList</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>userProfile</servlet-name>
@@ -57,7 +59,7 @@
         <url-pattern>/status</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>viewUserList</servlet-name>
+        <servlet-name>ViewUserList</servlet-name>
         <url-pattern>/viewUserList</url-pattern>
     </servlet-mapping>
     <servlet-mapping>

@@ -35,7 +35,7 @@
                         <ul class="clear" style="
                             width: 330px;
                             ">
-                            <li class="active"><a href="#">Home</a></li>
+                            <li class="active"><a href="${pageContext.request.contextPath}/views/home.jsp">Home</a></li>
                             <li class="active"><a href="#">My Rentals</a></li>
                                 <c:if test="${sessionScope.account eq null}">
                                 <li class="active"><a href="${pageContext.request.contextPath}/logIn.jsp">Login</a></li>
@@ -43,8 +43,14 @@
                             <li>${sessionScope.user.getUser_name()}
                                 <ul>
                                     <li><a href="profile.html">My Account</a></li>
+<<<<<<< Updated upstream
                                     <li><a href="${pageContext.request.contextPath}/post/view">My Post</a></li>
                                     <li><a href="${pageContext.request.contextPath}/views/profile.jsp">My Requests</a></li>
+=======
+                                    <li><a href="profile.html">My Rentals</a></li>
+                                    <li><a href="${pageContext.request.contextPath}/views/userProfile.jsp">My Rentals</a></li>
+                                    <li><a href="${pageContext.request.contextPath}/order/view">My Requests</a></li>
+>>>>>>> Stashed changes
                                     <li><a href="${pageContext.request.contextPath}/logOutController">Log out</a></li>
                                 </ul>
                             </li>
