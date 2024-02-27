@@ -13,15 +13,25 @@ public class Account {
     private String user_name;
     private String pass_word;
     private int role_id;
+    private boolean active=false;
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
 
     public Account() {
     }
 
-    public Account(int user_id, String user_name, String pass_word, int role_id) {
+    public Account(int user_id, String user_name, String pass_word, int role_id, boolean active) {
         this.user_id = user_id;
         this.user_name = user_name;
         this.pass_word = pass_word;
         this.role_id = role_id;
+        this.active= active;
     }
 
     public String getPass_word() {
@@ -55,5 +65,11 @@ public class Account {
     public void setUser_name(String user_name) {
         this.user_name = user_name;
     }
+
+    @Override
+    public String toString() {
+        return "Account{" + "user_id=" + user_id + ", user_name=" + user_name + ", pass_word=" + pass_word + ", role_id=" + role_id + ", active=" + active + '}';
+    }
+    
     
 }

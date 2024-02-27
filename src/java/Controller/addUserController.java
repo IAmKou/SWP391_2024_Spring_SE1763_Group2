@@ -90,7 +90,7 @@ public class addUserController extends HttpServlet {
                 
                 User u = dao.getUserByEmail(email);
                 int uid = u.getUser_id();
-                dao.insertAccount(uid, uname, pass, 2);
+                dao.insertAccount(uid, uname, pass, 2,true);
                 request.setAttribute("email", email);
                 request.getRequestDispatcher("/views/home.jsp").forward(request, response);
                 return;

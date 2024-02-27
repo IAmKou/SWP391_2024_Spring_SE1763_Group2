@@ -89,5 +89,11 @@ public class User {
         this.user_id = user_id;
     }
 
+    @Override
+    public String toString() {
+        return "User{" + "user_id=" + user_id + ", full_name=" + full_name + ", date_of_birth=" + date_of_birth + ", address=" + address + ", phone_number=" + phone_number + ", email=" + email + ", avatar=" + avatar + '}';
+    }
+    
+
     
 }
