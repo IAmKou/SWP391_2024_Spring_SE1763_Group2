@@ -75,7 +75,7 @@ public class logInController extends HttpServlet {
                 session.setAttribute("user", account);
                 session.setAttribute("account", userInfo);
             } else {
-                req.setAttribute("message", "Your Account is inactive of banned!!!");
+                req.setAttribute("message", "Your Account is inactive or banned!!!");
                  req.getRequestDispatcher("logIn.jsp").forward(req, resp);
             }
             System.err.println(account.isActive());

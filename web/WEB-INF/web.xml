@@ -22,7 +22,7 @@
     </servlet>
     <servlet>
         <servlet-name>viewUserList</servlet-name>
-        <servlet-class>Controller.User.viewUserList</servlet-class>
+        <servlet-class>Controller.User.ViewUserList</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>userProfile</servlet-name>

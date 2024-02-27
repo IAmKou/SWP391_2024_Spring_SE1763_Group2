@@ -12,6 +12,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import model.*;
 
 /**
@@ -60,10 +62,23 @@ public class ViewUserList extends HttpServlet {
         try {
             UserDAO uDAO = new UserDAO();
             ArrayList<User> uList = uDAO.allUserList();
-            System.out.println(uList.isEmpty());
-            request.setAttribute("uList", uList);
             
-            request.getRequestDispatcher("views/viewUserList.jsp").forward(request, response);
+             //  ArrayList<User> uList = new ArrayList<>();
+            if (uList.isEmpty()) {
+                request.setAttribute("msg", "List is Empty.");
+
+            } else {
+               HashMap<User, Account> uMap = new HashMap<>();
+
+               for(User user: uList){
+                   Account acc = uDAO.getAccount(user.getUser_id());
+                   if(acc != null)
+                   uMap.put(user,acc );
+                   
+               }
+               request.setAttribute("userList", uMap);
+            }
+            request.getRequestDispatcher("views/ViewUserList.jsp").forward(request, response);
         } catch (Exception e) {
             // Xử lý ngoại lệ ở đây
             e.printStackTrace(); // In ra lỗi trong console cho mục đích gỡ lỗi

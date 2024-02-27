@@ -78,7 +78,7 @@
                         <!--<h6>Youz</h6>-->
                         <nav class="sdb_holder">
                             <ul>
-                                <li><a href="index.html">Home</a></li>
+                                <li><a href="views/home.jsp">Home</a></li>
                                 <li><a href="profile.html" style="font-weight: bold;">Account Information</a></li>
                                 <li><a href="vieworder.html">View Orders</a>
                                     <ul>
@@ -110,28 +110,44 @@
                             <div class="row" style="">
                                 <div class="col-md-12">
                                     <div class="table-wrap">
-                                        <table class="table table-responsive-xl" style="word-wrap: break-word">
+
+                                        <table class="table table-responsive-xl" style="word-wrap: break-word ;font-family: Arial, sans-serif;
+                                               border-collapse: collapse;
+                                               width: 100%;
+                                               max-width: 600px; /* Chiều rộng tối đa của bảng */" >
+                                            <tr>
+                                                <td><input type="text" id="col1Input" onkeyup="filterTable()" placeholder="id"></th>
+                                                <td><input type="text" id="col2Input" onkeyup="filterTable()" placeholder="username"></th>
+                                                <td><input type="text" id="col3Input" onkeyup="filterTable()" placeholder="fullname"></th>
+                                                <td><input type="text" id="col4Input" onkeyup="filterTable()" placeholder="email"></th>
+                                                <td><input type="text" id="col5Input" onkeyup="filterTable()" placeholder="phone"></th>
+                                            </tr>
+                                        </table>
+                                        <p>${msg}</p>
+                                        <table id="ulist" class="table table-responsive-xl" style="word-wrap: break-word">
+
                                             <thead>
                                                 <tr>
-                                                    <th>&nbsp;</th>
-                                                    <th>ID</th>
-                                                    <th>Username</th>
-                                                    <th>Phone</th>
-                                                    <th>Email</th>
-
+                                                    <th onclick="sortTable(0)">User ID<i class="fas fa-sort"></i></th>
+                                                    <th onclick="sortTable(1)">User Name<i class="fas fa-sort"></i></th>
+                                                    <th onclick="sortTable(2)">Full Name<i class="fas fa-sort"></i></th>
+                                                    <th onclick="sortTable(3)">Email<i class="fas fa-sort"></i></th>
+                                                    <th onclick="sortTable(4)">Phone<i class="fas fa-sort"></i></th>
+                                                    <th onclick="sortTable(5)">Active<i class="fas fa-sort"></i></th>
                                                 </tr>
                                             </thead>
                                             <tbody style="white-space: nowrap; overflow: hidden;">
-                                                <c:forEach var="user" items="${uList}">
-                                                    <tr onclick="viewProfile('${user.user_id}')">
-                                                        <td>${user.user_id}</td>
-                                                        <td>${user.full_name}</td>
-                                                        <td>${user.address}</td>
-                                                        <td>${user.phone_number}</td>
-                                                        <td>${user.email}</td>
+                                                <c:forEach var="user" items="${userList}">
+                                                    <tr onclick="viewProfile('${user.key.user_id}')">
+                                                        <td>${user.key.user_id}</td>
+                                                        <td>${user.value.user_name}</td>
+                                                        <td>${user.key.full_name}</td>
+
+                                                        <td>${user.key.email}</td>
+                                                        <td>${user.key.phone_number}</td>
+                                                        <td>${user.value.isActive()==true?'Active':'Inactive'}</td>
                                                     </tr>
                                                 </c:forEach>
-
                                             </tbody>
                                         </table>
                                     </div>
@@ -158,8 +174,65 @@
                                                         function viewProfile(userId) {
                                                             window.location.href = 'userProfile?id=' + userId;
                                                         }
+                                                        function sortTable(colIndex) {
+                                                            var table = document.getElementById("ulist");
+                                                            var rows = table.rows;
+                                                            var switching = true;
+
+                                                            while (switching) {
+                                                                switching = false;
+                                                                for (var i = 1; i < rows.length - 1; i++) {
+                                                                    var row1 = rows[i].getElementsByTagName("td")[colIndex];
+                                                                    var row2 = rows[i + 1].getElementsByTagName("td")[colIndex];
+                                                                    if (row1.innerHTML.toLowerCase() > row2.innerHTML.toLowerCase()) {
+                                                                        rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                                                                        switching = true;
+                                                                        break;
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+
+                                                        //                                                        function filterTable(colIndex) {
+                                                        //                                                            var input, filter, table, tr, td, txtValue;
+                                                        //                                                            input = document.getElementById("input1");
+                                                        //                                                            filter = input.value.toUpperCase();
+                                                        //                                                            table = document.getElementById("ulist");
+                                                        //                                                            tr = table.getElementsByTagName("tr");
+                                                        //
+                                                        //                                                            for (var i = 1; i < tr.length; i++) {
+                                                        //                                                                td = tr[i].getElementsByTagName("td")[colIndex];
+                                                        //                                                                if (td) {
+                                                        //                                                                    txtValue = td.textContent || td.innerText;
+                                                        //                                                                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                                                        //                                                                        tr[i].style.display = "";
+                                                        //                                                                    } else {
+                                                        //                                                                        tr[i].style.display = "none";
+                                                        //                                                                    }
+                                                        //                                                                }
+                                                        //                                                            }
+                                                        function filterTable() {
+                                                            var inputs, filter, table, tr, td, i, j, txtValue;
+                                                            inputs = document.querySelectorAll('input[type=text]');
+                                                            table = document.getElementById("ulist");
+                                                            tr = table.getElementsByTagName("tr");
+                                                            for (i = 0; i < tr.length; i++) {
+                                                                tr[i].style.display = "";
+                                                                for (j = 0; j < inputs.length; j++) {
+                                                                    filter = inputs[j].value.toUpperCase();
+                                                                    td = tr[i].getElementsByTagName("td")[j];
+                                                                    if (td) {
+                                                                        txtValue = td.textContent || td.innerText;
+                                                                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                                                                            continue;
+                                                                        } else {
+                                                                            tr[i].style.display = "none";
+                                                                            break;
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
             </script>
     </body>
-
-
 </html>

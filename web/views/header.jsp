@@ -50,11 +50,22 @@
                             width: 330px;
                             ">
                             <li class="active"><a href="#">Home</a></li>
+
+
+
+                        
+
+
+                            <li class="active"><a href="${pageContext.request.contextPath}/viewUserList">Manage</a></li>
                             <li class="active"><a href="#">My Rentals</a></li>
-                                <c:if test="${sessionScope.account eq null}">
+
+                            <c:if test="${sessionScope.account eq null}">
                                 <li class="active"><a href="${pageContext.request.contextPath}/logIn.jsp">Login</a></li>
                                 </c:if>
-                            <li>${sessionScope.user.getUser_name()}
+
+
+
+                            <li >${sessionScope.user.getUser_name()}
                                 <img src="${sessionScope.account.getAvatar()}" class="avatar">
                                 <ul>
                                     <li><a href="${pageContext.request.contextPath}/viewProfile">My Account</a></li>
