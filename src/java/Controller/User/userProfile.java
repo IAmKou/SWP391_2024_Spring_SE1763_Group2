@@ -61,20 +61,12 @@ public class userProfile extends HttpServlet {
         int userId = Integer.parseInt(request.getParameter("id"));
         UserDAO uDAO = new UserDAO();
         User u = uDAO.getUserByID(userId);
+        
         if (u != null) {
-            int uRole = uDAO.getRoleForUID(u.getUser_id());
-            String role = "";
-            if (uRole == 1) {
-                role = "admin";
-            } else if (uRole == 2) {
-                role = "user";
 
-            } else {
-                role = "undefined";
-            }
             request.setAttribute("user", u);
             request.setAttribute("acc", uDAO.getAccount(u.getUser_id()));
-            request.setAttribute("role", role);
+
 
         } else {
             request.setAttribute("msg", "User not found");

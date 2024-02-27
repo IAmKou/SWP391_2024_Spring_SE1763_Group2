@@ -94,13 +94,13 @@
                                                 <td><input type="text" id="col1Input" onkeyup="filterTable()" placeholder="id"></th>
                                                 <td><input type="text" id="col2Input" onkeyup="filterTable()" placeholder="username"></th>
                                                 <td><input type="text" id="col3Input" onkeyup="filterTable()" placeholder="active"></th>
-                                                <td> <button>x</button></td>    
+                                                <td><input type="text" id="col3Input" onkeyup="filterTable()" placeholder="Role"></th>
                                             </tr><!-- comment -->
                                             <tr>
                                                 <td><input type="text" id="col4Input" onkeyup="filterTable()" placeholder="email"></th>
                                                 <td><input type="text" id="col5Input" onkeyup="filterTable()" placeholder="phone"></th>
                                                 <td><input type="text" id="col6Input" onkeyup="filterTable()" placeholder="address"></th>       
-                                                <td> <button type="submit">SAVE</button></td> 
+                                                <td>  <button style="margin-right: 20px">x</button>   <button type="submit">SAVE</button></td> 
                                             </tr>
                                         </table>
 

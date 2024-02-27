@@ -129,9 +129,14 @@
                                     <th>User ID:</th>
                                     <td>${user.user_id}</td>
                             </tr>
+
                             <tr>
                                 <th>User Name:</th>
                                 <td>${acc.user_name}</td>
+                            </tr>
+                            <tr>
+                                <th>Role:</th>
+                                <td>${acc.role_id ==1 ? 'Admin':'User'}</td>
                             </tr>
                             <tr>
                                 <th>Full Name:</th>
@@ -155,7 +160,7 @@
                             </tr>
                             <tr>
                                 <th>Status: </th>
-                                <td>${requestScope.acc.active==true?'Active':'Inactive'}</td>
+                                <td>${requestScope.acc.active==true?'Active':'Inactive'}<button>Change</button></td>
                             </tr>
                             <tr>
                                 <th>Avatar: </th>
