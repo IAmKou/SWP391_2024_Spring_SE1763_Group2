@@ -49,7 +49,7 @@
                         <ul class="clear" style="
                             width: 330px;
                             ">
-                            <li class="active"><a href="#">Home</a></li>
+                            <li class="active"><a href="${pageContext.request.contextPath}/views/home.jsp">Home</a></li>
 
 
 

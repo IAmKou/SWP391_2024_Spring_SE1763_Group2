@@ -106,7 +106,7 @@
                         <section class="ftco-section">
                             <style>
                                 table {
-                                    margin-top: 50px;
+                                    /*margin-top: 50px;*/
                                     width: 100%;
                                     border-radius: 4px;
                                 }
@@ -124,6 +124,7 @@
                                 }
                             </style>
                             <table>
+
                                 <tr>
                                     <th>User ID:</th>
                                     <td>${user.user_id}</td>
@@ -154,10 +155,11 @@
                             </tr>
                             <tr>
                                 <th>Avatar: </th>
-                                <td><img src="${requestScope.user.avatar} " class="avatar"></td>
+                                <td><img src="${requestScope.user.avatar} "  style="height: 100px" ></td>
                             </tr>
+
                         </table>
-                        <a href="updateUser"><button class="btn "  style="float: right 45px;">Update</button></a>
+                        <!--<a href="updateUser"><button class="btn "  style="float: right 45px;">Update</button></a>-->
                     </section>
                 </div>
                 <!-- </div> -->

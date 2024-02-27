@@ -73,6 +73,7 @@ public class userProfile extends HttpServlet {
                 role = "undefined";
             }
             request.setAttribute("user", u);
+            request.setAttribute("acc", uDAO.getAccount(u.getUser_id()));
             request.setAttribute("role", role);
 
         } else {

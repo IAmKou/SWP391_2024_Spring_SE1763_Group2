@@ -155,6 +155,34 @@
                                 <!-- </div> -->
                             </div>
                         </section>
+                        <nav aria-label="Page navigation example" class="m-3">
+                            <ul class="pagination">
+                                
+                                <c:set var="status" value="${param.status}" />
+                                <li class="page-item">
+                                    <a class="page-link" href="${pageContext.request.contextPath}/viewUserList?page=${currentPage - 1}" aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                        <span class="sr-only">Previous</span>
+                                    </a>
+                                </li>
+                                <c:forEach begin="1" end="${totalPages}" var="page">
+                                    <c:set var="activeClass" value="" />
+                                    <c:if test="${currentPage eq page}">
+                                        <c:set var="activeClass" value="active" />
+                                    </c:if>
+                                    <li class="page-item ${activeClass}">
+                                        <a class="page-link" href="${pageContext.request.contextPath}/viewUserList?page=${page}">${page}</a>
+                                    </li>
+                                </c:forEach>
+                                    
+                                <li class="page-item">
+                                    <a class="page-link" href="${pageContext.request.contextPath}/viewUserList?page=${currentPage + 1}" aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                        <span class="sr-only">Next</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
                     </div>
                 </main>
             </div>

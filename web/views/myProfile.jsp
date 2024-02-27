@@ -11,7 +11,7 @@
     <head>
         <c:set var="username" value="${sessionScope.account.full_name}" />
         <c:set var="user" value="${sessionScope.account}" />
-        <title>${username}</title>
+        <title>User: ${username}</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
         <link href=" ${pageContext.request.contextPath}/layout/styles/layout.css" rel="stylesheet" type="text/css" media="all">
@@ -100,7 +100,7 @@
                         <section class="ftco-section">
                             <style>
                                 table {
-                                    margin-top: 50px;
+                                    margin-top:0px;
                                     width: 100%;
                                     border-radius: 4px;
                                 }
@@ -117,37 +117,45 @@
                                     padding-left: 10px;
                                 }
                             </style>
+                            </style>
                             <table>
+
                                 <tr>
                                     <th>User ID:</th>
                                     <td>${user.user_id}</td>
                             </tr>
                             <tr>
-                                <th>Role:</th>
-                                <td>${role}</td>
+                                <th>User Name:</th>
+                                <td>${acc.user_name}</td>
                             </tr>
                             <tr>
                                 <th>Full Name:</th>
-                                <td>${user.full_name}</td>
+                                <td>${requestScope.user.full_name}</td>
                             </tr>
                             <tr>
-                                <th>Date of Birth:</th>
-                                <td>${user.date_of_birth}</td>
+                                <th>Date Of Birth:</th>
+                                <td>${requestScope.user.date_of_birth}</td>
                             </tr>
                             <tr>
                                 <th>Address:</th>
-                                <td>${user.address}</td>
+                                <td>${requestScope.user.address}</td>
                             </tr>
                             <tr>
                                 <th>Phone Number:</th>
-                                <td>${user.phone_number}</td>
+                                <td>${requestScope.user.phone_number}</td>
                             </tr>
                             <tr>
                                 <th>Email:</th>
-                                <td>${user.email}</td>
+                                <td>${requestScope.user.email}</td>
                             </tr>
+                            <tr>
+                                <th>Avatar: </th>
+                                <td><img src="${requestScope.user.avatar} "  style="min-height: 100px;max-height: auto" ></td>
+                            </tr>
+
                         </table>
-                        <a href="${pageContext.request.contextPath}/updateProfile"><button class="btn " style="float: right 45px;">Edit</button></a>
+
+                        <a href="${pageContext.request.contextPath}/updateUser"><button class="btn " style="float: right 45px;">Edit</button></a>
                     </section>
                 </div>
         </div>

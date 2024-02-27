@@ -62,22 +62,49 @@ public class ViewUserList extends HttpServlet {
         try {
             UserDAO uDAO = new UserDAO();
             ArrayList<User> uList = uDAO.allUserList();
+
+            int currentPage = 1;
+            int maxAcc = 2;
+
+            if (request.getParameter("page") != null) {
+                currentPage = Integer.parseInt(request.getParameter("page"));
+
+                // Kiểm tra nếu requestedPage nhỏ hơn 1, đặt currentPage là 1
+                if (currentPage < 1) {
+                    currentPage = 1;
+                }
+            }
+            int totalAcc = uList.size();
+            int totalPages = (int) Math.ceil((double) totalAcc / maxAcc);
+
+            if (currentPage > totalPages && totalPages > 0) {
+                currentPage = totalPages;
+            }
+
+            int start = (currentPage - 1) * maxAcc;
+            int end = Math.min(start + maxAcc, totalAcc);
+
+            List<User> subUList = uList.subList(start, end);
             
-             //  ArrayList<User> uList = new ArrayList<>();
+            //  ArrayList<User> uList = new ArrayList<>();
             if (uList.isEmpty()) {
                 request.setAttribute("msg", "List is Empty.");
 
             } else {
-               HashMap<User, Account> uMap = new HashMap<>();
+                HashMap<User, Account> uMap = new HashMap<>();
 
-               for(User user: uList){
-                   Account acc = uDAO.getAccount(user.getUser_id());
-                   if(acc != null)
-                   uMap.put(user,acc );
-                   
-               }
-               request.setAttribute("userList", uMap);
+                for (User user : subUList) {
+                    Account acc = uDAO.getAccount(user.getUser_id());
+                    if (acc != null) {
+                        uMap.put(user, acc);
+                    }
+
+                }
+                request.setAttribute("userList", uMap);
             }
+            //request.setAttribute("ownerPost", subUList);
+            request.setAttribute("totalPages", totalPages);
+            request.setAttribute("currentPage", currentPage);
             request.getRequestDispatcher("views/ViewUserList.jsp").forward(request, response);
         } catch (Exception e) {
             // Xử lý ngoại lệ ở đây

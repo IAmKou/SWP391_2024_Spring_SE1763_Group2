@@ -276,9 +276,9 @@ public class UserDAO {
         Connection con = new DBContext().getConnection();
         User u = null;
         try {
-            String sql = "SELECT * FROM house_finder.account "
-                    + "JOIN house_finder.user ON house_finder.user.user_id = house_finder.account.user_id "
-                    + "WHERE house_finder.user.user_id = ? "
+            String sql = "SELECT * FROM account "
+                    + "JOIN user ON user.user_id = account.user_id "
+                    + "WHERE user.user_id = ? "
                     + "LIMIT 1"; // Giới hạn kết quả trả về chỉ là 1 dòng
             try ( PreparedStatement stm = con.prepareStatement(sql)) {
                 stm.setInt(1, uID);
