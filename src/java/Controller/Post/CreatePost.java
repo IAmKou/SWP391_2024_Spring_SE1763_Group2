@@ -38,25 +38,7 @@ import model.User;
 @MultipartConfig
 public class CreatePost extends HttpServlet {
 
-    private boolean isRunning = true;
-
-    public void startAutoEndPost() {
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (isRunning) {
-                    checkTaskEndTimes();
-                    try {
-                        // Sleep for some time before checking again (e.g., every day)
-                        Thread.sleep(24 * 60 * 60 * 1000); // 24 hours in milliseconds set 60000 for checking every 1 min
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        });
-        thread.start();
-    }
+    
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -206,8 +188,7 @@ public class CreatePost extends HttpServlet {
             PostDAO postDAO = new PostDAO();
             postDAO.addPost(house_id, post);
             
-            //chay tickRate de quet nhung Post da het han
-            startAutoEndPost();
+
             
             //xử lí phần hình ảnh
             try {
@@ -262,25 +243,5 @@ public class CreatePost extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    private void checkTaskEndTimes() {
-        LocalDateTime now = LocalDateTime.now();
-        PostDAO dao = new PostDAO();
-        ArrayList<Post> nepList = dao.getAllPost();
-        for (Post post : nepList) {
-            LocalDateTime endTime = post.getEnd_time();
-            if (now.isAfter(endTime)) {
-                updateStatusInDatabase(post.getPost_id());
-            }
-        }
-    }
-
-    public void stopAutoEndTask() {
-        isRunning = false;
-    }
-
-    private void updateStatusInDatabase(int post_id) {
-
-        PostDAO dao = new PostDAO();
-        dao.changePostStatus(post_id, 6);
-    }
+  
 }

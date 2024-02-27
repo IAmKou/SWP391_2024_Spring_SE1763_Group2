@@ -2,7 +2,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-
 package Controller;
 
 import dao.UserDAO;
@@ -20,20 +19,22 @@ import model.User;
  *
  * @author ACER
  */
-@WebServlet(name="addUserController", urlPatterns={"/addUserController"})
+@WebServlet(name = "addUserController", urlPatterns = {"/addUserController"})
 public class addUserController extends HttpServlet {
-   
-    /** 
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
+
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /** 
+    /**
      * Handles the HTTP <code>GET</code> method.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -41,12 +42,13 @@ public class addUserController extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-      
-    } 
+            throws ServletException, IOException {
+        
+    }
 
-    /** 
+    /**
      * Handles the HTTP <code>POST</code> method.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -54,9 +56,9 @@ public class addUserController extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         
-          try {
+        try {
             HttpSession session = request.getSession();
             UserDAO dao = new UserDAO();
             String msg = "";
@@ -71,47 +73,39 @@ public class addUserController extends HttpServlet {
             String address = request.getParameter("address");
             String phone = request.getParameter("phone");
             //Validate pass
-            if(!pass.equals(cfpass)){
+            if (!pass.equals(cfpass)) {
                 msg = "Confirm pass not match !!!";
-                request.getRequestDispatcher("signUp.jsp").forward(request, response);
-            }
-            //Validate phone 
-            if (dao.phoneIsExist(phone)) {
-                msg = "This username has already existed!!!";
-                request.getRequestDispatcher("signUp.jsp").forward(request, response);
-            }
-            //validate email
+            } //Validate phone 
+            else if (dao.phoneIsExist(phone)) {
+                msg = "This username has already existed!!!";                
+            } //validate email
             else if (dao.emailIsExist(email)) {
                 msg = "This email has already existed!!!";
-                request.getRequestDispatcher("signUp.jsp").forward(request, response);
-            }
-//            //Add user to DB
-            else{
-                 try {        
-                     
-                    java.util.Date date = availDate.parse(DoB);
-                    java.sql.Date sqlDate = new java.sql.Date(date.getTime());
-                    
-                    dao.insertUser(fullname,sqlDate,address,phone,email);
-                    
-                    User u = dao.getUserByEmail(email);
-                    int uid = u.getUser_id();
-                    dao.insertAccount(uid, uname, pass, 2);
-                    request.setAttribute("email", email);
-                    request.getRequestDispatcher("/views/home.jsp").forward(request, response);
-                } catch (Exception e) {
-                    System.out.println(e.getMessage());
-        }
-            }                   
-        } 
-        catch (Exception e) {
+            } else {
+                
+                java.util.Date date = availDate.parse(DoB);
+                java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+                
+                dao.insertUser(fullname, sqlDate, address, phone, email);
+                
+                User u = dao.getUserByEmail(email);
+                int uid = u.getUser_id();
+                dao.insertAccount(uid, uname, pass, 2);
+                request.setAttribute("email", email);
+                request.getRequestDispatcher("/views/home.jsp").forward(request, response);
+                return;
+            }            
+            request.setAttribute("msg", msg);
+            request.getRequestDispatcher("signUp.jsp").forward(request, response);
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-
+        
     }
 
-    /** 
+    /**
      * Returns a short description of the servlet.
+     *
      * @return a String containing servlet description
      */
     @Override
