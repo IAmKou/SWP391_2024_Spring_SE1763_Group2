@@ -9,7 +9,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>User: ${user.full_name}</title>
+        <title>AD: ${user.full_name}</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
         <link href=" ${pageContext.request.contextPath}/layout/styles/layout.css" rel="stylesheet" type="text/css" media="all">
@@ -129,8 +129,8 @@
                                     <td>${user.user_id}</td>
                             </tr>
                             <tr>
-                                <th>User Name:</th>
-                                <td>${acc.user_name}</td>
+                                <th>User Name: </th>
+                                <td>${requestScope.acc.user_name}</td>
                             </tr>
                             <tr>
                                 <th>Full Name:</th>

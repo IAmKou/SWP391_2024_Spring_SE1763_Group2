@@ -31,14 +31,19 @@ public class viewProfile extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        User user = (User) request.getSession().getAttribute("account");
+        User user = (User) request.getSession().getAttribute("account");// lay thong tin user
+        
         int uid = user.getUser_id();
         UserDAO userDAO = new UserDAO();
         user = userDAO.getUserInformation(uid);
         if (user != null) {
             // Đặt thông tin người dùng vào thuộc tính yêu cầu (request attribute)
             request.setAttribute("user", user);
-
+            request.setAttribute("acc", userDAO.getAccount(uid));
+            if(userDAO.getRoleForUID(user.getUser_id())==1){
+                request.getRequestDispatcher("/views/adminProfile.jsp").forward(request, response);
+            }
+            else
             // Chuyển tiếp thông tin đến JSP để hiển thị
             request.getRequestDispatcher("/views/userProfile.jsp").forward(request, response);
             
