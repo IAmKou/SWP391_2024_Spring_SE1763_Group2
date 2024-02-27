@@ -87,43 +87,21 @@
     <body>
         <jsp:include page="header.jsp"></jsp:include>
 
-            <div class="wrapper row3" style="top: -45px;">
+            <div class="wrapper row3" style="top: 15px;">
                 <main class="hoc container clear gridmain">
                     <!-- main body -->
-                    <!-- ################################################################################################ -->
-                    <div class="sidebar grid1_4">
-                        <!-- ################################################################################################ -->
-                        <!--<h6>Youz</h6>-->
-                        <nav class="sdb_holder">
-                            <ul>
-                                <li><a href="views/home.jsp">Home</a></li>
-                                <li><a href="myAccount" style="font-weight: bold;">Account Information</a></li>
-                                <li><a href="vieworder.html">View Orders</a>
-                                    <ul>
-                                        <li><a href="#">Waiting</a></li>
-                                        <li><a href="#">Accepted</a></li>
-                                        <li><a href="#">Rejected</a></li>
-                                        <li><a href="#">Successful</a></li>
-                                    </ul>
-                                </li>
+                <c:if test="${sessionScope.user.role_id eq 2}">
+                    <jsp:include page="/sample/left_side_bar_for_user_account.jsp"></jsp:include>
+                </c:if>
+                <c:if test="${sessionScope.user.role_id eq 1}">
+                    <jsp:include page="/sample/left_side_bar_for_user_account.jsp"></jsp:include>
+                </c:if>
+                <!-- ################################################################################################ -->
+                <!-- ################################################################################################ -->
+                <div class="content grid3_4 borderEntity " style="height: 450px;">
+                    <!-- <div class="clear"> -->
 
-                                <li><a href="#">View Rentals</a>
-                                    <ul>
-                                        <li><a href="#">Post</a></li>
-                                        <li><a href="#">Customer's Requests</a></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </nav>
-
-                        <!-- ################################################################################################ -->
-                    </div>
-                    <!-- ################################################################################################ -->
-                    <!-- ################################################################################################ -->
-                    <div class="content grid3_4 borderEntity " style="height: 450px;">
-                        <!-- <div class="clear"> -->
-
-                        <section class="ftco-section">
+                    <section class="ftco-section">
 
                         <c:if test="${msg eq null}">
                             <form action="updateUser" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
@@ -169,13 +147,13 @@
                                 <a href="${pageContext.request.contextPath}/myProfile"><button class="btn"  style="float: right 45px;">Cancel</button></a>
                                 <button class="btn" style="float: right 45px;" type="submit">Submit</button>
                             </form>            
-                            
-                            
+
+
                         </c:if>
                         <c:if test="${msg ne null}">
                             <h4>${msg}</h4>
-                             <a href="${pageContext.request.contextPath}/logIn.jsp"><button class="btn"  style="float: right 45px;">Login</button></a>
-                          
+                            <a href="${pageContext.request.contextPath}/logIn.jsp"><button class="btn"  style="float: right 45px;">Login</button></a>
+
                         </c:if>
 
                     </section>

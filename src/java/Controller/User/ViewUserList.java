@@ -64,7 +64,7 @@ public class ViewUserList extends HttpServlet {
             ArrayList<User> uList = uDAO.allUserList();
 
             int currentPage = 1;
-            int maxAcc = 2;
+            int maxAcc = 4;
 
             if (request.getParameter("page") != null) {
                 currentPage = Integer.parseInt(request.getParameter("page"));

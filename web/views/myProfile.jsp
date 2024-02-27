@@ -70,7 +70,7 @@
     <body>
         <jsp:include page="header.jsp"></jsp:include>
 
-            <div class="wrapper row3" style="top: -45px;">
+            <div class="wrapper row3" style="top: 15px;">
                 <main class="hoc container clear gridmain">
                     <div class="sidebar grid1_4">
                         <nav class="sdb_holder">
@@ -100,6 +100,7 @@
                         <section class="ftco-section">
                             <style>
                                 table {
+                                    
                                     margin-top:0px;
                                     width: 100%;
                                     border-radius: 4px;

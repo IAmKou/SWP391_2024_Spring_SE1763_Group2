@@ -12,6 +12,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.jsp.PageContext;
 import model.User;
 
 /**
@@ -48,8 +49,9 @@ public class viewProfile extends HttpServlet {
             }
 
         } else {
+              request.getRequestDispatcher("error/Account_not_Found.jsp").forward(request, response);
             // Người dùng không được tìm thấy, chuyển hướng đến trang lỗi hoặc thông báo lỗi
-            response.sendRedirect("error.jsp");
+          
         }
     }
 

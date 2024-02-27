@@ -68,7 +68,7 @@
     <body>
         <jsp:include page="header.jsp"></jsp:include>
 
-            <div class="wrapper row3" style="top: -45px;">
+            <div class="wrapper row3" style="top: 15px;">
                 <main class="hoc container clear gridmain">
                     <!-- main body -->
                     <!-- ################################################################################################ -->
@@ -154,8 +154,12 @@
                                 <td>${requestScope.user.email}</td>
                             </tr>
                             <tr>
+                                <th>Status: </th>
+                                <td>${requestScope.acc.active==true?'Active':'Inactive'}</td>
+                            </tr>
+                            <tr>
                                 <th>Avatar: </th>
-                                <td><img src="${requestScope.user.avatar} "  style="height: 100px" ></td>
+                                <td><img src="${requestScope.user.avatar} "  style="min-height:  100px;max-height: auto" ></td>
                             </tr>
 
                         </table>

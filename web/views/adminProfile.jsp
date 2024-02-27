@@ -68,7 +68,7 @@
     <body>
         <jsp:include page="header.jsp"></jsp:include>
 
-            <div class="wrapper row3" style="top: -45px;">
+            <div class="wrapper row3" style="top: 15px;">
                 <main class="hoc container clear gridmain">
                     <!-- main body -->
                     <!-- ################################################################################################ -->
@@ -106,7 +106,7 @@
                         <section class="ftco-section">
                             <style>
                                 table {
-                                    margin-top: 50px;
+                                    margin-top: 0px;
                                     width: 100%;
                                     border-radius: 4px;
                                 }
@@ -154,7 +154,7 @@
                             </tr>
                             <tr>
                                 <th>Avatar: </th>
-                                <td><img src="${requestScope.user.avatar} " class="avatar"></td>
+                                <td><img src="${requestScope.user.avatar} " style="min-height: 100px; max-height: auto"></td>
                             </tr>
                         </table>
                         <a href="updateUser"><button class="btn "  style="float: right 45px;">Update</button></a>

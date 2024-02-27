@@ -8,7 +8,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-              <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Sign Up</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -47,13 +47,13 @@
             a:hover {
                 color: #999999; /* Màu chữ xám nhạt khi hover vào liên kết */
             }
-    .required-field::after {
-        content: "*";
-        color: red;
-        margin-left:2px
-    }
+            .required-field::after {
+                content: "*";
+                color: red;
+                margin-left:2px
+            }
 
-            
+
         </style>
     </head>
     <body>
@@ -104,12 +104,15 @@
                                     <div class="form-group">
                                         <button type="submit" class="form-control btn btn-primary rounded submit px-3">Submit</button>
                                     </div>
-                                   
+
+                                    <div class="form-group" style="align-content: center">
+                                        <p>Already had an account? Login <a style="color: blue" href="${pageContext.request.contextPath}/logIn.jsp">here</a></p>
                                     </div>
-                                </form>
                             </div>
+                            </form>
                         </div>
                     </div>
+                </div>
                 </div>
             </section>
         </form>

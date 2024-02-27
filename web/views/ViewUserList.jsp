@@ -10,7 +10,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Profile</title>
+        <title>View User List</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
         <link href=" ${pageContext.request.contextPath}/layout/styles/layout.css" rel="stylesheet" type="text/css" media="all">
@@ -69,37 +69,11 @@
             <!-- ################################################################################################ -->
             <!-- ################################################################################################ -->
             <!-- ################################################################################################ -->
-            <div class="wrapper row3" style="top: -45px;">
+            <div class="wrapper row3" style="top: 15px;">
                 <main class="hoc container clear gridmain">
                     <!-- main body -->
                     <!-- ################################################################################################ -->
-                    <div class="sidebar grid1_4">
-                        <!-- ################################################################################################ -->
-                        <!--<h6>Youz</h6>-->
-                        <nav class="sdb_holder">
-                            <ul>
-                                <li><a href="views/home.jsp">Home</a></li>
-                                <li><a href="profile.html" style="font-weight: bold;">Account Information</a></li>
-                                <li><a href="vieworder.html">View Orders</a>
-                                    <ul>
-                                        <li><a href="#">Waiting</a></li>
-                                        <li><a href="#">Accepted</a></li>
-                                        <li><a href="#">Rejected</a></li>
-                                        <li><a href="#">Successful</a></li>
-                                    </ul>
-                                </li>
-
-                                <li><a href="#">View Rentals</a>
-                                    <ul>
-                                        <li><a href="#">Your Post</a></li>
-                                        <li><a href="#">Customer's Requests</a></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </nav>
-
-                        <!-- ################################################################################################ -->
-                    </div>
+                    <jsp:include page="/sample/left_side_bar_for_admin_account.jsp"/>
                     <!-- ################################################################################################ -->
                     <!-- ################################################################################################ -->
                     <div class="content grid3_4 borderEntity " style="height: 450px;">
@@ -111,6 +85,7 @@
                                 <div class="col-md-12">
                                     <div class="table-wrap">
 
+
                                         <table class="table table-responsive-xl" style="word-wrap: break-word ;font-family: Arial, sans-serif;
                                                border-collapse: collapse;
                                                width: 100%;
@@ -118,11 +93,17 @@
                                             <tr>
                                                 <td><input type="text" id="col1Input" onkeyup="filterTable()" placeholder="id"></th>
                                                 <td><input type="text" id="col2Input" onkeyup="filterTable()" placeholder="username"></th>
-                                                <td><input type="text" id="col3Input" onkeyup="filterTable()" placeholder="fullname"></th>
+                                                <td><input type="text" id="col3Input" onkeyup="filterTable()" placeholder="active"></th>
+                                                <td> <button>x</button></td>    
+                                            </tr><!-- comment -->
+                                            <tr>
                                                 <td><input type="text" id="col4Input" onkeyup="filterTable()" placeholder="email"></th>
                                                 <td><input type="text" id="col5Input" onkeyup="filterTable()" placeholder="phone"></th>
+                                                <td><input type="text" id="col6Input" onkeyup="filterTable()" placeholder="address"></th>       
+                                                <td> <button type="submit">SAVE</button></td> 
                                             </tr>
                                         </table>
+
                                         <p>${msg}</p>
                                         <table id="ulist" class="table table-responsive-xl" style="word-wrap: break-word">
 
@@ -157,7 +138,7 @@
                         </section>
                         <nav aria-label="Page navigation example" class="m-3">
                             <ul class="pagination">
-                                
+
                                 <c:set var="status" value="${param.status}" />
                                 <li class="page-item">
                                     <a class="page-link" href="${pageContext.request.contextPath}/viewUserList?page=${currentPage - 1}" aria-label="Previous">
@@ -174,7 +155,7 @@
                                         <a class="page-link" href="${pageContext.request.contextPath}/viewUserList?page=${page}">${page}</a>
                                     </li>
                                 </c:forEach>
-                                    
+
                                 <li class="page-item">
                                     <a class="page-link" href="${pageContext.request.contextPath}/viewUserList?page=${currentPage + 1}" aria-label="Next">
                                         <span aria-hidden="true">&raquo;</span>
