@@ -19,7 +19,7 @@
 
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="extra code/css/style.css">
-
+        <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/images/demo/image-removebg-preview.png">
         <style>
             #mainav img {
                 height: 70px;
@@ -161,9 +161,32 @@
                             <tr>
                             <form action="changeUserStatus" method="post">
                                 <th>Status: </th>
-                                <td >${requestScope.acc.active==true?'Active':'Inactive'}
+
+
+
+                                <td >
+
+                                    <c:if test="${requestScope.acc.active==true}">
+                                        <span style="font-weight: Bold; color: green">Active</span>
+                                    </c:if>
+
+                                    <c:if test="${requestScope.acc.active==false}">
+                                        <span style="font-weight:  bold; color: red">Inactive</span>
+                                    </c:if>
+
+
                                     <button value="${acc.user_id}" name="uid" type="submit">Change</button>
+                                    <p style="color: red">${actMsg}</p>
+
+
                                 </td>
+
+
+
+
+
+
+
                             </form>
                             </tr>
                             <tr>

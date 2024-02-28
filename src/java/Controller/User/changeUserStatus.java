@@ -12,6 +12,8 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.jsp.PageContext;
 import model.Account;
 import model.User;
 
@@ -59,7 +61,72 @@ public class changeUserStatus extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        // Set exception Link
+        String exLink = "error/Forbidden_403.jsp";
 
+        // Check admin
+        HttpSession ss = request.getSession();
+        Account ac = (Account) ss.getAttribute("user");
+        // Get user id
+        int userId = 0;
+        try {
+            String userIdParam = request.getParameter("uid");
+            if (userIdParam != null) {
+                userId = Integer.parseInt(userIdParam);
+            } else {
+                // Handle case when "uid" parameter is null
+                request.setAttribute("h1", "User not Found");
+                request.setAttribute("p", "Not found this user in database");
+                exLink = "error/Not_Found_404.jsp";
+                ss.setAttribute("oldLink", "/viewUserList");
+                request.getRequestDispatcher(exLink).forward(request, response);
+                return; // End execution to prevent further processing
+            }
+        } catch (NumberFormatException e) {
+            // Handle case when "uid" parameter is not a valid integer
+            System.out.println(e);
+            exLink = "error/Not_Found_404.jsp";
+            request.setAttribute("h1", "User not Found");
+            request.setAttribute("p", "Not found this user in database");
+            ss.setAttribute("oldLink", "/viewUserList");
+            response.sendRedirect(exLink);
+            return; // End execution to prevent further processing
+        }
+
+        if (ac != null && ac.getRole_id() == 1) {
+
+            // Get and check user
+            UserDAO uDAO = new UserDAO();
+            AccountDAO aDAO = new AccountDAO();
+            User u = uDAO.getUserByID(userId);
+            Account a = uDAO.getAccount(userId);
+
+            //Ngan khong cho admin nay deactive admin khac hoac tu deactive ban than
+            if (u != null && a != null && a.getRole_id() != 1) {
+                if (a.getUser_id() != ac.getUser_id()) {
+                    // Send user data
+                    aDAO.changeStatus(a.getUser_id());
+                    request.setAttribute("user", u);
+                    request.setAttribute("acc", uDAO.getAccount(u.getUser_id()));
+
+                    // Redirect to userProfile
+                    response.sendRedirect("userProfile?id=" + userId);
+
+                    return; // End execution to prevent further redirection
+                } else {
+                    request.setAttribute("actMsg", "Can not deactive another admin or your account");
+                }
+
+            } else {
+                exLink = "error/Not_Found_404.jsp";
+                response.sendRedirect(exLink);
+            }
+
+        } else {
+            // Default redirection to home.jsp
+            response.sendRedirect(exLink);
+        }
+        response.sendRedirect("userProfile?id=" + userId);
     }
 
     /**
@@ -73,23 +140,49 @@ public class changeUserStatus extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        int userId = Integer.parseInt(request.getParameter("uid"));
-        UserDAO uDAO = new UserDAO();
-        AccountDAO aDAO = new AccountDAO();
-        User u = uDAO.getUserByID(userId);
-        Account a = uDAO.getAccount(userId);
-        if (u != null && a != null) {
-            aDAO.changeStatus(a.getUser_id());
+        // Set exception Link
+        String exLink = "error/Forbidden_403.jsp";
 
-            request.setAttribute("user", u);
-            request.setAttribute("acc", uDAO.getAccount(u.getUser_id()));
-            request.setAttribute("msg", "okokokok");
+        // Get user id
+        int userId = Integer.parseInt(request.getParameter("uid"));
+
+        // Check admin
+        HttpSession ss = request.getSession();
+        Account ac = (Account) ss.getAttribute("user");
+        if (ac != null && ac.getRole_id() == 1) {
+
+            // Get and check user
+            UserDAO uDAO = new UserDAO();
+            AccountDAO aDAO = new AccountDAO();
+            User u = uDAO.getUserByID(userId);
+            Account a = uDAO.getAccount(userId);
+
+            //Ngan khong cho admin nay deactive admin khac hoac tu deactive ban than
+            if (u != null && a != null && a.getRole_id() != 1) {
+                if (a.getUser_id() != ac.getUser_id()) {
+                    // Send user data
+                    aDAO.changeStatus(a.getUser_id());
+                    request.setAttribute("user", u);
+                    request.setAttribute("acc", uDAO.getAccount(u.getUser_id()));
+
+                    // Redirect to userProfile
+                    response.sendRedirect("userProfile?id=" + userId);
+
+                    return; // End execution to prevent further redirection
+                } else {
+                    request.setAttribute("actMsg", "Can not deactive another admin or your account");
+                }
+
+            } else {
+                exLink = "error/Not_Found_404.jsp";
+                response.sendRedirect(exLink);
+            }
+
         } else {
-            request.setAttribute("msg", "User not found");
+            // Default redirection to home.jsp
+            response.sendRedirect(exLink);
         }
         response.sendRedirect("userProfile?id=" + userId);
-
-        System.out.println(u);
     }
 
     /**

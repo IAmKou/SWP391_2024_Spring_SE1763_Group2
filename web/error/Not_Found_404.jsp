@@ -9,12 +9,17 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Account not Found</title>
+        <title>404: Not Found</title>
+        
     </head>
     <body>
-        <h1>Account not Found</h1>
-        <p>You need to Login to continue</p>
-        <a href="${pageContext.request.contextPath}\logIn.jsp"><button>Login</button></a>
+        
+        
+        <h1>${h1}</h1>
+        <p>${p}</p>
+        
+        
+        <a href="${pageContext.request.contextPath}${sessionScope.oldLink}"><button>Go Back</button></a>
         <a href="${pageContext.request.contextPath}\views/home.jsp"><button>Home</button></a>
     </body>
 </html>
