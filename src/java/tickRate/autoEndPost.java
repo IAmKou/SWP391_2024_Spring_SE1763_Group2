@@ -14,26 +14,25 @@ import model.Post;
  * @author ACER
  */
 public class autoEndPost {
+
     private static boolean isRunning = true;
 
     public static void startAutoEndPost() {
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (isRunning) {
-                    checkPostEndTimes();
-                    try {
-                        // Sleep for some time before checking again (e.g., every day)
-                        Thread.sleep(24 * 60 * 60 * 1000); // 24 hours in milliseconds set 60000 for checking every 1 min
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+        Thread thread = new Thread(() -> {
+            while (isRunning) {
+                checkPostEndTimes();
+                try {
+                    // Sleep for some time before checking again (e.g., every day)
+                    Thread.sleep(24 * 60 * 60 * 1000); // 24 hours in milliseconds set 60000 for checking every 1 min
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
             }
         });
         thread.start();
     }
-      private static void checkPostEndTimes() {
+
+    private static void checkPostEndTimes() {
         LocalDateTime now = LocalDateTime.now();
         PostDAO dao = new PostDAO();
         ArrayList<Post> nepList = dao.getAllPost();
@@ -52,9 +51,12 @@ public class autoEndPost {
     private static void updateStatusInDatabase(int post_id) {
 
         PostDAO dao = new PostDAO();
-        dao.changePostStatus(post_id, 6);
+        dao.changePostStatus(post_id, 7);
     }
-    public static void main(String[]args){
+
+    public static void main(String[] args) {
         startAutoEndPost();
+//        stopAutoEndPost();
+        System.exit(0);
     }
 }
