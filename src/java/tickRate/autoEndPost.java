@@ -53,10 +53,4 @@ public class autoEndPost {
         PostDAO dao = new PostDAO();
         dao.changePostStatus(post_id, 7);
     }
-
-    public static void main(String[] args) {
-        startAutoEndPost();
-//        stopAutoEndPost();
-        System.exit(0);
-    }
 }

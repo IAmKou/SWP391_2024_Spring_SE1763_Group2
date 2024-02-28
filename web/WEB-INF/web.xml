@@ -118,6 +118,9 @@
         <servlet-name>changeUserStatus</servlet-name>
         <url-pattern>/changeUserStatus</url-pattern>
     </servlet-mapping>
+    <listener>
+        <listener-class>tickRate.initializerAutoEndPost</listener-class>
+    </listener>
     <session-config>
         <session-timeout>
             30
@@ -126,4 +129,5 @@
     <welcome-file-list>
         <welcome-file>views/home.jsp</welcome-file>
     </welcome-file-list>
+    
 </web-app>
