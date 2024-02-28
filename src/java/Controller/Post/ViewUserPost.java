@@ -6,6 +6,7 @@ package Controller.Post;
 
 import dao.ImageDAO;
 import dao.PostDAO;
+import dao.PurposeDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -13,11 +14,14 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 import model.House;
 import model.Image;
 import model.Post;
+import model.Purpose;
 import model.User;
 
 /**
@@ -67,8 +71,12 @@ public class ViewUserPost extends HttpServlet {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("account");
 
-        int currentPage = 1; // Trang hiện tại, mặc định là 1
-        int recordsPerPage = 3; // Số lượng booking trên mỗi trang
+        String priceParam = request.getParameter("price");
+        String purposeParam = request.getParameter("purpose");
+        String dateParam = request.getParameter("date");
+
+        int currentPage = 1;
+        int recordsPerPage = 3;
 
         // Xác định trang hiện tại từ tham số "page" của request
         if (request.getParameter("page") != null) {
@@ -81,6 +89,28 @@ public class ViewUserPost extends HttpServlet {
         }
         PostDAO postDAO = new PostDAO();
         List<Post> allPosts = postDAO.getUserPost(user.getUser_id());
+
+        if (priceParam != null && !priceParam.isEmpty()) {
+            // Xử lý tiêu chí filter theo giá
+            // Ví dụ: Filter bài đăng có giá dưới mức giá được chỉ định
+            double price = Double.parseDouble(priceParam);
+            allPosts = filterByPrice(allPosts, price);
+        }
+
+        if (purposeParam != null && !purposeParam.isEmpty()) {
+            // Xử lý tiêu chí filter theo mục đích
+            // Ví dụ: Filter bài đăng theo mục đích (bán, thuê, cho thuê)
+            int purposeId = Integer.parseInt(purposeParam);
+            allPosts = filterByPurpose(allPosts, purposeId);
+        }
+
+        if (dateParam != null && !dateParam.isEmpty()) {
+            // Xử lý tiêu chí filter theo ngày
+            // Ví dụ: Filter bài đăng theo ngày đăng
+            LocalDate date = LocalDate.parse(dateParam);
+            allPosts = filterByDate(allPosts, date);
+        }
+
         int totalPosts = allPosts.size();
         int totalPages = (int) Math.ceil((double) totalPosts / recordsPerPage);
 
@@ -102,8 +132,13 @@ public class ViewUserPost extends HttpServlet {
                 image.setImageDataAsBase64(imageDataBase64);
             }
             post.getHouse().setImage(images);
+            
         }
-        
+
+        PurposeDAO purposeDAO = new PurposeDAO();
+        List<Purpose> purposes = purposeDAO.getPurpose();
+
+        request.setAttribute("purposes", purposes);
         request.setAttribute("ownerPost", posts);
         request.setAttribute("totalPages", totalPages);
         request.setAttribute("currentPage", currentPage);
@@ -134,4 +169,36 @@ public class ViewUserPost extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
+    // Hàm lọc bài đăng theo giá
+    private List<Post> filterByPrice(List<Post> posts, double price) {
+        List<Post> filteredPosts = new ArrayList<>();
+        for (Post post : posts) {
+            if (post.getPrice() <= price) {
+                filteredPosts.add(post);
+            }
+        }
+        return filteredPosts;
+    }
+
+    // Hàm lọc bài đăng theo mục đích
+    private List<Post> filterByPurpose(List<Post> posts, int purpose_id) {
+        List<Post> filteredPosts = new ArrayList<>();
+        for (Post post : posts) {
+            if (post.getPurpose().getPurpose_id() == purpose_id) {
+                filteredPosts.add(post);
+            }
+        }
+        return filteredPosts;
+    }
+
+    // Hàm lọc bài đăng theo ngày
+    private List<Post> filterByDate(List<Post> posts, LocalDate date) {
+        List<Post> filteredPosts = new ArrayList<>();
+        for (Post post : posts) {
+            if (post.getCreate_time().toLocalDate().equals(date)) {
+                filteredPosts.add(post);
+            }
+        }
+        return filteredPosts;
+    }
 }

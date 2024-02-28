@@ -44,11 +44,7 @@ public class DeletePost extends HttpServlet {
         
         HouseDAO houseDAO = new HouseDAO();
         houseDAO.deleteHouse(house_id);
-        
-        request.setAttribute("success", "Delete Successfully.");
-        request.getRequestDispatcher("../views/profile.jsp").forward(request, response);
-        
-        
+                
     } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

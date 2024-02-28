@@ -10,7 +10,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -37,7 +39,7 @@ public class PostDAO {
             PreparedStatement stm = con.prepareStatement(sql);
             stm.setInt(1, house_id);
             stm.executeUpdate();
-            
+
             con.close();
         } catch (SQLException ex) {
             Logger.getLogger(PostDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -48,7 +50,7 @@ public class PostDAO {
     public List<Post> getUserPost(int user_id) {
         List<Post> posts = new ArrayList<>();
         try {
-            String sql = "SELECT post.post_id, post.house_id, purpose.purpose_name, post.price,"
+            String sql = "SELECT post.post_id, post.house_id, purpose.purpose_name, post.price, post.create_time,"
                     + " house_status.status_name as 'house_status', \n"
                     + "post_status.status_name as'post_status', "
                     + "type_of_house.type_of_house_name, house.address as 'location', "
@@ -113,6 +115,10 @@ public class PostDAO {
                     post.setHouse_status(house_status);
                     post.setPost_status(post_status);
                     post.setPurpose(purpose);
+
+                    Timestamp timeStamp = rs.getTimestamp("create_time");
+                    LocalDateTime createDateTime = timeStamp.toLocalDateTime();
+                    post.setCreate_time(createDateTime);
 
                     posts.add(post);
                 }
@@ -220,8 +226,8 @@ public class PostDAO {
     public void addPost(int houseId, Post post) {
         try {
             String postSql = "INSERT INTO post (house_id, purpose_id,"
-                    + " price, poster_id, house_status, post_status, start_time, end_time)"
-                    + " VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                    + " price, poster_id, house_status, post_status, start_time, end_time, create_time)"
+                    + " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
             DBContext db = new DBContext();
             try ( Connection con = db.getConnection();  PreparedStatement stm = con.prepareStatement(postSql)) {
 
@@ -233,7 +239,14 @@ public class PostDAO {
                 stm.setInt(6, post.getPost_status().getStatus_id());
                 stm.setObject(7, post.getStart_time());
                 stm.setObject(8, post.getEnd_time());
+
+                //add current date
+                LocalDateTime currentDateTime = LocalDateTime.now();
+                stm.setObject(9, currentDateTime);
+
                 stm.executeUpdate();
+
+                con.close();
             }
         } catch (SQLException ex) {
             Logger.getLogger(HouseDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -344,6 +357,8 @@ public class PostDAO {
 
                         return post;
                     }
+
+                    con.close();
 
                 }
             }
