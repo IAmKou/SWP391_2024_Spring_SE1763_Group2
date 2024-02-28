@@ -159,8 +159,12 @@
                                 <td>${requestScope.user.email}</td>
                             </tr>
                             <tr>
+                            <form action="changeUserStatus" method="post">
                                 <th>Status: </th>
-                                <td>${requestScope.acc.active==true?'Active':'Inactive'}<button>Change</button></td>
+                                <td >${requestScope.acc.active==true?'Active':'Inactive'}
+                                    <button value="${acc.user_id}" name="uid" type="submit">Change</button>
+                                </td>
+                            </form>
                             </tr>
                             <tr>
                                 <th>Avatar: </th>

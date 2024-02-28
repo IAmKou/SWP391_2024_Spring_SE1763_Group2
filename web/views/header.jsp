@@ -14,6 +14,7 @@
         <link rel="stylesheet" href="${pageContext.request.contextPath}/layout/styles/framework.css" type="text/css"/>
         <link rel="stylesheet" href="${pageContext.request.contextPath}/layout/styles/layout.css"/>
         <link rel="stylesheet" href="${pageContext.request.contextPath}/layout/styles/manh.css"/>
+        <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/images/demo/image-removebg-preview.png">
         <style>
             .avatar {
                 width: 150px; /* Adjust the width and height as needed */

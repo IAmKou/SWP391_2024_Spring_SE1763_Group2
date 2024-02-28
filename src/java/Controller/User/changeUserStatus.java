@@ -4,6 +4,7 @@
  */
 package Controller.User;
 
+import dao.AccountDAO;
 import dao.UserDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -11,13 +12,14 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import model.Account;
 import model.User;
 
 /**
  *
  * @author Acer
  */
-public class userProfile extends HttpServlet {
+public class changeUserStatus extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,10 +38,10 @@ public class userProfile extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet userProfile</title>");
+            out.println("<title>Servlet changeUserStatus</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet userProfile at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet changeUserStatus at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -58,22 +60,6 @@ public class userProfile extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        int userId = Integer.parseInt(request.getParameter("id"));
-        UserDAO uDAO = new UserDAO();
-        User u = uDAO.getUserByID(userId);
-        
-        if (u != null) {
-            request.setAttribute("user", u);
-            request.setAttribute("acc", uDAO.getAccount(u.getUser_id()));
-
-
-        } else {
-            request.setAttribute("msg", "User not found");
-        }
-        request.getRequestDispatcher("views/userProfile.jsp").forward(request, response);
-
-        System.out.println(u);
-
     }
 
     /**
@@ -87,7 +73,23 @@ public class userProfile extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+        int userId = Integer.parseInt(request.getParameter("uid"));
+        UserDAO uDAO = new UserDAO();
+        AccountDAO aDAO = new AccountDAO();
+        User u = uDAO.getUserByID(userId);
+        Account a = uDAO.getAccount(userId);
+        if (u != null && a != null) {
+            aDAO.changeStatus(a.getUser_id());
+
+            request.setAttribute("user", u);
+            request.setAttribute("acc", uDAO.getAccount(u.getUser_id()));
+            request.setAttribute("msg", "okokokok");
+        } else {
+            request.setAttribute("msg", "User not found");
+        }
+        response.sendRedirect("userProfile?id=" + userId);
+
+        System.out.println(u);
     }
 
     /**
