@@ -33,9 +33,16 @@ public class updateUser extends HttpServlet {
             throws ServletException, IOException {
         UserDAO uDAO = new UserDAO();
         User user = (User) request.getSession().getAttribute("account");
-        request.setAttribute("param1", user);
-        System.out.println(user);
+        if (user != null) {
+            request.setAttribute("param1", user);
+            request.setAttribute("account", uDAO.getAccount(user.getUser_id()));
+            System.out.println(user);
+        } else {
+            request.setAttribute("msg", "Not found Account");
+        }
+
         request.getRequestDispatcher("views/editProfile.jsp").forward(request, response);
+
     }
 
     @Override
@@ -130,8 +137,20 @@ public class updateUser extends HttpServlet {
                     UserDAO userDAO = new UserDAO();
                     userDAO.updateUser(user);
 
-                    request.setAttribute("msg", "ok");
-                    request.getRequestDispatcher("/viewProfile").forward(request, response);
+                    request.setAttribute("msg", "Update Sucessfully!!");
+                    
+                    
+                    
+                    if(userDAO.getAccount(user.getUser_id()).getRole_id()==1){
+                         request.getRequestDispatcher("views/adminProfile.jsp").forward(request, response);
+                    }
+                    else if(userDAO.getAccount(user.getUser_id()).getRole_id()==2){
+                         request.getRequestDispatcher("views/myProfile.jsp").forward(request, response);
+                    }
+                    else{
+                         request.getRequestDispatcher("error.jsp").forward(request, response);
+                    }
+                   
                 }
             } catch (Exception e) {
                 // Xử lý bất kỳ ngoại lệ nào

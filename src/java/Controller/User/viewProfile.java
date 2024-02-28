@@ -12,6 +12,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.jsp.PageContext;
 import model.User;
 
 /**
@@ -31,20 +32,26 @@ public class viewProfile extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        User user = (User) request.getSession().getAttribute("account");
-        int uid = user.getUser_id();
-        UserDAO userDAO = new UserDAO();
-        user = userDAO.getUserInformation(uid);
+        User user = (User) request.getSession().getAttribute("account");// lay thong tin user
+
         if (user != null) {
+            int uid = user.getUser_id();
+            UserDAO userDAO = new UserDAO();
+            user = userDAO.getUserInformation(uid);
             // Đặt thông tin người dùng vào thuộc tính yêu cầu (request attribute)
             request.setAttribute("user", user);
+            request.setAttribute("acc", userDAO.getAccount(uid));
+            if (userDAO.getRoleForUID(user.getUser_id()) == 1) {
+                request.getRequestDispatcher("/views/adminProfile.jsp").forward(request, response);
+            } else // Chuyển tiếp thông tin đến JSP để hiển thị
+            {
+                request.getRequestDispatcher("/views/myProfile.jsp").forward(request, response);
+            }
 
-            // Chuyển tiếp thông tin đến JSP để hiển thị
-            request.getRequestDispatcher("/views/userProfile.jsp").forward(request, response);
-            
         } else {
+              request.getRequestDispatcher("error/Account_not_Found.jsp").forward(request, response);
             // Người dùng không được tìm thấy, chuyển hướng đến trang lỗi hoặc thông báo lỗi
-            response.sendRedirect("error.jsp");
+          
         }
     }
 
@@ -60,7 +67,7 @@ public class viewProfile extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);  
+        processRequest(request, response);
     }
 
     /**

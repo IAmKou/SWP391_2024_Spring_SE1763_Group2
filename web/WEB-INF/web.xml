@@ -22,7 +22,7 @@
     </servlet>
     <servlet>
         <servlet-name>viewUserList</servlet-name>
-        <servlet-class>Controller.User.viewUserList</servlet-class>
+        <servlet-class>Controller.User.ViewUserList</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>userProfile</servlet-name>
@@ -57,6 +57,10 @@
     <servlet>
         <servlet-name>DeletePost</servlet-name>
         <servlet-class>Controller.Post.DeletePost</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>changeUserStatus</servlet-name>
+        <servlet-class>Controller.User.changeUserStatus</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>addNewPost</servlet-name>
@@ -109,6 +113,10 @@
     <servlet-mapping>
         <servlet-name>DeletePost</servlet-name>
         <url-pattern>/post/delete</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>changeUserStatus</servlet-name>
+        <url-pattern>/changeUserStatus</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

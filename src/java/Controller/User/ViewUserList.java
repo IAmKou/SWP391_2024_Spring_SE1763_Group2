@@ -12,6 +12,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import model.*;
 
 /**
@@ -58,12 +60,63 @@ public class ViewUserList extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            UserDAO uDAO = new UserDAO();
-            ArrayList<User> uList = uDAO.allUserList();
-            System.out.println(uList.isEmpty());
-            request.setAttribute("uList", uList);
-            
-            request.getRequestDispatcher("views/viewUserList.jsp").forward(request, response);
+            Account accLogin = (Account) request.getSession().getAttribute("user");
+            if (accLogin != null) {
+                if (accLogin.getRole_id() == 1) {
+
+                    UserDAO uDAO = new UserDAO();
+                    ArrayList<User> uList = uDAO.allUserList();
+
+                    int currentPage = 1;
+                    int maxAcc = 4;
+
+                    if (request.getParameter("page") != null) {
+                        currentPage = Integer.parseInt(request.getParameter("page"));
+
+                        // Kiểm tra nếu requestedPage nhỏ hơn 1, đặt currentPage là 1
+                        if (currentPage < 1) {
+                            currentPage = 1;
+                        }
+                    }
+                    int totalAcc = uList.size();
+                    int totalPages = (int) Math.ceil((double) totalAcc / maxAcc);
+
+                    if (currentPage > totalPages && totalPages > 0) {
+                        currentPage = totalPages;
+                    }
+
+                    int start = (currentPage - 1) * maxAcc;
+                    int end = Math.min(start + maxAcc, totalAcc);
+
+                    List<User> subUList = uList.subList(start, end);
+
+                    //  ArrayList<User> uList = new ArrayList<>();
+                    if (uList.isEmpty()) {
+                        request.setAttribute("msg", "List is Empty.");
+
+                    } else {
+                        HashMap<User, Account> uMap = new HashMap<>();
+
+                        for (User user : subUList) {
+                            Account acc = uDAO.getAccount(user.getUser_id());
+                            if (acc != null) {
+                                uMap.put(user, acc);
+                            }
+
+                        }
+                        request.setAttribute("userList", uMap);
+                    }
+                    //request.setAttribute("ownerPost", subUList);
+                    request.setAttribute("totalPages", totalPages);
+                    request.setAttribute("currentPage", currentPage);
+                    request.getRequestDispatcher("views/ViewUserList.jsp").forward(request, response);
+                } else {
+                    request.getRequestDispatcher("error/Forbidden_403.jsp").forward(request, response);
+                }
+            } else {
+                request.getRequestDispatcher("error/Account_not_Found.jsp").forward(request, response);
+            }
+
         } catch (Exception e) {
             // Xử lý ngoại lệ ở đây
             e.printStackTrace(); // In ra lỗi trong console cho mục đích gỡ lỗi

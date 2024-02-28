@@ -38,6 +38,7 @@ public class UserDAO {
             st.setString(3, address);
             st.setString(4, phone);
             st.setString(5, email);
+            // avatar ?
             int row = st.executeUpdate();
             st.close();
             con.close();
@@ -89,7 +90,7 @@ public class UserDAO {
                 Statement call = con.createStatement();
                 ResultSet rs = call.executeQuery(sql);
                 while (rs.next()) {
-                    account = new Account(rs.getInt("user_id"), username, pass, rs.getInt("role_id"));
+                    account = new Account(rs.getInt("user_id"), username, pass, rs.getInt("role_id"),rs.getBoolean("active"));
                 }
                 call.close();
                 con.close();
@@ -173,13 +174,13 @@ public class UserDAO {
         return null;
     }
 
-    public void insertAccount(int uid, String uname, String pass, int rid) {
+    public void insertAccount(int uid, String uname, String pass, int rid, boolean active) {
         try {
             DBContext db = new DBContext();
             Connection con = db.getConnection();
 
             // Prepare the SQL statement
-            String sql = "INSERT INTO `account` (user_id,user_name,pass_word,role_id)"
+            String sql = "INSERT INTO `account` (user_id,user_name,pass_word,role_id,active)"
                     + "VALUES (?, ?, ?, ?)";
             PreparedStatement st = con.prepareStatement(sql);
             st = con.prepareStatement(sql);
@@ -187,6 +188,7 @@ public class UserDAO {
             st.setString(2, uname);
             st.setString(3, pass);
             st.setInt(4, rid);
+            st.setBoolean(5, active);
             int row = st.executeUpdate();
             st.close();
             con.close();
@@ -209,6 +211,7 @@ public class UserDAO {
                 acc.setUser_name(rs.getString("user_name"));
                 acc.setPass_word(rs.getString("pass_word"));
                 acc.setRole_id(rs.getInt("role_id"));
+                acc.setActive(rs.getBoolean("active"));
                 return acc;
             }
         } catch (Exception e) {
@@ -273,9 +276,9 @@ public class UserDAO {
         Connection con = new DBContext().getConnection();
         User u = null;
         try {
-            String sql = "SELECT * FROM house_finder.account "
-                    + "JOIN house_finder.user ON house_finder.user.user_id = house_finder.account.user_id "
-                    + "WHERE house_finder.user.user_id = ? "
+            String sql = "SELECT * FROM account "
+                    + "JOIN user ON user.user_id = account.user_id "
+                    + "WHERE user.user_id = ? "
                     + "LIMIT 1"; // Giới hạn kết quả trả về chỉ là 1 dòng
             try ( PreparedStatement stm = con.prepareStatement(sql)) {
                 stm.setInt(1, uID);
@@ -336,5 +339,14 @@ public class UserDAO {
             System.out.println(e.getMessage());
         }
         return false;
+    }
+        public static void main(String[] args) {
+        UserDAO uDao = new UserDAO();
+        for(int i =1; i<10;i++){
+            System.out.println( uDao.getAccount(i));
+            System.out.println(uDao.getUserByID(i));
+            System.out.println("-------------\n");
+            
+        }
     }
 }

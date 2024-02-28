@@ -9,7 +9,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>User: ${user.full_name}</title>
+        <title>AD: ${user.full_name}</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
         <link href=" ${pageContext.request.contextPath}/layout/styles/layout.css" rel="stylesheet" type="text/css" media="all">
@@ -19,7 +19,7 @@
 
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="extra code/css/style.css">
-        <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/images/demo/image-removebg-preview.png">
+
         <style>
             #mainav img {
                 height: 70px;
@@ -106,7 +106,7 @@
                         <section class="ftco-section">
                             <style>
                                 table {
-                                    /*margin-top: 50px;*/
+                                    margin-top: 0px;
                                     width: 100%;
                                     border-radius: 4px;
                                 }
@@ -124,19 +124,13 @@
                                 }
                             </style>
                             <table>
-
                                 <tr>
                                     <th>User ID:</th>
                                     <td>${user.user_id}</td>
                             </tr>
-
                             <tr>
-                                <th>User Name:</th>
-                                <td>${acc.user_name}</td>
-                            </tr>
-                            <tr>
-                                <th>Role:</th>
-                                <td>${acc.role_id ==1 ? 'Admin':'User'}</td>
+                                <th>User Name: </th>
+                                <td>${requestScope.acc.user_name}</td>
                             </tr>
                             <tr>
                                 <th>Full Name:</th>
@@ -159,43 +153,11 @@
                                 <td>${requestScope.user.email}</td>
                             </tr>
                             <tr>
-                            <form action="changeUserStatus" method="post">
-                                <th>Status: </th>
-
-
-
-                                <td >
-
-                                    <c:if test="${requestScope.acc.active==true}">
-                                        <span style="font-weight: Bold; color: green">Active</span>
-                                    </c:if>
-
-                                    <c:if test="${requestScope.acc.active==false}">
-                                        <span style="font-weight:  bold; color: red">Inactive</span>
-                                    </c:if>
-
-
-                                    <button value="${acc.user_id}" name="uid" type="submit">Change</button>
-                                    <p style="color: red">${actMsg}</p>
-
-
-                                </td>
-
-
-
-
-
-
-
-                            </form>
-                            </tr>
-                            <tr>
                                 <th>Avatar: </th>
-                                <td><img src="${requestScope.user.avatar} "  style="min-height:  100px;max-height: auto" ></td>
+                                <td><img src="${requestScope.user.avatar} " style="min-height: 100px; max-height: auto"></td>
                             </tr>
-
                         </table>
-                        <!--<a href="updateUser"><button class="btn "  style="float: right 45px;">Update</button></a>-->
+                        <a href="updateUser"><button class="btn "  style="float: right 45px;">Update</button></a>
                     </section>
                 </div>
                 <!-- </div> -->

@@ -11,6 +11,8 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import model.Account;
 import model.User;
 
 /**
@@ -58,29 +60,31 @@ public class userProfile extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        int userId = Integer.parseInt(request.getParameter("id"));
-        UserDAO uDAO = new UserDAO();
-        User u = uDAO.getUserByID(userId);
-        if (u != null) {
-            int uRole = uDAO.getRoleForUID(u.getUser_id());
-            String role = "";
-            if (uRole == 1) {
-                role = "admin";
-            } else if (uRole == 2) {
-                role = "user";
+        HttpSession ss = request.getSession();
+        Account ac = (Account) ss.getAttribute("user");
+
+        if (ac != null && ac.getRole_id() == 1) {
+
+            int userId = Integer.parseInt(request.getParameter("id"));
+            UserDAO uDAO = new UserDAO();
+            User u = uDAO.getUserByID(userId);
+
+            if (u != null) {
+                request.setAttribute("user", u);
+                request.setAttribute("acc", uDAO.getAccount(u.getUser_id()));
 
             } else {
-                role = "undefined";
+                request.setAttribute("msg", "User not found");
             }
-            request.setAttribute("user", u);
-            request.setAttribute("role", role);
+            if (ac.getUser_id() == u.getUser_id()) {
+                request.getRequestDispatcher("viewProfile").forward(request, response);
+            } else {
+                request.getRequestDispatcher("views/userProfile.jsp").forward(request, response);
+            }
 
         } else {
-            request.setAttribute("msg", "User not found");
+            response.sendRedirect("error/Forbidden_403.jsp");
         }
-        request.getRequestDispatcher("views/userProfile.jsp").forward(request, response);
-
-        System.out.println(u);
 
     }
 
@@ -95,7 +99,7 @@ public class userProfile extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+
     }
 
     /**
