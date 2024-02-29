@@ -197,29 +197,7 @@
                                                                         rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
                                                                         switching = true;
                                                                         break;
-                                                                    }
-                                                                }
-                                                            }
-                                                        }
-
-                                                        //                                                        function filterTable(colIndex) {
-                                                        //                                                            var input, filter, table, tr, td, txtValue;
-                                                        //                                                            input = document.getElementById("input1");
-                                                        //                                                            filter = input.value.toUpperCase();
-                                                        //                                                            table = document.getElementById("ulist");
-                                                        //                                                            tr = table.getElementsByTagName("tr");
-                                                        //
-                                                        //                                                            for (var i = 1; i < tr.length; i++) {
-                                                        //                                                                td = tr[i].getElementsByTagName("td")[colIndex];
-                                                        //                                                                if (td) {
-                                                        //                                                                    txtValue = td.textContent || td.innerText;
-                                                        //                                                                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                                                        //                                                                        tr[i].style.display = "";
-                                                        //                                                                    } else {
-                                                        //                                                                        tr[i].style.display = "none";
-                                                        //                                                                    }
-                                                        //                                                                }
-                                                        //                                                            }
+                                                          }
                                                         function filterTable() {
                                                             var inputs, filter, table, tr, td, i, j, txtValue;
                                                             inputs = document.querySelectorAll('input[type=text]');
