@@ -123,7 +123,7 @@
                     </div>
 
                     <div class="row mb-3">
-                        <label for="price" class="col-sm-3 col-form-label text-end">Price:</label>
+                        <label for="price" class="col-sm-3 col-form-label text-end">Price($):</label>
                         <div class="col-sm">
                             <input type="number" id="price" name="price" class="form-control" value="${sessionScope.post.price}">
                         </div>

@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package Controller.Post;
+package Controller.Booking;
 
 import dao.BookingDAO;
 import dao.HouseDAO;
@@ -12,15 +12,18 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import model.Booking;
+import model.House;
 import model.User;
 
 /**
  *
  * @author FPTSHOP
  */
-public class Booking extends HttpServlet {
+public class BookingController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,45 +39,70 @@ public class Booking extends HttpServlet {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("account");
 
-        // Kiểm tra user null và điều hướng về trang đăng nhập nếu cần
-        if (user == null) {
-            response.sendRedirect("../logIn.jsp");
-            return; 
-        }
+        try {
 
-        String house_id_str = request.getParameter("house_id");
-        int house_id = Integer.parseInt(house_id_str);
+            // Kiểm tra user null và điều hướng về trang đăng nhập nếu cần
+            if (user == null) {
+                response.sendRedirect("../logIn.jsp");
+                return;
+            }
+            String date = request.getParameter("date");
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-        int customer_id = user.getUser_id();
+            // Chuyển đổi chuỗi thành java.util.Date
+            java.util.Date utilDate = dateFormat.parse(date);
 
-        BookingDAO bookingDAO = new BookingDAO();
+            // Chuyển đổi java.util.Date thành java.sql.Date
+            java.sql.Date meeting_date = new java.sql.Date(utilDate.getTime());
+            
+            String message = request.getParameter("message");
+            message = message.trim();
+            String house_id_str = request.getParameter("house_id");
 
-        // Kiểm tra trùng lặp đặt phòng
-        if (bookingDAO.checkDuplicateBooking(house_id, customer_id)) {
-            request.setAttribute("notification", "You already booked this house.");
+            int house_id = Integer.parseInt(house_id_str);
+            int user_id = user.getUser_id();
+
+            if (message.length() > 150) {
+                throw new Exception("Your mesage too long.");
+            }
+
+            BookingDAO bookingDAO = new BookingDAO();
+
+            // Kiểm tra trùng lặp đặt phòng
+            if (bookingDAO.checkDuplicateBooking(house_id, user_id)) {
+                throw new Exception("You already booked this house.");
+            }
+
+            // Lấy ngày và giờ hiện tại
+            LocalDateTime currentDateTime = LocalDateTime.now();
+
+            HouseDAO houseDAO = new HouseDAO();
+            int house_owner_id = houseDAO.getOwnerId(house_id);
+
+            // Kiểm tra nếu người dùng là chủ nhà
+            if (user_id == house_owner_id) {
+                throw new Exception("You cannot book your own house.");
+            }
+            //set properties for booking order
+            Booking order = new Booking();
+            House house = new House();
+            house.setHouse_id(house_id);
+            
+            order.setHouse(house);
+            order.setUser(user);
+            order.setStatus_id(1);
+            order.setBooking_date(currentDateTime);
+            order.setMessage(message);
+            order.setMeeting_date(meeting_date);
+            
+            bookingDAO.addBooking(order);   
+            
+            request.setAttribute("success", "Booking successfully.");
             request.getRequestDispatcher("../views/post.jsp").forward(request, response);
-            return; 
-        }
-
-        // Lấy ngày và giờ hiện tại
-        LocalDateTime currentDateTime = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
-        String formatted_date_time = currentDateTime.format(formatter);
-
-        HouseDAO houseDAO = new HouseDAO();
-        int house_owner_id = houseDAO.getOwnerId(house_id);
-
-        // Kiểm tra nếu người dùng là chủ nhà
-        if (customer_id == house_owner_id) {
-            request.setAttribute("alert", "You cannot book your own house.");
+        } catch (Exception e) {
+            request.setAttribute("alert", e.getMessage());
             request.getRequestDispatcher("../views/post.jsp").forward(request, response);
-            return; // Dừng xử lý tiếp theo
         }
-
-        // Thực hiện đặt
-        bookingDAO.addBooking(customer_id, house_id, formatted_date_time, 1);
-        request.setAttribute("success", "Booking successfully.");
-        request.getRequestDispatcher("../views/post.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -6,12 +6,12 @@ package model;
 
 import java.time.LocalDateTime;
 
-
 /**
  *
  * @author FPTSHOP
  */
 public class Post {
+
     private int post_id;
     private House house;
     private Purpose purpose;
@@ -23,6 +23,9 @@ public class Post {
     private LocalDateTime start_time;
     private LocalDateTime end_time;
     private LocalDateTime create_time;
+    private String fommated_create_time;
+    private String admin_message;
+
     public Post() {
     }
 
@@ -39,6 +42,22 @@ public class Post {
         this.end_time = end_time;
     }
 
+    public String getFommated_create_time() {
+        return fommated_create_time;
+    }
+
+    public void setFommated_create_time(String fommated_create_time) {
+        this.fommated_create_time = fommated_create_time;
+    }
+
+    public String getAdmin_message() {
+        return admin_message;
+    }
+
+    public void setAdmin_message(String admin_message) {
+        this.admin_message = admin_message;
+    }
+    
     public void setStart_time(LocalDateTime start_time) {
         this.start_time = start_time;
     }
@@ -127,6 +146,4 @@ public class Post {
         this.create_time = create_time;
     }
 
-    
-    
 }

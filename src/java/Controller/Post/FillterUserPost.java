@@ -8,12 +8,13 @@ import dao.ImageDAO;
 import dao.PostDAO;
 import dao.PurposeDAO;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 import model.Image;
@@ -25,7 +26,7 @@ import model.User;
  *
  * @author FPTSHOP
  */
-public class ViewUserPost extends HttpServlet {
+public class FillterUserPost extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,19 +39,7 @@ public class ViewUserPost extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try ( PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ViewPost</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ViewPost at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -68,13 +57,16 @@ public class ViewUserPost extends HttpServlet {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("account");
 
+        String priceParam = request.getParameter("price");
+        String purposeParam = request.getParameter("purpose");
+        String dateParam = request.getParameter("date");
+
         int currentPage = 1;
         int recordsPerPage = 3;
 
         // Xác định trang hiện tại từ tham số "page" của request
         if (request.getParameter("page") != null) {
             currentPage = Integer.parseInt(request.getParameter("page"));
-
             // Kiểm tra nếu requestedPage nhỏ hơn 1, đặt currentPage là 1
             if (currentPage < 1) {
                 currentPage = 1;
@@ -82,6 +74,21 @@ public class ViewUserPost extends HttpServlet {
         }
         PostDAO postDAO = new PostDAO();
         List<Post> allPosts = postDAO.getUserPost(user.getUser_id());
+
+        if (priceParam != null && !priceParam.isEmpty()) {
+            int price = Integer.parseInt(priceParam);
+            allPosts = filterByPrice(allPosts, price);
+        }
+
+        if (purposeParam != null && !purposeParam.isEmpty()) {
+            int purposeId = Integer.parseInt(purposeParam);
+            allPosts = filterByPurpose(allPosts, purposeId);
+        }
+
+        if (dateParam != null && !dateParam.isEmpty()) {
+            LocalDate date = LocalDate.parse(dateParam);
+            allPosts = filterByDate(allPosts, date);
+        }
 
         int totalPosts = allPosts.size();
         int totalPages = (int) Math.ceil((double) totalPosts / recordsPerPage);
@@ -106,16 +113,14 @@ public class ViewUserPost extends HttpServlet {
             post.getHouse().setImage(images);
 
         }
-
         PurposeDAO purposeDAO = new PurposeDAO();
         List<Purpose> purposes = purposeDAO.getPurpose();
-
         request.setAttribute("purposes", purposes);
         request.setAttribute("ownerPost", posts);
-        request.setAttribute("totalPost", allPosts.size());
-        request.setAttribute("totalPages", totalPages);
+        request.setAttribute("fillterTotalPost", allPosts.size());
+        request.setAttribute("fillterTotalPages", totalPages);
         request.setAttribute("currentPage", currentPage);
-        request.getRequestDispatcher("../views/user/userPostList.jsp").forward(request, response);
+        request.getRequestDispatcher("/views/user/userPostList.jsp").forward(request, response);
     }
 
     /**
@@ -129,7 +134,7 @@ public class ViewUserPost extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+
     }
 
     /**
@@ -142,4 +147,33 @@ public class ViewUserPost extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
+    private List<Post> filterByPrice(List<Post> posts, int price) {
+        List<Post> filteredPosts = new ArrayList<>();
+        for (Post post : posts) {
+            if (post.getPrice() <= price) {
+                filteredPosts.add(post);
+            }
+        }
+        return filteredPosts;
+    }
+
+    private List<Post> filterByPurpose(List<Post> posts, int purpose_id) {
+        List<Post> filteredPosts = new ArrayList<>();
+        for (Post post : posts) {
+            if (post.getPurpose().getPurpose_id() == purpose_id) {
+                filteredPosts.add(post);
+            }
+        }
+        return filteredPosts;
+    }
+
+    private List<Post> filterByDate(List<Post> posts, LocalDate date) {
+        List<Post> filteredPosts = new ArrayList<>();
+        for (Post post : posts) {
+            if (post.getCreate_time().toLocalDate().equals(date)) {
+                filteredPosts.add(post);
+            }
+        }
+        return filteredPosts;
+    }
 }
