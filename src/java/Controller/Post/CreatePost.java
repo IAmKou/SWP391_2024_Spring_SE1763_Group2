@@ -21,7 +21,6 @@ import jakarta.servlet.http.Part;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import model.House;
@@ -37,8 +36,6 @@ import model.User;
  */
 @MultipartConfig
 public class CreatePost extends HttpServlet {
-
-    
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -142,7 +139,7 @@ public class CreatePost extends HttpServlet {
 
             if (price <= 0 || area <= 0) {
                 throw new Exception("Price and area must be positive numeric values.");
-            }
+            }            
 
             //đặt giá trị cho các thuộc tính của đối tượng
             Purpose purpose = new Purpose();
@@ -173,6 +170,7 @@ public class CreatePost extends HttpServlet {
             house.setArea(area);
             house.setType_of_house(tOfHouse);
 
+            //check number_of_room
             if (!number_of_room_str.isEmpty()) {
                 number_of_room_str = number_of_room_str.trim();
                 int number_of_room = Integer.parseInt(number_of_room_str);
@@ -187,10 +185,8 @@ public class CreatePost extends HttpServlet {
 
             PostDAO postDAO = new PostDAO();
             postDAO.addPost(house_id, post);
-            
 
-            
-            //xử lí phần hình ảnh
+            // image processing
             try {
                 Collection<Part> parts = request.getParts();
 
@@ -243,5 +239,4 @@ public class CreatePost extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-  
 }

@@ -12,10 +12,9 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Profile</title>
         <link rel="stylesheet" href="${pageContext.request.contextPath}/layout/styles/profile.css"/>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
-        </script>
-        <script src="${pageContext.request.contextPath}/layout/bootstrap-5.3.2-dist/js/bootstrap.min.js"></script>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">        
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>        
         <style>
             .table-no-border {
                 border: none;
@@ -24,6 +23,44 @@
                 border: none;
             }
         </style>
+        <script>
+            
+            function confirmDelete(houseId) {
+                var confirmDelete = confirm("Are you sure for delete this post?");
+                if (confirmDelete) {
+                    deletePost(houseId);
+                }
+            }
+            
+            function deletePost(houseId) {
+                var xhr = new XMLHttpRequest();
+                var url = "../post/delete?house_id=" + houseId;
+                xhr.open("GET", url, true);
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === XMLHttpRequest.DONE) {
+                        if (xhr.status === 200) {
+                            confirm("Delete successfully!");
+                            location.reload();
+                        } else {
+                            confirm("An error occur went delete post!");
+                        }
+                    }
+                };
+                xhr.send();
+            }
+
+            function applyFilters() {
+                var price = document.getElementById('price').value;
+                var purpose = document.getElementById('purpose').value;
+                var date = document.getElementById('date').value;
+
+                var xhr = new XMLHttpRequest();
+                var url = "../post/view?price=" + price + "&purpose=" + purpose + "&date=" + date;
+                xhr.open("GET", url, true);
+                xhr.send();
+            }
+
+        </script>
     </head>
     <body>
         <jsp:include page="header.jsp"/>
@@ -212,6 +249,36 @@
                     <!--This is for view owner post-->
                     <c:if test="${not empty ownerPost}">
                         <div class="row">
+                            <!-- Filter -->
+                            <div class="row m-4">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="price">Price:</label>
+                                        <input type="number" class="form-control" id="price" name="price" placeholder="Enter your price">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="purpose">Purpose:</label>
+                                        <select class="form-control" id="purpose" name="purpose">
+                                            <option value="">Select purpose</option>
+                                            <c:forEach items="${purposes}" var="purpose">
+                                                <option value="${purpose.purpose_id}">${purpose.purpose_name}</option>
+                                            </c:forEach>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="date">Date:</label>
+                                        <input type="date" class="form-control" id="date" name="date">
+                                    </div>
+                                </div>
+                                <div class="col-md-3 align-self-end">
+                                    <button class="btn btn-primary" onclick="applyFilters()">Apply Filters</button>
+                                </div>
+                            </div>
+
                             <c:forEach items="${ownerPost}" var="ownerPost">
                                 <div class="col-md-12 mb-4">
                                     <div class="card m-2 custom-card">
@@ -222,7 +289,7 @@
                                                         <c:forEach items="${ownerPost.house.image}" var="image" varStatus="loop">
                                                             <c:if test="${not empty image}">
                                                                 <div class=" carousel-item ${loop.first ? 'active' : ''} img-container">
-                                                                    <img src="data:image/jpeg;base64,${image.getImageDataAsBase64()}" class="d-block w-100" alt="hinh anh" style="width: 350px; height: 200px; border-radius: 5px"/>
+                                                                    <img src="data:image/jpeg;base64,${image.getImageDataAsBase64()}" class="d-block w-100" alt="hinh anh" style="width: 350px; height: 250px; border-radius: 5px"/>
                                                                 </div>
                                                             </c:if>
                                                         </c:forEach>
@@ -246,12 +313,15 @@
                                                         <p class=" custom-card-text">
                                                             Price: ${ownerPost.price} $ &#124; For ${ownerPost.purpose.purpose_name}
                                                         </p>
+                                                        <p class="custom-card-text">
+                                                            Time created: ${ownerPost.create_time}
+                                                        </p>
                                                     </div>
 
                                                     <div class="btn-group">
                                                         <a href="${pageContext.request.contextPath}/post/update?post_id=${ownerPost.post_id}" class="btn btn-outline-info">Update</a>
                                                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop_${ownerPost.post_id}">Overview</button>
-                                                        <a href="${pageContext.request.contextPath}/post/delete?house_id=${ownerPost.house.house_id}" class="btn btn-danger">Delete</a>
+                                                        <button id="deleteButton" class="btn btn-danger" onclick="confirmDelete(${ownerPost.house.house_id})">Delete</button>
                                                     </div>
 
                                                     <!-- Modal -->

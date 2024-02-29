@@ -6,6 +6,7 @@ package model;
 
 import java.time.LocalDateTime;
 
+
 /**
  *
  * @author FPTSHOP
@@ -21,6 +22,7 @@ public class Post {
     private Status post_status;
     private LocalDateTime start_time;
     private LocalDateTime end_time;
+    private LocalDateTime create_time;
     public Post() {
     }
 
@@ -115,6 +117,14 @@ public class Post {
 
     public void setPost_status(Status post_status) {
         this.post_status = post_status;
+    }
+
+    public LocalDateTime getCreate_time() {
+        return create_time;
+    }
+
+    public void setCreate_time(LocalDateTime create_time) {
+        this.create_time = create_time;
     }
 
     
