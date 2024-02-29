@@ -198,28 +198,6 @@
                                                                         switching = true;
                                                                         break;
                                                           }
-                                                        function filterTable() {
-                                                            var inputs, filter, table, tr, td, i, j, txtValue;
-                                                            inputs = document.querySelectorAll('input[type=text]');
-                                                            table = document.getElementById("ulist");
-                                                            tr = table.getElementsByTagName("tr");
-                                                            for (i = 0; i < tr.length; i++) {
-                                                                tr[i].style.display = "";
-                                                                for (j = 0; j < inputs.length; j++) {
-                                                                    filter = inputs[j].value.toUpperCase();
-                                                                    td = tr[i].getElementsByTagName("td")[j];
-                                                                    if (td) {
-                                                                        txtValue = td.textContent || td.innerText;
-                                                                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                                                                            continue;
-                                                                        } else {
-                                                                            tr[i].style.display = "none";
-                                                                            break;
-                                                                        }
-                                                                    }
-                                                                }
-                                                            }
-                                                        }
             </script>
     </body>
 </html>

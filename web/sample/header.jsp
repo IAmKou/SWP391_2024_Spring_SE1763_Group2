@@ -14,6 +14,7 @@
         <link rel="stylesheet" href="${pageContext.request.contextPath}/layout/styles/framework.css" type="text/css"/>
         <link rel="stylesheet" href="${pageContext.request.contextPath}/layout/styles/layout.css"/>
         <link rel="stylesheet" href="${pageContext.request.contextPath}/layout/styles/manh.css"/>
+        <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/images/demo/image-removebg-preview.png">
         <style>
             .avatar {
                 width: 150px; /* Adjust the width and height as needed */
@@ -56,8 +57,14 @@
                             <c:if test="${sessionScope.account ne null}">
                                 <c:if test="${sessionScope.user.role_id eq 1}">
                                     <li class="active"><a href="${pageContext.request.contextPath}/viewUserList">Manage</a></li>
-                                    </c:if>
-                                    <c:if test="${sessionScope.user.role_id eq 2}">
+                                    <ul>
+                                        <li><a href="${pageContext.request.contextPath}/viewProfile">User Manage</a></li>
+                                        <li><a href="${pageContext.request.contextPath}/post/view">Post Manage</a></li>
+                                        <li><a href="${pageContext.request.contextPath}/request/view">Activity History</a></li>
+                                    </ul>
+
+                                </c:if>
+                                <c:if test="${sessionScope.user.role_id eq 2}">
                                     <li class="active"><a href="#">My Rentals</a></li>
                                     </c:if>
                                 </c:if>
