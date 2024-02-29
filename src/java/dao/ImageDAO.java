@@ -54,7 +54,7 @@ public class ImageDAO extends DBContext {
         }
     }
 
-    public List<Image> getImages(int house_id) {
+    public static List<Image> getImages(int house_id) {
         List<Image> images = new ArrayList<>();
         try {
 

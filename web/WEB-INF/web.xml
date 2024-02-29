@@ -62,6 +62,10 @@
         <servlet-name>changeUserStatus</servlet-name>
         <servlet-class>Controller.User.changeUserStatus</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>viewAllPost_For_User_View</servlet-name>
+        <servlet-class>Controller.Post.viewAllPost_For_User_View</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>addNewPost</servlet-name>
         <url-pattern>/post/add</url-pattern>
@@ -121,6 +125,10 @@
     <listener>
         <listener-class>tickRate.handleAutoEndPost</listener-class>
     </listener>
+    <servlet-mapping>
+        <servlet-name>viewAllPost_For_User_View</servlet-name>
+        <url-pattern>/Search</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             60

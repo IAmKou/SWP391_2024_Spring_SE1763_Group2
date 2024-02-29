@@ -14,6 +14,7 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -368,7 +369,7 @@ public class PostDAO {
         return null;
     }
 
-    public ArrayList getAllPost() {
+    public ArrayList<Post> getAllPost() {
         ArrayList<Post> list = new ArrayList<>();
         Connection con = new DBContext().getConnection();
 
@@ -405,6 +406,26 @@ public class PostDAO {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return list;
+    }
+
+    // tra ve 1 cap post va house de hien len 1 card cua list.
+    // 1 = rent; 2= sell; 0 = any
+    public HashMap<Post, House> getPostCard(int purpose) {
+        HashMap<Post, House> postMap = new HashMap<>();
+        PostDAO pDao = new PostDAO();
+        HouseDAO hDao = new HouseDAO();
+
+        for (Post p : pDao.getAllPost()) {
+            if (p.getPurpose().getPurpose_id() == purpose || purpose == 0) {
+                postMap.put(p, hDao.getHouseByPostID(p.getPost_id()));
+            }
+
+        }
+        return postMap;
+    }
+
+    public HashMap<Post, House> houseFilter() {
+        return null;
     }
 
     public boolean changePostStatus(int post_id, int status) {

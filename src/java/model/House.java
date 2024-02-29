@@ -11,16 +11,30 @@ import java.util.List;
  * @author FPTSHOP
  */
 public class House {
+
     int house_id;
     User house_owner;
     TypeOfHouse type_of_house;
+
     String location;
     String description;
     int area;
+
     int number_of_room;
     List<Image> image;
 
     public House() {
+    }
+
+    public House(int house_id, User house_owner, TypeOfHouse type_of_house, String location, String description, int area, int number_of_room, List<Image> image) {
+        this.house_id = house_id;
+        this.house_owner = house_owner;
+        this.type_of_house = type_of_house;
+        this.location = location;
+        this.description = description;
+        this.area = area;
+        this.number_of_room = number_of_room;
+        this.image = image;
     }
 
     public int getHouse_id() {
@@ -76,6 +90,7 @@ public class House {
     }
 
     public void setNumber_of_room(int number_of_room) {
+
         this.number_of_room = number_of_room;
     }
 
@@ -86,6 +101,5 @@ public class House {
     public void setImage(List<Image> image) {
         this.image = image;
     }
-    
-    
+
 }

@@ -162,16 +162,16 @@
 
                         <li class="one_quarter  borderEntity"
                             style="display: grid; width: 90%; align-items: center; height: 350px;">
-                            <article><a href="#"><i class="fas fa-golf-ball"></i></a>
+                            <article><a href="${pageContext.request.contextPath}/Search?type=2"><i class="fas fa-golf-ball"></i></a>
                                 <h4 class="heading">Rent</h4>
-                                <p>See all of House for rent wwith a filter</p>
+                                <p>See all of House for rent with a filter</p>
                                 <footer><a class="btn" href="#">More Details</a></footer>
                             </article>
                         </li>
 
                         <li class="one_quarter borderEntity " style=" width: 90%; align-items: center;
                             display: grid; height: 350px;">
-                            <article><a href="#"><i class="fas fa-ribbon"></i></a>
+                            <article><a href="${pageContext.request.contextPath}/Search?type=1"><i class="fas fa-ribbon"></i></a>
                                 <h4 class="heading">Buy</h4>
                                 <p></p>See all of House for sale with a filter</p>
                                 <footer><a class="btn" href="#">More Details</a></footer>

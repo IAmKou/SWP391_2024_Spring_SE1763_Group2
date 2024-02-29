@@ -29,12 +29,12 @@ public class TypeOfHouseDAO extends DBContext {
             DBContext db = new DBContext();
             Connection con = db.getConnection();
             PreparedStatement stm = con.prepareStatement(sql);
-            try (ResultSet rs = stm.executeQuery()) {
+            try ( ResultSet rs = stm.executeQuery()) {
                 while (rs.next()) {
                     TypeOfHouse type = new TypeOfHouse();
                     type.setType_of_house_id(rs.getInt(1));
                     type.setType_of_house_name(rs.getString(2));
-                    
+
                     types.add(type);
                 }
             }
@@ -43,4 +43,28 @@ public class TypeOfHouseDAO extends DBContext {
         }
         return types;
     }
+
+    public static TypeOfHouse getType_of_House_Name_byID(int id) {
+        try {
+            String sql = "SELECT * FROM house_finder_project.type_of_house where type_of_house_id= ? limit 1";
+            DBContext db = new DBContext();
+            Connection con = db.getConnection();
+            PreparedStatement stm = con.prepareStatement(sql);
+            stm.setInt(1, id);
+            try ( ResultSet rs = stm.executeQuery()) {
+                while (rs.next()) {
+                                    
+                    TypeOfHouse type = new TypeOfHouse();
+                    type.setType_of_house_id(id);
+                    type.setType_of_house_name(rs.getString("type_of_house_name"));
+
+                    return type;
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(TypeOfHouseDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
 }

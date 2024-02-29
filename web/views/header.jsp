@@ -37,8 +37,8 @@
                         grid-template-rows: 1fr;">
                     <nav id="mainav" class="hnc1">
                         <ul class="clear">
-                            <li class="active"><a href="#">Buy</a></li>
-                            <li class="active"><a href="#">Rent</a></li>
+                            <li class="active"><a href="${pageContext.request.contextPath}/Search?type=1">Buy</a></li>
+                            <li class="active"><a href="${pageContext.request.contextPath}/Search?type=2">Rent</a></li>
                             <li class="active"><a href="${pageContext.request.contextPath}/post/add">Sell</a></li>
                             <li class="active"><a href="#">Help</a></li>
                         </ul>
@@ -56,9 +56,9 @@
 
                             <c:if test="${sessionScope.account ne null}">
                                 <c:if test="${sessionScope.user.role_id eq 1}">
-                                    <li class="active"><a href="${pageContext.request.contextPath}/viewUserList">Manage</a></li>
-                                    </c:if>
-                                    <c:if test="${sessionScope.user.role_id eq 2}">
+                                    <li><a href="${pageContext.request.contextPath}/viewUserList">Manage</a></li>
+                                </c:if>
+                                <c:if test="${sessionScope.user.role_id eq 2}">
                                     <li class="active"><a href="#">My Rentals</a></li>
                                     </c:if>
                                 </c:if>
@@ -69,7 +69,7 @@
 
 
 
-                            <li >${sessionScope.user.getUser_name()}
+                            <li> ${sessionScope.user.getUser_name()}
                                 <img src="${sessionScope.account.getAvatar()}" class="avatar">
                                 <ul>
                                     <li><a href="${pageContext.request.contextPath}/viewProfile">My Account</a></li>

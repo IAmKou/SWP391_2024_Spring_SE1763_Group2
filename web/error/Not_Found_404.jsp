@@ -19,7 +19,7 @@
         <p>${p}</p>
         
         
-        <a href="${pageContext.request.contextPath}${sessionScope.oldLink}"><button>Go Back</button></a>
+        <a href="${pageContext.request.contextPath}${oldLink}"><button>Go Back</button></a>
         <a href="${pageContext.request.contextPath}\views/home.jsp"><button>Home</button></a>
     </body>
 </html>
