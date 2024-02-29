@@ -24,14 +24,14 @@
             }
         </style>
         <script>
-            
+
             function confirmDelete(houseId) {
                 var confirmDelete = confirm("Are you sure for delete this post?");
                 if (confirmDelete) {
                     deletePost(houseId);
                 }
             }
-            
+
             function deletePost(houseId) {
                 var xhr = new XMLHttpRequest();
                 var url = "../post/delete?house_id=" + houseId;
@@ -57,8 +57,31 @@
                 var xhr = new XMLHttpRequest();
                 var url = "../post/view?price=" + price + "&purpose=" + purpose + "&date=" + date;
                 xhr.open("GET", url, true);
+
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === XMLHttpRequest.DONE) {
+                        if (xhr.status === 200) {
+                            var responseHtml = xhr.responseText;
+                            var parser = new DOMParser();
+                            var doc = parser.parseFromString(responseHtml, 'text/html');
+
+                            var postListElement = doc.getElementById('postList');
+                            var paginationElement = document.querySelector('.pagination');
+                            if (postListElement) {
+                                
+                                var postListContent = postListElement.innerHTML;
+                                document.getElementById('postList').innerHTML = postListContent;
+                            } else {
+                                document.getElementById('postList').innerHTML = '';
+                                paginationElement.style.display = 'none';
+                            }
+                        }
+                    }
+                };
+
                 xhr.send();
             }
+
 
         </script>
     </head>
@@ -278,119 +301,119 @@
                                     <button class="btn btn-primary" onclick="applyFilters()">Apply Filters</button>
                                 </div>
                             </div>
-
-                            <c:forEach items="${ownerPost}" var="ownerPost">
-                                <div class="col-md-12 mb-4">
-                                    <div class="card m-2 custom-card">
-                                        <div class="row no-gutters">
-                                            <div class="col-4">
-                                                <div id="carouselExampleFade_${ownerPost.post_id}" class="carousel slide carousel-fade">
-                                                    <div class="carousel-inner">
-                                                        <c:forEach items="${ownerPost.house.image}" var="image" varStatus="loop">
-                                                            <c:if test="${not empty image}">
-                                                                <div class=" carousel-item ${loop.first ? 'active' : ''} img-container">
-                                                                    <img src="data:image/jpeg;base64,${image.getImageDataAsBase64()}" class="d-block w-100" alt="hinh anh" style="width: 350px; height: 250px; border-radius: 5px"/>
-                                                                </div>
-                                                            </c:if>
-                                                        </c:forEach>
-                                                    </div>
-                                                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade_${ownerPost.post_id}" data-bs-slide="prev">
-                                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                                        <span class="visually-hidden">Previous</span>
-                                                    </button>
-                                                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade_${ownerPost.post_id}" data-bs-slide="next">
-                                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                                        <span class="visually-hidden">Next</span>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                            <div class="col-8">
-                                                <div class="custom-card-body">
-                                                    <h5 class="card-title fs-4 text-primary mb-3 custom-card-title">
-                                                        <i class="fas fa-map-marker-alt mr-2"></i> ${ownerPost.house.location}
-                                                    </h5>
-                                                    <div>
-                                                        <p class=" custom-card-text">
-                                                            Price: ${ownerPost.price} $ &#124; For ${ownerPost.purpose.purpose_name}
-                                                        </p>
-                                                        <p class="custom-card-text">
-                                                            Time created: ${ownerPost.create_time}
-                                                        </p>
-                                                    </div>
-
-                                                    <div class="btn-group">
-                                                        <a href="${pageContext.request.contextPath}/post/update?post_id=${ownerPost.post_id}" class="btn btn-outline-info">Update</a>
-                                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop_${ownerPost.post_id}">Overview</button>
-                                                        <button id="deleteButton" class="btn btn-danger" onclick="confirmDelete(${ownerPost.house.house_id})">Delete</button>
-                                                    </div>
-
-                                                    <!-- Modal -->
-                                                    <div class="modal fade" id="staticBackdrop_${ownerPost.post_id}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                                                        <div class="modal-dialog modal-xl">
-                                                            <div class="modal-content">
-                                                                <div class="modal-header">
-                                                                    <div class="logo-container">
-                                                                        <img class="logo" src="${pageContext.request.contextPath}/images/demo/image-removebg-preview.png" alt="image"/>
-
+                            <div id="postList">
+                                <c:forEach items="${ownerPost}" var="ownerPost">
+                                    <div class="col-md-12 mb-4">
+                                        <div class="card m-2 custom-card">
+                                            <div class="row no-gutters">
+                                                <div class="col-4">
+                                                    <div id="carouselExampleFade_${ownerPost.post_id}" class="carousel slide carousel-fade">
+                                                        <div class="carousel-inner">
+                                                            <c:forEach items="${ownerPost.house.image}" var="image" varStatus="loop">
+                                                                <c:if test="${not empty image}">
+                                                                    <div class=" carousel-item ${loop.first ? 'active' : ''} img-container">
+                                                                        <img src="data:image/jpeg;base64,${image.getImageDataAsBase64()}" class="d-block w-100" alt="hinh anh" style="width: 350px; height: 250px; border-radius: 5px"/>
                                                                     </div>
-                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                                </div>
-                                                                <div class="modal-body">
-                                                                    <div class="container">
-                                                                        <div class="row">
-                                                                            <div class="col-md-12 mb-4">
-                                                                                <div class="card m-2">
-                                                                                    <div class="card-body" style="color: black;" >
-                                                                                        <div id="carouselExampleIndicators_${ownerPost.post_id}" class="carousel slide" data-bs-ride="carousel">
-                                                                                            <div class="carousel-indicators">
-                                                                                                <c:forEach items="${ownerPost.house.image}" var="image" varStatus="status">
-                                                                                                    <button type="button" data-bs-target="#carouselExampleIndicators_${ownerPost.post_id}" data-bs-slide-to="${status.index}" class="${status.index == 0 ? 'active' : ''}" aria-current="${status.index == 0 ? 'true' : 'false'}" aria-label="Slide ${status.index + 1}"></button>
-                                                                                                </c:forEach>
-                                                                                            </div>
+                                                                </c:if>
+                                                            </c:forEach>
+                                                        </div>
+                                                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade_${ownerPost.post_id}" data-bs-slide="prev">
+                                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                                            <span class="visually-hidden">Previous</span>
+                                                        </button>
+                                                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade_${ownerPost.post_id}" data-bs-slide="next">
+                                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                                            <span class="visually-hidden">Next</span>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <div class="col-8">
+                                                    <div class="custom-card-body">
+                                                        <h5 class="card-title fs-4 text-primary mb-3 custom-card-title">
+                                                            <i class="fas fa-map-marker-alt mr-2"></i> ${ownerPost.house.location}
+                                                        </h5>
+                                                        <div>
+                                                            <p class=" custom-card-text">
+                                                                Price: ${ownerPost.price} $ &#124; For ${ownerPost.purpose.purpose_name}
+                                                            </p>
+                                                            <p class="custom-card-text">
+                                                                Time created: ${ownerPost.create_time}
+                                                            </p>
+                                                        </div>
 
-                                                                                            <div class="carousel-inner" style="margin-bottom: 20px">
-                                                                                                <c:forEach items="${ownerPost.house.image}" var="image" varStatus="status">
-                                                                                                    <div class="carousel-item ${status.index == 0 ? 'active' : ''}">
-                                                                                                        <svg class="bd-placeholder-img bd-placeholder-img-lg d-block w-100" width="800" height="400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Slide ${status.index + 1}" preserveAspectRatio="xMidYMid slice" focusable="false">
-                                                                                                        <rect width="100%" height="100%" fill="#3071BC" rx="10" ry="10"></rect>
-                                                                                                        <image xlink:href="data:image/jpeg;base64,${image.getImageDataAsBase64()}" width="100%" height="100%"  alt="hinh anh"/>
-                                                                                                        </svg>
-                                                                                                    </div>
-                                                                                                </c:forEach>
-                                                                                            </div>
+                                                        <div class="btn-group">
+                                                            <a href="${pageContext.request.contextPath}/post/update?post_id=${ownerPost.post_id}" class="btn btn-outline-info">Update</a>
+                                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop_${ownerPost.post_id}">Overview</button>
+                                                            <button id="deleteButton" class="btn btn-danger" onclick="confirmDelete(${ownerPost.house.house_id})">Delete</button>
+                                                        </div>
+                                                        <!-- Modal -->
+                                                        <div class="modal fade" id="staticBackdrop_${ownerPost.post_id}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                                            <div class="modal-dialog modal-xl">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <div class="logo-container">
+                                                                            <img class="logo" src="${pageContext.request.contextPath}/images/demo/image-removebg-preview.png" alt="image"/>
 
-                                                                                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators_${ownerPost.post_id}" data-bs-slide="prev">
-                                                                                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                                                                            </button>
-                                                                                            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators_${ownerPost.post_id}" data-bs-slide="next">
-                                                                                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                                                                            </button>
+                                                                        </div>
+                                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <div class="container">
+                                                                            <div class="row">
+                                                                                <div class="col-md-12 mb-4">
+                                                                                    <div class="card m-2">
+                                                                                        <div class="card-body" style="color: black;" >
+                                                                                            <div id="carouselExampleIndicators_${ownerPost.post_id}" class="carousel slide" data-bs-ride="carousel">
+                                                                                                <div class="carousel-indicators">
+                                                                                                    <c:forEach items="${ownerPost.house.image}" var="image" varStatus="status">
+                                                                                                        <button type="button" data-bs-target="#carouselExampleIndicators_${ownerPost.post_id}" data-bs-slide-to="${status.index}" class="${status.index == 0 ? 'active' : ''}" aria-current="${status.index == 0 ? 'true' : 'false'}" aria-label="Slide ${status.index + 1}"></button>
+                                                                                                    </c:forEach>
+                                                                                                </div>
+
+                                                                                                <div class="carousel-inner" style="margin-bottom: 20px">
+                                                                                                    <c:forEach items="${ownerPost.house.image}" var="image" varStatus="status">
+                                                                                                        <div class="carousel-item ${status.index == 0 ? 'active' : ''}">
+                                                                                                            <svg class="bd-placeholder-img bd-placeholder-img-lg d-block w-100" width="800" height="400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Slide ${status.index + 1}" preserveAspectRatio="xMidYMid slice" focusable="false">
+                                                                                                            <rect width="100%" height="100%" fill="#3071BC" rx="10" ry="10"></rect>
+                                                                                                            <image xlink:href="data:image/jpeg;base64,${image.getImageDataAsBase64()}" width="100%" height="100%"  alt="hinh anh"/>
+                                                                                                            </svg>
+                                                                                                        </div>
+                                                                                                    </c:forEach>
+                                                                                                </div>
+
+                                                                                                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators_${ownerPost.post_id}" data-bs-slide="prev">
+                                                                                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                                                                                </button>
+                                                                                                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators_${ownerPost.post_id}" data-bs-slide="next">
+                                                                                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                                                                                </button>
+                                                                                            </div>
+                                                                                            <h5 class="card-title fs-4 text-primary mb-3 custom-card-title" ><i class="fas fa-map-marker-alt mr-2"></i> ${ownerPost.house.location}</h5>
+                                                                                            <div>
+                                                                                                <h5 class="main-heading">House Information</h5>
+                                                                                                <table class="table-no-border">
+                                                                                                    <tr>
+                                                                                                        <td>Price: ${ownerPost.price} $</td>
+                                                                                                        <td>Area: ${ownerPost.house.area} m<sup>2</sup></td>
+                                                                                                    </tr>
+                                                                                                    <tr>
+                                                                                                        <td>House Type: ${ownerPost.house.type_of_house.type_of_house_name}</td>
+                                                                                                        <td>Number of Rooms: ${ownerPost.house.number_of_room}</td>
+                                                                                                    </tr>
+                                                                                                    <tr>
+                                                                                                        <td>Purpose: ${ownerPost.purpose.purpose_name}</td>
+                                                                                                    </tr>
+                                                                                                </table>
+                                                                                            </div>
+                                                                                            <div class="description-section">
+                                                                                                <p><span class="info-label">Description:</span> ${ownerPost.house.description}</p>
+                                                                                            </div>
+                                                                                            <details>
+                                                                                                <summary>Contact Information</summary><br>
+                                                                                                <p><i class="fas fa-phone" style="color: blue;"></i> ${ownerPost.house.house_owner.phone_number}</p>
+                                                                                                <p><i class="fas fa-envelope" style="color: red;"></i> ${ownerPost.house.house_owner.email}</p>
+                                                                                            </details>
                                                                                         </div>
-                                                                                        <h5 class="card-title fs-4 text-primary mb-3 custom-card-title" ><i class="fas fa-map-marker-alt mr-2"></i> ${ownerPost.house.location}</h5>
-                                                                                        <div>
-                                                                                            <h5 class="main-heading">House Information</h5>
-                                                                                            <table class="table-no-border">
-                                                                                                <tr>
-                                                                                                    <td>Price: ${ownerPost.price} $</td>
-                                                                                                    <td>Area: ${ownerPost.house.area} m<sup>2</sup></td>
-                                                                                                </tr>
-                                                                                                <tr>
-                                                                                                    <td>House Type: ${ownerPost.house.type_of_house.type_of_house_name}</td>
-                                                                                                    <td>Number of Rooms: ${ownerPost.house.number_of_room}</td>
-                                                                                                </tr>
-                                                                                                <tr>
-                                                                                                    <td>Purpose: ${ownerPost.purpose.purpose_name}</td>
-                                                                                                </tr>
-                                                                                            </table>
-                                                                                        </div>
-                                                                                        <div class="description-section">
-                                                                                            <p><span class="info-label">Description:</span> ${ownerPost.house.description}</p>
-                                                                                        </div>
-                                                                                        <details>
-                                                                                            <summary>Contact Information</summary><br>
-                                                                                            <p><i class="fas fa-phone" style="color: blue;"></i> ${ownerPost.house.house_owner.phone_number}</p>
-                                                                                            <p><i class="fas fa-envelope" style="color: red;"></i> ${ownerPost.house.house_owner.email}</p>
-                                                                                        </details>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
@@ -404,8 +427,8 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </c:forEach>
+                                </c:forEach>
+                            </div>
                         </div>
                         <!-- Hiển thị các nút điều hướng phân trang -->
                         <nav aria-label="Page navigation example" class="m-3">

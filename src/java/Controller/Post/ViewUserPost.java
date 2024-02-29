@@ -93,23 +93,26 @@ public class ViewUserPost extends HttpServlet {
         if (priceParam != null && !priceParam.isEmpty()) {
             // Xử lý tiêu chí filter theo giá
             // Ví dụ: Filter bài đăng có giá dưới mức giá được chỉ định
-            double price = Double.parseDouble(priceParam);
+            int price = Integer.parseInt(priceParam);
             allPosts = filterByPrice(allPosts, price);
+            System.out.println("price");
         }
 
-        if (purposeParam != null && !purposeParam.isEmpty()) {
-            // Xử lý tiêu chí filter theo mục đích
-            // Ví dụ: Filter bài đăng theo mục đích (bán, thuê, cho thuê)
-            int purposeId = Integer.parseInt(purposeParam);
-            allPosts = filterByPurpose(allPosts, purposeId);
-        }
-
-        if (dateParam != null && !dateParam.isEmpty()) {
-            // Xử lý tiêu chí filter theo ngày
-            // Ví dụ: Filter bài đăng theo ngày đăng
-            LocalDate date = LocalDate.parse(dateParam);
-            allPosts = filterByDate(allPosts, date);
-        }
+//        if (purposeParam != null && !purposeParam.isEmpty()) {
+//            // Xử lý tiêu chí filter theo mục đích
+//            // Ví dụ: Filter bài đăng theo mục đích (bán, thuê, cho thuê)
+//            int purposeId = Integer.parseInt(purposeParam);
+//            allPosts = filterByPurpose(allPosts, purposeId);
+//            System.out.println("purpose");
+//        }
+//
+//        if (dateParam != null && !dateParam.isEmpty()) {
+//            // Xử lý tiêu chí filter theo ngày
+//            // Ví dụ: Filter bài đăng theo ngày đăng
+//            LocalDate date = LocalDate.parse(dateParam);
+//            allPosts = filterByDate(allPosts, date);
+//            System.out.println("date");
+//        }
 
         int totalPosts = allPosts.size();
         int totalPages = (int) Math.ceil((double) totalPosts / recordsPerPage);
@@ -170,11 +173,12 @@ public class ViewUserPost extends HttpServlet {
     }// </editor-fold>
 
     // Hàm lọc bài đăng theo giá
-    private List<Post> filterByPrice(List<Post> posts, double price) {
+    private List<Post> filterByPrice(List<Post> posts, int  price) {
         List<Post> filteredPosts = new ArrayList<>();
         for (Post post : posts) {
             if (post.getPrice() <= price) {
                 filteredPosts.add(post);
+                System.out.println("post: " + post.getPost_id());
             }
         }
         return filteredPosts;
@@ -186,6 +190,7 @@ public class ViewUserPost extends HttpServlet {
         for (Post post : posts) {
             if (post.getPurpose().getPurpose_id() == purpose_id) {
                 filteredPosts.add(post);
+                System.out.println("post: " + post.getPost_id());
             }
         }
         return filteredPosts;
