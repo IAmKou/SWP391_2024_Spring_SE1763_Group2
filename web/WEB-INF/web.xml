@@ -48,7 +48,7 @@
         <servlet-name>updateUser</servlet-name>
         <servlet-class>Controller.User.updateUser</servlet-class>
         <multipart-config>
-            <location>D:\temp</location>
+            <location>temp</location>
             <max-file-size>20848820</max-file-size>
             <max-request-size>418018841</max-request-size>
             <file-size-threshold>1048576</file-size-threshold>
@@ -119,7 +119,7 @@
         <url-pattern>/changeUserStatus</url-pattern>
     </servlet-mapping>
     <listener>
-        <listener-class>tickRate.initializerAutoEndPost</listener-class>
+        <listener-class>tickRate.handleAutoEndPost</listener-class>
     </listener>
     <session-config>
         <session-timeout>
@@ -129,5 +129,4 @@
     <welcome-file-list>
         <welcome-file>views/home.jsp</welcome-file>
     </welcome-file-list>
-    
 </web-app>
