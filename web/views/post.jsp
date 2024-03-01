@@ -28,10 +28,6 @@
                 margin: 10px 0;
                 border: 1px #000 solid;
             }
-
-            .poster-username {
-                font-weight: bold;
-            }
         </style>
     </head>
     <body>
@@ -41,7 +37,7 @@
                 <div class="row">
                     <div class="col-md-8">
                         <c:if test="${alert ne null}">
-                            <div class="alert alert-danger h5">                                   
+                            <div class="alert alert-warning h5">                                   
                                 ${alert}
                             </div>
                         </c:if>
@@ -50,11 +46,7 @@
                                 ${success}
                             </div>
                         </c:if>
-                        <c:if test="${notification ne null}">
-                            <div class="alert alert-warning h5">
-                                ${notification}
-                            </div>
-                        </c:if>
+                        
                         <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
                             <div class="carousel-indicators">
                                 <c:forEach items="${images}" var="image" varStatus="status">
@@ -112,10 +104,35 @@
                     </div>
                     <div class="col-md-4">
                         <div class="card mb-4">
-
                             <div class="card-body d-flex flex-column">
-                                <a class="btn btn-danger mb-3 flex-grow-1" href="${pageContext.request.contextPath}/post/booking?house_id=${post.house.house_id}">Book a tour house</a>
+                                <button class="btn btn-primary flex-grow-1 mb-2" data-bs-toggle="modal" data-bs-target="#messageModal">Book a tour house</button>
                                 <button class="btn btn-primary flex-grow-1" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Contact information</button>
+                            </div>
+                            <!-- Modal for message -->
+                            <div class="modal fade" id="messageModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="messageModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="messageModalLabel">Send a Message</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <!-- Message form -->
+                                            <form action="${pageContext.request.contextPath}/post/booking" method="post">
+                                                <div class="mb-3">
+                                                    <label for="message" class="form-label">Appointment date:</label>
+                                                    <input type="date" name="date" required>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="message" class="form-label">Message:</label>
+                                                    <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
+                                                </div>
+                                                <input type="hidden" name="house_id" value="${post.house.house_id}">
+                                                <button type="submit" class="btn btn-outline-success">Send</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
 
                             <!-- Modal -->
@@ -138,8 +155,6 @@
 
                         </div>
                     </div>
-
-
                 </div>
             </div>
         </div>
