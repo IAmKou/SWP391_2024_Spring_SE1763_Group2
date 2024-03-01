@@ -85,24 +85,24 @@
                                 <div class="col-md-12">
                                     <div class="table-wrap">
 
-
-                                        <table class="table table-responsive-xl" style="word-wrap: break-word ;font-family: Arial, sans-serif;
-                                               border-collapse: collapse;
-                                               width: 100%;
-                                               max-width: 600px; /* Chiều rộng tối đa của bảng */" >
-                                            <tr>
-                                                <td><input type="text" id="col1Input" onkeyup="filterTable()" placeholder="id"></th>
-                                                <td><input type="text" id="col2Input" onkeyup="filterTable()" placeholder="username"></th>
-                                                <td><input type="text" id="col3Input" onkeyup="filterTable()" placeholder="active"></th>
-                                                <td><input type="text" id="col3Input" onkeyup="filterTable()" placeholder="Role"></th>
-                                            </tr><!-- comment -->
-                                            <tr>
-                                                <td><input type="text" id="col4Input" onkeyup="filterTable()" placeholder="email"></th>
-                                                <td><input type="text" id="col5Input" onkeyup="filterTable()" placeholder="phone"></th>
-                                                <td><input type="text" id="col6Input" onkeyup="filterTable()" placeholder="address"></th>       
-                                                <td>  <button style="margin-right: 20px">x</button>   <button type="submit">SAVE</button></td> 
-                                            </tr>
-                                        </table>
+                                        <!--
+                                                                                <table class="table table-responsive-xl" style="word-wrap: break-word ;font-family: Arial, sans-serif;
+                                                                                       border-collapse: collapse;
+                                                                                       width: 100%;
+                                                                                       max-width: 600px; /* Chiều rộng tối đa của bảng */" >
+                                                                                    <tr>
+                                                                                        <td><input type="text" id="col1Input" onkeyup="filterTable()" placeholder="id"></th>
+                                                                                        <td><input type="text" id="col2Input" onkeyup="filterTable()" placeholder="username"></th>
+                                                                                        <td><input type="text" id="col3Input" onkeyup="filterTable()" placeholder="active"></th>
+                                                                                        <td><input type="text" id="col3Input" onkeyup="filterTable()" placeholder="Role"></th>
+                                                                                    </tr> comment 
+                                                                                    <tr>
+                                                                                        <td><input type="text" id="col4Input" onkeyup="filterTable()" placeholder="email"></th>
+                                                                                        <td><input type="text" id="col5Input" onkeyup="filterTable()" placeholder="phone"></th>
+                                                                                        <td><input type="text" id="col6Input" onkeyup="filterTable()" placeholder="address"></th>       
+                                                                                        <td>  <button style="margin-right: 20px">x</button>   <button type="submit">SAVE</button></td> 
+                                                                                    </tr>
+                                                                                </table>-->
 
                                         <p>${msg}</p>
                                         <table id="ulist" class="table table-responsive-xl" style="word-wrap: break-word">
@@ -119,16 +119,19 @@
                                             </thead>
                                             <tbody style="white-space: nowrap; overflow: hidden;">
                                                 <c:forEach var="user" items="${userList}">
-                                                    <tr onclick="viewProfile('${user.key.user_id}')">
-                                                        <td>${user.key.user_id}</td>
-                                                        <td>${user.value.user_name}</td>
-                                                        <td>${user.key.full_name}</td>
+                                                    <tr onclick="viewProfile(${user.key.user_id})">
+                                                    <tr ><a href="${pageContext.request.contextPath}/userProfile?id=${user.key.user_id}">
 
-                                                        <td>${user.key.email}</td>
-                                                        <td>${user.key.phone_number}</td>
-                                                        <td>${user.value.isActive()==true?'Active':'Inactive'}</td>
-                                                    </tr>
-                                                </c:forEach>
+                                                    <td>${user.key.user_id}</td>
+                                                    <td>${user.value.user_name}</td>
+                                                    <td>${user.key.full_name}</td>
+
+                                                    <td>${user.key.email}</td>
+                                                    <td>${user.key.phone_number}</td>
+                                                    <td>${user.value.isActive()==true?'Active':'Inactive'}</td>
+                                                </a><!-- comment -->
+                                                </tr>
+                                            </c:forEach>
                                             </tbody>
                                         </table>
                                     </div>
@@ -197,7 +200,7 @@
                                                                         rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
                                                                         switching = true;
                                                                         break;
-                                                          }
+                                                                    }
             </script>
     </body>
 </html>

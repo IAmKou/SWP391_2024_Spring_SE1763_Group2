@@ -65,27 +65,24 @@ public class HouseDAO extends DBContext {
     }
 
     public House getHouseByPostID(int post_id) {
+        House house = new House();
         try {
             String sql
                     = "select * from post join house on post.house_id = house.house_id where post_id= ?";
-            
 
             DBContext db = new DBContext();
             Connection con = db.getConnection();
             PreparedStatement stm = con.prepareStatement(sql);
             stm.setInt(1, post_id);
             ResultSet rs = stm.executeQuery();
-            if (rs.next()) {
-                
-                
-                House house = new House();
-           //     House test = new House(post_id, house_owner, type_of_house, sql, sql, post_id, post_id, image);
-                
+            while (rs.next()) {
+
+                //     House test = new House(post_id, house_owner, type_of_house, sql, sql, post_id, post_id, image);
                 house.setArea(rs.getInt("area"));
                 house.setDescription(rs.getString("description"));
                 house.setHouse_id(rs.getInt("house_id"));
                 house.setLocation(rs.getString("address"));
-                
+
                 house.setNumber_of_room(rs.getInt("number_of_room"));
                 house.setType_of_house(TypeOfHouseDAO.getType_of_House_Name_byID(rs.getInt("type_of_house_id")));
                 house.setHouse_owner(UserDAO.getUserInformation(rs.getInt("house_owner_id")));
@@ -95,13 +92,12 @@ public class HouseDAO extends DBContext {
                 stm.close();
                 con.close();
 
-                return house;
             }
 
         } catch (SQLException ex) {
             Logger.getLogger(HouseDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return null;
+        return house;
     }
 
     // Not done
@@ -193,6 +189,31 @@ public class HouseDAO extends DBContext {
             Logger.getLogger(HouseDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return -1;
+    }
+
+    public int numberOfHouse() {
+        int n = 0;
+        try {
+            String sql
+                    = "select * from post join house on post.house_id = house.house_id ";
+
+            DBContext db = new DBContext();
+            Connection con = db.getConnection();
+            PreparedStatement stm = con.prepareStatement(sql);
+         
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                n++;
+            }
+
+            rs.close();
+            stm.close();
+            con.close();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(HouseDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return n;
     }
 
 }

@@ -4,13 +4,16 @@
  */
 package Controller.Post;
 
+import dao.HouseDAO;
 import dao.PostDAO;
+import dao.UserDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.HashMap;
 import model.House;
 import model.Post;
@@ -61,11 +64,14 @@ public class viewAllPost_For_User_View extends HttpServlet {
             throws ServletException, IOException {
 
         PostDAO pDao = new PostDAO();
+        HouseDAO hDao = new HouseDAO();
         if (request.getParameter("type") != null) {
             String pam = (String) request.getParameter("type");
-            HashMap<Post, House> cardList = new HashMap<>();
+
             int purpose = Integer.parseInt(pam);
-            cardList = pDao.getPostCard(purpose);
+
+            HashMap<Post, House> cardList = new HashMap<>();
+            ArrayList<Post> pList = pDao.allPost();
 
             if (purpose == 1) {
                 request.setAttribute("title", "For Sale");
@@ -80,8 +86,23 @@ public class viewAllPost_For_User_View extends HttpServlet {
                 request.setAttribute("p", "The resource is not exists.");
                 request.getRequestDispatcher("error/Not_Found_404.jsp").forward(request, response);
             }
+//            request.setAttribute("num", pDao.getPostCard(purpose).size());
+            for (Post p : pList) {
+//                if ( p.getPurpose().getPurpose_id() == purpose) {
+                    House h = hDao.getHouseByPostID(p.getPost_id());
+                    if (h != null) {
+                        cardList.put(p, hDao.getHouseByPostID(p.getPost_id()));
+//                    }
+                }
+            }
+
+            request.setAttribute("numcheck", pList.size());
+            request.setAttribute("num", cardList.size());
+            request.setAttribute("hnum", hDao.numberOfHouse());
             request.setAttribute("cardList", cardList);
+
             request.getRequestDispatcher("/views/generalPostList.jsp").forward(request, response);
+
         } else {
 
             String oldLink = "/views/home.jsp";

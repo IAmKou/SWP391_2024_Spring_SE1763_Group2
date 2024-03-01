@@ -16,6 +16,12 @@ public class Image {
 
     public Image() {
     }
+
+    public Image(int image_id, byte[] imageData, String imageDataBase64) {
+        this.image_id = image_id;
+        this.imageData = imageData;
+        this.imageDataBase64 = imageDataBase64;
+    }
     
 
     public String getImageDataAsBase64() {

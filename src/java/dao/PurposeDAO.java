@@ -23,18 +23,18 @@ public class PurposeDAO extends DBContext {
 
     public List<Purpose> getPurpose() {
         List<Purpose> purposes = new ArrayList<>();
-        
+
         try {
-            String sql="SELECT * FROM house_finder_project.purpose;";
+            String sql = "SELECT * FROM house_finder_project.purpose;";
             DBContext db = new DBContext();
             Connection con = db.getConnection();
             PreparedStatement stm = con.prepareStatement(sql);
             ResultSet rs = stm.executeQuery();
-            while (rs.next()) {                
+            while (rs.next()) {
                 Purpose purpose = new Purpose();
                 purpose.setPurpose_id(rs.getInt(1));
                 purpose.setPurpose_name(rs.getString(2));
-                
+
                 purposes.add(purpose);
             }
             rs.close();
@@ -42,5 +42,27 @@ public class PurposeDAO extends DBContext {
             Logger.getLogger(PurposeDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return purposes;
+    }
+
+    public Purpose getPurposeById(int id) {
+
+        try {
+            String sql = "SELECT * FROM house_finder_project.purpose where purpose_id = ? limit 1;";
+            DBContext db = new DBContext();
+            Connection con = db.getConnection();
+            PreparedStatement stm = con.prepareStatement(sql);
+            stm.setInt(1, id);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                Purpose purpose = new Purpose();
+                purpose.setPurpose_id(rs.getInt(1));
+                purpose.setPurpose_name(rs.getString(2));
+                return purpose;
+            }
+            rs.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(PurposeDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 }

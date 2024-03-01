@@ -65,7 +65,45 @@ public class ImageDAO extends DBContext {
             stm.setInt(1, house_id);
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
-                
+
+                Blob blob = rs.getBlob("image_link");
+                byte[] imageData = blob.getBytes(1, (int) blob.length());
+
+                int imageId = rs.getInt("image_id");
+
+                Image image = new Image();
+                image.setImageData(imageData);
+                image.setImage_id(imageId);
+                images.add(image);
+            }
+            rs.close();
+            con.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(ImageDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        if (images.size() < 1) {
+            images.add(getBlankImages().get(0));
+        } else {
+
+        }
+        return images;
+    }
+    
+    
+    
+    // local on Manh'pc
+    public static List<Image> getBlankImages() {
+        List<Image> images = new ArrayList<>();
+        try {
+
+            String sql = "SELECT image_link, image_id FROM house_finder_project.image where house_id = 117;";
+            DBContext db = new DBContext();
+            Connection con = db.getConnection();
+            PreparedStatement stm = con.prepareStatement(sql);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+
                 Blob blob = rs.getBlob("image_link");
                 byte[] imageData = blob.getBytes(1, (int) blob.length());
 
@@ -83,4 +121,5 @@ public class ImageDAO extends DBContext {
         }
         return images;
     }
+
 }

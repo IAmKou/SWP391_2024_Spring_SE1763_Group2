@@ -40,7 +40,7 @@
                     <h4 class="heading">Most requested</h4>
                     <p>House has most number of order</p>
                 </div>
-                <div id="latest" class="group">
+                <div id="latest" class="group" style="border: 1px solid red">
                     <article class="one_third first borderEntity topproheight"><a class="imgover" href="#">
                             <img class="imgAuth" src="${pageContext.request.contextPath}/images/house1.jpg" style="border-radius: 4px;" alt=""></a>
                         <div class="excerpt">

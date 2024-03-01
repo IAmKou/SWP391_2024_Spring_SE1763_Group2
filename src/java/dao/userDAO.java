@@ -248,7 +248,7 @@ public class UserDAO {
         }
     }
 
-    public ArrayList<User> allUserList() {
+    public static ArrayList<User> allUserList() {
         ArrayList<User> list = new ArrayList<>();
         Connection con = new DBContext().getConnection();
         try {

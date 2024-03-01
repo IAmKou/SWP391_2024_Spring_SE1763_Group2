@@ -4,12 +4,13 @@
 }
 .borderEntity {
     border: 1px solid #D7D7D7;
-    padding: 10px;
+   
     border-radius: 5px;
   }
 
   .topproheight {
     height: 500px;
+    margin-bottom: 20px
   }
 
   .func {
