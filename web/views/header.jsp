@@ -17,16 +17,11 @@
         <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/images/demo/image-removebg-preview.png">
         <style>
             .avatar {
-                width: 150px; /* Adjust the width and height as needed */
-                height: 150px;
+                width: 100px; /* Adjust the width and height as needed */
+                height: 100px;
                 border-radius: 50%; /* Make it circular */
                 overflow: hidden; /* Hide overflowing content */
-            }
-
-            .avatar img {
-                width: 100%; /* Make the image fill the circular container */
-                height: auto;
-                display: block; /* Remove extra space under the image */
+                object-fit: cover;
             }
         </style>
     </head>
@@ -57,13 +52,12 @@
                             <c:if test="${sessionScope.account ne null}">
                                 <c:if test="${sessionScope.user.role_id eq 1}">
                                     <li><a href="${pageContext.request.contextPath}/viewUserList">Manage</a></li>
-                                </c:if>
-                                <c:if test="${sessionScope.user.role_id eq 2}">
+                                    </c:if>
+                                    <c:if test="${sessionScope.user.role_id eq 2}">
                                     <li class="active"><a href="#">My Rentals</a></li>
                                     </c:if>
                                 </c:if>
-
-                            <c:if test="${sessionScope.account eq null}">
+                                <c:if test="${sessionScope.account eq null}">
                                 <li class="active"><a href="${pageContext.request.contextPath}/logIn.jsp">Login</a></li>
                                 </c:if>
 
