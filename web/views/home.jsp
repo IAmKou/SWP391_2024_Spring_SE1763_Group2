@@ -192,7 +192,7 @@
                 <div class="clear"></div>
             </main>
         </div>               
-
+        <p style="color: red">${requestScope.msg}</p>
         <jsp:include page="footer.jsp"/>
     </body>
 </html>
