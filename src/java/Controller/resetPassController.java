@@ -41,6 +41,7 @@ public class resetPassController extends HttpServlet {
         if (newPass.equals(newCfPass)) {
             dao.ChangePassword(newUser.getUser_id(), newPass);
             session.invalidate();
+            request.setAttribute("message", "Reset password successfully");
             request.getRequestDispatcher("logIn.jsp").forward(request, response);
         } else {
             request.setAttribute("Boy", "New Pass not match Confirm Pass");
