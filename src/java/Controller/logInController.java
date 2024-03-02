@@ -74,12 +74,12 @@ public class logInController extends HttpServlet {
                 req.setAttribute("message", "Login succesful");
                 session.setAttribute("user", account);
                 session.setAttribute("account", userInfo);
+                System.err.println(account.isActive());
+                req.getRequestDispatcher("/views/home.jsp").forward(req, resp);
             } else {
                 req.setAttribute("message", "Your Account is inactive or banned!!!");
-                 req.getRequestDispatcher("logIn.jsp").forward(req, resp);
+                req.getRequestDispatcher("logIn.jsp").forward(req, resp);
             }
-            System.err.println(account.isActive());
-            req.getRequestDispatcher("/views/home.jsp").forward(req, resp);
         }
     }
 
