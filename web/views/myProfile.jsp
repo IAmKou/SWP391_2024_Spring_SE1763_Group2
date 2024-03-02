@@ -64,6 +64,7 @@
                 height: 100px;
                 border-radius: 50%; /* Make it circular */
                 overflow: hidden; /* Hide overflowing content */
+                object-fit: cover;
             }
         </style>
     </head>
@@ -100,7 +101,7 @@
                         <section class="ftco-section">
                             <style>
                                 table {
-                                    
+
                                     margin-top:0px;
                                     width: 100%;
                                     border-radius: 4px;
@@ -151,11 +152,12 @@
                             </tr>
                             <tr>
                                 <th>Avatar: </th>
-                                <td><img src="${requestScope.user.avatar} "  style="min-height: 100px;max-height: auto" ></td>
+                                <td><img src="${requestScope.user.avatar} "  class="avatar" ></td>
                             </tr>
 
                         </table>
-
+                            <p style="color: blue">${requestScope.msg}</p>
+                        <a href="${pageContext.request.contextPath}/changePassword.jsp"><button class="btn " style="float: right 45px;">Change Password</button></a>
                         <a href="${pageContext.request.contextPath}/updateUser"><button class="btn " style="float: right 45px;">Edit</button></a>
                     </section>
                 </div>
