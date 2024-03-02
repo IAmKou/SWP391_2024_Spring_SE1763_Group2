@@ -181,7 +181,7 @@ public class UserDAO {
 
             // Prepare the SQL statement
             String sql = "INSERT INTO `account` (user_id,user_name,pass_word,role_id,active)"
-                    + "VALUES (?, ?, ?, ?)";
+                    + "VALUES (?, ?, ?, ?, ?)";
             PreparedStatement st = con.prepareStatement(sql);
             st = con.prepareStatement(sql);
             st.setInt(1, uid);
