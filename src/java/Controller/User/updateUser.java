@@ -1,16 +1,19 @@
 package Controller.User;
 
+import dao.AccountDAO;
 import dao.UserDAO;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import model.Account;
 import model.User;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -49,6 +52,10 @@ public class updateUser extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
+            String msg = "";
+            User u = (User) request.getSession().getAttribute("account");
+            int userId = u.getUser_id();
+            
             String full_name = request.getParameter("full_name");
             String dateOfBirthStr = request.getParameter("date_of_birth");
             String address = request.getParameter("address");
@@ -98,8 +105,10 @@ public class updateUser extends HttpServlet {
             } else if (fileName.endsWith(".png")) {
                 mediaTypeString = "image/png";
             } else {
-                request.setAttribute("msg", "Unsupported file types");
-                request.getRequestDispatcher("/views/editProfile.jsp").forward(request, response);
+                String redirectURL = request.getContextPath() + "/updateProfileController?userId=" + userId;
+                msg = " Unsupported file types";
+                redirectURL += "&message=" + msg; 
+                response.sendRedirect(redirectURL);
                 return;
             }
             // Create the request body with the file content and determined media type
@@ -121,8 +130,6 @@ public class updateUser extends HttpServlet {
                 String imageUrl = extractImageUrl(responseBody);
                 if (imageUrl != null) {
                     System.out.println("Extracted imageUrl: " + imageUrl);
-                    User u = (User) request.getSession().getAttribute("account");
-
                     // Tạo đối tượng User và cập nhật vào cơ sở dữ liệu
                     User user = new User();
 
@@ -136,30 +143,32 @@ public class updateUser extends HttpServlet {
                     // Cập nhật người dùng trong cơ sở dữ liệu
                     UserDAO userDAO = new UserDAO();
                     userDAO.updateUser(user);
-
-                    request.setAttribute("msg", "Update Sucessfully!!");
                     
+                    HttpSession session = request.getSession();
+                    session.removeAttribute("account");
+                    session.removeAttribute("user");
+                    int uid = user.getUser_id();
+                    AccountDAO dao = new AccountDAO();
+                    Account a = dao.getAccountByUserId(uid);
+                    session.setAttribute("user", a);
+                    session.setAttribute("account", user);
                     
-                    
-                    if(userDAO.getAccount(user.getUser_id()).getRole_id()==1){
-                         request.getRequestDispatcher("views/adminProfile.jsp").forward(request, response);
-                    }
-                    else if(userDAO.getAccount(user.getUser_id()).getRole_id()==2){
-                         request.getRequestDispatcher("views/myProfile.jsp").forward(request, response);
-                    }
-                    else{
-                         request.getRequestDispatcher("error.jsp").forward(request, response);
-                    }
-                   
+                    msg="Update successfully";
+                    String redirectURL = request.getContextPath() + "/viewProfile" ;
+                    redirectURL += "?message=" + msg; 
+                    response.sendRedirect(redirectURL);   
                 }
             } catch (Exception e) {
                 // Xử lý bất kỳ ngoại lệ nào
-                request.setAttribute("msg", e.getMessage());
-                request.getRequestDispatcher("views/editProfile.jsp").forward(request, response);
+                String redirectURL = request.getContextPath() + "/updateProfileController?userId=" + userId;
+                msg = e.getMessage();
+                redirectURL += "&message=" + msg; 
+                response.sendRedirect(redirectURL);
             }
         } catch (ServletException se) {
-            request.setAttribute("msg", se.getMessage());
-            request.getRequestDispatcher("views/editProfile.jsp").forward(request, response);
+                String redirectURL = request.getContextPath() + "/updateProfileController";
+                redirectURL += "?message=" + se.getMessage(); 
+                response.sendRedirect(redirectURL);
         }
     }
 
