@@ -33,12 +33,13 @@ public class viewProfile extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         User user = (User) request.getSession().getAttribute("account");// lay thong tin user
-
+        String msg = request.getParameter("message");
         if (user != null) {
             int uid = user.getUser_id();
             UserDAO userDAO = new UserDAO();
             user = userDAO.getUserInformation(uid);
             // Đặt thông tin người dùng vào thuộc tính yêu cầu (request attribute)
+            request.setAttribute("msg", msg);
             request.setAttribute("user", user);
             request.setAttribute("acc", userDAO.getAccount(uid));
             if (userDAO.getRoleForUID(user.getUser_id()) == 1) {
