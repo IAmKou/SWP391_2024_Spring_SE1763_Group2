@@ -81,6 +81,7 @@
                 height: 100px;
                 border-radius: 50%; /* Make it circular */
                 overflow: hidden; /* Hide overflowing content */
+                object-fit: cover;
             }
         </style>
     </head>
@@ -138,7 +139,7 @@
                                     </tr>
                                     <tr>
                                         <th>Avatar: </th>
-                                        <td><input type="file" name="file"><img src="${param1.getAvatar()}" style="min-height: 100px;max-height: auto"></td>
+                                        <td><input type="file" name="file"><img src="${param1.getAvatar()}" class="avatar"></td>
                                     </tr>
 
                                 </table>
