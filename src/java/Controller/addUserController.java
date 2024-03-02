@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
+import model.Account;
 import model.User;
 
 /**
@@ -82,17 +83,15 @@ public class addUserController extends HttpServlet {
             else if (dao.emailIsExist(email)) {
                 msg = "This email has already existed!!!";
             } else {
-                
+                msg="Account created successfullly";
                 java.util.Date date = availDate.parse(DoB);
-                java.sql.Date sqlDate = new java.sql.Date(date.getTime());
-                
-                dao.insertUser(fullname, sqlDate, address, phone, email);
-                
+                java.sql.Date sqlDate = new java.sql.Date(date.getTime());              
+                dao.insertUser(fullname, sqlDate, address, phone, email);           
                 User u = dao.getUserByEmail(email);
                 int uid = u.getUser_id();
                 dao.insertAccount(uid, uname, pass, 2,true);
-                request.setAttribute("email", email);
-                request.getRequestDispatcher("/views/home.jsp").forward(request, response);
+                request.setAttribute("msg", msg);
+                request.getRequestDispatcher("logIn.jsp").forward(request, response);
                 return;
             }            
             request.setAttribute("msg", msg);
