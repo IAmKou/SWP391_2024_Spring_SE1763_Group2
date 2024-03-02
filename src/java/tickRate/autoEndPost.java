@@ -23,7 +23,7 @@ public class autoEndPost {
                 checkPostEndTimes();
                 try {
                     // Sleep for some time before checking again (e.g., every day)
-                    Thread.sleep(24 * 60 * 60 * 1000); // 24 hours in milliseconds set 60000 for checking every 1 min
+                    Thread.sleep(60000); // 24 hours in milliseconds set 60000 for checking every 1 min
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
