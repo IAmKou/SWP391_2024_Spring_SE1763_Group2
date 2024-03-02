@@ -63,7 +63,7 @@
                                     <div class="form-group d-flex">
                                         <input type="text" name="mail"class="form-control rounded-left" placeholder="Email: " required>
                                     </div>
-                                    <p style="color: red">${requestScope.message}</p>
+                                    <p style="color: red">${requestScope.Alert}</p>
                                     <div class="form-group">
                                         <button type="submit" class="form-control btn btn-primary rounded submit px-3">Submit</button>
                                     </div>               
