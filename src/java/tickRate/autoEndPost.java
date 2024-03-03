@@ -4,6 +4,7 @@
  */
 package tickRate;
 
+import dao.NotificationDAO;
 import dao.PostDAO;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -40,6 +41,7 @@ public class autoEndPost {
             LocalDateTime endTime = post.getEnd_time();
             if (now.isAfter(endTime)) {
                 updateStatusInDatabase(post.getPost_id());
+                sendNotification(post.getPoster_id(),now);
             }
         }
     }
@@ -52,5 +54,11 @@ public class autoEndPost {
 
         PostDAO dao = new PostDAO();
         dao.changePostStatus(post_id, 7);
+    }
+
+    private static void sendNotification(int poster_id, LocalDateTime time){
+        NotificationDAO dao = new NotificationDAO();
+        String message = "Your post have expired";
+        dao.insertNotification(poster_id, message, time);
     }
 }
