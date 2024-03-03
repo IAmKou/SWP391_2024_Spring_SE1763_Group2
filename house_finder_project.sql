@@ -340,7 +340,23 @@ INSERT INTO `user` VALUES (1,'Nguyá»…n Thá»‹ Há»“ng','1985-07-12','S
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
-
+  
+Create table `notification` (
+`noti_id` int auto_increment not null,
+`recipient_id` int not null,
+`message` varchar(250) not null,
+`create_at` datetime not null,
+primary key (`noti_id`),
+constraint foreign key (`recipient_id`) references `user` (`user_id`)
+);
+  
+Create table `global_notification` (
+`gn_id` int auto_increment not null,
+`message` varchar(250) not null,
+`created_at` datetime not null,
+primary key(`gn_id`)
+);
+  
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
 /*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
