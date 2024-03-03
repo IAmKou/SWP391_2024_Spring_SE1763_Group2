@@ -69,9 +69,18 @@
                                     <li><a href="${pageContext.request.contextPath}/viewProfile">My Account</a></li>
                                     <li><a href="${pageContext.request.contextPath}/post/view">My Post</a></li>
                                     <li><a href="${pageContext.request.contextPath}/request/view">My Requests</a></li>
-                                    <li><a href="${pageContext.request.contextPath}/logOutController">Log out</a></li>
+                                    <li><a href="${pageContext.request.contextPath}/logOutController">Log out</a></li>                                  
                                 </ul>
                             </li>
+                            <c:if test="${sessionScope.account ne null}">
+                                <li> Noti                                    
+                                        <ul>
+                                        <c:forEach var="noti" items="${sessionScope.gnoti}">                                 
+                                            <li><a href="#">${noti.message} ${noti.created_at}</a></li>                                     
+                                        </c:forEach>
+                                        </ul>
+                                </li>
+                            </c:if>
                         </ul>
                     </nav>
                 </header>
