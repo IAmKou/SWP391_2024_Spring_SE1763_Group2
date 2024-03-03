@@ -95,7 +95,7 @@
                     <jsp:include page="/sample/left_side_bar_for_user_account.jsp"></jsp:include>
                 </c:if>
                 <c:if test="${sessionScope.user.role_id eq 1}">
-                    <jsp:include page="/sample/left_side_bar_for_user_account.jsp"></jsp:include>
+                    <jsp:include page="/sample/left_side_bar_for_admin_account.jsp"></jsp:include>
                 </c:if>
                 <!-- ################################################################################################ -->
                 <!-- ################################################################################################ -->
@@ -144,7 +144,7 @@
 
                                 </table>
                                 <p style="color: red">${requestScope.msg}</p>
-                                <!--<a href="${pageContext.request.contextPath}/userProfile"><button class="btn "  style="float: right 45px;">Cancel</button></a>-->
+                                
                                 <a href="${pageContext.request.contextPath}/myProfile"><button class="btn"  style="float: right 45px;">Cancel</button></a>
                                 <button class="btn" style="float: right 45px;" type="submit">Submit</button>
                             </form>            
