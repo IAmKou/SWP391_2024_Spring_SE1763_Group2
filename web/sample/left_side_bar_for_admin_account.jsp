@@ -97,6 +97,11 @@
                             <li><a href="#">Updating</a></li>
                         </ul>
                     </li>
+                    <li>Notification Management
+                        <ul>
+                            <li><a href="sendNotification.jsp">Send Notification</a></li>
+                        </ul>
+                    </li>
                 </ul>
             </nav>
 
