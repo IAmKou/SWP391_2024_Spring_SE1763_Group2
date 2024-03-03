@@ -4,6 +4,7 @@
  */
 package Controller;
 
+import dao.NotificationDAO;
 import dao.UserDAO;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
@@ -12,8 +13,11 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.util.ArrayList;
 import model.User;
 import model.Account;
+import model.GNotification;
+import model.Notification;
 
 /**
  *
@@ -60,6 +64,7 @@ public class logInController extends HttpServlet {
         String user = req.getParameter("username");
         String pass = req.getParameter("password");
         UserDAO dao = new UserDAO();
+        NotificationDAO dun = new NotificationDAO();
         Account account = dao.LogIn(user, pass);
         if (account == null) {
             req.setAttribute("username", user);
@@ -69,9 +74,13 @@ public class logInController extends HttpServlet {
             if (account.isActive()) {
                 int uid = account.getUser_id();
                 User userInfo = dao.getUserInformation(uid);
+                ArrayList<Notification> noti = dun.getAllNotificationByUserId(uid);
+                ArrayList<GNotification> gnoti = dun.getAllGlobalNotification();
                 HttpSession session = req.getSession();
-
+ 
                 req.setAttribute("message", "Login succesful");
+                session.setAttribute("noti", noti);
+                session.setAttribute("gnoti", gnoti);
                 session.setAttribute("user", account);
                 session.setAttribute("account", userInfo);
                 System.err.println(account.isActive());
