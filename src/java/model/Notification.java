@@ -12,7 +12,6 @@ import java.time.LocalDateTime;
  */
 public class Notification {
     private int noti_id;
-    private String type;
     private int recipient_id;
     private String message;
     private LocalDateTime created_at;
@@ -20,9 +19,8 @@ public class Notification {
     public Notification() {
     }
 
-    public Notification(int noti_id, String type, int recipient_id, String message, LocalDateTime created_at) {
+    public Notification(int noti_id, int recipient_id, String message, LocalDateTime created_at) {
         this.noti_id = noti_id;
-        this.type = type;
         this.recipient_id = recipient_id;
         this.message = message;
         this.created_at = created_at;
@@ -44,10 +42,6 @@ public class Notification {
         return recipient_id;
     }
 
-    public String getType() {
-        return type;
-    }
-
     public void setCreated_at(LocalDateTime created_at) {
         this.created_at = created_at;
     }
@@ -63,10 +57,5 @@ public class Notification {
     public void setRecipient_id(int recipient_id) {
         this.recipient_id = recipient_id;
     }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-    
     
 }
