@@ -170,37 +170,38 @@
                     </div>
                 </main>
             </div>
-            <!-- ################################################################################################ -->
-            <!-- ################################################################################################ -->
-            <!-- ################################################################################################ -->
-            <jsp:include page="footer.jsp"/>
-            <!-- ################################################################################################ -->
-            <!-- ################################################################################################ -->
-            <!-- ################################################################################################ -->
-            <a id="backtotop" href="#top"><i class="fas fa-chevron-up"></i></a>
-            <!-- JAVASCRIPTS -->
-            <script src="layout/scripts/jquery.min.js"></script>
-            <script src="layout/scripts/jquery.backtotop.js"></script>
-            <script src="layout/scripts/jquery.mobilemenu.js"></script>
-            <script>
-                                                        function viewProfile(userId) {
-                                                            window.location.href = 'userProfile?id=' + userId;
-                                                        }
-                                                        function sortTable(colIndex) {
-                                                            var table = document.getElementById("ulist");
-                                                            var rows = table.rows;
-                                                            var switching = true;
+        </div>
+        <!-- ################################################################################################ -->
+        <!-- ################################################################################################ -->
+        <!-- ################################################################################################ -->
+        <jsp:include page="footer.jsp"/>
+        <!-- ################################################################################################ -->
+        <!-- ################################################################################################ -->
+        <!-- ################################################################################################ -->
+        <a id="backtotop" href="#top"><i class="fas fa-chevron-up"></i></a>
+        <!-- JAVASCRIPTS -->
+        <script src="layout/scripts/jquery.min.js"></script>
+        <script src="layout/scripts/jquery.backtotop.js"></script>
+        <script src="layout/scripts/jquery.mobilemenu.js"></script>
+        <script>
+                                                    function viewProfile(userId) {
+                                                        window.location.href = 'userProfile?id=' + userId;
+                                                    }
+                                                    function sortTable(colIndex) {
+                                                        var table = document.getElementById("ulist");
+                                                        var rows = table.rows;
+                                                        var switching = true;
 
-                                                            while (switching) {
-                                                                switching = false;
-                                                                for (var i = 1; i < rows.length - 1; i++) {
-                                                                    var row1 = rows[i].getElementsByTagName("td")[colIndex];
-                                                                    var row2 = rows[i + 1].getElementsByTagName("td")[colIndex];
-                                                                    if (row1.innerHTML.toLowerCase() > row2.innerHTML.toLowerCase()) {
-                                                                        rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-                                                                        switching = true;
-                                                                        break;
-                                                                    }
-            </script>
+                                                        while (switching) {
+                                                            switching = false;
+                                                            for (var i = 1; i < rows.length - 1; i++) {
+                                                                var row1 = rows[i].getElementsByTagName("td")[colIndex];
+                                                                var row2 = rows[i + 1].getElementsByTagName("td")[colIndex];
+                                                                if (row1.innerHTML.toLowerCase() > row2.innerHTML.toLowerCase()) {
+                                                                    rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                                                                    switching = true;
+                                                                    break;
+                                                                }
+        </script>
     </body>
 </html>
