@@ -19,13 +19,8 @@
         <footer id="footer" class="hoc clear">
             <div class="group btmspace-80">
                 <div class="one_half first">
-                    <h6 class="heading">Community Chanels</h6>
-                    <p>Morbi tincidunt in hac habitasse platea dictumst praesent pretium donec tincidunt laoreet diam
-                        nullam
-                        augue.</p>
-                    <p class="btmspace-30">Tortor rhoncus sed dictum vitae viverra posuere lorem pellentesque suscipit
-                        eros vel
-                        ante curabitur pretium [<a href="#"><i class="fas fa-arrow-right"></i></a>]</p>
+                    <h6 class="heading">Community Channels</h6>
+                    <p>We don't have any community channels</p>
                     <ul class="faico clear">
                         <li><a class="faicon-facebook" href="https://facebook.com/manh.2883"><i
                                     class="fab fa-facebook"></i></a>
@@ -36,8 +31,7 @@
                 </div>
                 <div class="one_half">
                     <h6 class="heading">Send us an Email</h6>
-                    <p class="nospace btmspace-15">Libero class aptent taciti sociosqu ad litora torquent per conubia
-                        nostra.</p>
+                    <p class="nospace btmspace-15">Contact us if you need any help</p>
                     <form method="post" action="#">
                         <fieldset>
                             <legend>Newsletter:</legend>
