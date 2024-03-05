@@ -14,6 +14,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
+import java.util.List;
 import model.User;
 import model.Account;
 import model.GNotification;
@@ -77,10 +78,12 @@ public class logInController extends HttpServlet {
                 ArrayList<Notification> noti = dun.getAllNotificationByUserId(uid);
                 ArrayList<GNotification> gnoti = dun.getAllGlobalNotification();
                 HttpSession session = req.getSession();
- 
+
                 req.setAttribute("message", "Login succesful");
-                session.setAttribute("noti", noti);
-                session.setAttribute("gnoti", gnoti);
+                List<Object> allNotifications = new ArrayList<>();
+                allNotifications.addAll(noti);
+                allNotifications.addAll(gnoti);
+                session.setAttribute("notifications", allNotifications);
                 session.setAttribute("user", account);
                 session.setAttribute("account", userInfo);
                 System.err.println(account.isActive());
