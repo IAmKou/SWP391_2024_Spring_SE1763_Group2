@@ -4,6 +4,8 @@
     Author     : FPTSHOP
 --%>
 
+<%@page import="java.util.*"%>
+<%@page import="model.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
@@ -74,11 +76,11 @@
                             </li>
                             <c:if test="${sessionScope.account ne null}">
                                 <li> Noti                                    
-                                        <ul>
-                                        <c:forEach var="noti" items="${sessionScope.gnoti}">                                 
+                                    <ul>
+                                        <c:forEach var="noti" items="${sessionScope.notifications}">                                 
                                             <li><a href="#">${noti.message} ${noti.created_at}</a></li>                                     
-                                        </c:forEach>
-                                        </ul>
+                                            </c:forEach>
+                                    </ul>
                                 </li>
                             </c:if>
                         </ul>
