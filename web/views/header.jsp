@@ -34,8 +34,8 @@
                         grid-template-rows: 1fr;">
                     <nav id="mainav" class="hnc1">
                         <ul class="clear">
-                            <li class="active"><a href="${pageContext.request.contextPath}/Search?type=1">Buy</a></li>
-                            <li class="active"><a href="${pageContext.request.contextPath}/Search?type=2">Rent</a></li>
+                            <li class="active"><a href="${pageContext.request.contextPath}/SearchPostController?type=1&content=1">Buy</a></li>
+                            <li class="active"><a href="${pageContext.request.contextPath}/SearchPostController?type=2&content=2">Rent</a></li>
                             <li class="active"><a href="${pageContext.request.contextPath}/post/add">Sell</a></li>
                             <li class="active"><a href="#">Help</a></li>
                         </ul>
