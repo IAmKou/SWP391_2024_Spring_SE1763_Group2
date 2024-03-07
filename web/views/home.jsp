@@ -14,7 +14,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
         <link href="${pageContext.request.contextPath}/layout/styles/layout.css" rel="stylesheet" type="text/css" media="all">
         <link href="${pageContext.request.contextPath}/layout/styles/manh.css" rel="stylesheet" type="text/css" media="all">
-         <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/images/demo/image-removebg-preview.png">
+        <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/images/demo/image-removebg-preview.png">
     </head>
     <body>
         <jsp:include page="header.jsp"/>
@@ -23,18 +23,25 @@
             <article>
                 <h4 class="heading" style="white-space: nowrap;">Explore your new Destination</h4>
                 <footer style="height: 300px;">
-                    <form class="group" method="post" action="#">
+                    <form class="group" method="get" action="SearchPostController">
                         <fieldset>
                             <legend>Sign-Up:</legend>
-                            <input type="text" value="" placeholder="Enter here&hellip;">
-                            <button class="fas fa-sign-in-alt" type="submit" title="Submit"><em>Submit</em></button>
+                            <input type="text" name="searchContent" placeholder="Search smth">
+                            <button type="submit">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+                                </svg>
+                            </button>
+                            <select class="form-select" name="type">
+                                <option value="address">Address</option>
+                                <option value="number">Number Of Room</option>
+                            </select>
                         </fieldset>
                     </form>
                 </footer>
             </article>
         </div>
-
-        <div class="wrapper row3">
+        <div class="wrapper row3"> 
             <section class="hoc container clear">
                 <div class="sectiontitle">
                     <h4 class="heading">Most requested</h4>
