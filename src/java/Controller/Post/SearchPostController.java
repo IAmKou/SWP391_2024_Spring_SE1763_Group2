@@ -33,7 +33,7 @@ public class SearchPostController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String searchBy = request.getParameter("searchBy");
+        String searchBy = request.getParameter("type");
         String searchContent = request.getParameter("content");
         String searchContent2 = request.getParameter("content2");
         ArrayList<Post> list = new ArrayList<>();
@@ -59,6 +59,10 @@ public class SearchPostController extends HttpServlet {
             case "area":
                 list = getPostByArea(searchContent, searchContent2);
                 break;
+        }
+        if(list.isEmpty()){
+            request.setAttribute("msg", "No Post Found");
+            request.getRequestDispatcher("/views/post.jsp").forward(request, response);
         }
         request.setAttribute("list", list);
         request.getRequestDispatcher("/views/post.jsp").forward(request, response);
