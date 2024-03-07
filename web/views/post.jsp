@@ -46,7 +46,7 @@
                                 ${success}
                             </div>
                         </c:if>
-                        
+
                         <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
                             <div class="carousel-indicators">
                                 <c:forEach items="${images}" var="image" varStatus="status">
@@ -158,6 +158,7 @@
                 </div>
             </div>
         </div>
+        <p style="color: red">${requestScope.msg}</p>
         <jsp:include page="footer.jsp"/>
     </body>
 </html>
