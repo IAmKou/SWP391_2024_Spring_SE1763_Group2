@@ -23,7 +23,7 @@ import model.User;
  * @author luong
  */
 public class SearchDAO {
-    public ArrayList<Post> getAllPostByPrice (int price){
+    public ArrayList<Post> getAllPostByPrice (int minPrice, int maxPrice){
         ArrayList<Post> list = new ArrayList<>();
         try {
             DBContext db = new DBContext();
@@ -51,7 +51,7 @@ public class SearchDAO {
                     + "    request_status AS post_status ON post_status.status_id = post.post_status\n"
                     + "join \n"
                     + "	type_of_house on type_of_house.type_of_house_id = house.type_of_house_id\n"
-                    + "    where price = ? and post.post_status IN (2)\n"
+                    + "    where post.price between ? and ? and post.post_status IN (2)\n"
                     + "    ";
                 PreparedStatement stm;
                 ResultSet rs;
@@ -136,7 +136,7 @@ public class SearchDAO {
                     + "    request_status AS post_status ON post_status.status_id = post.post_status\n"
                     + "join \n"
                     + "	type_of_house on type_of_house.type_of_house_id = house.type_of_house_id\n"
-                    + "    where purpose_id = ? and post.post_status IN (2)\n"
+                    + "    where post.purpose_id = ? and post.post_status IN (2)\n"
                     + "    ";
                 PreparedStatement stm;
                 ResultSet rs;
@@ -360,7 +360,7 @@ public class SearchDAO {
         }
         return list;
     }
-    public ArrayList<Post> getAllPostByArea (int area){
+    public ArrayList<Post> getAllPostByArea (int minArea, int maxArea){
                 ArrayList<Post> list = new ArrayList<>();
         try {
             DBContext db = new DBContext();
@@ -388,7 +388,7 @@ public class SearchDAO {
                     + "    request_status AS post_status ON post_status.status_id = post.post_status\n"
                     + "join \n"
                     + "	type_of_house on type_of_house.type_of_house_id = house.type_of_house_id\n"
-                    + "    where house.area = ? and post.post_status IN (2)\n"
+                    + "    where house.area between ? and ? and post.post_status IN (2)\n"
                     + "    ";
                 PreparedStatement stm;
                 ResultSet rs;
@@ -444,7 +444,7 @@ public class SearchDAO {
         }
         return list;
     }
-    public ArrayList<Post> getAllPostByUser (String user){
+    public ArrayList<Post> getAllPostByUser (String name){
                 ArrayList<Post> list = new ArrayList<>();
         try {
             DBContext db = new DBContext();
@@ -472,7 +472,7 @@ public class SearchDAO {
                     + "    request_status AS post_status ON post_status.status_id = post.post_status\n"
                     + "join \n"
                     + "	type_of_house on type_of_house.type_of_house_id = house.type_of_house_id\n"
-                    + "    where poster_id = ? and post.post_status IN (2)\n"
+                    + "    where user.full_name = ? and post.post_status IN (2)\n"
                     + "    ";
                 PreparedStatement stm;
                 ResultSet rs;
