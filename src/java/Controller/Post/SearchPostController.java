@@ -14,7 +14,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import model.Post;
-
+import java.util.logging.*;
 /**
  *
  * @author luong
@@ -36,35 +36,49 @@ public class SearchPostController extends HttpServlet {
         String searchBy = request.getParameter("type");
         String searchContent = request.getParameter("content");
         String searchContent2 = request.getParameter("content2");
+        int pid = Integer.parseInt(searchContent);
         ArrayList<Post> list = new ArrayList<>();
-        switch (searchBy) {
-            case "purpose":
-                list = getPostByPurpose(searchContent);
-                break;
-            case "address":
-                list = getPostByAddress(searchContent);
-                break;
-            case "type":
-                list = getPostByTypeOfHouse(searchContent);
-                break;
-            case "user":
-                list = getPostByUser(searchContent);
-                break;
-            case "number":
-                list = getPostByNumberOfRoom(searchContent);
-                break;
-            case "price":
-                list = getPostByPrice(searchContent, searchContent2);
-                break;
-            case "area":
-                list = getPostByArea(searchContent, searchContent2);
-                break;
-        }
+        SearchDAO dao = new SearchDAO();
+        list = dao.getAllPostByPurPose(pid);
+//        int id=0;
+//        if (searchContent != null && !searchContent.isEmpty()) {
+//        try {
+//            id = Integer.parseInt(searchContent);
+//        } catch (NumberFormatException e) {
+//              Logger.getLogger(SearchPostController.class.getName()).log(Level.SEVERE, "Failed to parse integer", e);
+//        }
+//    }
+//        switch (searchBy) {
+//            case "purpose":
+//                list = getPostByPurpose(id);
+//                break;
+//            case "address":
+//                list = getPostByAddress(searchContent);
+//                break;
+//            case "type":
+//                list = getPostByTypeOfHouse(searchContent);
+//                break;
+//            case "user":
+//                list = getPostByUser(searchContent);
+//                break;
+//            case "number":
+//                list = getPostByNumberOfRoom(searchContent);
+//                break;
+//            case "price":
+//                list = getPostByPrice(searchContent, searchContent2);
+//                break;
+//            case "area":
+//                list = getPostByArea(searchContent, searchContent2);
+//                break;
+//            default:
+//               String msg = "unba bunga";
+//                
+//        }
         if(list.isEmpty()){
             request.setAttribute("msg", "No Post Found");
-            request.getRequestDispatcher("/views/post.jsp").forward(request, response);
+        }else{
+        request.setAttribute("post", list);
         }
-        request.setAttribute("list", list);
         request.getRequestDispatcher("/views/post.jsp").forward(request, response);
     }
 
@@ -107,10 +121,9 @@ public class SearchPostController extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    private ArrayList<Post> getPostByPurpose(String purpose_id) {
+    private ArrayList<Post> getPostByPurpose(int purpose_id) {
         SearchDAO dao = new SearchDAO();
-        int pid = Integer.parseInt(purpose_id);
-        return dao.getAllPostByPurPose(pid);
+        return dao.getAllPostByPurPose(purpose_id);
     }
 
     private ArrayList<Post> getPostByAddress(String address) {

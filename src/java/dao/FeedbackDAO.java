@@ -80,4 +80,22 @@ public class FeedbackDAO {
     }
         return false;
 }
+    public static boolean deleteFeedback(int feedback_id, int user_id){
+        try {
+            DBContext db = new DBContext();
+            Connection con = db.getConnection();
+            if(con != null){
+                String sql = "Delete from `feedback` where feedback_id ='" + feedback_id + "' and user_id = '" + user_id + "'";
+                 Statement st = con.createStatement();
+                int rows = st.executeUpdate(sql);
+                if (rows < 1) {
+                    throw new Exception();
+                }
+                return true;
+            }
+    }catch(Exception e){
+            System.out.println(e.getMessage());
+    }
+        return false;
+    }
 }
