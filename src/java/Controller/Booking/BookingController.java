@@ -5,18 +5,18 @@
 package Controller.Booking;
 
 import dao.BookingDAO;
-import dao.HouseDAO;
+import dao.UserDAO;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import java.sql.Date;
-import java.text.SimpleDateFormat;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import model.Booking;
-import model.House;
+import model.PaymentMethod;
+import model.Status;
 import model.User;
 
 /**
@@ -38,65 +38,90 @@ public class BookingController extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("account");
-
+        
+        if (user == null) {
+            response.sendRedirect("../logIn.jsp");
+            return;
+        }
+        
         try {
 
-            // Kiểm tra user null và điều hướng về trang đăng nhập nếu cần
-            if (user == null) {
-                response.sendRedirect("../logIn.jsp");
-                return;
-            }
-            String date = request.getParameter("date");
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            String postIdStr = request.getParameter("post_id");
+            int postId = Integer.parseInt(postIdStr);
+            String quantityOfPeople = request.getParameter("peoples");
+            int people = Integer.parseInt(quantityOfPeople);
 
-            // Chuyển đổi chuỗi thành java.util.Date
-            java.util.Date utilDate = dateFormat.parse(date);
-
-            // Chuyển đổi java.util.Date thành java.sql.Date
-            java.sql.Date meeting_date = new java.sql.Date(utilDate.getTime());
-            
-            String message = request.getParameter("message");
-            message = message.trim();
-            String house_id_str = request.getParameter("house_id");
-
-            int house_id = Integer.parseInt(house_id_str);
-            int user_id = user.getUser_id();
-
-            if (message.length() > 150) {
-                throw new Exception("Your mesage too long.");
+            if (people > 20 || people < 0) {
+                throw new Exception("Your quantity of people must less than 20 and greater than 0.");
             }
 
-            BookingDAO bookingDAO = new BookingDAO();
+            String paymentMethodStr = request.getParameter("payment_method");
+            int paymentMethod = Integer.parseInt(paymentMethodStr);
 
-            // Kiểm tra trùng lặp đặt phòng
-            if (bookingDAO.checkDuplicateBooking(house_id, user_id)) {
-                throw new Exception("You already booked this house.");
+            LocalDateTime currentDate = LocalDateTime.now();
+
+            String checkinDateStr = request.getParameter("check_in_date");
+            String checkinTimeStr = request.getParameter("check_in_time");
+
+            String checkoutDateStr = request.getParameter("check_out_date");
+            String checkoutTimeStr = request.getParameter("check_out_time");
+
+            String checkIntCombine = checkinDateStr + "T" + checkinTimeStr;
+            String checkOutStringCombine = checkoutDateStr + "T" + checkoutTimeStr;
+
+            LocalDateTime checkInDate = LocalDateTime.parse(checkIntCombine);
+            LocalDateTime checkOutDate = LocalDateTime.parse(checkOutStringCombine);
+
+            if (checkInDate.equals(currentDate)) {
+                throw new Exception("Your check-out date is not valid.");
+            } else {
+                Duration duration = Duration.between(currentDate, checkInDate);
+                long hour = duration.toHours();
+                if (hour < 1) {
+                    throw new Exception("Check-in time must be 1 hour greater than the time of booking");
+                }
             }
 
-            // Lấy ngày và giờ hiện tại
-            LocalDateTime currentDateTime = LocalDateTime.now();
-
-            HouseDAO houseDAO = new HouseDAO();
-            int house_owner_id = houseDAO.getOwnerId(house_id);
-
-            // Kiểm tra nếu người dùng là chủ nhà
-            if (user_id == house_owner_id) {
-                throw new Exception("You cannot book your own house.");
+            if (checkOutDate.isBefore(checkInDate) || checkOutDate.isEqual(checkInDate)) {
+                throw new Exception("Your check-out date is not valid.");
+            } else {
+                Duration duration = Duration.between(checkInDate, checkOutDate);
+                long hour = duration.toHours();
+                if (hour < 24) {
+                    throw new Exception("The minimum number of rental days is 1 day.");
+                }
             }
-            //set properties for booking order
-            Booking order = new Booking();
-            House house = new House();
-            house.setHouse_id(house_id);
-            
-            order.setHouse(house);
-            order.setUser(user);
-            order.setStatus_id(1);
-            order.setBooking_date(currentDateTime);
-            order.setMessage(message);
-            order.setMeeting_date(meeting_date);
-            
-            bookingDAO.addBooking(order);   
-            
+
+            Booking booking = new Booking();
+
+            Status bookingStatus = new Status();
+            bookingStatus.setStatus_id(1);
+
+            booking.setStatus(bookingStatus);
+            booking.setBooking_date(currentDate);
+            booking.setPost_id(postId);
+            booking.setCheck_in_date(checkInDate);
+            booking.setCheck_out_date(checkOutDate);
+            PaymentMethod payment = new PaymentMethod();
+            payment.setMethod_id(paymentMethod);
+            booking.setPayment_method(payment);
+            booking.setUser(user);
+
+            if (request.getParameter("note") != null) {
+                if (request.getParameter("note").length() < 100) {
+                    String note = request.getParameter("note").trim();
+                    booking.setNote(note);
+                } else {
+                    throw new Exception("Your note must less than 200 characters.");
+                }
+            } else {
+                String note = "";
+                booking.setNote(note);
+            }
+
+            BookingDAO bookingDao = new BookingDAO();
+            bookingDao.addBooking(booking);
+
             request.setAttribute("success", "Booking successfully.");
             request.getRequestDispatcher("../views/post.jsp").forward(request, response);
         } catch (Exception e) {
