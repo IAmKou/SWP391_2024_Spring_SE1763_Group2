@@ -108,7 +108,7 @@
                                 </tr>
                                 <tr>
                                     <td><strong>Status: </strong>${post.house_status.status_name}</td> 
-                                    <td></td>
+                                    <td><strong>House type: </strong>${post.house.type_of_house.type_of_house_name}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -120,8 +120,68 @@
                                 <c:if test="${post.purpose.purpose_id eq 2}">
                                     <button id="bookHouseBtn" class="btn btn-primary flex-grow-1 mb-2" data-bs-toggle="modal" data-bs-target="#bookingModal">Book house</button>
                                 </c:if>
+                                <c:if test="${post.purpose.purpose_id eq 1}">
+                                    <button id="bookHouseBtn" class="btn btn-primary flex-grow-1 mb-2" data-bs-toggle="modal" data-bs-target="#meetingModal">Get a tour house</button>
+                                </c:if>
                                 <button class="btn btn-primary flex-grow-1 mb-2" data-bs-toggle="modal" data-bs-target="#contactModal">Contact information</button>
                             </div>
+
+                            <!-- Modal for meeting -->
+                            <div id="meetingModal" class="modal fade modal-lg" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="bookingModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <div class="logo-container">
+                                                <img class="logo" src="${pageContext.request.contextPath}/images/demo/image-removebg-preview.png" alt="image"/>
+                                            </div>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form method="post" action="${pageContext.request.contextPath}/post/visit">
+                                                <input type="hidden" name="post_id" value="${post.post_id}">
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <div class="row mb-3">
+                                                            <div class="col-md-6">
+                                                                <label for="fullname" class="form-label">Full name:</label>    
+                                                                <input type="text" id="fullname" name="fullname" value="${sessionScope.account.full_name}" readonly class="form-control">
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <label for="email" class="form-label">Email:</label>
+                                                                <input type="email" id="email" name="email" value="${sessionScope.account.email}" readonly class="form-control">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group mb-3">
+                                                    <label for="customerPhone">Phone Number:</label>
+                                                    <input type="tel" class="form-control" id="customerPhone" value="${account.phone_number}" readonly>
+                                                </div>
+                                                <div class="form-group mb-3">
+                                                    <label for="meetingDate">Meeting Date:</label>
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <input type="date" class="form-control" id="meetingDate" name="meeting_date" required>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <input type="time" class="form-control" name="meeting_time" required>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="note">Note:</label>
+                                                    <textarea class="form-control" id="note" rows="5" name="note"></textarea>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="submit" class="btn btn-primary">Submit request</button>
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
                             <!-- Modal for booking -->
                             <div class="modal fade modal-lg" id="bookingModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="bookingModalLabel" aria-hidden="true">
                                 <div class="modal-dialog">
@@ -224,8 +284,8 @@
                     if (xhr.readyState === 4 && xhr.status === 200) {
                         var response = xhr.responseText;
                         if (response === "false") {
-                            window.location.href = 'logIn.jsp';
-                        } 
+                            window.location.href = '${pageContext.request.contextPath}/logIn.jsp';
+                        }
                     }
                 };
                 xhr.send();
@@ -234,8 +294,6 @@
             document.getElementById('bookHouseBtn').addEventListener('click', function () {
                 checkSession();
             });
-
-
         </script>
         <jsp:include page="footer.jsp"/>
     </body>

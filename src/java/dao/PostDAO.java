@@ -30,6 +30,24 @@ import model.User;
  * @author FPTSHOP
  */
 public class PostDAO {
+    
+    public int getOwnerPost(int post_id){
+        try {
+            String sql ="SELECT poster_id from post where post_id =?;";
+            DBContext db = new DBContext();
+            Connection con = db.getConnection();
+            PreparedStatement stm = con.prepareStatement(sql);
+            stm.setInt(1, post_id);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {                
+                int ownerPostId = rs.getInt("poster_id");
+                return ownerPostId;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(PostDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return -1;
+    }
     public Post getPostByHouseId(int house_id) {
         try {
             String sql = "SELECT \n"
@@ -141,8 +159,8 @@ public class PostDAO {
     public List<Post> getUserPost(int user_id) {
         List<Post> posts = new ArrayList<>();
         try {
-            String sql = "SELECT post.post_id, post.house_id,post.purpose_id, purpose.purpose_name, post.price, post.create_time,"
-                    + " house_status.status_name as 'house_status', \n"
+            String sql = "SELECT post.post_id, post.house_id,post.purpose_id, purpose.purpose_name, post.price, post.create_time,post.house_status,"
+                    + " house_status.status_name as 'house_status_name', \n"
                     + "post_status.status_name as'post_status', "
                     + "type_of_house.type_of_house_name, house.address as 'location', "
                     + "house.description,\n"
@@ -176,7 +194,8 @@ public class PostDAO {
                     type_of_house.setType_of_house_name(rs.getString("type_of_house_name"));
 
                     Status house_status = new Status();
-                    house_status.setStatus_name(rs.getString("house_status"));
+                    house_status.setStatus_id(rs.getInt("house_status"));
+                    house_status.setStatus_name(rs.getString("house_status_name"));
 
                     Status post_status = new Status();
                     post_status.setStatus_name(rs.getString("post_status"));

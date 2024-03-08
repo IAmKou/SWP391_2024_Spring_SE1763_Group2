@@ -86,6 +86,10 @@
         <servlet-name>CheckSessionServlet</servlet-name>
         <servlet-class>Controller.CheckSessionServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>VisitController</servlet-name>
+        <servlet-class>Controller.Booking.VisitController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>addNewPost</servlet-name>
         <url-pattern>/post/add</url-pattern>
@@ -136,7 +140,7 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>DeletePost</servlet-name>
-        <url-pattern>/post/delete</url-pattern>
+        <url-pattern>/post/toggleStatus</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>changeUserStatus</servlet-name>
@@ -168,6 +172,10 @@
     <servlet-mapping>
         <servlet-name>CheckSessionServlet</servlet-name>
         <url-pattern>/checkSession</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>VisitController</servlet-name>
+        <url-pattern>/post/visit</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

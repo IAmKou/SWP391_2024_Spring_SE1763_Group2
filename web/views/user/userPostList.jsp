@@ -23,30 +23,36 @@
             }
         </style>
         <script>
-            function confirmDelete(houseId) {
-                var confirmDelete = confirm("Are you sure for delete this post?");
-                if (confirmDelete) {
-                    deletePost(houseId);
-                }
-            }
-
-            function deletePost(houseId) {
+            function toggleHouseStatus(postId, currentStatus) {
+                alert('are you sure?');
+                // Tạo một đối tượng XMLHttpRequest để gửi yêu cầu AJAX
                 var xhr = new XMLHttpRequest();
-                var url = "../post/delete?house_id=" + houseId;
-                xhr.open("GET", url, true);
+
+                // Định nghĩa URL của API hoặc servlet để xử lý việc chuyển đổi trạng thái
+                var url = "${pageContext.request.contextPath}/post/toggleStatus";
+
+                // Định nghĩa dữ liệu cần gửi lên máy chủ (postId và currentStatus)
+                var data = "post_id=" + postId + "&current_status=" + currentStatus;
+
+                // Cấu hình yêu cầu HTTP
+                xhr.open("POST", url, true);
+                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
                 xhr.onreadystatechange = function () {
                     if (xhr.readyState === XMLHttpRequest.DONE) {
                         if (xhr.status === 200) {
-                            confirm("Delete successfully!");
+                            var response = xhr.responseText;
+                            alert("House status toggled successfully!");
                             location.reload();
                         } else {
-                            confirm("An error occur went delete post!");
+                            alert("Failed to toggle house status. Please try again later.");
                         }
                     }
                 };
-                xhr.send();
+                xhr.send(data);
             }
         </script>
+
     </head>
     <body>
         <jsp:include page="../header.jsp"/>
@@ -153,12 +159,15 @@
                                                         <p class="custom-card-text">
                                                             Time created: ${ownerPost.fommated_create_time}
                                                         </p>
+                                                        <p class="custom-card-text">
+                                                            Status: ${ownerPost.house_status.status_name}
+                                                        </p>
                                                     </div>
 
                                                     <div class="btn-group">
                                                         <a href="${pageContext.request.contextPath}/post/update?post_id=${ownerPost.post_id}" class="btn btn-outline-info">Update</a>
                                                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop_${ownerPost.post_id}">Overview</button>
-                                                        <button id="deleteButton" class="btn btn-danger" onclick="confirmDelete(${ownerPost.house.house_id})">Delete</button>
+                                                        <button type="button" onclick="toggleHouseStatus(${ownerPost.post_id}, ${ownerPost.house_status.status_id})" class="btn btn-outline-danger">Toggle Status</button>
                                                     </div>
                                                     <!-- Modal -->
                                                     <div class="modal fade" id="staticBackdrop_${ownerPost.post_id}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">

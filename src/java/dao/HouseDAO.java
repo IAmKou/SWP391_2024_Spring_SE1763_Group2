@@ -20,48 +20,23 @@ import model.House;
  */
 public class HouseDAO extends DBContext {
 
-    public void deleteHouse(int house_id) {
+    public void updateHouseStatus(int postId, int statusId) {
         try {
-            String sql = "DELETE FROM `house_finder_project`.`house`\n"
-                    + "WHERE house.house_id = ?;";
+            String sql = "UPDATE `house_finder_project`.`post`\n"
+                    + "SET\n"
+                    + "`house_status` = ?\n"
+                    + "WHERE `post_id` = ?;";
             DBContext db = new DBContext();
             Connection con = db.getConnection();
             PreparedStatement stm = con.prepareStatement(sql);
-            stm.setInt(1, house_id);
+            stm.setInt(1, statusId);
+            stm.setInt(2, postId);
             stm.executeUpdate();
 
             con.close();
         } catch (SQLException ex) {
             Logger.getLogger(HouseDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-    }
-
-    public int getOwnerId(int house_id) {
-        try {
-            String sql = "SELECT \n"
-                    + "    `house`.`house_owner_id`\n"
-                    + "FROM `house_finder_project`.`house`"
-                    + "where house_id = ?;";
-            DBContext db = new DBContext();
-            Connection con = db.getConnection();
-            PreparedStatement stm = con.prepareStatement(sql);
-            stm.setInt(1, house_id);
-            ResultSet rs = stm.executeQuery();
-            if (rs.next()) {
-                int house_owner_id = rs.getInt("house_owner_id");
-
-                rs.close();
-                stm.close();
-                con.close();
-
-                return house_owner_id;
-            }
-
-        } catch (SQLException ex) {
-            Logger.getLogger(HouseDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return -1;
     }
 
     public House getHouseByPostID(int post_id) {
@@ -200,7 +175,7 @@ public class HouseDAO extends DBContext {
             DBContext db = new DBContext();
             Connection con = db.getConnection();
             PreparedStatement stm = con.prepareStatement(sql);
-         
+
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
                 n++;

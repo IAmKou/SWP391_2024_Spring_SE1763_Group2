@@ -5,7 +5,7 @@
 package Controller.Booking;
 
 import dao.BookingDAO;
-import dao.UserDAO;
+import dao.PostDAO;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
@@ -38,16 +38,24 @@ public class BookingController extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("account");
-        
-        if (user == null) {
-            response.sendRedirect("../logIn.jsp");
-            return;
-        }
-        
+
         try {
+            BookingDAO bookingDao = new BookingDAO();
 
             String postIdStr = request.getParameter("post_id");
             int postId = Integer.parseInt(postIdStr);
+
+            PostDAO postDao = new PostDAO();
+            int owner_house = postDao.getOwnerPost(postId);
+
+            if (user.getUser_id() == owner_house) {
+                throw new Exception("You cannot book your own house.");
+            }
+
+            if (bookingDao.checkDuplicateBooking(user.getUser_id(), postId)) {
+                throw new Exception("You already book this house.");
+            }
+
             String quantityOfPeople = request.getParameter("peoples");
             int people = Integer.parseInt(quantityOfPeople);
 
@@ -77,8 +85,8 @@ public class BookingController extends HttpServlet {
             } else {
                 Duration duration = Duration.between(currentDate, checkInDate);
                 long hour = duration.toHours();
-                if (hour < 1) {
-                    throw new Exception("Check-in time must be 1 hour greater than the time of booking");
+                if (hour < 12) {
+                    throw new Exception("Check-in time must be 12 hour greater than the time of booking");
                 }
             }
 
@@ -119,7 +127,6 @@ public class BookingController extends HttpServlet {
                 booking.setNote(note);
             }
 
-            BookingDAO bookingDao = new BookingDAO();
             bookingDao.addBooking(booking);
 
             request.setAttribute("success", "Booking successfully.");

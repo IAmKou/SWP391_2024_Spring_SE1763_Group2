@@ -30,20 +30,19 @@ public class DeletePost extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        String house_id_str = request.getParameter("house_id");
-        int house_id = Integer.parseInt(house_id_str);
+        String postIdStr = request.getParameter("post_id");
+        int postId = Integer.parseInt(postIdStr);
         
-        PostDAO postDAO = new PostDAO();
-        postDAO.deletePostByHouseID(house_id);
+        String statusIdStr = request.getParameter("current_status");
+        int statusId = Integer.parseInt(statusIdStr);
         
-        ImageDAO imageDAO = new ImageDAO();
-        imageDAO.deleteImages(house_id);
+        HouseDAO houseDao = new  HouseDAO();
         
-        BookingDAO bookingDAO = new BookingDAO();
-        bookingDAO.deleteBookingByHouseID(house_id);
-        
-        HouseDAO houseDAO = new HouseDAO();
-        houseDAO.deleteHouse(house_id);
+        if(statusId == 4){
+            houseDao.updateHouseStatus(postId, 5);
+        }else{
+            houseDao.updateHouseStatus(postId, 4);
+        }        
                 
     } 
 

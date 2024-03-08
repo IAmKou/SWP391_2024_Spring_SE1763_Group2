@@ -7,6 +7,7 @@ package dao;
 import Context.DBContext;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,6 +19,9 @@ import model.Booking;
  */
 public class BookingDAO extends DBContext {
 
+    public void changeStatus(){
+        
+    }
     public void addBooking(Booking booking) {
         try {
             String sql = "INSERT INTO `house_finder_project`.`booking`\n"
@@ -42,9 +46,9 @@ public class BookingDAO extends DBContext {
             stm.setObject(6, booking.getCheck_in_date());
             stm.setObject(7, booking.getCheck_out_date());
             stm.setInt(8, booking.getPayment_method().getMethod_id());
-            
+
             stm.executeUpdate();
-            
+
             con.close();
         } catch (SQLException ex) {
             Logger.getLogger(BookingDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -52,4 +56,25 @@ public class BookingDAO extends DBContext {
 
     }
 
+    public boolean checkDuplicateBooking(int customerId, int postId) {
+        boolean isExist = false;
+        try {
+            String sql = "SELECT COUNT(*) AS duplicates\n"
+                    + "FROM house_finder_project.booking\n"
+                    + "WHERE user_id = ? AND post_id = ? AND booking_status = 1;";
+            DBContext db = new DBContext();
+            Connection con = db.getConnection();
+            PreparedStatement stm = con.prepareStatement(sql);
+            stm.setInt(1, customerId);
+            stm.setInt(2, postId);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                int count = rs.getInt("duplicates");
+                isExist = count > 0;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(BookingDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return isExist;
+    }
 }
