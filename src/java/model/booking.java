@@ -24,6 +24,17 @@ public class Booking {
     private LocalDateTime check_out_date;
     private String fomatted_check_out_date;
     private PaymentMethod payment_method;
+    private int quantityOfpeople;
+
+    public int getQuantityOfpeople() {
+        return quantityOfpeople;
+    }
+
+    public void setQuantityOfpeople(int quantityOfpeople) {
+        this.quantityOfpeople = quantityOfpeople;
+    }
+    
+    
 
     public Booking() {
     }

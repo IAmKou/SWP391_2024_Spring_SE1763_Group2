@@ -14,6 +14,19 @@
         <script src="${pageContext.request.contextPath}/layout/bootstrap-5.3.2-dist/js/bootstrap.bundle.min.js"></script>
         <link rel="stylesheet" href="${pageContext.request.contextPath}/layout/styles/profile.css"/>
         <title>Customer Request</title>
+        <style>
+            .modal-header {
+                background-color: black;
+                display: flex; /* Sử dụng flexbox để căn chỉnh phần tử con */
+                justify-content: center; /* Canh giữa theo chiều ngang */
+                align-items: center; /* Canh giữa theo chiều dọc */
+            }
+
+            .logo-container {
+                flex: 1; /* Phần tử chứa logo sẽ mở rộng để lấp đầy không gian trống */
+                text-align: center; /* Canh giữa logo trong phần tử cha */
+            }
+        </style>
     </head>
     <body>
         <jsp:include page="../header.jsp"/>
@@ -50,7 +63,36 @@
                                             <label for="date">Booking Date:</label>
                                             <input type="date" class="form-control" id="date" name="date">
                                         </div>
+
                                     </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="customer">Customer Name:</label>
+                                            <select class="form-control" id="customer" name="customer_name">
+                                                <option value="">Select Customer</option>
+                                                <c:set var="seenNames" value="" />
+                                                <c:forEach items="${requests}" var="order">
+                                                    <c:choose>
+                                                        <c:when test="${order.booking != null && order.booking.user != null}">
+                                                            <c:if test="${not seenNames.contains(order.booking.user.full_name)}">
+                                                                <c:set var="seenNames" value="${seenNames},${order.booking.user.full_name}" />
+                                                                <option value="${order.booking.user.full_name}">${order.booking.user.full_name}</option>
+                                                            </c:if>
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <c:if test="${not seenNames.contains(order.meeting.customer.full_name)}">
+                                                                <c:set var="seenNames" value="${seenNames},${order.meeting.customer.full_name}" />
+                                                                <option value="${order.meeting.customer.full_name}">${order.meeting.customer.full_name}</option>
+                                                            </c:if>
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                </c:forEach>
+                                            </select>
+                                        </div>
+                                    </div>
+
+
+
                                     <div class="col-md-3 align-self-end btn-group">
                                         <button type="submit" class="btn btn-primary">Apply Filters</button>
                                         <div class="btn btn-info">
@@ -59,41 +101,102 @@
                                             <path d="M8 0a2 2 0 0 0-2 2H3.5a2 2 0 0 0-2 2v1c0 .52.198.993.523 1.349A.5.5 0 0 0 2 6.5V14a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V6.5a.5.5 0 0 0-.023-.151c.325-.356.523-.83.523-1.349V4a2 2 0 0 0-2-2H10a2 2 0 0 0-2-2m0 1a1 1 0 0 0-1 1h2a1 1 0 0 0-1-1M3 14V6.937q.24.062.5.063h4v.5a.5.5 0 0 0 1 0V7h4q.26 0 .5-.063V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1m9.5-11a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1h-9a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/>
                                             </svg> ${totalRequest}${fillterTotalRequest}
                                         </div>
-
                                     </div>
                                 </div>
                             </form>
                             <c:if test="${not empty requests}">
                                 <div class="row">
-                                    <c:forEach items="${requests}" var="request">
-                                        <div class="col-md-5 m-2 card">
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <div class="row">
-                                                        <div class="col-md-8">
-                                                            <p class="custom-card-text">Booking ID: ${request.booking_id}</p>
-                                                            <p class="custom-card-text">Booking Date: ${request.fommatted_booking_date}</p>
-                                                        </div>
-                                                        <div class="col-md-4 mt-1">
-                                                            <button class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#staticBackdrop_${request.booking_id}">View Detail</button>
-
-                                                            <!-- Modal -->
-                                                            <div class="modal fade" id="staticBackdrop_${request.booking_id}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered ">
+                                            <thead>
+                                                <tr class="center">
+                                                    <th>Customer Name</th>
+                                                    <th>Booking Date</th>
+                                                    <th>Type</th>
+                                                    <th>View</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <c:forEach items="${requests}" var="request">
+                                                    <tr >
+                                                        <td class="center">${request.booking.user.getFull_name()}${request.meeting.customer.getFull_name()}</td>
+                                                        <td class="center">${request.booking.getFommatted_booking_date()}${request.meeting.getFommattedBookingDate()}</td>
+                                                        <td class="center">
+                                                            <c:choose>
+                                                                <c:when test="${request.booking.getFommatted_booking_date() eq null}">
+                                                                    Visiting
+                                                                </c:when>
+                                                                <c:otherwise>
+                                                                    Booking
+                                                                </c:otherwise>
+                                                            </c:choose>
+                                                        </td>
+                                                        <td>
+                                                            <div class="d-flex justify-content-center">
+                                                                <div class="btn-group">
+                                                                    <button class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#staticBackdrop_${request.booking.getBooking_id()}">View Detail</button>
+                                                                    <a href="${pageContext.request.contextPath}/view?post_id=<c:choose><c:when test="${request.booking.getFommatted_booking_date() eq null}">${request.meeting.getPostId()}</c:when><c:otherwise>${request.booking.getPost_id()}</c:otherwise></c:choose>" class="btn btn-outline-info">View House</a>
+                                                                        </div>
+                                                                    </div>        
+                                                                    <!-- Modal -->
+                                                                        <div class="modal fade" id="staticBackdrop_${request.booking.getBooking_id()}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                                                                 <div class="modal-dialog">
                                                                     <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                            <div class="logo-container">
+                                                                                <img class="logo" src="${pageContext.request.contextPath}/images/demo/image-removebg-preview.png" alt="image"/>
+                                                                            </div>
+                                                                        </div>
                                                                         <div class="modal-body">
-                                                                            <h5 class="card-title fs-4 text-primary mb-3 custom-card-title" ><i class="fas fa-map-marker-alt mr-2"></i> ${request.house.location}</h5>
-                                                                            <p class="custom-card-text">Booking ID: ${request.booking_id}</p>
-                                                                            <p class="custom-card-text">Booking date: ${request.fommatted_booking_date}</p>
-                                                                            <p class="custom-card-text">Meeting date: ${request.meeting_date}</p>
-                                                                            <p class="custom-card-text">Customer name: ${request.user.full_name}</p>
-                                                                            <p class="custom-card-text">Message:</p>
-                                                                            <textarea class="card" rows="5" style="background-color: #0069d9; width: 100%; color: white" readonly>${request.message}</textarea>
-                                                                            <details>
-                                                                                <summary class="custom-card-text">Contact information</summary><br>
-                                                                                <p class="custom-card-text"><i class="fas fa-phone" style="color: blue;"></i> ${request.user.phone_number}</p>
-                                                                                <p class="custom-card-text"><i class="fas fa-envelope" style="color: red;"></i> ${request.user.email}</p>
-                                                                            </details>
+                                                                            <div class="bg-dark text-white p-1 rounded center h4">Customer Information</div>
+                                                                            <div class="form-group mb-3">
+                                                                                <label for="customerName">Customer name:</label>
+                                                                                <input type="text" class="form-control" id="customerName" value="${request.booking.getUser().getFull_name()}${request.meeting.getCustomer().getFull_name()}" readonly>
+                                                                            </div>
+                                                                            <div class="form-group mb-3">
+                                                                                <label for="phoneNumber"><i class="fas fa-phone" style="color: blue;"></i> Phone number:</label>
+                                                                                <input type="text" class="form-control" id="phoneNumber" value="${request.booking.getUser().getPhone_number()}${request.meeting.getCustomer().getPhone_number()}" readonly>
+                                                                            </div>
+                                                                            <div class="form-group mb-3">
+                                                                                <label for="email"><i class="fas fa-envelope" style="color: red;"></i> Email:</label>
+                                                                                <input type="text" class="form-control" id="email" value="${request.booking.getUser().getEmail()}${request.meeting.getCustomer().getEmail()}" readonly>
+                                                                            </div>
+                                                                            <div class="bg-dark text-white p-1 rounded center h4">Order Information</div>
+                                                                            <c:choose>
+                                                                                <c:when test="${request.meeting.customer.getFull_name() ne null}">
+                                                                                    <div class="form-group mb-3">
+                                                                                        <label for="bookingDate">Booking date:</label>
+                                                                                        <input type="text" class="form-control" id="bookingDate" value="${request.meeting.getFommattedBookingDate()}" readonly>
+                                                                                    </div>
+                                                                                    <div class="form-group mb-3">
+                                                                                        <label for="meetingDate">Meeting date:</label>
+                                                                                        <input type="text" class="form-control" id="meetingDate" value="${request.meeting.getFommattedMeetingDate()}" readonly>
+                                                                                    </div>
+                                                                                </c:when>
+                                                                                <c:otherwise>
+                                                                                    <div class="form-group mb-3">
+                                                                                        <label for="bookingDate">Booking date:</label>
+                                                                                        <input type="text" class="form-control" id="bookingDate" value="${request.booking.getFommatted_booking_date()}" readonly>
+                                                                                    </div>
+                                                                                    <div class="form-group mb-3">
+                                                                                        <label for="checkInDate">Check-in date:</label>
+                                                                                        <input type="text" class="form-control" id="checkInDate" value="${request.booking.getFomatted_check_in_date()}" readonly>
+                                                                                    </div>
+                                                                                    <div class="form-group mb-3">
+                                                                                        <label for="checkOutDate">Check-out date:</label>
+                                                                                        <input type="text" class="form-control" id="checkOutDate" value="${request.booking.getFomatted_check_out_date()}" readonly>
+                                                                                    </div>
+                                                                                    <div class="form-group mb-3">
+                                                                                        <label for="quantityOfPeople">Quantity of people:</label>
+                                                                                        <input type="text" class="form-control" id="quantityOfPeople" value="${request.booking.getQuantityOfpeople()}" readonly>
+                                                                                    </div>
+                                                                                </c:otherwise>
+                                                                            </c:choose>
+                                                                            <div class="form-group mb-3">
+                                                                                <label for="message">Note:</label>
+                                                                                <textarea class="form-control" rows="5" id="message"readonly>${request.booking.getNote()}${request.meeting.getNote()}</textarea>
+                                                                            </div>
                                                                         </div>
                                                                         <div class="modal-footer">
                                                                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -101,19 +204,23 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class=" col-md-12 btn-group mb-1">
-                                                    <button class="btn btn-success">Accept</button>
-                                                    <button class="btn btn-danger">Refuse</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </c:forEach>
+                                                        </td>
+                                                        <td>
+                                                            <div class="d-flex justify-content-center">
+                                                                <div class="btn-group">
+                                                                    <button class="btn btn-success">Accept</button>
+                                                                    <button class="btn btn-danger">Cancel</button>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </c:forEach>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                                 <!-- Hiển thị các nút điều hướng phân trang -->
-                                <c:if test="${FillterTotalPages}">
+                                <c:if test="${not empty fillterTotalPages}">
                                     <nav aria-label="Page navigation example" class="m-3">
                                         <ul class="pagination">
                                             <li class="page-item">
@@ -122,7 +229,7 @@
                                                     <span class="sr-only">Previous</span>
                                                 </a>
                                             </li>
-                                            <c:forEach begin="1" end="${FillterTotalPages}" var="page">
+                                            <c:forEach begin="1" end="${fillterTotalPages}" var="page">
                                                 <c:set var="activeClass" value="" />
                                                 <c:if test="${currentPage eq page}">
                                                     <c:set var="activeClass" value="active" />
@@ -172,7 +279,7 @@
                     </div>
                 </div>
             </div>
-            <jsp:include page="../footer.jsp"/>
         </div>
+        <jsp:include page="../footer.jsp"/>
     </body>
 </html>

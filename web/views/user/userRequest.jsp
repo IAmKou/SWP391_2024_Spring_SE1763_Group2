@@ -13,6 +13,19 @@
         <title>JSP Page</title>
         <link rel="stylesheet" href="${pageContext.request.contextPath}/layout/bootstrap-5.3.2-dist/css/bootstrap.min.css"/>
         <script src="${pageContext.request.contextPath}/layout/bootstrap-5.3.2-dist/js/bootstrap.bundle.min.js"></script>
+        <style>
+            .modal-header {
+                background-color: black;
+                display: flex; /* Sử dụng flexbox để căn chỉnh phần tử con */
+                justify-content: center; /* Canh giữa theo chiều ngang */
+                align-items: center; /* Canh giữa theo chiều dọc */
+            }
+
+            .logo-container {
+                flex: 1; /* Phần tử chứa logo sẽ mở rộng để lấp đầy không gian trống */
+                text-align: center; /* Canh giữa logo trong phần tử cha */
+            }
+        </style>
     </head>
     <body>
         <jsp:include page="../header.jsp"/>
@@ -58,7 +71,9 @@
                                             <select name="status" class="form-control">
                                                 <option value="">Select Status</option>
                                                 <c:forEach items="${statuses}" var="status">
-                                                    <option value="${status.status_id}">${status.status_name}</option>
+                                                    <c:if test="${status.status_id ne 7 && status.status_id ne 4 && status.status_id ne 5}">
+                                                        <option value="${status.status_id}">${status.status_name}</option>
+                                                    </c:if>
                                                 </c:forEach>
                                             </select>
 
@@ -78,44 +93,146 @@
                             </form>
                             <!--this is for view booking of user-->
                             <c:if test="${not empty bookings}">
-                                <div class="row">
-                                    <c:forEach items="${bookings}" var="booking">
-                                        <div class="col-md-5 m-2 card">
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <div class="row">
-                                                        <div class="col-md-8">
-                                                            <p class="custom-card-text">Booking ID: ${booking.booking_id}</p>
-                                                            <p class="custom-card-text">Booking Date: ${booking.fommatted_booking_date}</p>
+                                <div class="container">
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr class="center">
+                                                <th>House Location</th>
+                                                <th>Booking Date</th>
+                                                <th>Type</th>
+                                                <th>Status</th>
+                                                <th>View</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <c:forEach items="${bookings}" var="booking">
+                                                <tr>
+                                                    <td>
+                                                        <c:set var="printed" value="false" />
+                                                        <c:forEach items="${posts}" var="post">
+                                                            <c:if test="${!printed && (post.post_id eq booking.booking.getPost_id() || post.post_id eq booking.meeting.getPostId())}">
+                                                                ${post.house.location}
+                                                                <c:set var="printed" value="true" />
+                                                            </c:if>
+                                                        </c:forEach>
+
+                                                    </td>
+                                                    <td class="center">${booking.booking.getFommatted_booking_date()}${booking.meeting.getFommattedBookingDate()}</td>
+                                                    <td class="center">
+                                                        <c:choose>
+                                                            <c:when test="${booking.booking.getFommatted_booking_date() eq null}">
+                                                                Visiting
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                Booking
+                                                            </c:otherwise>
+                                                        </c:choose>
+                                                    </td>
+                                                    <td class="center">
+                                                        ${booking.booking.getStatus().getStatus_name()}
+                                                        ${booking.meeting.getMeetingStatus().getStatus_name()}
+                                                    </td>
+                                                    <td>
+                                                        <div class="btn-group center">
+                                                            <button type="button" class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#staticBackdrop_${booking.booking.getBooking_id()}">View Detail</button>
+                                                            <a href="${pageContext.request.contextPath}/view?post_id=<c:choose><c:when test="${booking.booking.getFommatted_booking_date() eq null}">${booking.meeting.getPostId()}</c:when><c:otherwise>${booking.booking.getPost_id()}</c:otherwise></c:choose>" class="btn btn-outline-info">View House</a>
+                                                                </div>
+                                                                <!-- Modal -->
+                                                                    <div class="modal fade" id="staticBackdrop_${booking.booking.getBooking_id()}" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                                            <div class="modal-dialog" role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <img class="logo" src="${pageContext.request.contextPath}/images/demo/image-removebg-preview.png" alt="image"/>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <div class="bg-dark text-white p-1 rounded center h4">Order Information</div>
+                                                                        <c:choose>
+                                                                            <c:when test="${booking.meeting.getFommattedBookingDate() ne null}">
+                                                                                <div class="form-group mb-3 ">
+                                                                                    <label for="location">House Location:</label>
+                                                                                    <c:set var="printed" value="false" />
+                                                                                    <c:forEach items="${posts}" var="post">
+                                                                                        <c:if test="${!printed && (post.post_id eq booking.booking.getPost_id() || post.post_id eq booking.meeting.getPostId())}">
+                                                                                            <input type="text" class="form-control" id="location" value="${post.house.location}" readonly>
+                                                                                            <c:set var="printed" value="true" />
+
+                                                                                        </div>
+                                                                                        <div class="form-group mb-3">
+                                                                                            <label for="bookingDate">Booking date:</label>
+                                                                                            <input type="text" class="form-control" id="bookingDate" value="${booking.meeting.getFommattedBookingDate()}" readonly>
+                                                                                        </div>
+                                                                                        <div class="form-group mb-3">
+                                                                                            <label for="meetingDate">Meeting date:</label>
+                                                                                            <input type="text" class="form-control" id="meetingDate" value="${booking.meeting.getFommattedMeetingDate()}" readonly>
+                                                                                        </div>
+                                                                                        <div class="form-group mb-3">
+                                                                                            <label for="message">Note:</label>
+                                                                                            <textarea class="form-control" rows="5" id="message"readonly>${request.meeting.getNote()}</textarea>
+                                                                                        </div>
+                                                                                        <div class="bg-dark text-white p-1 rounded center h4">Contact Information</div>
+                                                                                        <div class="form-group mb-3">
+                                                                                            <label for="email">Email:</label>
+                                                                                            <input type="text" class="form-control" id="email" value="${post.house.house_owner.email}" readonly>
+                                                                                            <label for="phone_number">Phone Number:</label>
+                                                                                            <input type="text" class="form-control" id="phone_number" value="${post.house.house_owner.phone_number}" readonly>
+                                                                                        </div>
+                                                                                    </c:if>
+                                                                                </c:forEach>
+                                                                            </c:when>
+                                                                            <c:otherwise>
+                                                                                <div class="form-group mb-3">
+                                                                                    <label for="location">House Location:</label>
+                                                                                    <c:set var="printed" value="false" />
+                                                                                    <c:forEach items="${posts}" var="post">
+                                                                                        <c:if test="${!printed && (post.post_id eq booking.booking.getPost_id() || post.post_id eq booking.meeting.getPostId())}">
+                                                                                            <input type="text" class="form-control" id="location" value="${post.house.location}" readonly>
+                                                                                            <c:set var="printed" value="true" />
+
+                                                                                        </div>
+                                                                                        <div class="form-group mb-3">
+                                                                                            <label for="bookingDate">Booking date:</label>
+                                                                                            <input type="text" class="form-control" id="bookingDate" value="${booking.booking.getFommatted_booking_date()}" readonly>
+                                                                                        </div>
+                                                                                        <div class="form-group mb-3">
+                                                                                            <label for="checkInDate">Check-in date:</label>
+                                                                                            <input type="text" class="form-control" id="checkInDate" value="${booking.booking.getFomatted_check_in_date()}" readonly>
+                                                                                        </div>
+                                                                                        <div class="form-group mb-3">
+                                                                                            <label for="checkOutDate">Check-out date:</label>
+                                                                                            <input type="text" class="form-control" id="checkOutDate" value="${booking.booking.getFomatted_check_out_date()}" readonly>
+                                                                                        </div>
+                                                                                        <div class="form-group mb-3">
+                                                                                            <label for="quantityOfPeople">Quantity of people:</label>
+                                                                                            <input type="text" class="form-control" id="quantityOfPeople" value="${booking.booking.getQuantityOfpeople()}" readonly>
+                                                                                        </div>
+                                                                                        <div class="form-group mb-3">
+                                                                                            <label for="message">Note:</label>
+                                                                                            <textarea class="form-control" rows="5" id="message"readonly>${request.booking.getNote()}</textarea>
+                                                                                        </div>
+                                                                                        <div class="bg-dark text-white p-1 rounded center h4">Contact Information</div>
+                                                                                        <div class="form-group mb-3">
+                                                                                            <label for="email">Email:</label>
+                                                                                            <input type="text" class="form-control" id="email" value="${post.house.house_owner.email}" readonly>
+                                                                                            <label for="phone_number">Phone Number:</label>
+                                                                                            <input type="text" class="form-control" id="phone_number" value="${post.house.house_owner.phone_number}" readonly>
+                                                                                        </div>
+                                                                                    </c:if>
+                                                                                </c:forEach>
+                                                                            </c:otherwise>
+                                                                        </c:choose>
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
                                                         </div>
-                                                        <div class="col-md-4 mt-1">
-                                                            <a href="${pageContext.request.contextPath}/view?house_id=${booking.house.house_id}" class="btn btn-secondary">View detail</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <c:forEach items="${statuses}" var="status">
-                                                    <c:if test="${booking.status_id == status.status_id}">
-                                                        <c:if test="${booking.status_id == 1}">
-                                                            <div class="col-md-12 btn mb-1" style="background-color: #a7b9b1">
-                                                                ${status.status_name}
-                                                            </div>
-                                                        </c:if>
-                                                        <c:if test="${booking.status_id == 2}">
-                                                            <div class="col-md-12 btn mb-1" style="background-color: #146c43">
-                                                                ${status.status_name}
-                                                            </div>
-                                                        </c:if>
-                                                        <c:if test="${booking.status_id == 3}">
-                                                            <div class="col-md-12 btn mb-1" style="background-color: #DB4A39">
-                                                                ${status.status_name}
-                                                            </div>
-                                                        </c:if>
-                                                    </c:if>
-                                                </c:forEach>
-                                            </div>
-                                        </div>
-                                    </c:forEach>
+                                                    </td>
+
+                                                </tr>
+                                            </c:forEach>
+                                        </tbody>
+                                    </table>
                                 </div>
+
                                 <!-- Hiển thị các nút điều hướng phân trang -->
                                 <c:if test="${not empty fillterTotalPages}">
                                     <nav aria-label="Page navigation example" class="m-3">

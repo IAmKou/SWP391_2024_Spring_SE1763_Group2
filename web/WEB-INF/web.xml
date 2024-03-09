@@ -56,7 +56,7 @@
     </servlet>
     <servlet>
         <servlet-name>DeletePost</servlet-name>
-        <servlet-class>Controller.Post.DeletePost</servlet-class>
+        <servlet-class>Controller.Post.ChangePostStatus</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>changeUserStatus</servlet-name>

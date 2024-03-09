@@ -5,10 +5,7 @@
 
 package Controller.Post;
 
-import dao.BookingDAO;
 import dao.HouseDAO;
-import dao.ImageDAO;
-import dao.PostDAO;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
@@ -19,7 +16,7 @@ import jakarta.servlet.http.HttpServletResponse;
  *
  * @author FPTSHOP
  */
-public class DeletePost extends HttpServlet {
+public class ChangePostStatus extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.

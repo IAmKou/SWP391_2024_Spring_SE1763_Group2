@@ -4,7 +4,7 @@
  */
 package Controller.Post;
 
-import dao.BookingDAO;
+import dao.OrderDAO;
 import dao.StatusDAO;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
@@ -14,7 +14,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.util.List;
 import model.User;
-import model.Booking;
+import model.Order;
 import model.Status;
 
 /**
@@ -37,8 +37,8 @@ public class ViewRequest extends HttpServlet {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("account");
 
-        int currentPage = 1; // Trang hiện tại, mặc định là 1
-        int recordsPerPage = 6; // Số lượng booking trên mỗi trang
+        int currentPage = 1; 
+        int recordsPerPage = 10; 
 
         // Xác định trang hiện tại từ tham số "page" của request
         if (request.getParameter("page") != null) {
@@ -50,9 +50,9 @@ public class ViewRequest extends HttpServlet {
             }
         }
 
-        BookingDAO bookingDAO = new BookingDAO();
-        List<Booking> allBookings = bookingDAO.getListBookingInformation(user.getUser_id());
-        int totalBookings = allBookings.size();
+        OrderDAO orderDao = new OrderDAO();
+        List<Order> allOrders = orderDao.getOrderListByOwnerHouse(user.getUser_id());
+        int totalBookings = allOrders.size();
         int totalPages = (int) Math.ceil((double) totalBookings / recordsPerPage);
 
         // Kiểm tra nếu currentPage vượt quá totalPages, đặt lại currentPage là totalPages
@@ -63,14 +63,14 @@ public class ViewRequest extends HttpServlet {
         int start = (currentPage - 1) * recordsPerPage;
         int end = Math.min(currentPage * recordsPerPage, totalBookings);
 
-        List<Booking> bookings = allBookings.subList(start, end);
+        List<Order> orders = allOrders.subList(start, end);
         
         StatusDAO statusDAO = new StatusDAO();
         List<Status> statuses = statusDAO.getStatus();
         
         request.setAttribute("statuses", statuses);
-        request.setAttribute("requests", bookings);
-        request.setAttribute("totalRequest", allBookings.size());
+        request.setAttribute("requests", orders);
+        request.setAttribute("totalRequest", allOrders.size());
         request.setAttribute("totalPages", totalPages);
         request.setAttribute("currentPage", currentPage);
         request.getRequestDispatcher("../views/user/customerRequest.jsp").forward(request, response);
