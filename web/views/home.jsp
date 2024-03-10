@@ -26,7 +26,7 @@
                     <form class="group" method="get" action="SearchPostController">
                         <fieldset>
                             <legend>Sign-Up:</legend>
-                            <input type="text" name="searchContent" placeholder="Search smth">
+                            <input type="text" name="content" placeholder="Search smth">
                             <button type="submit">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
                                 <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
@@ -35,6 +35,7 @@
                             <select class="form-select" name="type">
                                 <option value="address">Address</option>
                                 <option value="number">Number Of Room</option>
+                                <option value="user">House owner</option>
                             </select>
                         </fieldset>
                     </form>
