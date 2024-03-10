@@ -16,16 +16,26 @@ public class feedback {
     private int user_id;
     private LocalDateTime created_at;
     private String content;
-
+    private String image_link;
+    
     public feedback() {
     }
 
-    public feedback(int feedback_id, int post_id, int user_id, LocalDateTime created_at, String content) {
+    public feedback(int feedback_id, int post_id, int user_id, LocalDateTime created_at, String content, String image_link) {
         this.feedback_id = feedback_id;
         this.post_id = post_id;
         this.user_id = user_id;
         this.created_at = created_at;
         this.content = content;
+        this.image_link = image_link;
+    }
+
+    public void setImage_link(String image_link) {
+        this.image_link = image_link;
+    }
+
+    public String getImage_link() {
+        return image_link;
     }
 
     public String getContent() {
