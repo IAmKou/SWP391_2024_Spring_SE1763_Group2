@@ -76,6 +76,7 @@ public class SearchPostController extends HttpServlet {
                     cardList.put(p, h);
                 }
             }
+            request.setAttribute("type", searchBy);
             request.setAttribute("current", searchContent);
             request.setAttribute("num", cardList.size());
             request.setAttribute("cardList", cardList);
@@ -139,7 +140,10 @@ public class SearchPostController extends HttpServlet {
 
     private ArrayList<Post> getPostByNumberOfRoom(String num) {
         SearchDAO dao = new SearchDAO();
-        int numroom = Integer.parseInt(num);
+        int numroom = 0;
+        if (!num.isEmpty() && num != null){
+        numroom = Integer.parseInt(num);
+        }
         return dao.getAllPosyByNumberOfRoom(numroom);
     }
 }
