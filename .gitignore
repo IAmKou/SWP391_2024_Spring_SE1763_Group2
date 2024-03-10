@@ -1,3 +1,6 @@
 /nbproject/private/
 /build/
 /dist/
+nbproject/build-impl.xml
+nbproject/project.properties
+src/java/Context/DBContext.java
