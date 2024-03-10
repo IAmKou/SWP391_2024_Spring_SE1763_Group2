@@ -226,13 +226,14 @@ public class PostDAO {
                     post.setHouse_status(house_status);
                     post.setPost_status(post_status);
                     post.setPurpose(purpose);
+                    post.setStart_time(rs.getObject("start_time", LocalDateTime.class));
 
-                    Timestamp timeStamp = rs.getTimestamp("create_time");
-                    LocalDateTime createDateTime = timeStamp.toLocalDateTime();
-                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
-                    String formattedDateTime = createDateTime.format(formatter);
-                    post.setCreate_time(createDateTime);
-                    post.setFommated_create_time(formattedDateTime);
+//                    Timestamp timeStamp = rs.getTimestamp("create_time");
+//                    LocalDateTime createDateTime = timeStamp.toLocalDateTime();
+//                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+//                    String formattedDateTime = createDateTime.format(formatter);
+//                    post.setCreate_time(createDateTime);
+//                    post.setFommated_create_time(formattedDateTime);
 
                     posts.add(post);
                 }
@@ -328,7 +329,7 @@ public class PostDAO {
                     post.setHouse_status(house_status);
                     post.setPost_status(post_status);
                     post.setPurpose(purpose);
-                    post.setAdmin_message(rs.getString("admin_message"));
+//                    post.setAdmin_message(rs.getString("admin_message"));
                     
                     posts.add(post);
                 }
