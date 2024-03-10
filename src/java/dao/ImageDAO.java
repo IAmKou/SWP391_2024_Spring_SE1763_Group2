@@ -27,7 +27,7 @@ public class ImageDAO extends DBContext {
 
     public void deleteImages(int house_id) {
         try {
-            String sql = "DELETE FROM `house_finder_project`.`image`\n"
+            String sql = "DELETE FROM `image`\n"
                     + "WHERE house_id = ?;";
             DBContext db = new DBContext();
             Connection con = db.getConnection();
@@ -61,7 +61,7 @@ public class ImageDAO extends DBContext {
         List<Image> images = new ArrayList<>();
         try {
 
-            String sql = "SELECT image_link, image_id FROM house_finder_project.image where house_id = ?;";
+            String sql = "SELECT image_link, image_id FROM `image` where house_id = ?;";
             DBContext db = new DBContext();
             Connection con = db.getConnection();
             PreparedStatement stm = con.prepareStatement(sql);
@@ -88,7 +88,7 @@ public class ImageDAO extends DBContext {
         if (images.isEmpty()) {
             try {
                 Image blankImage = new Image();
-                byte[] imageData = Files.readAllBytes(Paths.get("images\1160869077057818684.gif"));
+                byte[] imageData = Files.readAllBytes(Paths.get("images/1160869077057818684.gif"));
                 blankImage.setImageData(imageData);
                 images.add(blankImage);
             } catch (IOException e) {
