@@ -4,6 +4,7 @@
  */
 package Controller.Post;
 
+import dao.HouseDAO;
 import dao.SearchDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -13,8 +14,11 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import java.util.HashMap;
 import model.Post;
 import java.util.logging.*;
+import model.House;
+
 /**
  *
  * @author luong
@@ -35,51 +39,48 @@ public class SearchPostController extends HttpServlet {
             throws ServletException, IOException {
         String searchBy = request.getParameter("type");
         String searchContent = request.getParameter("content");
-        String searchContent2 = request.getParameter("content2");
-        int pid = Integer.parseInt(searchContent);
         ArrayList<Post> list = new ArrayList<>();
-        SearchDAO dao = new SearchDAO();
-        list = dao.getAllPostByPurPose(pid);
-//        int id=0;
-//        if (searchContent != null && !searchContent.isEmpty()) {
-//        try {
-//            id = Integer.parseInt(searchContent);
-//        } catch (NumberFormatException e) {
-//              Logger.getLogger(SearchPostController.class.getName()).log(Level.SEVERE, "Failed to parse integer", e);
-//        }
-//    }
-//        switch (searchBy) {
-//            case "purpose":
-//                list = getPostByPurpose(id);
-//                break;
-//            case "address":
-//                list = getPostByAddress(searchContent);
-//                break;
-//            case "type":
-//                list = getPostByTypeOfHouse(searchContent);
-//                break;
-//            case "user":
-//                list = getPostByUser(searchContent);
-//                break;
-//            case "number":
-//                list = getPostByNumberOfRoom(searchContent);
-//                break;
-//            case "price":
-//                list = getPostByPrice(searchContent, searchContent2);
-//                break;
-//            case "area":
-//                list = getPostByArea(searchContent, searchContent2);
-//                break;
-//            default:
-//               String msg = "unba bunga";
-//                
-//        }
-        if(list.isEmpty()){
-            request.setAttribute("msg", "No Post Found");
-        }else{
-        request.setAttribute("post", list);
+        HouseDAO hDao = new HouseDAO();
+        HashMap<Post, House> cardList = new HashMap<>();
+        int id=0;
+        if (searchContent != null && !searchContent.isEmpty()) {
+        try {
+            id = Integer.parseInt(searchContent);
+        } catch (NumberFormatException e) {
+              Logger.getLogger(SearchPostController.class.getName()).log(Level.SEVERE, "Failed to parse integer", e);
         }
-        request.getRequestDispatcher("/views/post.jsp").forward(request, response);
+    }
+        switch (searchBy) {
+            case "purpose":
+                list = getPostByPurpose(id);
+                break;
+            case "address":
+                list = getPostByAddress(searchContent);
+                break;
+            case "user":
+                list = getPostByUser(searchContent);
+                break;
+            case "number":
+                list = getPostByNumberOfRoom(searchContent);
+                break;
+            default:
+               String msg = "unba bunga";
+                
+        }
+        if (list.isEmpty()) {
+            request.setAttribute("msg", "No Post Found");
+        } else {
+            for (Post p : list) {
+                House h = hDao.getHouseByPostID(p.getPost_id());
+                if (h != null) {
+                    cardList.put(p, h);
+                }
+            }
+            request.setAttribute("current", searchContent);
+            request.setAttribute("num", cardList.size());
+            request.setAttribute("cardList", cardList);
+        }
+        request.getRequestDispatcher("/views/generalPostList.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -130,29 +131,15 @@ public class SearchPostController extends HttpServlet {
         SearchDAO dao = new SearchDAO();
         return dao.getAllPosyByLocation(address);
     }
-    private ArrayList<Post> getPostByTypeOfHouse(String type){
-        SearchDAO dao = new SearchDAO();
-        return dao.getAllPostByTypeOfHouse(type);
-    }
-    private ArrayList<Post> getPostByUser(String name){
+
+    private ArrayList<Post> getPostByUser(String name) {
         SearchDAO dao = new SearchDAO();
         return dao.getAllPostByUser(name);
     }
-    private ArrayList<Post> getPostByNumberOfRoom(String num){
+
+    private ArrayList<Post> getPostByNumberOfRoom(String num) {
         SearchDAO dao = new SearchDAO();
         int numroom = Integer.parseInt(num);
         return dao.getAllPosyByNumberOfRoom(numroom);
-    }
-    private ArrayList<Post> getPostByPrice(String min, String max){
-        SearchDAO dao = new SearchDAO();
-        int minPrice = Integer.parseInt(min);
-        int maxPrice = Integer.parseInt(max);
-        return dao.getAllPostByPrice(minPrice, maxPrice);
-    }
-    private ArrayList<Post> getPostByArea(String min, String max){
-        SearchDAO dao = new SearchDAO();
-        int minArea = Integer.parseInt(min);
-        int maxArea = Integer.parseInt(max);
-        return dao.getAllPostByArea(minArea, maxArea);
     }
 }
