@@ -19,6 +19,45 @@ import model.Meeting;
  */
 public class MeetingDAO extends DBContext {
 
+    public void ChangeCancelStatus(int meetingId) {
+        try {
+            String sql = "UPDATE `house_finder_project`.`appointment`\n"
+                    + "SET\n"
+                    + "`appointment_status` = 3\n"
+                    + "WHERE `appointment_id` = ?;";
+            DBContext db = new DBContext();
+            Connection con = db.getConnection();
+            PreparedStatement stm = con.prepareStatement(sql);
+            stm.setInt(1, meetingId);
+            
+            stm.executeUpdate();
+            con.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(MeetingDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    public void ChangeAcceptedStatus(int meetingId, String message) {
+        try {
+            String sql = "UPDATE `house_finder_project`.`appointment`\n"
+                    + "SET\n"
+                    + "`response_message` = ?,\n"
+                    + "`appointment_status` = 2\n"
+                    + "WHERE `appointment_id` = ?;";
+            DBContext db = new DBContext();
+            Connection con = db.getConnection();
+            PreparedStatement stm = con.prepareStatement(sql);
+            stm.setString(1, message);
+            stm.setInt(2, meetingId);
+            stm.executeUpdate();
+
+            con.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(MeetingDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     public void addMeeting(Meeting meeting) {
         try {
             String sql = "INSERT INTO `house_finder_project`.`appointment`\n"
@@ -71,5 +110,5 @@ public class MeetingDAO extends DBContext {
         }
         return isDuplicate;
     }
-    
+
 }

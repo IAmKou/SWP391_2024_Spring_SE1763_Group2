@@ -208,8 +208,63 @@
                                                         <td>
                                                             <div class="d-flex justify-content-center">
                                                                 <div class="btn-group">
-                                                                    <button class="btn btn-success">Accept</button>
-                                                                    <button class="btn btn-danger">Cancel</button>
+                                                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#acceptBackdrop">
+                                                                        Accept
+                                                                    </button>
+                                                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#alertBackdrop">
+                                                                        Cancel
+                                                                    </button>
+                                                                </div>
+                                                                <!-- Alert Modal -->
+                                                                <div class="modal fade" id="alertBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                                                    <div class="modal-dialog">
+                                                                        <div class="modal-content">
+                                                                            <div class="modal-header">
+                                                                                <div class="logo-container">
+                                                                                    <img class="logo" src="${pageContext.request.contextPath}/images/demo/image-removebg-preview.png" alt="image"/>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="modal-body center">
+                                                                                <form action="${pageContext.request.contextPath}/booking/cancel" method="post">
+                                                                                    <input type="hidden" name="meeting_id" value="${request.meeting.getMeeting_id()}">
+                                                                                    <input type="hidden" name="booking_id" value="${request.booking.getBooking_id()}">
+                                                                                <p>Are you sure to reject this order?</p>
+                                                                                <div class="modal-footer">
+                                                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                                                <button type="submit" class="btn btn-primary">Accept</button>
+                                                                            </div>
+                                                                                </form>
+                                                                            </div>
+                                                                            
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <!-- Message Modal -->
+                                                                <div class="modal fade" id="acceptBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                                                    <div class="modal-dialog">
+                                                                        <div class="modal-content">
+                                                                            <div class="modal-header">
+                                                                                <div class="logo-container">
+                                                                                    <img class="logo" src="${pageContext.request.contextPath}/images/demo/image-removebg-preview.png" alt="image"/>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="modal-body">
+                                                                                <form action="${pageContext.request.contextPath}/booking/accept" method="post">
+                                                                                    <input type="hidden" name="booking_id" value="${request.booking.getBooking_id()}">
+                                                                                    <input type="hidden" name="meeting_id" value="${request.meeting.getMeeting_id()}">
+                                                                                    <div class="form-group mb-3">
+                                                                                        <label for="message">Message:</label>
+                                                                                        <textarea class="form-control" rows="5" id="message" name="message" placeholder="Your message in here(not require)"></textarea>
+                                                                                    </div>
+                                                                                    <div class="modal-footer">
+                                                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                                                        <button type="submit" class="btn btn-primary">Accept</button>
+                                                                                    </div>
+                                                                                </form>
+                                                                            </div>
+
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </td>

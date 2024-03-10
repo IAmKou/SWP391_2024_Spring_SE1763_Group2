@@ -15,11 +15,9 @@ public class House {
     int house_id;
     User house_owner;
     TypeOfHouse type_of_house;
-
     String location;
     String description;
     int area;
-
     int number_of_room;
     List<Image> image;
 

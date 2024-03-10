@@ -19,9 +19,45 @@ import model.Booking;
  */
 public class BookingDAO extends DBContext {
 
-    public void changeStatus(){
-        
+    public void changeCancelStatus(int bookingId) {
+        try {
+            String sql = "UPDATE house_finder_project.`booking`\n"
+                    + "SET\n"
+                    + "`booking_status` = 3\n"
+                    + "WHERE `booking_id` = ?";
+            DBContext db = new DBContext();
+            Connection con = db.getConnection();
+            PreparedStatement stm = con.prepareStatement(sql);
+            stm.setInt(1, bookingId);
+            stm.executeUpdate();
+            
+            con.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(BookingDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
+
+    public void changeAcceptedStatus(int bookingId, String message) {
+        try {
+            String sql = "UPDATE `house_finder_project`.`booking`\n"
+                    + "SET\n"
+                    + "`response_message` = ?,\n"
+                    + "`booking_status` = 2\n"
+                    + "WHERE `booking_id` = ?;";
+            DBContext db = new DBContext();
+            Connection con = db.getConnection();
+            PreparedStatement stm = con.prepareStatement(sql);
+            stm.setString(1, message);
+            stm.setInt(2, bookingId);
+            stm.executeUpdate();
+
+            con.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(BookingDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
     public void addBooking(Booking booking) {
         try {
             String sql = "INSERT INTO `house_finder_project`.`booking`\n"
@@ -72,6 +108,8 @@ public class BookingDAO extends DBContext {
                 int count = rs.getInt("duplicates");
                 isExist = count > 0;
             }
+
+            con.close();
         } catch (SQLException ex) {
             Logger.getLogger(BookingDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
