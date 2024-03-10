@@ -25,7 +25,7 @@ public class PaymentMethodDAO extends DBContext {
         List<PaymentMethod> methods = new ArrayList<>();
         
         try {
-            String sql = "SELECT * FROM house_finder_project.payment_method;";
+            String sql = "SELECT * FROM `payment_method`;";
             DBContext db = new DBContext();
             Connection con = db.getConnection();
             PreparedStatement stm = con.prepareStatement(sql);
