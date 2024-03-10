@@ -5,6 +5,9 @@
 package dao;
 
 import Context.DBContext;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -54,7 +57,7 @@ public class ImageDAO extends DBContext {
         }
     }
 
-    public static List<Image> getImages(int house_id) {
+    public static List<Image> getImages(int house_id) throws IOException {
         List<Image> images = new ArrayList<>();
         try {
 
@@ -82,16 +85,19 @@ public class ImageDAO extends DBContext {
             Logger.getLogger(ImageDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        if (images.size() < 1) {
-            images.add(getBlankImages().get(0));
-        } else {
-
+        if (images.isEmpty()) {
+            try {
+                Image blankImage = new Image();
+                byte[] imageData = Files.readAllBytes(Paths.get("images\1160869077057818684.gif"));
+                blankImage.setImageData(imageData);
+                images.add(blankImage);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         return images;
     }
-    
-    
-    
+
     // local on Manh'pc
     public static List<Image> getBlankImages() {
         List<Image> images = new ArrayList<>();
