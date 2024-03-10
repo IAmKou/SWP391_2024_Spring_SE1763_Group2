@@ -18,43 +18,59 @@
         <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/images/demo/image-removebg-preview.png">
     </head>
     <style>
-        .form-container {
-            width: 300px;
-            height: 200px; /* Set the desired height */
-            overflow-y: scroll; /* Enable vertical scrollbar */
-            border: 1px solid #ccc;
-            padding: 10px;
+        p, select {
+            display: inline-block;
+            margin: 5px; /* Add some margin between elements */
         }
     </style>
     <body>
         <jsp:include page="header.jsp"/>
         <section class="hoc container clear " >
-            <aside id="sidebar" class="hoc clear">
-                <form action="AdvanceSearchController" method="get">
-                    <input type="hidden" value="${requestScope.current}" name="content"/>
-                    <p>Type Of House</p> <select name="type"> 
-                        <option value="department">Department</option>
-                        <option value="villa">Villa</option>
-                        <option value="entire house">Entire House</option>
-                        <option value="other">Other</option>
-                    </select>
-                    <p>Rooms</p><select name="room">
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option><!-- comment -->
-                        <option value="6">6</option>
-                    </select>
-                    <p>Price Range</p>
-                    <input type="range" name="price" min="0" max="100000" step="1000" onchange="updatePrice(this.value)">
-                    <output id="priceOutput" for="price">50000</output>
-                    <input type="range" name="area" min="0" max="500" step="10" onchange="updateArea(this.value)">
-                    <output id="areaOutput" for="area">250</output>
-                    <br/>
-                    <button type="submit">Submit</button>
-                </form>
-            </aside>
+<aside id="sidebar" class="hoc clear">
+    <form action="AdvanceSearchController" method="get" style="display: flex; flex-wrap: wrap;">
+        <input type="hidden" value="${requestScope.current}" name="content">
+        <input type="hidden" value="${requestScope.type}" name="type">
+        <p style="margin-right: 10px;">Address</p>
+        <input type="text" name="by" style="margin-right: 10px;"/>
+
+        <p style="margin-right: 10px;">Purpose</p>
+        <select name="purpose" style="margin-right: 10px;">
+            <option value="">Select purpose</option>
+            <option value="1">Sell</option>
+            <option value="2">Rent</option>
+        </select>
+
+        <p style="margin-right: 10px;">Type Of House</p>
+        <select name="type" style="margin-right: 10px;">
+            <option value="">Select type</option>
+            <option value="department">Department</option>
+            <option value="villa">Villa</option>
+            <option value="entire house">Entire House</option>
+            <option value="other">Other</option>
+        </select>
+
+        <p style="margin-right: 10px;">Rooms</p>
+        <select name="room" style="margin-right: 10px;">
+            <option value="">Select number</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+        </select>
+
+        <p style="margin-right: 10px;">Price Range</p>
+        <input type="range" name="price" min="0" max="100000" step="1000" onchange="updatePrice(this.value)" style="margin-right: 10px;">
+        <output id="priceOutput" for="price">50000</output>
+
+        <p style="margin-right: 10px;">Area Range</p>
+        <input type="range" name="area" min="0" max="1000" step="10" onchange="updateArea(this.value)" style="margin-right: 10px;">
+        <output id="areaOutput" for="area">500</output>
+
+        <button type="submit">Submit</button>
+    </form>
+</aside>
             <div class="sectiontitle">
                 <h4 class="heading">Result:</h4>
                 <p>There are ${num} houses found</p>
@@ -94,7 +110,7 @@
                             </time>
                             <div class="truncate-text">
                                 <span>${card.value.description}</span>
-                                <div class="view-more"><a class="" href="housedetail.html">View more</a></div>
+                                <div class="view-more"><a class="" href="view?post_id=${card.key.post_id}&house_id=${card.value.house_id}">View more</a></div>
                             </div>
                         </div>
                     </article>
