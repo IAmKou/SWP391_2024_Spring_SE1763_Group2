@@ -58,20 +58,19 @@ public class OrderDAO extends DBContext {
                     + "FROM \n"
                     + "    appointment\n"
                     + "JOIN \n"
-                    + "	request_status as meeting_status on meeting_status.status_id = appointment_status \n"
+                    + "    request_status as meeting_status on meeting_status.status_id = appointment_status \n"
                     + "WHERE\n"
                     + "    appointment.customer_id = ?\n"
                     + "UNION\n"
-                    + "\n"
                     + "SELECT \n"
                     + "    NULL AS appointment_id,\n"
-                    + "    NULL AS appointment_customer_id,\n"
+                    + "    NULL AS customer_id,\n"
                     + "    NULL AS post_id,\n"
                     + "    NULL AS appointment_booking_date,\n"
                     + "    NULL AS meeting_date,\n"
                     + "    NULL AS appointment_note,\n"
-                    + "	NULL AS appointment_response_message, \n"
-                    + "	NULL AS appointment_status, \n"
+                    + "    NULL AS appointment_response_message, \n"
+                    + "    NULL AS appointment_status, \n"
                     + "    NULL AS appointment_status_name,\n"
                     + "    booking.booking_id, \n"
                     + "    booking.user_id AS booking_user_id, \n"
@@ -83,17 +82,17 @@ public class OrderDAO extends DBContext {
                     + "    booking.check_in_date AS booking_check_in_date, \n"
                     + "    booking.check_out_date AS booking_check_out_date, \n"
                     + "    booking.payment_method AS booking_payment_method_id,\n"
-                    + "    booking_payment_method.method_name AS booking_payment_method_name,\n"
+                    + "    NULL AS booking_payment_method_name,\n"
                     + "    booking.quantity_of_people,\n"
                     + "    booking.response_message AS booking_response_message\n"
                     + "FROM \n"
                     + "    booking\n"
                     + "JOIN \n"
-                    + "	request_status as booking_status on booking_status.status_id = booking_status \n"
+                    + "    request_status as booking_status on booking_status.status_id = booking_status \n"
                     + "JOIN \n"
-                    + "	payment_method as booking_payment_method on booking_payment_method.method_id = booking.payment_method \n"
+                    + "    payment_method as booking_payment_method on booking_payment_method.method_id = booking.payment_method \n"
                     + "WHERE\n"
-                    + "    booking.user_id = ?";
+                    + "    booking.user_id = ?;";
             DBContext db = new DBContext();
             Connection con = db.getConnection();
             PreparedStatement stm = con.prepareStatement(sql);
@@ -124,7 +123,7 @@ public class OrderDAO extends DBContext {
                     meeting.setBookingDate(meetingBookingDateTime);
                     meeting.setMeetingDate(meetingDateTime);
                     meeting.setResponeMessage(rs.getString("appointment_response_message"));
-                    
+
                     meeting.setMeeting_id(rs.getInt("appointment_id"));
                     meeting.setCustomer(meeting_user);
                     meeting.setPostId(rs.getInt("post_id"));
@@ -151,7 +150,7 @@ public class OrderDAO extends DBContext {
                     booking.setQuantityOfpeople(rs.getInt("quantity_of_people"));
                     booking.setStatus(bookingStatus);
                     booking.setResponseMessage(rs.getString("booking_response_message"));
-                    
+
                     Timestamp bookingBookingTimestamp = rs.getTimestamp("booking_booking_date");
                     Timestamp checkInTimestamp = rs.getTimestamp("booking_check_in_date");
                     Timestamp checkOutTimestamp = rs.getTimestamp("booking_check_out_date");
@@ -173,7 +172,6 @@ public class OrderDAO extends DBContext {
 
                 }
                 Order order = new Order(booking, meeting);
-
                 orders.add(order);
             }
             con.close();
@@ -198,7 +196,7 @@ public class OrderDAO extends DBContext {
                     + "    appointment.meeting_date, \n"
                     + "    appointment.note AS appointment_note, \n"
                     + "    appointment.appointment_status AS appointment_status_id, \n"
-                    + "    meeting_status.status_name as appointment_status_name,\n"
+                    + "    meeting_status.status_name AS appointment_status_name,\n"
                     + "    NULL AS booking_id,\n"
                     + "    NULL AS booking_user_id,\n"
                     + "    NULL AS booking_full_name,\n"
@@ -222,12 +220,10 @@ public class OrderDAO extends DBContext {
                     + "JOIN\n"
                     + "    user AS user1 ON appointment.customer_id = user1.user_id\n"
                     + "JOIN \n"
-                    + "	request_status as meeting_status on meeting_status.status_id = appointment_status \n"
-                    + "\n"
+                    + "    request_status AS meeting_status ON meeting_status.status_id = appointment_status \n"
                     + "WHERE\n"
-                    + "    post.poster_id = ? and appointment.appointment_status = 1\n"
+                    + "    post.poster_id = ?\n"
                     + "UNION\n"
-                    + "\n"
                     + "SELECT \n"
                     + "    NULL AS appointment_id,\n"
                     + "    NULL AS customer_id,\n"
@@ -235,7 +231,7 @@ public class OrderDAO extends DBContext {
                     + "    NULL AS appointment_booking_date,\n"
                     + "    NULL AS meeting_date,\n"
                     + "    NULL AS appointment_note,\n"
-                    + "	NULL AS appointment_status, \n"
+                    + "    NULL AS appointment_status, \n"
                     + "    NULL AS appointment_status_name,\n"
                     + "    NULL AS appointment_customer_name,\n"
                     + "    NULL AS appointment_customer_email,\n"
@@ -264,11 +260,11 @@ public class OrderDAO extends DBContext {
                     + "JOIN \n"
                     + "    user AS user2 ON booking.user_id = user2.user_id\n"
                     + "JOIN \n"
-                    + "	request_status as booking_status on booking_status.status_id = booking_status \n"
+                    + "    request_status AS booking_status ON booking_status.status_id = booking_status \n"
                     + "JOIN \n"
-                    + "	payment_method as booking_payment_method on booking_payment_method.method_id = booking.payment_method \n"
+                    + "    payment_method AS booking_payment_method ON booking_payment_method.method_id = booking.payment_method \n"
                     + "WHERE\n"
-                    + "    post.poster_id = ? and booking.booking_status = 1";
+                    + "    post.poster_id = ?;";
             DBContext db = new DBContext();
             Connection con = db.getConnection();
             PreparedStatement stm = con.prepareStatement(sql);

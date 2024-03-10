@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import model.Order;
@@ -39,7 +40,9 @@ public class ViewUserBooking extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("account");
-
+        
+        String dateParam = request.getParameter("date");
+        String statusParam = request.getParameter("status");
         int currentPage = 1;
         int recordsPerPage = 10;
 
@@ -55,7 +58,16 @@ public class ViewUserBooking extends HttpServlet {
 
         OrderDAO orderDao = new OrderDAO();
         List<Order> allOrders = orderDao.getOrderListByCustomer(user.getUser_id());
-
+        
+        if (dateParam != null && !dateParam.isEmpty()) {
+            LocalDate date = LocalDate.parse(dateParam);
+            allOrders = filterByDate(allOrders, date);
+        }
+        if (statusParam != null && !statusParam.isEmpty()) {
+            int status_id = Integer.parseInt(statusParam);
+            allOrders = filterByStatus(allOrders, status_id);
+        }
+        
         int totalOrders = allOrders.size();
         int totalPages = (int) Math.ceil((double) totalOrders / recordsPerPage);
 
@@ -134,4 +146,27 @@ public class ViewUserBooking extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
+    public List<Order> filterByDate(List<Order> orders, LocalDate date) {
+        List<Order> filteredOrders = new ArrayList<>();
+        for (Order order : orders) {
+            if (order.getBooking() != null && order.getBooking().getBooking_date() != null && order.getBooking().getBooking_date().toLocalDate().equals(date)) {
+                filteredOrders.add(order);
+            } else if (order.getMeeting() != null && order.getMeeting().getBookingDate() != null && order.getMeeting().getBookingDate().toLocalDate().equals(date)) {
+                filteredOrders.add(order);
+            }
+        }
+        return filteredOrders;
+    }
+    
+    private List<Order> filterByStatus(List<Order> orders, int status_id) {
+        List<Order> filteredOrders = new ArrayList<>();
+        for (Order order : orders) {
+            if (order.getBooking() != null && order.getBooking().getStatus() != null && order.getBooking().getStatus().getStatus_id() == status_id) {
+                filteredOrders.add(order);
+            }else if(order.getMeeting() != null && order.getMeeting().getMeetingStatus()!= null && order.getMeeting().getMeetingStatus().getStatus_id() == status_id){
+                filteredOrders.add(order);
+            }
+        }
+        return filteredOrders;
+    }
 }

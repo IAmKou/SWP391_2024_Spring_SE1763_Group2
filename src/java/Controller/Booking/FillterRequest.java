@@ -4,8 +4,8 @@
  */
 package Controller.Booking;
 
-import dao.BookingDAO;
 import dao.OrderDAO;
+import dao.StatusDAO;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
@@ -15,8 +15,8 @@ import jakarta.servlet.http.HttpSession;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import model.Booking;
 import model.Order;
+import model.Status;
 import model.User;
 
 /**
@@ -41,6 +41,7 @@ public class FillterRequest extends HttpServlet {
 
         String dateParam = request.getParameter("date");
         String customerNameParam = request.getParameter("customer_name");
+        String statusStr = request.getParameter("status");
 
         int currentPage = 1;
         int recordsPerPage = 10;
@@ -68,6 +69,11 @@ public class FillterRequest extends HttpServlet {
             allOrders = filterByCustomerName(allOrders, customerNameParam);
         }
 
+        if (statusStr != null && !statusStr.isEmpty()) {
+            int status = Integer.parseInt(statusStr);
+            allOrders = filterByStatus(allOrders, status);
+        }
+
         int totalBookings = allOrders.size();
         int totalPages = (int) Math.ceil((double) totalBookings / recordsPerPage);
 
@@ -75,11 +81,16 @@ public class FillterRequest extends HttpServlet {
         if (currentPage > totalPages && totalPages > 0) {
             currentPage = totalPages;
         }
+        
         int start = (currentPage - 1) * recordsPerPage;
         int end = Math.min(currentPage * recordsPerPage, totalBookings);
 
         List<Order> orders = allOrders.subList(start, end);
 
+        StatusDAO statusDAO = new StatusDAO();
+        List<Status> statuses = statusDAO.getStatus();
+
+        request.setAttribute("statuses", statuses);
         request.setAttribute("requests", orders);
         request.setAttribute("fillterTotalRequest", allOrders.size());
         request.setAttribute("fillterTotalPages", totalPages);
@@ -128,6 +139,7 @@ public class FillterRequest extends HttpServlet {
 
     public List<Order> filterByDate(List<Order> orders, LocalDate date) {
         List<Order> filteredOrders = new ArrayList<>();
+
         for (Order order : orders) {
             if (order.getBooking() != null && order.getBooking().getBooking_date() != null && order.getBooking().getBooking_date().toLocalDate().equals(date)) {
                 filteredOrders.add(order);
@@ -135,22 +147,39 @@ public class FillterRequest extends HttpServlet {
                 filteredOrders.add(order);
             }
         }
+
         return filteredOrders;
+    }
+
+    public List<Order> filterByStatus(List<Order> orders, int status) {
+        List<Order> filteredOrders = new ArrayList<>();
+
+        for (Order order : orders) {
+            if (order.getBooking() != null && order.getBooking().getStatus() != null
+                    && order.getBooking().getStatus().getStatus_id() == status) {
+                filteredOrders.add(order);
+            } else if (order.getMeeting() != null && order.getMeeting().getMeetingStatus() != null
+                    && order.getMeeting().getMeetingStatus().getStatus_id() == status) {
+                filteredOrders.add(order);
+            }
+        }
+
+        return filteredOrders;
+
     }
 
     public List<Order> filterByCustomerName(List<Order> orders, String customerName) {
         List<Order> filteredOrders = new ArrayList<>();
 
         for (Order order : orders) {
-    if (order.getBooking() != null && order.getBooking().getUser() != null
-            && order.getBooking().getUser().getFull_name().trim().equalsIgnoreCase(customerName)) {
-        filteredOrders.add(order);
-    } else if (order.getMeeting() != null && order.getMeeting().getCustomer() != null
-            && order.getMeeting().getCustomer().getFull_name().trim().equalsIgnoreCase(customerName)) {
-        filteredOrders.add(order);
-    }
-}
-
+            if (order.getBooking() != null && order.getBooking().getUser() != null
+                    && order.getBooking().getUser().getFull_name().trim().equalsIgnoreCase(customerName)) {
+                filteredOrders.add(order);
+            } else if (order.getMeeting() != null && order.getMeeting().getCustomer() != null
+                    && order.getMeeting().getCustomer().getFull_name().trim().equalsIgnoreCase(customerName)) {
+                filteredOrders.add(order);
+            }
+        }
 
         return filteredOrders;
     }
