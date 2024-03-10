@@ -46,7 +46,7 @@ public class TypeOfHouseDAO extends DBContext {
 
     public static TypeOfHouse getType_of_House_Name_byID(int id) {
         try {
-            String sql = "SELECT * FROM house_finder_project.type_of_house where type_of_house_id= ? limit 1";
+            String sql = "SELECT * FROM house_finder.type_of_house where type_of_house_id= ? limit 1";
             DBContext db = new DBContext();
             Connection con = db.getConnection();
             PreparedStatement stm = con.prepareStatement(sql);
