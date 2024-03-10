@@ -73,7 +73,11 @@ public class BookingController extends HttpServlet {
 
             String checkoutDateStr = request.getParameter("check_out_date");
             String checkoutTimeStr = request.getParameter("check_out_time");
-
+            
+            if(!checkinTimeStr.equals(checkoutTimeStr)){
+                throw new Exception("Your check-in time and check-out time must match.");
+            }
+            
             String checkIntCombine = checkinDateStr + "T" + checkinTimeStr;
             String checkOutStringCombine = checkoutDateStr + "T" + checkoutTimeStr;
 

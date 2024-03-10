@@ -25,6 +25,7 @@ public class Booking {
     private String fomatted_check_out_date;
     private PaymentMethod payment_method;
     private int quantityOfpeople;
+    private String responseMessage;
 
     public int getQuantityOfpeople() {
         return quantityOfpeople;
@@ -33,8 +34,14 @@ public class Booking {
     public void setQuantityOfpeople(int quantityOfpeople) {
         this.quantityOfpeople = quantityOfpeople;
     }
-    
-    
+
+    public String getResponseMessage() {
+        return responseMessage;
+    }
+
+    public void setResponseMessage(String responseMessage) {
+        this.responseMessage = responseMessage;
+    }
 
     public Booking() {
     }

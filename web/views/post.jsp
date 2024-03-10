@@ -99,7 +99,14 @@
                         <table class="table-no-border">
                             <tbody>
                                 <tr>
-                                    <td><strong>Price: </strong>${post.price}</td>
+                                    <td><strong>Price: </strong>
+                                        <c:if test="${post.purpose.purpose_id eq 2}">
+                                            ${post.price}$/month
+                                        </c:if>
+                                            <c:if test="${post.purpose.purpose_id eq 1}">
+                                            ${post.price}$
+                                        </c:if>
+                                        </td>
                                     <td><strong>Area: </strong>${post.house.area} m<sup>2</sup></td>
                                 </tr>
                                 <tr>
@@ -218,7 +225,7 @@
                                                         <input type="time" id="checkin_time" name="check_in_time" required class="form-control">
                                                     </div>
                                                     <div class="col-md-6 mb-3">
-                                                        <label for="checkout_date" class="form-label">Checkout date:</label>
+                                                        <label for="checkout_date" class="form-label">Check-out date:</label>
                                                         <input type="date" id="checkout_date" name="check_out_date" required class="form-control">
                                                         <input type="time" id="checkout_time" name="check_out_time" required class="form-control">
                                                     </div>
@@ -234,15 +241,12 @@
                                                             <c:forEach items="${methods}" var="method">
                                                                 <option value="${method.method_id}">${method.method_name}</option>
                                                             </c:forEach>
-
                                                         </select>
                                                     </div>
                                                 </div>
                                                 <label for="special_requests" class="form-label">Note:</label>
                                                 <textarea id="special_requests" name="note" rows="4" cols="50" class="form-control mb-3"></textarea>
-
-
-
+                                                
                                                 <div class="modal-footer">
                                                     <button type="submit" class="btn btn-primary">Submit request</button>
                                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

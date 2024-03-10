@@ -38,7 +38,7 @@
     </servlet>
     <servlet>
         <servlet-name>ViewRequest</servlet-name>
-        <servlet-class>Controller.Post.ViewRequest</servlet-class>
+        <servlet-class>Controller.Booking.ViewRequest</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>viewProfile</servlet-name>
@@ -80,7 +80,7 @@
     </servlet>
     <servlet>
         <servlet-name>FillterRequest</servlet-name>
-        <servlet-class>Controller.Post.FillterRequest</servlet-class>
+        <servlet-class>Controller.Booking.FillterRequest</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>CheckSessionServlet</servlet-name>
@@ -89,6 +89,14 @@
     <servlet>
         <servlet-name>VisitController</servlet-name>
         <servlet-class>Controller.Booking.VisitController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AcceptBooking</servlet-name>
+        <servlet-class>Controller.Booking.AcceptBooking</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CancelBooking</servlet-name>
+        <servlet-class>Controller.Booking.CancelBooking</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>addNewPost</servlet-name>
@@ -176,6 +184,14 @@
     <servlet-mapping>
         <servlet-name>VisitController</servlet-name>
         <url-pattern>/post/visit</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AcceptBooking</servlet-name>
+        <url-pattern>/booking/accept</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CancelBooking</servlet-name>
+        <url-pattern>/booking/cancel</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

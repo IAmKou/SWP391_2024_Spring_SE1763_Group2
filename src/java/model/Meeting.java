@@ -20,10 +20,19 @@ public class Meeting {
     private String fommattedMeetingDate;
     private String note;
     private Status meetingStatus;
-
+    private String responeMessage;
+    
     public Meeting() {
     }
 
+    public String getResponeMessage() {
+        return responeMessage;
+    }
+
+    public void setResponeMessage(String responeMessage) {
+        this.responeMessage = responeMessage;
+    }
+    
     public LocalDateTime getBookingDate() {
         return bookingDate;
     }
