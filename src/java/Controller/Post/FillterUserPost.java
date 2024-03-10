@@ -170,7 +170,7 @@ public class FillterUserPost extends HttpServlet {
     private List<Post> filterByDate(List<Post> posts, LocalDate date) {
         List<Post> filteredPosts = new ArrayList<>();
         for (Post post : posts) {
-            if (post.getCreate_time().toLocalDate().equals(date)) {
+            if (post.getStart_time().toLocalDate().equals(date)) {
                 filteredPosts.add(post);
             }
         }
