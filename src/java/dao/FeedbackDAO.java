@@ -18,20 +18,21 @@ import model.feedback;
  * @author luong
  */
 public class FeedbackDAO {
-    public void insertFeedback(int post_id, int user_id, String comment, LocalDateTime created_at){
+    public void insertFeedback(int post_id, int user_id, String comment, LocalDateTime created_at, String img){
         try {
             DBContext db = new DBContext();
             Connection con = db.getConnection();
 
             // Prepare the SQL statement
-            String sql = "INSERT INTO `feedback` (post_id,user_id,comment,created_at)"
-                    + "VALUES (?, ?, ?, ?)";
+            String sql = "INSERT INTO `feedback` (post_id,user_id,created_at,comment,image_link)"
+                    + "VALUES (?, ?, ?, ?, ?)";
             PreparedStatement st = con.prepareStatement(sql);
             st = con.prepareStatement(sql);
             st.setInt(1, post_id);
             st.setInt(2, user_id);
             st.setString(3, comment);
             st.setObject(4, created_at);
+            st.setString(5, img);
             // avatar ?
             int row = st.executeUpdate();
             st.close();
@@ -52,7 +53,7 @@ public class FeedbackDAO {
                 ResultSet rs = call.executeQuery(sql);
                 //assign value for object items then return it
                 while (rs.next()) {
-                    list.add(new feedback(rs.getInt(1), rs.getInt(2),rs.getInt(3), rs.getObject(4, LocalDateTime.class), rs.getString(5)));
+                    list.add(new feedback(rs.getInt(1), rs.getInt(2),rs.getInt(3), rs.getObject(4, LocalDateTime.class), rs.getString(5), rs.getString(6)));
                 }
                 call.close();
                 con.close();
@@ -62,12 +63,12 @@ public class FeedbackDAO {
         }
         return list;
     }
-    public static boolean updateFeedback(int feedback_id, int user_id, String content){
+    public static boolean updateFeedback(int feedback_id, int user_id, String content, String img){
        try {
             DBContext db = new DBContext();
             Connection con = db.getConnection();
             if(con != null){
-                String sql = "Update `feedback` Set content = '"+ content +"' where feedback_id ='"+ feedback_id +"' and user_id ='" + user_id + "'";
+                String sql = "Update `feedback` Set content = '"+ content +"', image_link = '"+ img +"' where feedback_id ='"+ feedback_id +"' and user_id ='" + user_id + "'";
                  Statement st = con.createStatement();
                 int rows = st.executeUpdate(sql);
                 if (rows < 1) {
