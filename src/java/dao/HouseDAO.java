@@ -5,6 +5,7 @@
 package dao;
 
 import Context.DBContext;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -39,7 +40,7 @@ public class HouseDAO extends DBContext {
         }
     }
 
-    public House getHouseByPostID(int post_id) {
+    public House getHouseByPostID(int post_id) throws IOException {
         House house = new House();
         try {
             String sql
