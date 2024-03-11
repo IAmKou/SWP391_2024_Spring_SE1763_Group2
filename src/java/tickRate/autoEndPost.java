@@ -8,6 +8,8 @@ import dao.NotificationDAO;
 import dao.PostDAO;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 import model.Post;
 
 /**
@@ -15,8 +17,8 @@ import model.Post;
  * @author ACER
  */
 public class autoEndPost {
-
     private static boolean isRunning = true;
+    private static Set<Integer> notifiedPosts = new HashSet<>();
 
     public static void startAutoEndPost() {
         Thread thread = new Thread(() -> {
@@ -33,15 +35,18 @@ public class autoEndPost {
         thread.start();
     }
 
-    private static void checkPostEndTimes() {
+ private static void checkPostEndTimes() {
         LocalDateTime now = LocalDateTime.now();
         PostDAO dao = new PostDAO();
         ArrayList<Post> nepList = dao.getAllPost();
         for (Post post : nepList) {
-            LocalDateTime endTime = post.getEnd_time();
-            if (now.isAfter(endTime)) {
-                updateStatusInDatabase(post.getPost_id());
-                sendNotification(post.getPoster_id(),now);
+            if (!notifiedPosts.contains(post.getPost_id())) { // Check if post has already been notified
+                LocalDateTime endTime = post.getEnd_time();
+                if (now.isAfter(endTime)) {
+                    updateStatusInDatabase(post.getPost_id());
+                    sendNotification(post.getPoster_id(), now);
+                    notifiedPosts.add(post.getPost_id()); // Mark post as notified
+                }
             }
         }
     }
@@ -62,3 +67,4 @@ public class autoEndPost {
         dao.insertNotification(poster_id, message, time);
     }
 }
+
