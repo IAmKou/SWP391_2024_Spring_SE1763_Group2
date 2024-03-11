@@ -18,7 +18,7 @@ import model.Meeting;
  * @author FPTSHOP
  */
 public class MeetingDAO extends DBContext {
-
+    
     public void ChangeCancelStatus(int meetingId) {
         try {
             String sql = "UPDATE `house_finder_project`.`appointment`\n"

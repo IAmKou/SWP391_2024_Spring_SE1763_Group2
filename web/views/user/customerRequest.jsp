@@ -36,18 +36,13 @@
                     <nav class="sdb_holder mb-4">
                         <ul>
                             <li><a href="#" style="font-weight: bold;">Account Information</a></li>
-                            <li><a href="#">View Status</a>
-                                <ul>
-                                    <li><a href="${pageContext.request.contextPath}/status?status=1" >Pending</a></li>
-                                    <li><a href="${pageContext.request.contextPath}/status?status=3" >Declined</a></li>
-                                </ul>
-                            </li>
                             <li><a href="#">View Rentals</a>
                                 <ul>
+                                    <li><a href="${pageContext.request.contextPath}/status?status=1" >Pending Post</a></li>
+                                    <li><a href="${pageContext.request.contextPath}/status?status=3" >Declined Post</a></li>
                                     <li><a href="${pageContext.request.contextPath}/post/view">Your Post</a></li>
-                                    <li><a href="${pageContext.request.contextPath}/booking/view">My Requests</a></li>
-                                    <li><a href="${pageContext.request.contextPath}/request/view">Customer's Requests</a></li>
-                                    <li><a href="${pageContext.request.contextPath}/request/view">Request history</a></li>
+                                    <li><a href="${pageContext.request.contextPath}/booking/view">My Order</a></li>
+                                    <li><a href="${pageContext.request.contextPath}/request/view">Customer's Order</a></li>
                                 </ul>
                             </li>   
                         </ul>
@@ -56,14 +51,13 @@
                 <div class="col-md-10 ">
                     <div class="row">
                         <div class="col-md-12 mb-4">
-                            <form id="filterForm" action="${pageContext.request.contextPath}/request/view/fillter" method="get">
+                            <form id="filterForm" action="${pageContext.request.contextPath}/request/view" method="post">
                                 <div class="row m-4">
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="date">Booking Date:</label>
                                             <input type="date" class="form-control" id="date" name="date">
                                         </div>
-
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
@@ -90,9 +84,19 @@
                                             </select>
                                         </div>
                                     </div>
-
-
-
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="date">Status:</label>
+                                            <select name="status" class="form-control">
+                                                <option value="">Select Status</option>
+                                                <c:forEach items="${statuses}" var="status">
+                                                    <c:if test="${status.status_id ne 7 && status.status_id ne 4 && status.status_id ne 5}">
+                                                        <option value="${status.status_id}">${status.status_name}</option>
+                                                    </c:if>
+                                                </c:forEach>
+                                            </select>
+                                        </div>
+                                    </div>
                                     <div class="col-md-3 align-self-end btn-group">
                                         <button type="submit" class="btn btn-primary">Apply Filters</button>
                                         <div class="btn btn-info">
@@ -114,7 +118,7 @@
                                                     <th>Booking Date</th>
                                                     <th>Type</th>
                                                     <th>View</th>
-                                                    <th>Action</th>
+                                                    <th>Status</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -164,7 +168,7 @@
                                                                             </div>
                                                                             <div class="bg-dark text-white p-1 rounded center h4">Order Information</div>
                                                                             <c:choose>
-                                                                                <c:when test="${request.meeting.customer.getFull_name() ne null}">
+                                                                                <c:when test="${request.booking.getBooking_id() eq 0}">
                                                                                     <div class="form-group mb-3">
                                                                                         <label for="bookingDate">Booking date:</label>
                                                                                         <input type="text" class="form-control" id="bookingDate" value="${request.meeting.getFommattedBookingDate()}" readonly>
@@ -208,133 +212,155 @@
                                                         <td>
                                                             <div class="d-flex justify-content-center">
                                                                 <div class="btn-group">
-                                                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#acceptBackdrop">
-                                                                        Accept
-                                                                    </button>
-                                                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#alertBackdrop">
-                                                                        Cancel
-                                                                    </button>
-                                                                </div>
-                                                                <!-- Alert Modal -->
-                                                                <div class="modal fade" id="alertBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                                                                    <div class="modal-dialog">
-                                                                        <div class="modal-content">
-                                                                            <div class="modal-header">
-                                                                                <div class="logo-container">
-                                                                                    <img class="logo" src="${pageContext.request.contextPath}/images/demo/image-removebg-preview.png" alt="image"/>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="modal-body center">
-                                                                                <form action="${pageContext.request.contextPath}/booking/cancel" method="post">
-                                                                                    <input type="hidden" name="meeting_id" value="${request.meeting.getMeeting_id()}">
-                                                                                    <input type="hidden" name="booking_id" value="${request.booking.getBooking_id()}">
-                                                                                <p>Are you sure to reject this order?</p>
-                                                                                <div class="modal-footer">
-                                                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                                                <button type="submit" class="btn btn-primary">Accept</button>
-                                                                            </div>
-                                                                                </form>
-                                                                            </div>
-                                                                            
+                                                                    <c:choose>
+                                                                        <c:when test="${request.booking.getStatus().getStatus_id() eq 1 || request.meeting.getMeetingStatus().getStatus_id() eq 1}">
+                                                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#acceptBackdrop">
+                                                                                Accept
+                                                                            </button>
+                                                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#alertBackdrop">
+                                                                                Cancel
+                                                                            </button>
+                                                                        </c:when>
+                                                                        <c:otherwise>
+                                                                            <c:choose>
+                                                                                <c:when test="${request.booking.getBooking_id() == 0}">
+                                                                                    <span style="color: ${request.meeting.getMeetingStatus().getStatus_id() == 1 ? 'gray' : 
+                                                                                                          request.meeting.getMeetingStatus().getStatus_id() == 2 ? 'green' : 
+                                                                                                          request.meeting.getMeetingStatus().getStatus_id() == 3 ? 'red' : 'black'}">
+                                                                                              ${request.meeting.getMeetingStatus().getStatus_name()}
+                                                                                          </span>
+                                                                                    </c:when>
+                                                                                    <c:otherwise>
+                                                                                        <span style="color: ${request.booking.getStatus().getStatus_id() == 1 ? 'gray' : 
+                                                                                                              request.booking.getStatus().getStatus_id() == 2 ? 'green' : 
+                                                                                                              request.booking.getStatus().getStatus_id() == 3 ? 'red' : 'black'}">
+                                                                                                  ${request.booking.getStatus().getStatus_name()}
+                                                                                              </span>
+                                                                                        </c:otherwise>
+                                                                                    </c:choose>
+                                                                                </c:otherwise>
+                                                                            </c:choose>
                                                                         </div>
-                                                                    </div>
-                                                                </div>
-                                                                <!-- Message Modal -->
-                                                                <div class="modal fade" id="acceptBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                                                                    <div class="modal-dialog">
-                                                                        <div class="modal-content">
-                                                                            <div class="modal-header">
-                                                                                <div class="logo-container">
-                                                                                    <img class="logo" src="${pageContext.request.contextPath}/images/demo/image-removebg-preview.png" alt="image"/>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="modal-body">
-                                                                                <form action="${pageContext.request.contextPath}/booking/accept" method="post">
-                                                                                    <input type="hidden" name="booking_id" value="${request.booking.getBooking_id()}">
-                                                                                    <input type="hidden" name="meeting_id" value="${request.meeting.getMeeting_id()}">
-                                                                                    <div class="form-group mb-3">
-                                                                                        <label for="message">Message:</label>
-                                                                                        <textarea class="form-control" rows="5" id="message" name="message" placeholder="Your message in here(not require)"></textarea>
+                                                                        <!-- Alert Modal -->
+                                                                        <div class="modal fade" id="alertBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                                                            <div class="modal-dialog">
+                                                                                <div class="modal-content">
+                                                                                    <div class="modal-header">
+                                                                                        <div class="logo-container">
+                                                                                            <img class="logo" src="${pageContext.request.contextPath}/images/demo/image-removebg-preview.png" alt="image"/>
+                                                                                        </div>
                                                                                     </div>
-                                                                                    <div class="modal-footer">
-                                                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                                                        <button type="submit" class="btn btn-primary">Accept</button>
+                                                                                    <div class="modal-body center">
+                                                                                        <form action="${pageContext.request.contextPath}/booking/cancel" method="post">
+                                                                                            <input type="hidden" name="meeting_id" value="${request.meeting.getMeeting_id()}">
+                                                                                            <input type="hidden" name="booking_id" value="${request.booking.getBooking_id()}">
+                                                                                            <p>Are you sure to reject this order?</p>
+                                                                                            <div class="modal-footer">
+                                                                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                                                                <button type="submit" class="btn btn-primary">Accept</button>
+                                                                                            </div>
+                                                                                        </form>
                                                                                     </div>
-                                                                                </form>
-                                                                            </div>
 
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <!-- Message Modal -->
+                                                                        <div class="modal fade" id="acceptBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                                                            <div class="modal-dialog">
+                                                                                <div class="modal-content">
+                                                                                    <div class="modal-header">
+                                                                                        <div class="logo-container">
+                                                                                            <img class="logo" src="${pageContext.request.contextPath}/images/demo/image-removebg-preview.png" alt="image"/>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="modal-body">
+                                                                                        <form action="${pageContext.request.contextPath}/booking/accept" method="post">
+                                                                                            <input type="hidden" name="booking_id" value="${request.booking.getBooking_id()}">
+                                                                                            <input type="hidden" name="meeting_id" value="${request.meeting.getMeeting_id()}">
+                                                                                            <div class="form-group mb-3">
+                                                                                                <label for="message">Message:</label>
+                                                                                                <textarea class="form-control" rows="5" id="message" name="message" placeholder="Your message in here(not require)"></textarea>
+                                                                                            </div>
+                                                                                            <div class="modal-footer">
+                                                                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                                                                <button type="submit" class="btn btn-primary">Accept</button>
+                                                                                            </div>
+                                                                                        </form>
+                                                                                    </div>
+
+                                                                                </div>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                </c:forEach>
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </c:forEach>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <!-- Hiển thị các nút điều hướng phân trang -->
+                                        <c:if test="${not empty fillterTotalPages}">
+                                            <nav aria-label="Page navigation example" class="m-3">
+                                                <ul class="pagination">
+                                                    <li class="page-item">
+                                                        <a class="page-link" href="../request/view?page=${currentPage - 1}" aria-label="Previous">
+                                                            <span aria-hidden="true">&laquo;</span>
+                                                            <span class="sr-only">Previous</span>
+                                                        </a>
+                                                    </li>
+                                                    <c:forEach begin="1" end="${fillterTotalPages}" var="page">
+                                                        <c:set var="activeClass" value="" />
+                                                        <c:if test="${currentPage eq page}">
+                                                            <c:set var="activeClass" value="active" />
+                                                        </c:if>
+                                                        <li class="page-item ${activeClass}">
+                                                            <a class="page-link" href="../request/view?page=${page}">${page}</a>
+                                                        </li>
+                                                    </c:forEach>
+                                                    <li class="page-item">
+                                                        <a class="page-link" href="../request/view?page=${currentPage + 1}" aria-label="Next">
+                                                            <span aria-hidden="true">&raquo;</span>
+                                                            <span class="sr-only">Next</span>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </nav>
+                                        </c:if>
+                                        <c:if test="${not empty totalPages}">
+                                            <nav aria-label="Page navigation example" class="m-3">
+                                                <ul class="pagination">
+                                                    <li class="page-item">
+                                                        <a class="page-link" href="../request/view?page=${currentPage - 1}" aria-label="Previous">
+                                                            <span aria-hidden="true">&laquo;</span>
+                                                            <span class="sr-only">Previous</span>
+                                                        </a>
+                                                    </li>
+                                                    <c:forEach begin="1" end="${totalPages}" var="page">
+                                                        <c:set var="activeClass" value="" />
+                                                        <c:if test="${currentPage eq page}">
+                                                            <c:set var="activeClass" value="active" />
+                                                        </c:if>
+                                                        <li class="page-item ${activeClass}">
+                                                            <a class="page-link" href="../request/view?page=${page}">${page}</a>
+                                                        </li>
+                                                    </c:forEach>
+                                                    <li class="page-item">
+                                                        <a class="page-link" href="../request/view?page=${currentPage + 1}" aria-label="Next">
+                                                            <span aria-hidden="true">&raquo;</span>
+                                                            <span class="sr-only">Next</span>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </nav>
+                                        </c:if>
+                                    </c:if>
                                 </div>
-                                <!-- Hiển thị các nút điều hướng phân trang -->
-                                <c:if test="${not empty fillterTotalPages}">
-                                    <nav aria-label="Page navigation example" class="m-3">
-                                        <ul class="pagination">
-                                            <li class="page-item">
-                                                <a class="page-link" href="../request/view?page=${currentPage - 1}" aria-label="Previous">
-                                                    <span aria-hidden="true">&laquo;</span>
-                                                    <span class="sr-only">Previous</span>
-                                                </a>
-                                            </li>
-                                            <c:forEach begin="1" end="${fillterTotalPages}" var="page">
-                                                <c:set var="activeClass" value="" />
-                                                <c:if test="${currentPage eq page}">
-                                                    <c:set var="activeClass" value="active" />
-                                                </c:if>
-                                                <li class="page-item ${activeClass}">
-                                                    <a class="page-link" href="../request/view?page=${page}">${page}</a>
-                                                </li>
-                                            </c:forEach>
-                                            <li class="page-item">
-                                                <a class="page-link" href="../request/view?page=${currentPage + 1}" aria-label="Next">
-                                                    <span aria-hidden="true">&raquo;</span>
-                                                    <span class="sr-only">Next</span>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </nav>
-                                </c:if>
-                                <c:if test="${not empty totalPages}">
-                                    <nav aria-label="Page navigation example" class="m-3">
-                                        <ul class="pagination">
-                                            <li class="page-item">
-                                                <a class="page-link" href="../request/view?page=${currentPage - 1}" aria-label="Previous">
-                                                    <span aria-hidden="true">&laquo;</span>
-                                                    <span class="sr-only">Previous</span>
-                                                </a>
-                                            </li>
-                                            <c:forEach begin="1" end="${totalPages}" var="page">
-                                                <c:set var="activeClass" value="" />
-                                                <c:if test="${currentPage eq page}">
-                                                    <c:set var="activeClass" value="active" />
-                                                </c:if>
-                                                <li class="page-item ${activeClass}">
-                                                    <a class="page-link" href="../request/view?page=${page}">${page}</a>
-                                                </li>
-                                            </c:forEach>
-                                            <li class="page-item">
-                                                <a class="page-link" href="../request/view?page=${currentPage + 1}" aria-label="Next">
-                                                    <span aria-hidden="true">&raquo;</span>
-                                                    <span class="sr-only">Next</span>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </nav>
-                                </c:if>
-                            </c:if>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        <jsp:include page="../footer.jsp"/>
-    </body>
-</html>
+                <jsp:include page="../footer.jsp"/>
+            </body>
+        </html>

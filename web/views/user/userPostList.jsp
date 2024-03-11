@@ -63,18 +63,13 @@
                     <nav class="sdb_holder mb-4">
                         <ul>
                             <li><a href="#" style="font-weight: bold;">Account Information</a></li>
-                            <li><a href="#">View Status</a>
-                                <ul>
-                                    <li><a href="${pageContext.request.contextPath}/status?status=1" >Pending</a></li>
-                                    <li><a href="${pageContext.request.contextPath}/status?status=3" >Declined</a></li>
-                                </ul>
-                            </li>
                             <li><a href="#">View Rentals</a>
                                 <ul>
+                                    <li><a href="${pageContext.request.contextPath}/status?status=1" >Pending Post</a></li>
+                                    <li><a href="${pageContext.request.contextPath}/status?status=3" >Declined Post</a></li>
                                     <li><a href="${pageContext.request.contextPath}/post/view">Your Post</a></li>
-                                    <li><a href="${pageContext.request.contextPath}/booking/view">My Requests</a></li>
-                                    <li><a href="${pageContext.request.contextPath}/request/view">Customer's Requests</a></li>
-                                    <li><a href="${pageContext.request.contextPath}/request/view">Request history</a></li>
+                                    <li><a href="${pageContext.request.contextPath}/booking/view">My Order</a></li>
+                                    <li><a href="${pageContext.request.contextPath}/request/view">Customer's Order</a></li>
                                 </ul>
                             </li>   
                         </ul>

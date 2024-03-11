@@ -30,7 +30,7 @@ public class BookingDAO extends DBContext {
             PreparedStatement stm = con.prepareStatement(sql);
             stm.setInt(1, bookingId);
             stm.executeUpdate();
-            
+
             con.close();
         } catch (SQLException ex) {
             Logger.getLogger(BookingDAO.class.getName()).log(Level.SEVERE, null, ex);
