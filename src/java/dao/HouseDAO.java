@@ -43,8 +43,28 @@ public class HouseDAO extends DBContext {
     public House getHouseByPostID(int post_id) throws IOException {
         House house = new House();
         try {
-            String sql
-                    = "select * from post join house on post.house_id = house.house_id where post_id= ?";
+         String sql = "SELECT post.post_id, post.house_id, post.purpose_id, purpose.purpose_name, post.price, post.start_time,"
+                        + " house_status.status_name AS 'house_status', \n"
+                        + " post_status.status_name AS 'post_status', "
+                        + " type_of_house.type_of_house_name, house.address AS 'location', "
+                        + " house.description,\n"
+                        + " house.area, house.number_of_room, post.poster_id,"
+                        + " user.full_name, user.date_of_birth, user.address, user.phone_number, user.email\n"
+                        + "\n"
+                        + " FROM post\n"
+                        + " JOIN \n"
+                        + "     house ON house.house_id = post.house_id\n"
+                        + " JOIN \n"
+                        + "     user ON post.poster_id = user.user_id\n"
+                        + " JOIN \n"
+                        + "     purpose ON purpose.purpose_id = post.purpose_id\n"
+                        + " JOIN \n"
+                        + "     request_status AS house_status ON house_status.status_id = post.house_status\n"
+                        + " JOIN \n"
+                        + "     request_status AS post_status ON post_status.status_id = post.post_status\n"
+                        + " JOIN \n"
+                        + "     type_of_house ON type_of_house.type_of_house_id = house.type_of_house_id\n"
+                        + " WHERE post.post_id = ?";
 
             DBContext db = new DBContext();
             Connection con = db.getConnection();
