@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.sql.Types;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import model.House;
@@ -360,7 +361,7 @@ public class SearchDAO {
         return list;
     }
 
-    public ArrayList<Post> advanceGetPostByAddressNumTypePriceArea(String address, int num, String type, int price, int area, int purpose) {
+    public ArrayList<Post> advanceGetPostByAddressNumTypePriceArea(String address, Integer num, String type, int price, int area, int purpose) {
         ArrayList<Post> list = new ArrayList<>();
         try {
             DBContext db = new DBContext();
@@ -392,7 +393,7 @@ public class SearchDAO {
                         + " and type_of_house.type_of_house_name like ?\n"
                         + " and post.price < ?\n"
                         + " and house.area < ?\n"
-                        + " and (house.number_of_room = ? OR house.number_of_room IS NULL)\n"
+                        + " and COALESCE(house.number_of_room, ?) in (1,2,3,4,5,6)\n"
                         + " and post.purpose_id = ?\n"
                         + " and post.post_status IN (2)\n"
                         + "    ";
@@ -403,7 +404,11 @@ public class SearchDAO {
                 stm.setString(2, "%" + type + "%"); // Set the parameter for type
                 stm.setInt(3, price); // Set the parameter for price
                 stm.setInt(4, area); // Set the parameter for area
-                stm.setInt(5, num); // Set the parameter for number_of_room
+                if (num != null) {
+                    stm.setInt(5, num); // Set the parameter for number_of_room if not null
+                } else {
+                    stm.setNull(5, Types.INTEGER); // Set the parameter to null if num is null
+                }
                 stm.setInt(6, purpose); // Set the parameter for purpose
                 rs = stm.executeQuery();
                 //run a loop to save queries into model
@@ -455,9 +460,9 @@ public class SearchDAO {
         }
         return list;
     }
-    
-    public ArrayList<Post> advanceGetPostByPurposeNumTypePriceArea(int purpose, int num,String address, String type, int price, int area){
-               ArrayList<Post> list = new ArrayList<>();
+
+    public ArrayList<Post> advanceGetPostByPurposeNumTypePriceArea(Integer purpose, Integer num, String address, String type, int price, int area) {
+        ArrayList<Post> list = new ArrayList<>();
         try {
             DBContext db = new DBContext();
             Connection con = db.getConnection();
@@ -484,22 +489,30 @@ public class SearchDAO {
                         + "    request_status AS post_status ON post_status.status_id = post.post_status\n"
                         + "join \n"
                         + "	type_of_house on type_of_house.type_of_house_id = house.type_of_house_id\n"
-                        + "    where (post.purpose_id = ? OR post.purpose_id IS NULL)\n"
+                        + "    where COALESCE(post.purpose_id, ?) in (1,2)\n"
                         + " and type_of_house.type_of_house_name like ?\n"
                         + " and post.price < ?\n"
                         + " and house.area < ?\n"
-                        + " and (house.number_of_room = ? OR house.number_of_room IS NULL)\n"
+                        + " and COALESCE(house.number_of_room, ?) in (1,2,3,4,5,6)\n"
                         + " and house.address like ?\n"
                         + " and post.post_status IN (2)\n"
                         + "    ";
                 PreparedStatement stm;
                 ResultSet rs;
                 stm = con.prepareStatement(sql);
-                stm.setInt(1, purpose); // Set the parameter for purpose
+                if (purpose != null) {
+                    stm.setInt(1, purpose); // Set the parameter for purpose
+                } else {
+                    stm.setInt(1, Types.INTEGER);
+                }
                 stm.setString(2, "%" + type + "%"); // Set the parameter for type
                 stm.setInt(3, price); // Set the parameter for price
                 stm.setInt(4, area); // Set the parameter for area
-                stm.setInt(5, num); // Set the parameter for number_of_room
+                if (num != null) {
+                    stm.setInt(5, num); // Set the parameter for number_of_room if not null
+                } else {
+                    stm.setNull(5, Types.INTEGER); // Set the parameter to null if num is null
+                }
                 stm.setString(6, "%" + address + "%");// Set the parameter for address
                 rs = stm.executeQuery();
                 //run a loop to save queries into model
@@ -551,8 +564,9 @@ public class SearchDAO {
         }
         return list;
     }
-    public ArrayList<Post> advanceGetPostByPurposeAddressTypePriceArea(int purpose, String address, String type, int price, int area, int num){
-                       ArrayList<Post> list = new ArrayList<>();
+
+    public ArrayList<Post> advanceGetPostByPurposeAddressTypePriceArea(Integer purpose, String address, String type, int price, int area, int num) {
+        ArrayList<Post> list = new ArrayList<>();
         try {
             DBContext db = new DBContext();
             Connection con = db.getConnection();
@@ -579,7 +593,7 @@ public class SearchDAO {
                         + "    request_status AS post_status ON post_status.status_id = post.post_status\n"
                         + "join \n"
                         + "	type_of_house on type_of_house.type_of_house_id = house.type_of_house_id\n"
-                        + "    where (post.purpose_id = ? OR post.purpose_id IS NULL)\n"
+                        + "    where COALESCE(post.purpose_id, ?) in (1,2)\n"
                         + " and type_of_house.type_of_house_name like ?\n"
                         + " and post.price < ?\n"
                         + " and house.area < ?\n"
@@ -590,7 +604,11 @@ public class SearchDAO {
                 PreparedStatement stm;
                 ResultSet rs;
                 stm = con.prepareStatement(sql);
-                stm.setInt(1, purpose); // Set the parameter for address
+                if (purpose != null) {
+                    stm.setInt(1, purpose); // Set the parameter for purpose
+                } else {
+                    stm.setInt(1, Types.INTEGER);
+                }
                 stm.setString(2, "%" + type + "%"); // Set the parameter for type
                 stm.setInt(3, price); // Set the parameter for price
                 stm.setInt(4, area); // Set the parameter for area
@@ -646,8 +664,9 @@ public class SearchDAO {
         }
         return list;
     }
-    public ArrayList<Post> advanceGetPostByPurposeAddressTypePriceAreaNum(int purpose, String address, String type, int price, int area, int num, String name){
-                               ArrayList<Post> list = new ArrayList<>();
+
+    public ArrayList<Post> advanceGetPostByPurposeAddressTypePriceAreaNum(Integer purpose, String address, String type, int price, int area, Integer num, String name) {
+        ArrayList<Post> list = new ArrayList<>();
         try {
             DBContext db = new DBContext();
             Connection con = db.getConnection();
@@ -674,24 +693,32 @@ public class SearchDAO {
                         + "    request_status AS post_status ON post_status.status_id = post.post_status\n"
                         + "join \n"
                         + "	type_of_house on type_of_house.type_of_house_id = house.type_of_house_id\n"
-                        + "    where (post.purpose_id = ? OR post.purpose_id IS NULL)\n"
+                        + "    where COALESCE(post.purpose_id, ?) in (1,2)\n"
                         + " and type_of_house.type_of_house_name like ?\n"
                         + " and post.price < ?\n"
                         + " and house.area < ?\n"
                         + " and house.address like ?\n"
-                        + " and (house.number_of_room = ? OR house.number_of_room IS NULL)\n"
+                        + " and COALESCE(house.number_of_room, ?) in (1,2,3,4,5,6)\n"
                         + " and user.full_name like ?"
                         + " and post.post_status IN (2)\n"
                         + "    ";
                 PreparedStatement stm;
                 ResultSet rs;
                 stm = con.prepareStatement(sql);
-                stm.setInt(1, purpose); // Set the parameter for address
+                if (purpose != null) {
+                    stm.setInt(1, purpose); // Set the parameter for purpose
+                } else {
+                    stm.setInt(1, Types.INTEGER);
+                }
                 stm.setString(2, "%" + type + "%"); // Set the parameter for type
                 stm.setInt(3, price); // Set the parameter for price
                 stm.setInt(4, area); // Set the parameter for area
                 stm.setString(5, "%" + address + "%"); // Set the parameter for address
-                stm.setInt(6, num);// Set the parameter for number_of_room
+                if (num != null) {
+                    stm.setInt(6, num); // Set the parameter for purpose
+                } else {
+                    stm.setInt(6, Types.INTEGER);
+                }
                 stm.setString(7, "%" + name + "%"); // Set the parameter for address
                 rs = stm.executeQuery();
                 //run a loop to save queries into model
