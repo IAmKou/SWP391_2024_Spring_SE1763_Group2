@@ -39,6 +39,22 @@
                 justify-content: center; /* Canh giữa theo chiều ngang */
                 align-items: center; /* Canh giữa theo chiều dọc */
             }
+            /* Style for the link button */
+            .link-button {
+                display: inline-block;
+                padding: 10px 20px;
+                background-color: #007bff; /* Blue color, you can change it to your desired color */
+                color: #fff; /* Text color */
+                text-decoration: none; /* Remove underline */
+                border: none; /* Remove border */
+                border-radius: 5px; /* Add some border radius for rounded corners */
+                cursor: pointer; /* Change cursor to pointer on hover */
+            }
+
+            /* Style for the link button on hover */
+            .link-button:hover {
+                background-color: #0056b3; /* Darker shade of blue on hover */
+            }
         </style>
     </head>
     <body>
@@ -103,10 +119,10 @@
                                         <c:if test="${post.purpose.purpose_id eq 2}">
                                             ${post.price}$/month
                                         </c:if>
-                                            <c:if test="${post.purpose.purpose_id eq 1}">
+                                        <c:if test="${post.purpose.purpose_id eq 1}">
                                             ${post.price}$
                                         </c:if>
-                                        </td>
+                                    </td>
                                     <td><strong>Area: </strong>${post.house.area} m<sup>2</sup></td>
                                 </tr>
                                 <tr>
@@ -246,7 +262,7 @@
                                                 </div>
                                                 <label for="special_requests" class="form-label">Note:</label>
                                                 <textarea id="special_requests" name="note" rows="4" cols="50" class="form-control mb-3"></textarea>
-                                                
+
                                                 <div class="modal-footer">
                                                     <button type="submit" class="btn btn-primary">Submit request</button>
                                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -279,6 +295,44 @@
                 </div>
             </div>
         </div>
+        <!-- Rating and comment section -->
+        <div class="col-md-12">
+            <h5 class="main-heading">Rate and Comment</h5>
+            <!-- Rating stars -->
+            <!-- Comment input -->
+            <c:if test="${b ne null}">
+                <form action="FeedbackController" method="post">
+                    <input type="hidden" value="${sessionScope.user.user_id}" name="uid"/>
+                    <input type="hidden" value="${post.post_id}" name="pid"/>
+                    <input type="hidden" value="${sessionScope.account.full_name}" name="uname"/>
+                    <div class="form-group mt-3">
+                        <label for="comment">Your Comment:</label>
+                        <textarea class="form-control" id="comment" rows="3" required></textarea>
+                    </div>
+                    <div class="form-group mt-3">
+                        <label for="image">Upload Image:</label>
+                        <input type="file" id="image" name="image">
+                    </div>
+                    <!-- Submit button -->
+                    <button class="btn btn-primary" id="submitComment">Submit</button>
+                </form>
+            </c:if>
+
+            <c:forEach var="list" items="${feedback}">                   
+                <div style="color: white; margin-right: 10px " >
+                    ${list.username} : ${list.content} ${list.created_at}
+                </div>
+                <c:if test="${sessionScope.user.user_id eq list.user_id}">
+                    <button href="UpdateFeedbackController">Update</button>
+                    <button href="DeleteFeedbackController">Delete</button>
+                </c:if>
+                <c:if test="${sessionScope.user.user_id ne list.user_id}">
+                    <button href="ReportFeedbackController">Report</button>
+                </c:if>
+            </c:forEach>
+
+        </div>
+
         <p style="color: red">${requestScope.msg}</p>
         <script>
             function checkSession() {
