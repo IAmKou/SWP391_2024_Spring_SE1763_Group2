@@ -88,7 +88,8 @@ public class ImageDAO extends DBContext {
         if (images.isEmpty()) {
             try {
                 Image blankImage = new Image();
-                byte[] imageData = Files.readAllBytes(Paths.get("images/1160869077057818684.gif"));
+                String imagePath = "D:/1160869077057818684.gif";
+                byte[] imageData = Files.readAllBytes(Paths.get(imagePath));
                 blankImage.setImageData(imageData);
                 images.add(blankImage);
             } catch (IOException e) {
