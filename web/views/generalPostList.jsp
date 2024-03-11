@@ -41,7 +41,7 @@
         </select>
 
         <p style="margin-right: 10px;">Type Of House</p>
-        <select name="type" style="margin-right: 10px;">
+        <select name="house" style="margin-right: 10px;">
             <option value="">Select type</option>
             <option value="department">Department</option>
             <option value="villa">Villa</option>
@@ -73,8 +73,7 @@
 </aside>
             <div class="sectiontitle">
                 <h4 class="heading">Result:</h4>
-                <p>There are ${num} houses found</p>
-                <p>${requestScope.msg}</p>
+                <p>There are ${num}${requestScope.msg} houses found</p>
 
             </div>
             <div id="latest" class="group" >
