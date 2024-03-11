@@ -41,8 +41,14 @@ public class AdvanceSearchController extends HttpServlet {
         String searchBy = request.getParameter("type");
         String searchContent = request.getParameter("content");
         String address = request.getParameter("by");
-        String type = request.getParameter("type");
+        String type = request.getParameter("house");
+        if (type != null && type.isEmpty()) {
+            type = null;
+        }
         String room = request.getParameter("room");
+        if (address != null && address.isEmpty()) {
+            address = null;
+        }
         int price = Integer.parseInt(request.getParameter("price"));
         int area = Integer.parseInt(request.getParameter("area"));
         String purpose = request.getParameter("purpose");
@@ -75,7 +81,7 @@ public class AdvanceSearchController extends HttpServlet {
 
         }
         if (list.isEmpty()) {
-            request.setAttribute("msg", "No Post Found");
+            request.setAttribute("msg", "no");
         } else {
             for (Post p : list) {
                 House h = hDao.getHouseByPostID(p.getPost_id());
@@ -132,7 +138,7 @@ public class AdvanceSearchController extends HttpServlet {
 
     private ArrayList<Post> getPostByPurpose(int purpose, String address, String type, int price, int area, String num) {
         SearchDAO dao = new SearchDAO();
-        int room = 0; // Declare room variable outside the if block
+        Integer room = null; // Declare room variable outside the if block
         if (num != null && !num.isEmpty()) { // Check if num is not null before checking if it is empty
             room = Integer.parseInt(num); // Parse num to an integer if it's not empty
         }
@@ -142,8 +148,8 @@ public class AdvanceSearchController extends HttpServlet {
 
     private ArrayList<Post> getPostByAddress(String purpose, String address, String type, int price, int area, String num) {
         SearchDAO dao = new SearchDAO();
-        int pur = 0;
-        int room = 0;
+        Integer pur = null;
+        Integer room = null;
         if (num != null && !num.isEmpty() && purpose != null && !purpose.isEmpty()) {
             room = Integer.parseInt(num);
             pur = Integer.parseInt(purpose);
@@ -153,8 +159,8 @@ public class AdvanceSearchController extends HttpServlet {
 
     private ArrayList<Post> getPostByUser(String name, String purpose, String address, String type, int price, int area, String num) {
         SearchDAO dao = new SearchDAO();
-        int pur = 0;
-        int room = 0;
+        Integer pur = null;
+        Integer room = null;
         if (num != null && !num.isEmpty() && purpose != null && !purpose.isEmpty()) {
             room = Integer.parseInt(num);
             pur = Integer.parseInt(purpose);
@@ -164,7 +170,7 @@ public class AdvanceSearchController extends HttpServlet {
 
     private ArrayList<Post> getPostByNumberOfRoom(String purpose, String address, String type, int price, int area, int num) {
         SearchDAO dao = new SearchDAO();
-        int pur = 0;
+        Integer pur = null;
         if (purpose != null && !purpose.isEmpty()) {
             pur = Integer.parseInt(purpose);
         }
