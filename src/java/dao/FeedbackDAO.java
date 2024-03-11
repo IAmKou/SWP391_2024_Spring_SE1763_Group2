@@ -18,18 +18,19 @@ import model.feedback;
  * @author luong
  */
 public class FeedbackDAO {
-    public void insertFeedback(int post_id, int user_id, String comment, LocalDateTime created_at, String img){
+    public void insertFeedback(int post_id, int user_id, String comment, LocalDateTime created_at, String img, String name){
         try {
             DBContext db = new DBContext();
             Connection con = db.getConnection();
 
             // Prepare the SQL statement
-            String sql = "INSERT INTO `feedback` (post_id,user_id,created_at,comment,image_link)"
+            String sql = "INSERT INTO `feedback` (post_id,user_id,username,created_at,comment,image_link)"
                     + "VALUES (?, ?, ?, ?, ?)";
             PreparedStatement st = con.prepareStatement(sql);
             st = con.prepareStatement(sql);
             st.setInt(1, post_id);
             st.setInt(2, user_id);
+            st.setString(3, name);
             st.setString(3, comment);
             st.setObject(4, created_at);
             st.setString(5, img);
@@ -53,7 +54,7 @@ public class FeedbackDAO {
                 ResultSet rs = call.executeQuery(sql);
                 //assign value for object items then return it
                 while (rs.next()) {
-                    list.add(new feedback(rs.getInt(1), rs.getInt(2),rs.getInt(3), rs.getObject(4, LocalDateTime.class), rs.getString(5), rs.getString(6)));
+                    list.add(new feedback(rs.getInt(1), rs.getInt(2),rs.getInt(3), rs.getString(4) ,rs.getObject(5, LocalDateTime.class), rs.getString(6), rs.getString(7)));
                 }
                 call.close();
                 con.close();
