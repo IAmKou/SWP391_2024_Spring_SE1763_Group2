@@ -5,6 +5,7 @@
 package dao;
 
 import Context.DBContext;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -623,7 +624,7 @@ public class PostDAO {
 
     // tra ve 1 cap post va house de hien len 1 card cua list.
     // 1 = rent; 2= sell; 0 = any
-    public HashMap<Post, House> getPostCard(int purpose) {
+    public HashMap<Post, House> getPostCard(int purpose) throws IOException {
         HashMap<Post, House> postMap = new HashMap<>();
         PostDAO pDao = new PostDAO();
         HouseDAO hDao = new HouseDAO();
@@ -660,7 +661,7 @@ public class PostDAO {
         return false;
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         PostDAO pDao = new PostDAO();
         System.out.println(pDao.getPostCard(0));
     }
