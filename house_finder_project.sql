@@ -359,7 +359,7 @@ CREATE TABLE `booking` (
   KEY `payment_method_idx` (`payment_method`),
   KEY `customer_id_idx` (`user_id`),
   KEY `post_idx` (`post_id`),
-  CONSTRAINT `customer_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`),
+  CONSTRAINT `customer_id_fk` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`),
   CONSTRAINT `payment_method` FOREIGN KEY (`payment_method`) REFERENCES `payment_method` (`method_id`),
   CONSTRAINT `post` FOREIGN KEY (`post_id`) REFERENCES `post` (`post_id`),
   CONSTRAINT `status_of_request` FOREIGN KEY (`booking_status`) REFERENCES `request_status` (`status_id`)
