@@ -68,7 +68,7 @@ public class SearchPostController extends HttpServlet {
                 
         }
         if (list.isEmpty()) {
-            request.setAttribute("msg", "No Post Found");
+            request.setAttribute("msg", "no");
         } else {
             for (Post p : list) {
                 House h = hDao.getHouseByPostID(p.getPost_id());
