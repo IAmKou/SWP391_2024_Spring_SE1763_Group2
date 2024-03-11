@@ -27,6 +27,24 @@ public class Booking {
     private int quantityOfpeople;
     private String responseMessage;
 
+    public Booking(int booking_id, User user, LocalDateTime booking_date, String fommatted_booking_date, Status status, int post_id, String note, LocalDateTime check_in_date, String fomatted_check_in_date, LocalDateTime check_out_date, String fomatted_check_out_date, PaymentMethod payment_method, int quantityOfpeople, String responseMessage) {
+        this.booking_id = booking_id;
+        this.user = user;
+        this.booking_date = booking_date;
+        this.fommatted_booking_date = fommatted_booking_date;
+        this.status = status;
+        this.post_id = post_id;
+        this.note = note;
+        this.check_in_date = check_in_date;
+        this.fomatted_check_in_date = fomatted_check_in_date;
+        this.check_out_date = check_out_date;
+        this.fomatted_check_out_date = fomatted_check_out_date;
+        this.payment_method = payment_method;
+        this.quantityOfpeople = quantityOfpeople;
+        this.responseMessage = responseMessage;
+    }
+
+    
     public int getQuantityOfpeople() {
         return quantityOfpeople;
     }
