@@ -27,6 +27,15 @@ public class Post {
     private LocalDateTime create_time;
     private String fommated_create_time;
     private String admin_message;
+    private boolean active = true;
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
 
     public LocalDateTime getCreate_time() {
         return create_time;
@@ -43,6 +52,7 @@ public class Post {
     public void setFommated_create_time(String fommated_create_time) {
         this.fommated_create_time = fommated_create_time;
     }
+
     public Post() {
     }
 
@@ -63,7 +73,7 @@ public class Post {
         this.fommated_create_time = fommated_create_time;
         this.admin_message = admin_message;
     }
-    
+
     public void setAdmin_message(String admin_message) {
         this.admin_message = admin_message;
     }
@@ -167,6 +177,5 @@ public class Post {
     public int getActive_feedback() {
         return active_feedback;
     }
-
 
 }

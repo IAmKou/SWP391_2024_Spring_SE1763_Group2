@@ -2,22 +2,24 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package Controller.User;
+package Controller.Post;
 
-import dao.AccountDAO;
+import dao.PostDAO;
 import java.io.IOException;
+import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import model.Account;
+import model.Post;
 
 /**
  *
- * @author Acer
+ * @author FPTSHOP
  */
-public class ChangeUserStatus extends HttpServlet {
+public class ChangePostStatusByAdmin extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,44 +35,50 @@ public class ChangeUserStatus extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession();
         Account admin = (Account) session.getAttribute("user");
-        
+
         if (admin == null || admin.getRole_id() != 1) {
             response.sendRedirect(request.getContextPath() + "/");
             return;
         }
-        
-        String userIdStr = request.getParameter("user_id");
-        if (userIdStr == null || userIdStr.isEmpty()) {
-            request.setAttribute("alert", "User ID is required.");
-            request.getRequestDispatcher("/viewUserList").forward(request, response);
+
+        String postIdStr = request.getParameter("postId");
+        String statusIdStr = request.getParameter("statusId");
+
+        if (postIdStr == null || postIdStr.isEmpty() || statusIdStr == null || statusIdStr.isEmpty()) {
+            request.setAttribute("alert", "Post ID and status are required.");
+            request.getRequestDispatcher("/post/list").forward(request, response);
             return;
         }
 
         try {
-            int userId = Integer.parseInt(userIdStr);
-            AccountDAO accountDao = new AccountDAO();
-            Account acc = accountDao.getAccountByUserId(userId);
-            if (acc == null) {
-                throw new Exception("User with ID " + userId + " not found.");
+            int postId = Integer.parseInt(postIdStr);
+            int statusId = Integer.parseInt(statusIdStr);
+            
+            if(statusId != 2 && statusId != 3){
+                throw new Exception("this status is not valid.");
+            }
+            
+            PostDAO postDao = new PostDAO();
+            Post post = postDao.getPost(postId);
+
+            if (post == null) {
+                throw new Exception("Post not found.");
             }
 
-            if (acc.getRole_id() == 1) {
-                throw new Exception("Cannot deactivate admin.");
+            if (post.getPost_status().getStatus_id() != 1) {
+                throw new Exception("This post cannot change status.");
             }
 
-            int newStatus = (acc.isActive()) ? 0 : 1;
-            accountDao.changeStatus(userId, newStatus);
-            String statusMessage = (newStatus == 0) ? "Deactivated" : "Activated";
-            request.setAttribute("success", statusMessage + " successfully at User ID: " + acc.getUser_id());
+            postDao.changePostStatusByAdmin(postId, statusId, admin.getUser_id());
+            request.setAttribute("success", "Updated successfully at Post ID: " + post.getPost_id());
         } catch (NumberFormatException e) {
-            request.setAttribute("alert", "Invalid User ID format.");
+            request.setAttribute("alert", "Invalid Post ID or Status ID format.");
         } catch (Exception e) {
             request.setAttribute("alert", e.getMessage());
         }
 
-        request.getRequestDispatcher("/viewUserList").forward(request, response);
+        request.getRequestDispatcher("/post/list").forward(request, response);
     }
-
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
