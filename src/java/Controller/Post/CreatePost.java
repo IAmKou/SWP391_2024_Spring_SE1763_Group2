@@ -182,7 +182,6 @@ public class CreatePost extends HttpServlet {
 
             HouseDAO houseDAO = new HouseDAO();
             int house_id = houseDAO.addHouse(house);
-
             PostDAO postDAO = new PostDAO();
             postDAO.addPost(house_id, post);
 

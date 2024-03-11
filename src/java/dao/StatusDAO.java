@@ -26,7 +26,7 @@ public class StatusDAO extends DBContext {
 
         try {
             String sql = "SELECT * FROM house_finder_project.request_status\n"
-                    + "WHERE status_id NOT IN (4, 5);";
+                    + "WHERE status_id NOT IN (4, 5 ,7);";
             DBContext db = new DBContext();
             try ( Connection con = db.getConnection();  PreparedStatement stm = con.prepareStatement(sql)) {
                 ResultSet rs = stm.executeQuery();

@@ -98,6 +98,10 @@
         <servlet-name>CancelBooking</servlet-name>
         <servlet-class>Controller.Booking.CancelBooking</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ViewListPostByAdmin</servlet-name>
+        <servlet-class>Controller.Post.ViewListPostByAdmin</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>addNewPost</servlet-name>
         <url-pattern>/post/add</url-pattern>
@@ -192,6 +196,10 @@
     <servlet-mapping>
         <servlet-name>CancelBooking</servlet-name>
         <url-pattern>/booking/cancel</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewListPostByAdmin</servlet-name>
+        <url-pattern>/post/list</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -31,16 +31,16 @@ import model.User;
  * @author FPTSHOP
  */
 public class PostDAO {
-    
-    public int getOwnerPost(int post_id){
+
+    public int getOwnerPost(int post_id) {
         try {
-            String sql ="SELECT poster_id from post where post_id =?;";
+            String sql = "SELECT poster_id from post where post_id =?;";
             DBContext db = new DBContext();
             Connection con = db.getConnection();
             PreparedStatement stm = con.prepareStatement(sql);
             stm.setInt(1, post_id);
             ResultSet rs = stm.executeQuery();
-            while (rs.next()) {                
+            while (rs.next()) {
                 int ownerPostId = rs.getInt("poster_id");
                 return ownerPostId;
             }
@@ -49,6 +49,7 @@ public class PostDAO {
         }
         return -1;
     }
+
     public Post getPostByHouseId(int house_id) {
         try {
             String sql = "SELECT \n"
@@ -61,7 +62,7 @@ public class PostDAO {
                     + "    post_status.status_name AS post_status, \n"
                     + "    type_of_house.type_of_house_name,\n"
                     + "    type_of_house.type_of_house_id, \n"
-                    + "    house.address AS location, \n"
+                    + "    house.location, \n"
                     + "    house.description,\n"
                     + "    house.area,\n"
                     + "    house.number_of_room,\n"
@@ -139,7 +140,7 @@ public class PostDAO {
         }
         return null;
     }
-    
+
     public void deletePostByHouseID(int house_id) {
         try {
             String sql = "DELETE FROM `house_finder_project`.`post`\n"
@@ -163,7 +164,7 @@ public class PostDAO {
             String sql = "SELECT post.post_id, post.house_id,post.purpose_id, purpose.purpose_name, post.price, post.create_time,post.house_status,"
                     + " house_status.status_name as 'house_status_name', \n"
                     + "post_status.status_name as'post_status', "
-                    + "type_of_house.type_of_house_name, house.address as 'location', "
+                    + "type_of_house.type_of_house_name, house.location, "
                     + "house.description,\n"
                     + "house.area,house.number_of_room,post.poster_id,"
                     + "user.full_name, user.date_of_birth, user.address,user.phone_number,user.email\n"
@@ -227,14 +228,14 @@ public class PostDAO {
                     post.setHouse_status(house_status);
                     post.setPost_status(post_status);
                     post.setPurpose(purpose);
-                    post.setStart_time(rs.getObject("start_time", LocalDateTime.class));
+//                    post.setStart_time(rs.getObject("start_time", LocalDateTime.class));
 
-//                    Timestamp timeStamp = rs.getTimestamp("create_time");
-//                    LocalDateTime createDateTime = timeStamp.toLocalDateTime();
-//                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
-//                    String formattedDateTime = createDateTime.format(formatter);
-//                    post.setCreate_time(createDateTime);
-//                    post.setFommated_create_time(formattedDateTime);
+                    Timestamp timeStamp = rs.getTimestamp("create_time");
+                    LocalDateTime createDateTime = timeStamp.toLocalDateTime();
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+                    String formattedDateTime = createDateTime.format(formatter);
+                    post.setCreate_time(createDateTime);
+                    post.setFommated_create_time(formattedDateTime);
 
                     posts.add(post);
                 }
@@ -261,7 +262,7 @@ public class PostDAO {
                     + "    post_status.status_name AS 'post_status_name',\n"
                     + "    house_status.status_name AS 'house_status', \n"
                     + "    type_of_house.type_of_house_name, \n"
-                    + "    house.address AS 'location', \n"
+                    + "    house.location, \n"
                     + "    house.description, \n"
                     + "    house.area,\n"
                     + "    house.number_of_room,\n"
@@ -331,7 +332,7 @@ public class PostDAO {
                     post.setPost_status(post_status);
                     post.setPurpose(purpose);
 //                    post.setAdmin_message(rs.getString("admin_message"));
-                    
+
                     posts.add(post);
                 }
                 con.close();
@@ -346,8 +347,8 @@ public class PostDAO {
     public void addPost(int houseId, Post post) {
         try {
             String postSql = "INSERT INTO post (house_id, purpose_id,"
-                    + " price, poster_id, house_status, post_status, start_time, end_time, create_time)"
-                    + " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                    + " price, poster_id, house_status, post_status, end_time, create_time)"
+                    + " VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             DBContext db = new DBContext();
             try ( Connection con = db.getConnection();  PreparedStatement stm = con.prepareStatement(postSql)) {
 
@@ -357,12 +358,11 @@ public class PostDAO {
                 stm.setInt(4, post.getPoster_id());
                 stm.setInt(5, post.getHouse_status().getStatus_id());
                 stm.setInt(6, post.getPost_status().getStatus_id());
-                stm.setObject(7, post.getStart_time());
-                stm.setObject(8, post.getEnd_time());
+                stm.setObject(7, post.getEnd_time());
 
                 //add current date
                 LocalDateTime currentDateTime = LocalDateTime.now();
-                stm.setObject(9, currentDateTime);
+                stm.setObject(8, currentDateTime);
 
                 stm.executeUpdate();
 
@@ -409,14 +409,15 @@ public class PostDAO {
                     + "    post_status.status_name AS post_status, \n"
                     + "    type_of_house.type_of_house_name,\n"
                     + "    type_of_house.type_of_house_id, \n"
-                    + "    house.address AS location, \n"
+                    + "    house.location, \n"
                     + "    house.description,\n"
                     + "    house.area,\n"
                     + "    house.number_of_room,\n"
                     + "    post.poster_id,\n"
                     + "    user.full_name,\n"
                     + "    user.phone_number,\n"
-                    + "    user.email\n"
+                    + "    user.email,\n"
+                    + "    user.date_of_birth\n"
                     + "FROM \n"
                     + "    post\n"
                     + "JOIN \n"
@@ -457,6 +458,7 @@ public class PostDAO {
                         poster.setFull_name(rs.getString("full_name"));
                         poster.setPhone_number(rs.getString("phone_number"));
                         poster.setEmail(rs.getString("email"));
+                        poster.setDate_of_birth(rs.getDate("date_of_birth"));
 
                         House house = new House();
                         house.setHouse_id(rs.getInt("house_id"));
@@ -493,16 +495,50 @@ public class PostDAO {
         Connection con = new DBContext().getConnection();
 
         try {
-            String sql = "SELECT * FROM post";
+            String sql = "SELECT \n"
+                    + "    post.post_id, \n"
+                    + "    post.house_id,\n"
+                    + "    purpose.purpose_id, \n"
+                    + "    purpose.purpose_name, \n"
+                    + "    post.price,\n"
+                    + "    house_status.status_name AS house_status, \n"
+                    + "    post_status.status_name AS post_status, \n"
+                    + "    type_of_house.type_of_house_name,\n"
+                    + "    type_of_house.type_of_house_id, \n"
+                    + "    house.location, \n"
+                    + "    house.description,\n"
+                    + "    house.area,\n"
+                    + "    house.number_of_room,\n"
+                    + "    post.poster_id,\n"
+                    + "    user.full_name,\n"
+                    + "    user.phone_number,\n"
+                    + "    user.email,\n"
+                    + "    user.date_of_birth,\n"
+                    + "    post.end_time,\n"
+                    + "    post.admin_id,\n"
+                    + "    post.create_time\n"
+                    + "FROM \n"
+                    + "    post\n"
+                    + "JOIN \n"
+                    + "    house ON house.house_id = post.house_id\n"
+                    + "JOIN \n"
+                    + "    user ON post.poster_id = user.user_id\n"
+                    + "JOIN \n"
+                    + "    purpose ON purpose.purpose_id = post.purpose_id\n"
+                    + "JOIN \n"
+                    + "    request_status AS house_status ON house_status.status_id = post.house_status\n"
+                    + "JOIN \n"
+                    + "    request_status AS post_status ON post_status.status_id = post.post_status\n"
+                    + "JOIN \n"
+                    + "    type_of_house ON type_of_house.type_of_house_id = house.type_of_house_id\n"
+                    + "    ";
 
             try ( PreparedStatement stm = con.prepareStatement(sql);  ResultSet rs = stm.executeQuery();) {
                 while (rs.next()) {
-                    Post p = new Post();
-                    HouseDAO hDao = new HouseDAO();
+                    TypeOfHouse type_of_house = new TypeOfHouse();
+                    type_of_house.setType_of_house_id(rs.getInt("type_of_house_id"));
+                    type_of_house.setType_of_house_name(rs.getString("type_of_house_name"));
 
-                    House house = new House();
-
-                    Status status = new Status();
                     Status house_status = new Status();
                     house_status.setStatus_name(rs.getString("house_status"));
 
@@ -511,20 +547,36 @@ public class PostDAO {
 
                     Purpose purpose = new Purpose();
                     purpose.setPurpose_id(rs.getInt("purpose_id"));
+                    purpose.setPurpose_name(rs.getString("purpose_name"));
 
-                    p.setPost_id(rs.getInt("post_id"));
-                    house.setHouse_id(p.getPost_id());
-                    p.setHouse(house);
-                    p.setPurpose(purpose);
-                    p.setPrice(rs.getInt("price"));
-                    p.setPoster_id(rs.getInt("poster_id"));
-                    p.setHouse_status(house_status);
-                    p.setAdmin_id(rs.getInt("admin_id"));
-                    p.setPost_status(post_status);
-                    p.setStart_time(rs.getObject("start_time", LocalDateTime.class));
-                    p.setEnd_time(rs.getObject("end_time", LocalDateTime.class));
+                    User poster = new User();
+                    poster.setUser_id(rs.getInt("poster_id"));
+                    poster.setFull_name(rs.getString("full_name"));
+                    poster.setPhone_number(rs.getString("phone_number"));
+                    poster.setEmail(rs.getString("email"));
+                    poster.setDate_of_birth(rs.getDate("date_of_birth"));
 
-                    list.add(p);
+                    House house = new House();
+                    house.setHouse_id(rs.getInt("house_id"));
+                    house.setLocation(rs.getString("location"));
+                    house.setType_of_house(type_of_house);
+                    house.setArea(rs.getInt("area"));
+                    house.setDescription(rs.getString("description"));
+                    house.setNumber_of_room(rs.getInt("number_of_room"));
+                    house.setHouse_owner(poster);
+
+                    Post post = new Post();
+                    post.setPost_id(rs.getInt("post_id"));
+                    post.setPrice(rs.getInt("price"));
+                    post.setHouse(house);
+                    post.setHouse_status(house_status);
+                    post.setPost_status(post_status);
+                    post.setPurpose(purpose);
+                    post.setAdmin_id(rs.getInt("admin_id"));
+                    post.setEnd_time(rs.getObject("end_time", LocalDateTime.class));
+                    post.setCreate_time(rs.getObject("create_time", LocalDateTime.class));
+
+                    list.add(post);
                 }
             }
         } catch (SQLException ex) {
@@ -533,8 +585,8 @@ public class PostDAO {
         return list;
     }
 
-    public ArrayList<Post> allPost() {
-        ArrayList<Post> posts = new ArrayList<>();
+    public List<Post> allPost() {
+        List<Post> posts = new ArrayList<>();
 
         try {
             String sql = "SELECT \n"
@@ -546,7 +598,7 @@ public class PostDAO {
                     + "    post_status.status_name AS 'post_status_name',\n"
                     + "    house_status.status_name AS 'house_status', \n"
                     + "    type_of_house.type_of_house_name, \n"
-                    + "    house.address AS 'location', \n"
+                    + "    house.location, \n"
                     + "    house.description, \n"
                     + "    house.area,\n"
                     + "    house.number_of_room,\n"
@@ -555,7 +607,8 @@ public class PostDAO {
                     + "    user.date_of_birth, \n"
                     + "    user.address,\n"
                     + "    user.phone_number,\n"
-                    + "    user.email\n"
+                    + "    user.email,\n"
+                    + "    user.avatar\n"
                     + "FROM \n"
                     + "    post\n"
                     + "JOIN \n"
@@ -595,7 +648,8 @@ public class PostDAO {
                     poster.setAddress(rs.getString("address"));
                     poster.setPhone_number(rs.getString("phone_number"));
                     poster.setEmail(rs.getString("email"));
-
+                    poster.setAvatar(rs.getString("avatar"));
+                    
                     House house = new House();
                     house.setHouse_id(rs.getInt("house_id"));
                     house.setLocation(rs.getString("location"));
@@ -663,6 +717,6 @@ public class PostDAO {
 
     public static void main(String[] args) throws IOException {
         PostDAO pDao = new PostDAO();
-        System.out.println(pDao.getPostCard(0));
+//        System.out.println(pDao.getPostCard(0));
     }
 }
