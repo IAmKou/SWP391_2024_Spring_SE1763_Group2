@@ -5,6 +5,8 @@
 
 package Controller.Feedback;
 
+import dao.AccountDAO;
+import dao.UserDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -12,6 +14,19 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.Part;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import model.Account;
+import model.User;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  *
@@ -29,21 +44,63 @@ public class FeedbackController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet FeedbackController</title>");  
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet FeedbackController at " + request.getContextPath () + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
-    } 
+       String content = request.getParameter("comment");
+       int uid = Integer.parseInt(request.getParameter("uid"));
+       Part filePart = request.getPart("file");
+       String msg = "";
+        InputStream inputStream = filePart.getInputStream();
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            byte[] buffer = new byte[4096];
+            int bytesRead;
+            while ((bytesRead = inputStream.read(buffer)) != -1) {
+                outputStream.write(buffer, 0, bytesRead);
+            }
+            byte[] fileBytes = outputStream.toByteArray();
 
+            // Determine the media type based on the file's extension
+            String fileName = filePart.getSubmittedFileName();
+            String mediaTypeString;
+            if (fileName.endsWith(".jpg") || fileName.endsWith(".jpeg")) {
+                mediaTypeString = "image/jpeg";
+            } else if (fileName.endsWith(".png")) {
+                mediaTypeString = "image/png";
+            } else {
+                String redirectURL = "/views/post.jsp";
+                msg = " Unsupported file types";
+                redirectURL += "?message=" + msg; 
+                response.sendRedirect(redirectURL);
+                return;
+            }
+            // Create the request body with the file content and determined media type
+            RequestBody requestBody = RequestBody.create(MediaType.parse(mediaTypeString), fileBytes);
+            //upload to imgur
+            Request requestImgur = new Request.Builder()
+                    .header("Authorization", "Client-ID f939fe0c5f68029")
+                    .url("https://api.imgur.com/3/image")
+                    .post(requestBody)
+                    .build();
+            try ( Response responseImgur = new OkHttpClient().newCall(requestImgur).execute()) {
+                if (!responseImgur.isSuccessful()) {
+                    throw new IOException("Unexpected code " + responseImgur);
+                }
+
+                String responseBody = responseImgur.body().string(); // Read the response body once
+                System.out.println(responseBody); // Print the response body for debugging
+
+                String imageUrl = extractImageUrl(responseBody);
+                if (imageUrl != null) {
+                    System.out.println("Extracted imageUrl: " + imageUrl);
+                    
+                     
+
+                    
+
+                    String redirectURL = request.getContextPath() + "/views/post.jsp" ;
+                    redirectURL += "?message=" + msg; 
+                    response.sendRedirect(redirectURL);   
+                }
+    } 
+    }
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /** 
      * Handles the HTTP <code>GET</code> method.
@@ -79,5 +136,15 @@ public class FeedbackController extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
+    private static String extractImageUrl(String responseBody) {
+        try {
+            // Parse response JSON
+            JSONObject jsonResponse = new JSONObject(responseBody);
+            JSONObject jsonData = jsonResponse.getJSONObject("data");
+            return jsonData.getString("link");
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }
