@@ -28,7 +28,7 @@ public class NotificationDAO {
             Connection con = db.getConnection();
 
             // Prepare the SQL statement
-            String sql = "INSERT INTO `notification` (recipient_id,message,created_at)"
+            String sql = "INSERT INTO `notification` (recipient_id,message,create_at)"
                     + "VALUES (?, ?, ?)";
             PreparedStatement st = con.prepareStatement(sql);
             st = con.prepareStatement(sql);
@@ -77,7 +77,7 @@ public class NotificationDAO {
                     u.setNoti_id(rs.getInt("noti_id"));
                     u.setRecipient_id(rs.getInt("recipient_id"));
                     u.setMessage(rs.getString("message"));
-                    u.setCreated_at(rs.getObject("created_at", LocalDateTime.class));
+                    u.setCreated_at(rs.getObject("create_at", LocalDateTime.class));
                     list.add(u);
                 }
             }
