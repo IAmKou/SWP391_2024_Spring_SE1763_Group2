@@ -9,9 +9,16 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Booking;
+import model.PaymentMethod;
+import model.Post;
+import model.Status;
+import model.User;
 
 /**
  *
@@ -21,7 +28,7 @@ public class BookingDAO extends DBContext {
 
     public void changeCancelStatus(int bookingId) {
         try {
-            String sql = "UPDATE house_finder_project.`booking`\n"
+            String sql = "UPDATE `booking`\n"
                     + "SET\n"
                     + "`booking_status` = 3\n"
                     + "WHERE `booking_id` = ?";
@@ -39,7 +46,7 @@ public class BookingDAO extends DBContext {
 
     public void changeAcceptedStatus(int bookingId, String message) {
         try {
-            String sql = "UPDATE `house_finder_project`.`booking`\n"
+            String sql = "UPDATE `booking`\n"
                     + "SET\n"
                     + "`response_message` = ?,\n"
                     + "`booking_status` = 2\n"
@@ -60,7 +67,7 @@ public class BookingDAO extends DBContext {
 
     public void addBooking(Booking booking) {
         try {
-            String sql = "INSERT INTO `house_finder_project`.`booking`\n"
+            String sql = "INSERT INTO `booking`\n"
                     + "(`user_id`,\n"
                     + "`booking_status`,\n"
                     + "`booking_date`,\n"
@@ -96,7 +103,7 @@ public class BookingDAO extends DBContext {
         boolean isExist = false;
         try {
             String sql = "SELECT COUNT(*) AS duplicates\n"
-                    + "FROM house_finder_project.booking\n"
+                    + "FROM booking\n"
                     + "WHERE user_id = ? AND post_id = ? AND booking_status = 1;";
             DBContext db = new DBContext();
             Connection con = db.getConnection();
@@ -114,5 +121,48 @@ public class BookingDAO extends DBContext {
             Logger.getLogger(BookingDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return isExist;
+    }
+
+    public Booking getBookingByPost(int post_id, int user_id) {
+        Booking b = null;
+        try {
+            DBContext db = new DBContext();
+            Connection con = db.getConnection();
+            if (con != null) {
+                String sql = "Select * from `booking` where post_id = '" + post_id + "' and user_id = '" + user_id + "'";
+                Statement call = con.createStatement();
+                ResultSet rs = call.executeQuery(sql);
+                while (rs.next()) {
+                    User u = new User();
+                    u.setUser_id(rs.getInt("user_id"));
+                    
+                    Status booking_status = new Status();
+                    booking_status.setStatus_id(rs.getInt("booking_status"));
+                    
+                    PaymentMethod p = new PaymentMethod();
+                    p.setMethod_id(rs.getInt("payment_method"));
+                    
+                    
+                    b = new Booking();
+                    b.setBooking_id(rs.getInt("booking_id"));
+                    b.setUser(u);
+                    b.setBooking_date(rs.getObject("booking_date", LocalDateTime.class));
+                    b.setStatus(booking_status);
+                    b.setPost_id(rs.getInt("post_id"));
+                    b.setNote(rs.getString("note"));
+                    b.setCheck_in_date(rs.getObject("check_in_date", LocalDateTime.class));
+                    b.setCheck_out_date(rs.getObject("check_out_date", LocalDateTime.class));
+                    b.setPayment_method(p);
+                    b.setQuantityOfpeople(rs.getInt("quantity_of_people"));
+                    b.setResponseMessage(rs.getString("response_message"));
+                }
+                call.close();
+                rs.close();
+                con.close();
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return b;
     }
 }
