@@ -93,7 +93,7 @@
                     </ul>
                     <li><a href="vieworder.html">Post Management</a>
                         <ul>
-                            <li><a href="#">Updating</a></li>
+                            <li><a href="${pageContext.request.contextPath}/post/list">List Post</a></li>
                             <li><a href="#">Updating</a></li>
                         </ul>
                     </li>

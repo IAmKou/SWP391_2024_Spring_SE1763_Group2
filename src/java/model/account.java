@@ -13,7 +13,7 @@ public class Account {
     private String user_name;
     private String pass_word;
     private int role_id;
-    private boolean active=false;
+    private boolean active = true;
 
     public boolean isActive() {
         return active;

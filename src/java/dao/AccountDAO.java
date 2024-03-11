@@ -44,47 +44,29 @@ public class AccountDAO extends DBContext {
         return null;
     }
 
-    public void changeStatus(int user_id) {
-        try {
-            String sql = "UPDATE `house_finder_project`.`account` SET `active` = ? WHERE (`user_id` = ?)";
-            UserDAO uDAO = new UserDAO();
-
-            User uObj = uDAO.getUserByID(user_id);
-            Account aObj = uDAO.getAccount(user_id);
-
-            DBContext db = new DBContext();
-            Connection con = db.getConnection();
-
-            PreparedStatement stm = con.prepareStatement(sql);
-            Boolean updateStatus = true;
-            if (aObj.isActive()) {
-                updateStatus = false;
-            } else {
-                updateStatus = true;
-            }
-
-            stm.setBoolean(1, updateStatus);
-            stm.setInt(2, user_id);
-            // Thực thi câu lệnh SQL UPDATE
-            int rowsAffected = stm.executeUpdate();
-
-            if (rowsAffected > 0) {
-                System.err.println("Trạng thái tài khoản đã được cập nhật thành công.");
-            } else {
-                System.err.println("Không có bản ghi nào được cập nhật.");
-            }
-            stm.close();
-            con.close();
-
-        } catch (SQLException ex) {
-            Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    public void changeStatus(int user_id, int status) {
+    try {
+        String sql = "UPDATE `house_finder_project`.`account` SET `active` = ? WHERE user_id = ?";
+        DBContext db = new DBContext();
+        Connection con = db.getConnection();
+        PreparedStatement stm = con.prepareStatement(sql);
+        
+        stm.setInt(1, status);
+        stm.setInt(2, user_id);
+        
+        stm.executeUpdate();
+        
+        con.close();
+    } catch (SQLException ex) {
+        Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
     }
+}
+
 
     public static void main(String[] args) {
         AccountDAO aDAO = new AccountDAO();
         System.out.println(aDAO.getAccountByUserId(3));
-        aDAO.changeStatus(3);
+//        aDAO.changeStatus(3);
         System.out.println("---------");
         System.out.println(aDAO.getAccountByUserId(3));
 

@@ -57,7 +57,7 @@ public class HouseDAO extends DBContext {
                 house.setArea(rs.getInt("area"));
                 house.setDescription(rs.getString("description"));
                 house.setHouse_id(rs.getInt("house_id"));
-                house.setLocation(rs.getString("address"));
+                house.setLocation(rs.getString("location"));
 
                 house.setNumber_of_room(rs.getInt("number_of_room"));
                 house.setType_of_house(TypeOfHouseDAO.getType_of_House_Name_byID(rs.getInt("type_of_house_id")));
@@ -112,7 +112,7 @@ public class HouseDAO extends DBContext {
             String sql = "UPDATE `house_finder_project`.`house`\n"
                     + "SET\n"
                     + "`type_of_house_id` = ?,\n"
-                    + "`address` = ?,\n"
+                    + "`location` = ?,\n"
                     + "`description` = ?,\n"
                     + "`area` = ?,\n"
                     + "`number_of_room` = ?\n"
@@ -137,7 +137,7 @@ public class HouseDAO extends DBContext {
     public int addHouse(House house) {
         try {
             String sql = "INSERT INTO house (house_owner_id, type_of_house_id,"
-                    + " address, description, area, number_of_room) "
+                    + " location, description, area, number_of_room) "
                     + "VALUES (?, ?, ?, ?, ?, ?)";
             DBContext db = new DBContext();
 
