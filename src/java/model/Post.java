@@ -24,14 +24,14 @@ public class Post {
     private Status post_status;
     private LocalDateTime start_time;
     private LocalDateTime end_time;
-//    LocalDateTime create_time;
-//    private String fommated_create_time;
+    LocalDateTime create_time;
+    private String fommated_create_time;
     private String admin_message;
 
     public Post() {
     }
 
-    public Post(int post_id, House house, Purpose purpose, int price, int poster_id, Status house_status, int admin_id, int active_feedback, float feedback_point, Status post_status, LocalDateTime start_time, LocalDateTime end_time, String admin_message) {
+    public Post(int post_id, House house, Purpose purpose, int price, int poster_id, Status house_status, int admin_id, int active_feedback, float feedback_point, Status post_status, LocalDateTime start_time, LocalDateTime end_time, LocalDateTime create_time, String fommated_create_time, String admin_message) {
         this.post_id = post_id;
         this.house = house;
         this.purpose = purpose;
@@ -44,8 +44,28 @@ public class Post {
         this.post_status = post_status;
         this.start_time = start_time;
         this.end_time = end_time;
+        this.create_time = create_time;
+        this.fommated_create_time = fommated_create_time;
         this.admin_message = admin_message;
     }
+
+    public LocalDateTime getCreate_time() {
+        return create_time;
+    }
+
+    public String getFommated_create_time() {
+        return fommated_create_time;
+    }
+
+    public void setCreate_time(LocalDateTime create_time) {
+        this.create_time = create_time;
+    }
+
+    public void setFommated_create_time(String fommated_create_time) {
+        this.fommated_create_time = fommated_create_time;
+    }
+
+
 
     public void setAdmin_message(String admin_message) {
         this.admin_message = admin_message;
