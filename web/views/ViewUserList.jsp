@@ -104,7 +104,8 @@
                                                                                     </tr>
                                                                                 </table>-->
 
-                                        <p >${msg}${success}${alert}</p>
+                                        <p >${msg}${alert}</p>
+                                        <p style="color: green">${success}</p>
                                         <table id="ulist" class="table table-responsive-xl" style="word-wrap: break-word">
 
                                             <thead>

@@ -5,6 +5,7 @@
 package Controller.Post;
 
 import dao.AccountDAO;
+import dao.ImageDAO;
 import dao.PostDAO;
 import dao.StatusDAO;
 import java.io.IOException;
@@ -14,8 +15,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import model.Account;
+import model.Image;
 import model.Post;
 import model.Status;
 
@@ -110,6 +113,20 @@ public class ViewListPostByAdmin extends HttpServlet {
         int end = Math.min(currentPage * recordsPerPage, totalPosts);
 
         List<Post> posts = Allposts.subList(start, end);
+        ImageDAO imageDAO = new ImageDAO();
+
+        for (Post post : posts) {
+            int houseId = post.getHouse().getHouse_id();
+
+            List<Image> images = imageDAO.getImages(houseId);
+
+            for (Image image : images) {
+                byte[] imageData = image.getImageData();
+                String imageDataBase64 = Base64.getEncoder().encodeToString(imageData);
+                image.setImageDataAsBase64(imageDataBase64);
+            }
+            post.getHouse().setImage(images);
+        }
 
         StatusDAO statusDao = new StatusDAO();
         List<Status> statuses = statusDao.getStatus();

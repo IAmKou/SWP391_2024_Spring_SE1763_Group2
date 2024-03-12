@@ -402,7 +402,6 @@ public class PostDAO {
                 stm.setInt(6, post.getPost_status().getStatus_id());
                 stm.setObject(7, post.getEnd_time());
 
-                //add current date
                 LocalDateTime currentDateTime = LocalDateTime.now();
                 stm.setObject(8, currentDateTime);
 
@@ -520,8 +519,7 @@ public class PostDAO {
                         post.setHouse_status(house_status);
                         post.setPost_status(post_status);
                         post.setPurpose(purpose);
-                     
-
+                        
                         return post;
                     }
 
@@ -653,8 +651,7 @@ public class PostDAO {
                     + "    user.address,\n"
                     + "    user.phone_number,\n"
                     + "    user.email,\n"
-                    + "    user.avatar,\n"
-                    + "    post.active\n"
+                    + "    user.avatar\n"
                     + "FROM \n"
                     + "    post\n"
                     + "JOIN \n"
@@ -712,7 +709,6 @@ public class PostDAO {
                     post.setHouse_status(house_status);
                     post.setPost_status(post_status);
                     post.setPurpose(purpose);
-                    post.setActive(rs.getBoolean("active"));
                     posts.add(post);
                 }
 
