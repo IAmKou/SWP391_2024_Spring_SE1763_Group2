@@ -391,9 +391,9 @@ public class SearchDAO {
                         + "	type_of_house on type_of_house.type_of_house_id = house.type_of_house_id\n"
                         + " where house.location like ?\n"
                         + " and type_of_house.type_of_house_name like ?\n"
-                        + " and post.price < ?\n"
-                        + " and house.area < ?\n"
-                        + " and (house.number_of_room = ? OR (? IS NULL AND house.number_of_room IN (1, 2, 3, 4, 5, 6)))\n"
+                        + " and post.price <= ?\n"
+                        + " and house.area <= ?\n"
+                        + " and COALESCE(house.number_of_room, ?) in (1,2,3,4,5,6)\n"
                         + " and post.purpose_id = ?\n"
                         + " and post.post_status IN (2)\n"
                         + "    ";
@@ -405,9 +405,9 @@ public class SearchDAO {
                 stm.setInt(3, price); // Set the parameter for price
                 stm.setInt(4, area); // Set the parameter for area
                 if (num != null) {
-                    stm.setInt(5, num); // Set the parameter for number_of_room if not null
+                    stm.setInt(5, num); // Set the parameter for purpose
                 } else {
-                    stm.setNull(5, Types.INTEGER); // Set the parameter to null if num is null
+                    stm.setInt(5, Types.INTEGER);
                 }
                 stm.setInt(6, purpose); // Set the parameter for purpose
                 rs = stm.executeQuery();
@@ -489,11 +489,11 @@ public class SearchDAO {
                         + "    request_status AS post_status ON post_status.status_id = post.post_status\n"
                         + "join \n"
                         + "	type_of_house on type_of_house.type_of_house_id = house.type_of_house_id\n"
-                        + "    where (post.purpose_id = ? OR (? IS NULL AND post.purpose_id IN (1, 2)))\n"
+                        + "    where COALESCE(post.purpose_id, ?) in (1,2)\n"
                         + " and type_of_house.type_of_house_name like ?\n"
-                        + " and post.price < ?\n"
-                        + " and house.area < ?\n"
-                        + " and (house.number_of_room = ? OR (? IS NULL AND house.number_of_room IN (1, 2, 3, 4, 5, 6)))\n"
+                        + " and post.price <= ?\n"
+                        + " and house.area <= ?\n"
+                        + " and COALESCE(house.number_of_room, ?) in (1,2,3,4,5,6)\n"
                         + " and house.location like ?\n"
                         + " and post.post_status IN (2)\n"
                         + "    ";
@@ -508,10 +508,10 @@ public class SearchDAO {
                 stm.setString(2, "%" + type + "%"); // Set the parameter for type
                 stm.setInt(3, price); // Set the parameter for price
                 stm.setInt(4, area); // Set the parameter for area
-                if (num != null) {
-                    stm.setInt(5, num); // Set the parameter for number_of_room if not null
+               if (num != null) {
+                    stm.setInt(5, num); // Set the parameter for purpose
                 } else {
-                    stm.setNull(5, Types.INTEGER); // Set the parameter to null if num is null
+                    stm.setInt(5, Types.INTEGER);
                 }
                 stm.setString(6, "%" + address + "%");// Set the parameter for address
                 rs = stm.executeQuery();
@@ -593,10 +593,10 @@ public class SearchDAO {
                         + "    request_status AS post_status ON post_status.status_id = post.post_status\n"
                         + "join \n"
                         + "	type_of_house on type_of_house.type_of_house_id = house.type_of_house_id\n"
-                        + "    where (post.purpose_id = ? OR (? IS NULL AND post.purpose_id IN (1, 2)))\n"
+                        + "    where COALESCE(post.purpose_id, ?) in (1,2)\n"
                         + " and type_of_house.type_of_house_name like ?\n"
-                        + " and post.price < ?\n"
-                        + " and house.area < ?\n"
+                        + " and post.price <= ?\n"
+                        + " and house.area <= ?\n"
                         + " and house.location like ?\n"
                         + " and house.number_of_room = ?\n"
                         + " and post.post_status IN (2)\n"
@@ -693,12 +693,12 @@ public class SearchDAO {
                         + "    request_status AS post_status ON post_status.status_id = post.post_status\n"
                         + "join \n"
                         + "	type_of_house on type_of_house.type_of_house_id = house.type_of_house_id\n"
-                        + "    where (post.purpose_id = ? OR (? IS NULL AND post.purpose_id IN (1, 2)))\n"
+                        + "    where COALESCE(post.purpose_id, ?) in (1,2)\n"
                         + " and type_of_house.type_of_house_name like ?\n"
-                        + " and post.price < ?\n"
-                        + " and house.area < ?\n"
+                        + " and post.price <= ?\n"
+                        + " and house.area <= ?\n"
                         + " and house.location like ?\n"
-                        + " and (house.number_of_room = ? OR (? IS NULL AND house.number_of_room IN (1, 2, 3, 4, 5, 6)))\n"
+                        + " and COALESCE(house.number_of_room, ?) in (1,2,3,4,5,6)\n"
                         + " and user.full_name like ?"
                         + " and post.post_status IN (2)\n"
                         + "    ";
