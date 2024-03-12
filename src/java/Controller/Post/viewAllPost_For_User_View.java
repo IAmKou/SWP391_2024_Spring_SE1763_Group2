@@ -6,15 +6,14 @@ package Controller.Post;
 
 import dao.HouseDAO;
 import dao.PostDAO;
-import dao.UserDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import model.House;
 import model.Post;
 
@@ -71,7 +70,7 @@ public class viewAllPost_For_User_View extends HttpServlet {
             int purpose = Integer.parseInt(pam);
 
             HashMap<Post, House> cardList = new HashMap<>();
-            ArrayList<Post> pList = pDao.allPost();
+            List<Post> pList = pDao.allPost();
 
             if (purpose == 1) {
                 request.setAttribute("title", "For Sale");

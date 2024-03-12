@@ -12,14 +12,12 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import model.Account;
 import model.Post;
 import model.Status;
-import model.User;
 
 /**
  *
@@ -39,10 +37,18 @@ public class ViewListPostByAdmin extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        HttpSession session = request.getSession();
+        Account admin = (Account) session.getAttribute("user");
+
+        if (admin == null || admin.getRole_id() != 1) {
+            request.getRequestDispatcher("/").forward(request, response);
+            return;
+        }
+
         String posterIdStr = request.getParameter("poster");
         String statusIdStr = request.getParameter("status");
         String location = request.getParameter("location");
-
+        String postIdStr = request.getParameter("post_id");
         int currentPage = 1;
         int recordsPerPage = 10;
 
@@ -55,10 +61,10 @@ public class ViewListPostByAdmin extends HttpServlet {
         }
         PostDAO postDao = new PostDAO();
         List<Post> Allposts = postDao.allPost();
-        
+
         AccountDAO accountDao = new AccountDAO();
         List<Account> accounts = new ArrayList<>();
-        
+
         for (Post Allpost : Allposts) {
             Account user = accountDao.getAccountByUserId(Allpost.getHouse().getHouse_owner().getUser_id());
             boolean isUserExist = false;
@@ -72,6 +78,12 @@ public class ViewListPostByAdmin extends HttpServlet {
                 accounts.add(user);
             }
         }
+
+        if (postIdStr != null && !postIdStr.isEmpty()) {
+            int postId = Integer.parseInt(postIdStr);
+            Allposts = filterByPostId(Allposts, postId);
+        }
+
         if (posterIdStr != null && !posterIdStr.isEmpty()) {
             int posterId = Integer.parseInt(posterIdStr);
             Allposts = filterByPoster(Allposts, posterId);
@@ -98,10 +110,10 @@ public class ViewListPostByAdmin extends HttpServlet {
         int end = Math.min(currentPage * recordsPerPage, totalPosts);
 
         List<Post> posts = Allposts.subList(start, end);
-        
+
         StatusDAO statusDao = new StatusDAO();
         List<Status> statuses = statusDao.getStatus();
-        
+
         request.setAttribute("accounts", accounts);
         request.setAttribute("statuses", statuses);
         request.setAttribute("posts", posts);
@@ -175,7 +187,7 @@ public class ViewListPostByAdmin extends HttpServlet {
 
     public List<Post> filterByLocation(List<Post> posts, String location) {
         List<Post> filteredPosts = new ArrayList<>();
-        System.out.println(location);
+
         for (Post post : posts) {
             String postLocation = post.getHouse().getLocation().toLowerCase();
             if (postLocation.contains(location) || postLocation.contentEquals(location)) {
@@ -184,5 +196,16 @@ public class ViewListPostByAdmin extends HttpServlet {
         }
 
         return filteredPosts;
+    }
+
+    private List<Post> filterByPostId(List<Post> Allposts, int postId) {
+        List<Post> fillteredPosts = new ArrayList<>();
+
+        for (Post Allpost : Allposts) {
+            if (Allpost.getPost_id() == postId) {
+                fillteredPosts.add(Allpost);
+            }
+        }
+        return fillteredPosts;
     }
 }

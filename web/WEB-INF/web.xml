@@ -56,11 +56,11 @@
     </servlet>
     <servlet>
         <servlet-name>DeletePost</servlet-name>
-        <servlet-class>Controller.Post.ChangePostStatus</servlet-class>
+        <servlet-class>Controller.Post.ChangeHouseStatusByUser</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>changeUserStatus</servlet-name>
-        <servlet-class>Controller.User.changeUserStatus</servlet-class>
+        <servlet-class>Controller.User.ChangeUserStatus</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>viewAllPost_For_User_View</servlet-name>
@@ -101,6 +101,14 @@
     <servlet>
         <servlet-name>ViewListPostByAdmin</servlet-name>
         <servlet-class>Controller.Post.ViewListPostByAdmin</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeactivePost</servlet-name>
+        <servlet-class>Controller.Post.DeactivePost</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ChangePostStatusByAdmin</servlet-name>
+        <servlet-class>Controller.Post.ChangePostStatusByAdmin</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>addNewPost</servlet-name>
@@ -156,7 +164,7 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>changeUserStatus</servlet-name>
-        <url-pattern>/changeUserStatus</url-pattern>
+        <url-pattern>/user/status</url-pattern>
     </servlet-mapping>
     <listener>
         <listener-class>tickRate.handleAutoEndPost</listener-class>
@@ -200,6 +208,14 @@
     <servlet-mapping>
         <servlet-name>ViewListPostByAdmin</servlet-name>
         <url-pattern>/post/list</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeactivePost</servlet-name>
+        <url-pattern>/post/deactive</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ChangePostStatusByAdmin</servlet-name>
+        <url-pattern>/post/status</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -104,7 +104,7 @@
                                                                                     </tr>
                                                                                 </table>-->
 
-                                        <p>${msg}</p>
+                                        <p >${msg}${success}${alert}</p>
                                         <table id="ulist" class="table table-responsive-xl" style="word-wrap: break-word">
 
                                             <thead>
@@ -115,6 +115,8 @@
                                                     <th onclick="sortTable(3)">Email<i class="fas fa-sort"></i></th>
                                                     <th onclick="sortTable(4)">Phone<i class="fas fa-sort"></i></th>
                                                     <th onclick="sortTable(5)">Active<i class="fas fa-sort"></i></th>
+                                                    <th><i class="fas fa-sort">Action</i></th>
+
                                                 </tr>
                                             </thead>
                                             <tbody style="white-space: nowrap; overflow: hidden;">
@@ -129,6 +131,9 @@
                                                     <td>${user.key.email}</td>
                                                     <td>${user.key.phone_number}</td>
                                                     <td>${user.value.isActive()==true?'Active':'Inactive'}</td>
+                                                    <td><c:if test="${user.value.getRole_id() eq 2}">
+                                                            <a href="${pageContext.request.contextPath}/user/status?user_id=${user.key.user_id}" class="btn btn-warning">Change Status</a>
+                                                    </c:if></td>
                                                 </a><!-- comment -->
                                                 </tr>
                                             </c:forEach>
@@ -184,24 +189,24 @@
         <script src="layout/scripts/jquery.backtotop.js"></script>
         <script src="layout/scripts/jquery.mobilemenu.js"></script>
         <script>
-                                                    function viewProfile(userId) {
-                                                        window.location.href = 'userProfile?id=' + userId;
-                                                    }
-                                                    function sortTable(colIndex) {
-                                                        var table = document.getElementById("ulist");
-                                                        var rows = table.rows;
-                                                        var switching = true;
+                                                        function viewProfile(userId) {
+                                                            window.location.href = 'userProfile?id=' + userId;
+                                                        }
+                                                        function sortTable(colIndex) {
+                                                            var table = document.getElementById("ulist");
+                                                            var rows = table.rows;
+                                                            var switching = true;
 
-                                                        while (switching) {
-                                                            switching = false;
-                                                            for (var i = 1; i < rows.length - 1; i++) {
-                                                                var row1 = rows[i].getElementsByTagName("td")[colIndex];
-                                                                var row2 = rows[i + 1].getElementsByTagName("td")[colIndex];
-                                                                if (row1.innerHTML.toLowerCase() > row2.innerHTML.toLowerCase()) {
-                                                                    rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-                                                                    switching = true;
-                                                                    break;
-                                                                }
+                                                            while (switching) {
+                                                                switching = false;
+                                                                for (var i = 1; i < rows.length - 1; i++) {
+                                                                    var row1 = rows[i].getElementsByTagName("td")[colIndex];
+                                                                    var row2 = rows[i + 1].getElementsByTagName("td")[colIndex];
+                                                                    if (row1.innerHTML.toLowerCase() > row2.innerHTML.toLowerCase()) {
+                                                                        rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                                                                        switching = true;
+                                                                        break;
+                                                                    }
         </script>
     </body>
 </html>
