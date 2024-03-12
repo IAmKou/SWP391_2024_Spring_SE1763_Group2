@@ -23,7 +23,7 @@
             <article>
                 <h4 class="heading" style="white-space: nowrap;">Explore your new Destination</h4>
                 <footer style="height: 300px;">
-                    <form class="group" method="get" action="SearchPostController">
+                    <form class="group" method="get" action="${pageContext.request.contextPath}/SearchPostController">
                         <fieldset>
                             <legend>Sign-Up:</legend>
                             <input type="text" name="content" placeholder="Search smth">
@@ -36,6 +36,8 @@
                                 <option value="address">Address</option>
                                 <option value="number">Number Of Room</option>
                                 <option value="user">House owner</option>
+                                <option value="price">Price</option>
+                                <option value="area">Area</option>
                             </select>
                         </fieldset>
                     </form>
