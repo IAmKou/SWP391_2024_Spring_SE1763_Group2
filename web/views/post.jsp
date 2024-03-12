@@ -318,16 +318,21 @@
                 </form>
             </c:if>
 
-            <c:forEach var="list" items="${feedback}">                   
+            <c:forEach var="list" items="${feedback}"> 
+                <form action="UpdateFeedbackController" method="post">
                 <div style="color: white; margin-right: 10px " >
-                    ${list.username} : ${list.content} ${list.created_at}
+                    ${list.username} : <input type="text" value="${list.content}" name="content"/> ${list.created_at}
+                    <input type="hidden" value="${list.feedback_id}" name="fid"/>
+                    <input type="hidden" value="${sessionScope.user.user_id}" name="uid"/>
+                    <input type="hidden" value="${post.post_id}" name="pid"/>
                 </div>
                 <c:if test="${sessionScope.user.user_id eq list.user_id}">
-                    <button href="UpdateFeedbackController">Update</button>
-                    <button href="DeleteFeedbackController">Delete</button>
+                    <button type="submit">Update</button>
+                    </form>
+                    <a href="DeleteFeedbackController?fid=${list.feedback_id}&uid=${sessionScope.user.user_id}&tid=${post.post_id}" class="link-button">Delete</a>
                 </c:if>
                 <c:if test="${sessionScope.user.user_id ne list.user_id}">
-                    <button href="ReportFeedbackController">Report</button>
+                    <a href="ReportFeedbackController" class="link-button">Report</a>
                 </c:if>
             </c:forEach>
 
