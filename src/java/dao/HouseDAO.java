@@ -46,7 +46,7 @@ public class HouseDAO extends DBContext {
          String sql = "SELECT post.post_id, post.house_id, post.purpose_id, purpose.purpose_name, post.price, post.start_time,"
                         + " house_status.status_name AS 'house_status', \n"
                         + " post_status.status_name AS 'post_status', "
-                        + " type_of_house.type_of_house_name, house.address AS 'location', "
+                        + " type_of_house.type_of_house_name, house.location, "
                         + " house.description,\n"
                         + " house.area, house.number_of_room, post.poster_id,"
                         + " user.full_name, user.date_of_birth, user.address, user.phone_number, user.email\n"
