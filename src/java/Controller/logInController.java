@@ -69,7 +69,7 @@ public class logInController extends HttpServlet {
         Account account = dao.LogIn(user, pass);
         if (account == null) {
             req.setAttribute("username", user);
-            req.setAttribute("message", "Login Failed.");
+            req.setAttribute("msg", "Login Failed.");
             req.getRequestDispatcher("logIn.jsp").forward(req, resp);
         } else {
             if (account.isActive()) {
