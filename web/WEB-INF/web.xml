@@ -110,6 +110,10 @@
         <servlet-name>ChangePostStatusByAdmin</servlet-name>
         <servlet-class>Controller.Post.ChangePostStatusByAdmin</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SearchPostController</servlet-name>
+        <servlet-class>Controller.Post.SearchPostController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>addNewPost</servlet-name>
         <url-pattern>/post/add</url-pattern>
@@ -216,6 +220,10 @@
     <servlet-mapping>
         <servlet-name>ChangePostStatusByAdmin</servlet-name>
         <url-pattern>/post/status</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SearchPostController</servlet-name>
+        <url-pattern>/SearchPostController</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
