@@ -6,6 +6,7 @@
 package Controller.Feedback;
 
 import dao.AccountDAO;
+import dao.FeedbackDAO;
 import dao.UserDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -18,6 +19,7 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.time.LocalDateTime;
 import model.Account;
 import model.User;
 import okhttp3.MediaType;
@@ -46,6 +48,8 @@ public class FeedbackController extends HttpServlet {
     throws ServletException, IOException {
        String content = request.getParameter("comment");
        int uid = Integer.parseInt(request.getParameter("uid"));
+       int pid = Integer.parseInt(request.getParameter("pid"));
+       String name = request.getParameter("uname");
        Part filePart = request.getPart("file");
        String msg = "";
         InputStream inputStream = filePart.getInputStream();
@@ -90,11 +94,9 @@ public class FeedbackController extends HttpServlet {
                 String imageUrl = extractImageUrl(responseBody);
                 if (imageUrl != null) {
                     System.out.println("Extracted imageUrl: " + imageUrl);
-                    
-                     
-
-                    
-
+                    FeedbackDAO dao = new FeedbackDAO();
+                    LocalDateTime now = LocalDateTime.now();
+                    dao.insertFeedback(pid, uid, content, now, imageUrl, name);
                     String redirectURL = request.getContextPath() + "/views/post.jsp" ;
                     redirectURL += "?message=" + msg; 
                     response.sendRedirect(redirectURL);   
