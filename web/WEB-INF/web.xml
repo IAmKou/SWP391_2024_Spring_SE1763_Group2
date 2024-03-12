@@ -103,10 +103,6 @@
         <servlet-class>Controller.Post.ViewListPostByAdmin</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>DeactivePost</servlet-name>
-        <servlet-class>Controller.Post.DeactivePost</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>ChangePostStatusByAdmin</servlet-name>
         <servlet-class>Controller.Post.ChangePostStatusByAdmin</servlet-class>
     </servlet>
@@ -208,10 +204,6 @@
     <servlet-mapping>
         <servlet-name>ViewListPostByAdmin</servlet-name>
         <url-pattern>/post/list</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>DeactivePost</servlet-name>
-        <url-pattern>/post/deactive</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ChangePostStatusByAdmin</servlet-name>

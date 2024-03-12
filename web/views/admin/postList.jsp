@@ -90,7 +90,6 @@
                             <th>Poster</th>
                             <th>House status</th>
                             <th>Post Status</th>
-                            <th>Active</th>
                             <th>View</th>
                             <th>Action</th>
                         </tr>
@@ -109,7 +108,6 @@
                                 </td>
                                 <td class="center">${post.house_status.getStatus_name()}</td>
                                 <td class="center">${post.post_status.getStatus_name()}</td>
-                                <td>${post.isActive() ? 'active' : 'deactive'}
                                 </td>
                                 <td>
                                     <div class="btn-group">
@@ -119,7 +117,7 @@
                                         <a href="${pageContext.request.contextPath}/view?post_id=${post.getPost_id()}" class="btn btn-outline-primary">Detail House</a>
 
                                         <!--User Modal -->
-                                        <div class="modal fade modal-lg" id="UserModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal fade modal-xl" id="UserModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
@@ -131,18 +129,37 @@
                                                         <div class="row">
                                                             <div class="col-md-6 d-flex flex-column align-items-center">
                                                                 <div class="m-auto">
-                                                                    <img src="${post.house.getHouse_owner().getAvatar()}" alt="avatar" style="width: 200px; height: 200px; border-radius: 50px"/>
                                                                     <div class="col-md-12 mt-2 text-center">
-                                                                        <c:forEach items="${accounts}" var="account">
-                                                                            <c:if test="${account.getUser_id() == post.house.getHouse_owner().getUser_id()}">
-                                                                                <h5>${account.getUser_name()}</h5>
-                                                                            </c:if>
-                                                                        </c:forEach>
+                                                                        <div id="carouselExampleFade_${post.post_id}" class="carousel slide carousel-fade">
+                                                                            <div class="carousel-inner">
+                                                                                <c:forEach items="${post.house.image}" var="image" varStatus="loop">
+                                                                                    <c:if test="${not empty image}">
+                                                                                        <div class=" carousel-item ${loop.first ? 'active' : ''} img-container">
+                                                                                            <img src="data:image/jpeg;base64,${image.getImageDataAsBase64()}" class="d-block w-100" alt="hinh anh" style="width: 350px; height: 250px; border-radius: 5px"/>
+                                                                                        </div>
+                                                                                    </c:if>
+                                                                                </c:forEach>
+                                                                            </div>
+                                                                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade_${post.post_id}" data-bs-slide="prev">
+                                                                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                                                                <span class="visually-hidden">Previous</span>
+                                                                            </button>
+                                                                            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade_${post.post_id}" data-bs-slide="next">
+                                                                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                                                                <span class="visually-hidden">Next</span>
+                                                                            </button>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
 
                                                             </div>
                                                             <div class="col-md-6" >
+                                                                <img src="${post.house.getHouse_owner().getAvatar()}" alt="avatar" style="width: 200px; height: 200px; border-radius: 50px"/>
+                                                                <c:forEach items="${accounts}" var="account">
+                                                                    <c:if test="${account.getUser_id() == post.house.getHouse_owner().getUser_id()}">
+                                                                        <h5>${account.getUser_name()}</h5>
+                                                                    </c:if>
+                                                                </c:forEach>
                                                                 <div class="bg-dark text-white p-1 rounded center h4">User Information</div>
                                                                 <div class="mb-3">
                                                                     <label for="user-id">User ID:</label>

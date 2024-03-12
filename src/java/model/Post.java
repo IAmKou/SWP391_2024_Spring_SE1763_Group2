@@ -27,15 +27,6 @@ public class Post {
     private LocalDateTime create_time;
     private String fommated_create_time;
     private String admin_message;
-    private boolean active = true;
-
-    public boolean isActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
 
     public LocalDateTime getCreate_time() {
         return create_time;
