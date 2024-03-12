@@ -12,6 +12,9 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import java.util.ArrayList;
+import model.feedback;
 
 /**
  *
@@ -32,11 +35,15 @@ public class DeleteFeedbackController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         int uid = Integer.parseInt(request.getParameter("uid"));
-        int pid = Integer.parseInt(request.getParameter("pid"));
+        int pid = Integer.parseInt(request.getParameter("tid"));
         int fid = Integer.parseInt(request.getParameter("fid"));
         
         FeedbackDAO dao = new FeedbackDAO();
         dao.deleteFeedback(fid,uid,pid);
+        HttpSession ses = request.getSession();
+        ses.removeAttribute("feedback");
+        ArrayList<feedback> f = dao.getAllFeedbackInAPost(pid);
+        ses.setAttribute("feedback", f);
         request.setAttribute("msg", "Deleted");
         request.getRequestDispatcher("/views/post.jsp").forward(request, response);
     }
