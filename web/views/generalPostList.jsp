@@ -26,51 +26,6 @@
     <body>
         <jsp:include page="header.jsp"/>
         <section class="hoc container clear " >
-<aside id="sidebar" class="hoc clear">
-    <form action="AdvanceSearchController" method="get" style="display: flex; flex-wrap: wrap;">
-        <input type="hidden" value="${requestScope.current}" name="content">
-        <input type="hidden" value="${requestScope.type}" name="type">
-        <p style="margin-right: 10px;">Address</p>
-        <input type="text" name="by" style="margin-right: 10px;"/>
-
-        <p style="margin-right: 10px;">Purpose</p>
-        <select name="purpose" style="margin-right: 10px;">
-            <option value="">Select purpose</option>
-            <option value="1">Sell</option>
-            <option value="2">Rent</option>
-        </select>
-
-        <p style="margin-right: 10px;">Type Of House</p>
-        <select name="house" style="margin-right: 10px;">
-            <option value="">Select type</option>
-            <option value="department">Department</option>
-            <option value="villa">Villa</option>
-            <option value="entire house">Entire House</option>
-            <option value="other">Other</option>
-        </select>
-
-        <p style="margin-right: 10px;">Rooms</p>
-        <select name="room" style="margin-right: 10px;">
-            <option value="">Select number</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-            <option value="6">6</option>
-        </select>
-
-        <p style="margin-right: 10px;">Price Range</p>
-        <input type="range" name="price" min="0" max="100000" step="1000" onchange="updatePrice(this.value)" style="margin-right: 10px;">
-        <output id="priceOutput" for="price">50000</output>
-
-        <p style="margin-right: 10px;">Area Range</p>
-        <input type="range" name="area" min="0" max="1000" step="10" onchange="updateArea(this.value)" style="margin-right: 10px;">
-        <output id="areaOutput" for="area">500</output>
-
-        <button type="submit">Submit</button>
-    </form>
-</aside>
             <div class="sectiontitle">
                 <h4 class="heading">Result:</h4>
                 <p>There are ${num}${requestScope.msg} houses found</p>
@@ -84,23 +39,23 @@
                         </a>
                         <div class="excerpt">
                             <time>
-                                <h6 class="heading" style="white-space: nowrap; overflow: hidden;" title="${card.value.location}">
-                                    ${card.value.location}
+                                <h6 class="heading" style="white-space: nowrap; overflow: hidden;" title="${card.house.location}">
+                                    ${card.house.location}
                                 </h6>
                                 <ul class="meta">
                                     <li style="line-height: 1.8;">
                                         <i class="fas fa-tags rgtspace-5"></i>
-                                        <a href="#">${card.value.number_of_room} <span> rooms</span> </a>,
-                                        <a href="#">${card.value.area}  <span>m<sup>2</sup></span></a>
+                                        <a href="#">${card.house.number_of_room} <span> rooms</span> </a>,
+                                        <a href="#">${card.house.area}  <span>m<sup>2</sup></span></a>
                                     </li>
                                     <li style="line-height: 1.8;">
-                                        <a href="#">${card.key.price}  <span>VND</span> </a>
+                                        <a href="#">${card.price}  <span>VND</span> </a>
                                     </li>
                                     <li style="line-height: 1.8;">
-                                        <a href="#">${card.value.type_of_house.type_of_house_name}</a>
+                                        <a href="#">${card.house.type_of_house.type_of_house_name}</a>
                                     </li>
                                     <li style="line-height: 1.8;">
-                                        <a href="#">${card.key.purpose.purpose_name}</a>
+                                        <a href="#">${card.purpose.purpose_name}</a>
                                     </li>
                                     <li style="line-height: 1.8;">
                                         <a href="#">Available</a>
@@ -108,8 +63,8 @@
                                 </ul>
                             </time>
                             <div class="truncate-text">
-                                <span>${card.value.description}</span>
-                                <div class="view-more"><a class="" href="view?post_id=${card.key.post_id}&house_id=${card.value.house_id}">View more</a></div>
+                                <span>${card.house.description}</span>
+                                <div class="view-more"><a class="" href="view?post_id=${card.post_id}&house_id=${card.house.house_id}">View more</a></div>
                             </div>
                         </div>
                     </article>
