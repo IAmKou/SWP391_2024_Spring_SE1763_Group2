@@ -40,8 +40,6 @@ public class SearchPostController extends HttpServlet {
         String searchBy = request.getParameter("type");
         String searchContent = request.getParameter("content");
         ArrayList<Post> list = new ArrayList<>();
-        HouseDAO hDao = new HouseDAO();
-        HashMap<Post, House> cardList = new HashMap<>();
         int id=0;
         if (searchContent != null && !searchContent.isEmpty()) {
         try {
@@ -63,24 +61,24 @@ public class SearchPostController extends HttpServlet {
             case "number":
                 list = getPostByNumberOfRoom(searchContent);
                 break;
+            case "price":
+                list = getPostByPrice(searchContent);
+                break;
+            case "area":
+                list = getPostByArea(searchContent);
+                break;
             default:
                String msg = "unba bunga";
                 
         }
         if (list.isEmpty()) {
             request.setAttribute("msg", "no");
-        } else {
-            for (Post p : list) {
-                House h = hDao.getHouseByPostID(p.getPost_id());
-                if (h != null) {
-                    cardList.put(p, h);
-                }
-            }
+        }
             request.setAttribute("type", searchBy);
             request.setAttribute("current", searchContent);
-            request.setAttribute("num", cardList.size());
-            request.setAttribute("cardList", cardList);
-        }
+            request.setAttribute("num", list.size());
+            request.setAttribute("cardList", list);
+        
         request.getRequestDispatcher("/views/generalPostList.jsp").forward(request, response);
     }
 
@@ -144,6 +142,23 @@ public class SearchPostController extends HttpServlet {
         if (!num.isEmpty() && num != null){
         numroom = Integer.parseInt(num);
         }
-        return dao.getAllPosyByNumberOfRoom(numroom);
+        return dao.getAllPostByNumberOfRoom(numroom);
     }
+    private ArrayList<Post> getPostByPrice(String price) {
+        SearchDAO dao = new SearchDAO();
+        int pri = 0;
+        if (!price.isEmpty() && price != null){
+        pri = Integer.parseInt(price);
+        }
+        return dao.getAllPostByPrice(pri);
+    }
+        private ArrayList<Post> getPostByArea(String price) {
+        SearchDAO dao = new SearchDAO();
+        int pri = 0;
+        if (!price.isEmpty() && price != null){
+        pri = Integer.parseInt(price);
+        }
+        return dao.getAllPostByArea(pri);
+    }
+    
 }
