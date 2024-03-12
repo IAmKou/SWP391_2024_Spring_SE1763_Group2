@@ -67,7 +67,7 @@
                                     <div class="form-group d-flex">
                                         <input type="password" name="password"class="form-control rounded-left" placeholder="Password: " required>
                                     </div>
-                                    <p style="color: red">${requestScope.message}</p>
+                                    <p style="color: red">${requestScope.msg}</p>
                                     <div class="form-group">
                                         <button type="submit" class="form-control btn btn-primary rounded submit px-3">Login</button>
                                     </div>
