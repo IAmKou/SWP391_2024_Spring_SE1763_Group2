@@ -64,12 +64,12 @@ public class FeedbackDAO {
         }
         return list;
     }
-    public static boolean updateFeedback(int feedback_id, int user_id, String content, String img){
+    public static boolean updateFeedback(int feedback_id, int user_id, String content, int post_id){
        try {
             DBContext db = new DBContext();
             Connection con = db.getConnection();
             if(con != null){
-                String sql = "Update `feedback` Set content = '"+ content +"', image_link = '"+ img +"' where feedback_id ='"+ feedback_id +"' and user_id ='" + user_id + "'";
+                String sql = "Update `feedback` Set content = '"+ content +"'  where feedback_id ='"+ feedback_id +"' and user_id ='" + user_id + "' and post_id='" + post_id + "'";
                  Statement st = con.createStatement();
                 int rows = st.executeUpdate(sql);
                 if (rows < 1) {
@@ -82,12 +82,12 @@ public class FeedbackDAO {
     }
         return false;
 }
-    public static boolean deleteFeedback(int feedback_id, int user_id){
+    public static boolean deleteFeedback(int feedback_id, int user_id, int post_id){
         try {
             DBContext db = new DBContext();
             Connection con = db.getConnection();
             if(con != null){
-                String sql = "Delete from `feedback` where feedback_id ='" + feedback_id + "' and user_id = '" + user_id + "'";
+                String sql = "Delete from `feedback` where feedback_id ='" + feedback_id + "' and user_id = '" + user_id + "' and post_id = '" + post_id + "'";
                  Statement st = con.createStatement();
                 int rows = st.executeUpdate(sql);
                 if (rows < 1) {
