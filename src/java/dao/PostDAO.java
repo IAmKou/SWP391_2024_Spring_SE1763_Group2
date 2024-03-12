@@ -460,8 +460,7 @@ public class PostDAO {
                     + "    user.full_name,\n"
                     + "    user.phone_number,\n"
                     + "    user.email,\n"
-                    + "    user.date_of_birth,\n"
-                    + "    post.active\n"
+                    + "    user.date_of_birth\n"
                     + "FROM \n"
                     + "    post\n"
                     + "JOIN \n"
@@ -521,7 +520,7 @@ public class PostDAO {
                         post.setHouse_status(house_status);
                         post.setPost_status(post_status);
                         post.setPurpose(purpose);
-                        post.setActive(rs.getBoolean("active"));
+                     
 
                         return post;
                     }
@@ -562,7 +561,7 @@ public class PostDAO {
                     + "    user.date_of_birth,\n"
                     + "    post.end_time,\n"
                     + "    post.admin_id,\n"
-                    + "    post.create_time\n"
+                    + "    post.start_time\n"
                     + "FROM \n"
                     + "    post\n"
                     + "JOIN \n"
@@ -620,7 +619,7 @@ public class PostDAO {
                     post.setPurpose(purpose);
                     post.setAdmin_id(rs.getInt("admin_id"));
                     post.setEnd_time(rs.getObject("end_time", LocalDateTime.class));
-                    post.setCreate_time(rs.getObject("create_time", LocalDateTime.class));
+                    post.setCreate_time(rs.getObject("start_time", LocalDateTime.class));
 
                     list.add(post);
                 }
