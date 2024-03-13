@@ -105,7 +105,7 @@
                         </h3>
                         <div class="profile-container">
                             <div class="avatar-container">
-                                <img src="${pageContext.request.contextPath}/images/person_1.jpg" alt="Avatar" class="poster-avatar">
+                                <img src="${post.house.house_owner.avatar}" alt="Avatar" class="poster-avatar">
                             </div>
                             <div class="user-info-container">
                                 <p class="poster-username">${post.house.house_owner.full_name}</p>
@@ -291,53 +291,58 @@
                             </div>
                         </div>
 
+                        <!-- Rating and comment section -->
+                        <div class="">
+                            <h5 class="main-heading">Rate and Comment</h5>
+                            <!-- Rating stars -->
+                            <!-- Comment input -->
+                            <c:if test="${b ne null}">
+                                <form action="FeedbackController" method="post">
+                                    <input type="hidden" value="${sessionScope.user.user_id}" name="uid"/>
+                                    <input type="hidden" value="${post.post_id}" name="pid"/>
+                                    <input type="hidden" value="${sessionScope.account.full_name}" name="uname"/>
+
+                                    <div class="form-group mt-3">
+                                        <label for="comment">Your Comment:</label>
+                                        <textarea class="form-control" id="comment" rows="3" required></textarea>
+                                    </div>
+
+                                    <div class="form-group mt-3">
+                                        <label for="image">Upload Image:</label>
+                                        <input type="file" class="form-control-file" id="image" name="image">
+                                    </div>
+
+                                    <button class="btn btn-primary" id="submitComment">Submit</button>
+                                </form>
+                            </c:if>
+
+                            <form action="UpdateFeedbackController" method="post">
+                                <c:forEach var="list" items="${feedback}">
+                                    <div style="color: white; margin-right: 10px">
+                                        ${list.username} : 
+                                        <input type="text" class="form-control" value="${list.content}" name="content"/> 
+                                        ${list.created_at}
+                                        <input type="hidden" value="${list.feedback_id}" name="fid"/>
+                                        <input type="hidden" value="${sessionScope.user.user_id}" name="uid"/>
+                                        <input type="hidden" value="${post.post_id}" name="pid"/>
+
+                                        <c:if test="${sessionScope.user.user_id eq list.user_id}">
+                                            <button type="submit" class="btn btn-primary" name="action" value="update">Update</button>
+                                            <a href="DeleteFeedbackController?fid=${list.feedback_id}&uid=${sessionScope.user.user_id}&tid=${post.post_id}" class="btn btn-danger">Delete</a>
+                                        </c:if>
+
+                                        <c:if test="${sessionScope.user.user_id ne list.user_id}">
+                                            <a href="ReportFeedbackController" class="btn btn-warning">Report</a>
+                                        </c:if>
+                                    </div>
+                                </c:forEach>
+                            </form>
+
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- Rating and comment section -->
-        <div class="col-md-12">
-            <h5 class="main-heading">Rate and Comment</h5>
-            <!-- Rating stars -->
-            <!-- Comment input -->
-            <c:if test="${b ne null}">
-                <form action="FeedbackController" method="post">
-                    <input type="hidden" value="${sessionScope.user.user_id}" name="uid"/>
-                    <input type="hidden" value="${post.post_id}" name="pid"/>
-                    <input type="hidden" value="${sessionScope.account.full_name}" name="uname"/>
-                    <div class="form-group mt-3">
-                        <label for="comment">Your Comment:</label>
-                        <textarea class="form-control" id="comment" rows="3" required></textarea>
-                    </div>
-                    <div class="form-group mt-3">
-                        <label for="image">Upload Image:</label>
-                        <input type="file" id="image" name="image">
-                    </div>
-                    <!-- Submit button -->
-                    <button class="btn btn-primary" id="submitComment">Submit</button>
-                </form>
-            </c:if>
-
-            <c:forEach var="list" items="${feedback}"> 
-                <form action="UpdateFeedbackController" method="post">
-                <div style="color: white; margin-right: 10px " >
-                    ${list.username} : <input type="text" value="${list.content}" name="content"/> ${list.created_at}
-                    <input type="hidden" value="${list.feedback_id}" name="fid"/>
-                    <input type="hidden" value="${sessionScope.user.user_id}" name="uid"/>
-                    <input type="hidden" value="${post.post_id}" name="pid"/>
-                </div>
-                <c:if test="${sessionScope.user.user_id eq list.user_id}">
-                    <button type="submit">Update</button>
-                    </form>
-                    <a href="DeleteFeedbackController?fid=${list.feedback_id}&uid=${sessionScope.user.user_id}&tid=${post.post_id}" class="link-button">Delete</a>
-                </c:if>
-                <c:if test="${sessionScope.user.user_id ne list.user_id}">
-                    <a href="ReportFeedbackController" class="link-button">Report</a>
-                </c:if>
-            </c:forEach>
-
-        </div>
-
         <p style="color: red">${requestScope.msg}</p>
         <script>
             function checkSession() {

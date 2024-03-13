@@ -9,6 +9,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Account;
@@ -62,14 +64,29 @@ public class AccountDAO extends DBContext {
     }
 }
 
-
-    public static void main(String[] args) {
-        AccountDAO aDAO = new AccountDAO();
-        System.out.println(aDAO.getAccountByUserId(3));
-//        aDAO.changeStatus(3);
-        System.out.println("---------");
-        System.out.println(aDAO.getAccountByUserId(3));
-
+    public List<Account> getAccountList(){
+         List<Account> accounts = new ArrayList<>();
+        try {            
+            String sql = "SELECT * FROM house_finder_project.account;";
+            DBContext db = new DBContext();
+            Connection con = db.getConnection();
+            PreparedStatement stm = con.prepareStatement(sql);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                Account acc = new Account();
+                acc.setUser_id(rs.getInt("user_id"));
+                acc.setUser_name(rs.getString("user_name"));
+                acc.setPass_word(rs.getString("pass_word"));
+                acc.setRole_id(rs.getInt("role_id"));
+                acc.setActive(rs.getBoolean("active"));
+                accounts.add(acc);
+            }
+            con.close();
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return accounts;
     }
 
 }

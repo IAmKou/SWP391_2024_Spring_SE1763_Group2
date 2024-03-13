@@ -34,38 +34,13 @@ public class ViewUserList extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try ( PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ViewUserList</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ViewUserList at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
-    }
-
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             Account accLogin = (Account) request.getSession().getAttribute("user");
             if (accLogin != null) {
                 if (accLogin.getRole_id() == 1) {
 
                     UserDAO uDAO = new UserDAO();
-                    ArrayList<User> uList = uDAO.allUserList();
+                    List<User> uList = uDAO.allUserList();
 
                     int currentPage = 1;
                     int maxAcc = 4;
@@ -122,6 +97,21 @@ public class ViewUserList extends HttpServlet {
             e.printStackTrace(); // In ra lỗi trong console cho mục đích gỡ lỗi
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Đã xảy ra lỗi khi lấy danh sách người dùng.");
         }
+        
+    }
+
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    /**
+     * Handles the HTTP <code>GET</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        processRequest(request, response);
     }
 
     /**

@@ -4,11 +4,13 @@
  */
 package Controller.Post;
 
+import dao.AccountDAO;
 import dao.BookingDAO;
 import dao.FeedbackDAO;
 import dao.ImageDAO;
 import dao.PaymentMethodDAO;
 import dao.PostDAO;
+import dao.UserDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -19,6 +21,7 @@ import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
+import model.Account;
 import model.Booking;
 import model.Image;
 import model.PaymentMethod;
@@ -75,15 +78,12 @@ public class ViewPost extends HttpServlet {
         BookingDAO dao = new BookingDAO();
 
         String post_id_str = request.getParameter("post_id");
-        String house_id_str = request.getParameter("house_id");
         int pid = Integer.parseInt(post_id_str);
+        
         if (post_id_str != null && !post_id_str.isEmpty()) {
             int post_id_int = Integer.parseInt(post_id_str);
             post = Pdao.getPost(post_id_int);
 
-        } else if (house_id_str != null && !house_id_str.isEmpty()) {
-            int house_id_int = Integer.parseInt(house_id_str);
-            post = Pdao.getPostByHouseId(house_id_int);
         }
 
         if (post != null) {
@@ -97,13 +97,13 @@ public class ViewPost extends HttpServlet {
             User user = (User) request.getSession().getAttribute("account");
             int uid = user.getUser_id();
             Booking b = dao.getBookingByPost(pid, uid);
-            
+
             PaymentMethodDAO methodDao = new PaymentMethodDAO();
             List<PaymentMethod> methods = methodDao.getPaymentMethods();
-            
+
             FeedbackDAO fdao = new FeedbackDAO();
             ArrayList<feedback> f = fdao.getAllFeedbackInAPost(pid);
-
+            
             HttpSession session = request.getSession();
             session.setAttribute("feedback", f);
             request.setAttribute("bob", b);

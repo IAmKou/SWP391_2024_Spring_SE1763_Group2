@@ -22,37 +22,6 @@
                 border: none;
             }
         </style>
-        <script>
-            function toggleHouseStatus(postId, currentStatus) {
-                alert('are you sure?');
-                // Tạo một đối tượng XMLHttpRequest để gửi yêu cầu AJAX
-                var xhr = new XMLHttpRequest();
-
-                // Định nghĩa URL của API hoặc servlet để xử lý việc chuyển đổi trạng thái
-                var url = "${pageContext.request.contextPath}/post/toggleStatus";
-
-                // Định nghĩa dữ liệu cần gửi lên máy chủ (postId và currentStatus)
-                var data = "post_id=" + postId + "&current_status=" + currentStatus;
-
-                // Cấu hình yêu cầu HTTP
-                xhr.open("POST", url, true);
-                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-
-                xhr.onreadystatechange = function () {
-                    if (xhr.readyState === XMLHttpRequest.DONE) {
-                        if (xhr.status === 200) {
-                            var response = xhr.responseText;
-                            alert("House status toggled successfully!");
-                            location.reload();
-                        } else {
-                            alert("Failed to toggle house status. Please try again later.");
-                        }
-                    }
-                };
-                xhr.send(data);
-            }
-        </script>
-
     </head>
     <body>
         <jsp:include page="../header.jsp"/>
@@ -116,6 +85,18 @@
                                 </div>
                             </form>
                         </div>
+                        <div class="col-md-12">
+                            <c:if test="${alert ne null}">
+                                <div class="alert alert-warning h5">                                   
+                                    ${alert}
+                                </div>
+                            </c:if>
+                            <c:if test="${success ne null}">
+                                <div class="alert alert-success h5">
+                                    ${success}
+                                </div>
+                            </c:if>
+                        </div>
                         <c:if test="${not empty ownerPost}">
                             <c:forEach items="${ownerPost}" var="ownerPost">
                                 <div class="col-md-12 mb-4">
@@ -162,7 +143,65 @@
                                                     <div class="btn-group">
                                                         <a href="${pageContext.request.contextPath}/post/update?post_id=${ownerPost.post_id}" class="btn btn-outline-info">Update</a>
                                                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop_${ownerPost.post_id}">Overview</button>
-                                                        <button type="button" onclick="toggleHouseStatus(${ownerPost.post_id}, ${ownerPost.house_status.status_id})" class="btn btn-outline-danger">Toggle Status</button>
+                                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#houseStatusBackdrop${ownerPost.post_id}">Toggle House Status</button>
+                                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#activateFeedbackBackdrop${ownerPost.post_id}">
+                                                            <c:choose>
+                                                                <c:when test="${ownerPost.isActive_feedback()}">
+                                                                    Deactivate feedback
+                                                                </c:when>
+                                                                <c:otherwise>
+                                                                    Activate feedback
+                                                                </c:otherwise>
+                                                            </c:choose>
+                                                        </button>
+
+                                                    </div>
+                                                    <!-- Toggle House Status Modal -->
+                                                    <div class="modal fade" id="activateFeedbackBackdrop${ownerPost.post_id}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                                        <div class="modal-dialog">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <div class="logo-container">
+                                                                        <img class="logo" src="${pageContext.request.contextPath}/images/demo/image-removebg-preview.png" alt="image"/>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    Are you sure want to 
+                                                                    <c:choose>
+                                                                        <c:when test="${ownerPost.isActive_feedback()}">
+                                                                            Deactivate feedback
+                                                                        </c:when>
+                                                                        <c:otherwise>
+                                                                            Activate feedback
+                                                                        </c:otherwise>
+                                                                    </c:choose>?
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <a href="${pageContext.request.contextPath}/feedback/change?post_id=${ownerPost.post_id}&&active=${ownerPost.isActive_feedback()}" class="btn btn-outline-dark">Accept
+                                                                    </a>                                                                    
+                                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- Toggle House Status Modal -->
+                                                    <div class="modal fade" id="houseStatusBackdrop${ownerPost.post_id}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                                        <div class="modal-dialog">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <div class="logo-container">
+                                                                        <img class="logo" src="${pageContext.request.contextPath}/images/demo/image-removebg-preview.png" alt="image"/>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    Are you sure want to change house status?
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <a type="button" href="${pageContext.request.contextPath}/post/toggleStatus?post_id=${ownerPost.post_id}&&current_status=${ownerPost.house_status.status_id}" class="btn btn-outline-danger">Accept</a>
+                                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                     <!-- Modal -->
                                                     <div class="modal fade" id="staticBackdrop_${ownerPost.post_id}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
