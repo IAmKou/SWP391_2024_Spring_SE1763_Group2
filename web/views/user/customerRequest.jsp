@@ -214,10 +214,10 @@
                                                                 <div class="btn-group">
                                                                     <c:choose>
                                                                         <c:when test="${request.booking.getStatus().getStatus_id() eq 1 || request.meeting.getMeetingStatus().getStatus_id() eq 1}">
-                                                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#acceptBackdrop">
+                                                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#acceptBackdrop${request.meeting.getMeetingStatus().getStatus_id()}${request.booking.getStatus().getStatus_id()}">
                                                                                 Accept
                                                                             </button>
-                                                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#alertBackdrop">
+                                                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#alertBackdrop${request.meeting.getMeetingStatus().getStatus_id()}${request.booking.getStatus().getStatus_id()}">
                                                                                 Cancel
                                                                             </button>
                                                                         </c:when>
@@ -242,7 +242,7 @@
                                                                             </c:choose>
                                                                         </div>
                                                                         <!-- Alert Modal -->
-                                                                        <div class="modal fade" id="alertBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                                                        <div class="modal fade" id="alertBackdrop${request.meeting.getMeetingStatus().getStatus_id()}${request.booking.getStatus().getStatus_id()}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                                                                             <div class="modal-dialog">
                                                                                 <div class="modal-content">
                                                                                     <div class="modal-header">
@@ -266,7 +266,7 @@
                                                                             </div>
                                                                         </div>
                                                                         <!-- Message Modal -->
-                                                                        <div class="modal fade" id="acceptBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                                                        <div class="modal fade" id="acceptBackdrop${request.meeting.getMeetingStatus().getStatus_id()}${request.booking.getStatus().getStatus_id()}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                                                                             <div class="modal-dialog">
                                                                                 <div class="modal-content">
                                                                                     <div class="modal-header">

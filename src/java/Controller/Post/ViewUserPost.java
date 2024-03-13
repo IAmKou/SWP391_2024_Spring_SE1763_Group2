@@ -67,7 +67,7 @@ public class ViewUserPost extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("account");
-
+        
         int currentPage = 1;
         int recordsPerPage = 3;
 
@@ -104,7 +104,6 @@ public class ViewUserPost extends HttpServlet {
                 image.setImageDataAsBase64(imageDataBase64);
             }
             post.getHouse().setImage(images);
-
         }
 
         PurposeDAO purposeDAO = new PurposeDAO();

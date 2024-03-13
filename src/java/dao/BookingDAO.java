@@ -135,6 +135,8 @@ public class BookingDAO extends DBContext {
                 while (rs.next()) {
                     User u = new User();
                     u.setUser_id(rs.getInt("user_id"));
+                    u.setAvatar(rs.getString("avatar"));
+                    u.setFull_name(rs.getString("full_name"));
                     
                     Status booking_status = new Status();
                     booking_status.setStatus_id(rs.getInt("booking_status"));

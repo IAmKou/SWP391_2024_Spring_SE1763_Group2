@@ -19,7 +19,7 @@ public class Post {
     private int poster_id;
     private Status house_status;
     private int admin_id;
-    private int active_feedback;
+    private boolean active_feedback = true;
     private float feedback_point;
     private Status post_status;
     private LocalDateTime start_time;
@@ -47,7 +47,7 @@ public class Post {
     public Post() {
     }
 
-    public Post(int post_id, House house, Purpose purpose, int price, int poster_id, Status house_status, int admin_id, int active_feedback, float feedback_point, Status post_status, LocalDateTime start_time, LocalDateTime end_time, LocalDateTime create_time, String fommated_create_time, String admin_message) {
+    public Post(int post_id, House house, Purpose purpose, int price, int poster_id, Status house_status, int admin_id, boolean active_feedback, float feedback_point, Status post_status, LocalDateTime start_time, LocalDateTime end_time, LocalDateTime create_time, String fommated_create_time, String admin_message) {
         this.post_id = post_id;
         this.house = house;
         this.purpose = purpose;
@@ -117,7 +117,7 @@ public class Post {
         this.admin_id = admin_id;
     }
 
-    public void setActive_feedback(int active_feedback) {
+    public void setActive_feedback(boolean active_feedback) {
         this.active_feedback = active_feedback;
     }
 
@@ -165,8 +165,10 @@ public class Post {
         return admin_id;
     }
 
-    public int getActive_feedback() {
+    public boolean isActive_feedback() {
         return active_feedback;
     }
+
+    
 
 }

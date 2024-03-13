@@ -8,9 +8,12 @@ import Context.DBContext;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.feedback;
 
 /**
@@ -18,7 +21,28 @@ import model.feedback;
  * @author luong
  */
 public class FeedbackDAO {
-    public void insertFeedback(int post_id, int user_id, String comment, LocalDateTime created_at, String img, String name){
+
+    public void deactivateFeedback(int post_id, boolean status) {
+        try {
+            String sql = "UPDATE `house_finder_project`.`post`\n"
+                    + "SET\n"
+                    + "`active_feedback` = ?\n"
+                    + "WHERE `post_id` = ? ;";
+            DBContext db = new DBContext();
+            Connection con = db.getConnection();
+            PreparedStatement stm = con.prepareStatement(sql);
+            stm.setBoolean(1, status);
+            stm.setInt(2, post_id);
+            stm.executeUpdate();
+
+            con.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(FeedbackDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    public void insertFeedback(int post_id, int user_id, String comment, LocalDateTime created_at, String img, String name) {
         try {
             DBContext db = new DBContext();
             Connection con = db.getConnection();
@@ -43,18 +67,19 @@ public class FeedbackDAO {
             System.out.println(e.getMessage());
         }
     }
-    public ArrayList<feedback> getAllFeedbackInAPost(int post_id){
+
+    public ArrayList<feedback> getAllFeedbackInAPost(int post_id) {
         ArrayList<feedback> list = new ArrayList<>();
-        try{
-        DBContext db = new DBContext();
+        try {
+            DBContext db = new DBContext();
             Connection con = db.getConnection();
             if (con != null) {
-                String sql = "SELECT * from `feedback` where post_id = '" + post_id + "'";
+                String sql = "SELECT * from `feedback` where post_id = ;'" + post_id + "'";
                 Statement call = con.createStatement();
                 ResultSet rs = call.executeQuery(sql);
                 //assign value for object items then return it
                 while (rs.next()) {
-                    list.add(new feedback(rs.getInt(1), rs.getInt(2),rs.getInt(3), rs.getString(4) ,rs.getObject(5, LocalDateTime.class), rs.getString(6), rs.getString(7)));
+                    list.add(new feedback(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getString(4), rs.getObject(5, LocalDateTime.class), rs.getString(6), rs.getString(7)));
                 }
                 call.close();
                 con.close();
@@ -64,40 +89,42 @@ public class FeedbackDAO {
         }
         return list;
     }
-    public static boolean updateFeedback(int feedback_id, int user_id, String content, int post_id){
-       try {
-            DBContext db = new DBContext();
-            Connection con = db.getConnection();
-            if(con != null){
-                String sql = "Update `feedback` Set content = '"+ content +"'  where feedback_id ='"+ feedback_id +"' and user_id ='" + user_id + "' and post_id='" + post_id + "'";
-                 Statement st = con.createStatement();
-                int rows = st.executeUpdate(sql);
-                if (rows < 1) {
-                    throw new Exception();
-                }
-                return true;
-            }
-    }catch(Exception e){
-            System.out.println(e.getMessage());
-    }
-        return false;
-}
-    public static boolean deleteFeedback(int feedback_id, int user_id, int post_id){
+
+    public static boolean updateFeedback(int feedback_id, int user_id, String content, int post_id) {
         try {
             DBContext db = new DBContext();
             Connection con = db.getConnection();
-            if(con != null){
-                String sql = "Delete from `feedback` where feedback_id ='" + feedback_id + "' and user_id = '" + user_id + "' and post_id = '" + post_id + "'";
-                 Statement st = con.createStatement();
+            if (con != null) {
+                String sql = "Update `feedback` Set content = '" + content + "'  where feedback_id ='" + feedback_id + "' and user_id ='" + user_id + "' and post_id='" + post_id + "'";
+                Statement st = con.createStatement();
                 int rows = st.executeUpdate(sql);
                 if (rows < 1) {
                     throw new Exception();
                 }
                 return true;
             }
-    }catch(Exception e){
+        } catch (Exception e) {
             System.out.println(e.getMessage());
+        }
+        return false;
     }
+
+    public static boolean deleteFeedback(int feedback_id, int user_id, int post_id) {
+        try {
+            DBContext db = new DBContext();
+            Connection con = db.getConnection();
+            if (con != null) {
+                String sql = "Delete from `feedback` where feedback_id ='" + feedback_id + "' and user_id = '" + user_id + "' and post_id = '" + post_id + "'";
+                Statement st = con.createStatement();
+                int rows = st.executeUpdate(sql);
+                if (rows < 1) {
+                    throw new Exception();
+                }
+                return true;
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
         return false;
     }
 }

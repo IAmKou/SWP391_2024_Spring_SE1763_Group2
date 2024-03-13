@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Account;
@@ -22,7 +23,7 @@ import model.User;
  * @author ACER
  */
 public class UserDAO {
-
+    
     public void insertUser(String fullname, Date dob, String address, String phone, String email) {
         try {
             DBContext db = new DBContext();
@@ -248,8 +249,8 @@ public class UserDAO {
         }
     }
 
-    public static ArrayList<User> allUserList() {
-        ArrayList<User> list = new ArrayList<>();
+    public List<User> allUserList() {
+        List<User> list = new ArrayList<>();
         Connection con = new DBContext().getConnection();
         try {
             String sql = "SELECT * FROM user";
@@ -339,14 +340,5 @@ public class UserDAO {
             System.out.println(e.getMessage());
         }
         return false;
-    }
-        public static void main(String[] args) {
-        UserDAO uDao = new UserDAO();
-        for(int i =1; i<10;i++){
-            System.out.println( uDao.getAccount(i));
-            System.out.println(uDao.getUserByID(i));
-            System.out.println("-------------\n");
-            
-        }
     }
 }

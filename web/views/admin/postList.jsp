@@ -12,6 +12,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/layout/bootstrap-5.3.2-dist/css/bootstrap.min.css"/>
         <script src="${pageContext.request.contextPath}/layout/bootstrap-5.3.2-dist/js/bootstrap.bundle.min.js"></script>
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/layout/styles/profile.css"/>
         <title>JSP Page</title>
         <style>
             .modal-header {
@@ -24,6 +25,12 @@
             .logo-container {
                 flex: 1; /* Phần tử chứa logo sẽ mở rộng để lấp đầy không gian trống */
                 text-align: center; /* Canh giữa logo trong phần tử cha */
+            }
+            .table-no-border {
+                border: none;
+            }
+            .table-no-border td {
+                border: none;
             }
         </style>
     </head>
@@ -90,6 +97,7 @@
                             <th>Poster</th>
                             <th>House status</th>
                             <th>Post Status</th>
+                            <th>Create Time</th>
                             <th>View</th>
                             <th>Action</th>
                         </tr>
@@ -108,89 +116,123 @@
                                 </td>
                                 <td class="center">${post.house_status.getStatus_name()}</td>
                                 <td class="center">${post.post_status.getStatus_name()}</td>
-                                </td>
-                                <td>
+                                <td class="center">${post.getFommated_create_time()}</td>
+                                <td >
                                     <div class="btn-group">
-                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#UserModal">
-                                            Detail User
+                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#UserModal${post.getPost_id()}">
+                                            Detail
                                         </button>
-                                        <a href="${pageContext.request.contextPath}/view?post_id=${post.getPost_id()}" class="btn btn-outline-primary">Detail House</a>
-
-                                        <!--User Modal -->
-                                        <div class="modal fade modal-xl" id="UserModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <div class="logo-container">
-                                                            <img class="logo" src="${pageContext.request.contextPath}/images/demo/image-removebg-preview.png" alt="image"/>
-                                                        </div>
+                                    </div>
+                                    <!--User Modal -->
+                                    <div class="modal fade modal-xl" id="UserModal${post.getPost_id()}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <div class="logo-container">
+                                                        <img class="logo" src="${pageContext.request.contextPath}/images/demo/image-removebg-preview.png" alt="image"/>
                                                     </div>
-                                                    <div class="modal-body">
-                                                        <div class="row">
-                                                            <div class="col-md-6 d-flex flex-column align-items-center">
-                                                                <div class="m-auto">
-                                                                    <div class="col-md-12 mt-2 text-center">
-                                                                        <div id="carouselExampleFade_${post.post_id}" class="carousel slide carousel-fade">
-                                                                            <div class="carousel-inner">
-                                                                                <c:forEach items="${post.house.image}" var="image" varStatus="loop">
-                                                                                    <c:if test="${not empty image}">
-                                                                                        <div class=" carousel-item ${loop.first ? 'active' : ''} img-container">
-                                                                                            <img src="data:image/jpeg;base64,${image.getImageDataAsBase64()}" class="d-block w-100" alt="hinh anh" style="width: 350px; height: 250px; border-radius: 5px"/>
-                                                                                        </div>
-                                                                                    </c:if>
-                                                                                </c:forEach>
-                                                                            </div>
-                                                                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade_${post.post_id}" data-bs-slide="prev">
-                                                                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                                                                <span class="visually-hidden">Previous</span>
-                                                                            </button>
-                                                                            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade_${post.post_id}" data-bs-slide="next">
-                                                                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                                                                <span class="visually-hidden">Next</span>
-                                                                            </button>
-                                                                        </div>
-                                                                    </div>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="row">
+                                                        <div class="col-md-6 border-end">
+                                                            <div id="carouselExampleIndicators_${post.post_id}" class="carousel slide" data-bs-ride="carousel">
+                                                                <!-- Carousel indicators -->
+                                                                <div class="carousel-indicators">
+                                                                    <c:forEach items="${post.house.image}" var="image" varStatus="status">
+                                                                        <button type="button" data-bs-target="#carouselExampleIndicators_${post.post_id}" data-bs-slide-to="${status.index}" class="${status.index == 0 ? 'active' : ''}" aria-current="${status.index == 0 ? 'true' : 'false'}" aria-label="Slide ${status.index + 1}"></button>
+                                                                    </c:forEach>
                                                                 </div>
-
+                                                                <!-- Carousel items -->
+                                                                <div class="carousel-inner" style="margin-bottom: 20px">
+                                                                    <c:forEach items="${post.house.image}" var="image" varStatus="status">
+                                                                        <div class="carousel-item ${status.index == 0 ? 'active' : ''}">
+                                                                            <svg class="bd-placeholder-img bd-placeholder-img-lg d-block w-100" width="800" height="400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Slide ${status.index + 1}" preserveAspectRatio="xMidYMid slice" focusable="false">
+                                                                            <rect width="100%" height="100%" fill="#3071BC" rx="10" ry="10"></rect>
+                                                                            <image xlink:href="data:image/jpeg;base64,${image.getImageDataAsBase64()}" width="100%" height="100%"  alt="hinh anh"/>
+                                                                            </svg>
+                                                                        </div>
+                                                                    </c:forEach>
+                                                                </div>
+                                                                <!-- Carousel controls -->
+                                                                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators_${post.post_id}" data-bs-slide="prev">
+                                                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                                                </button>
+                                                                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators_${post.post_id}" data-bs-slide="next">
+                                                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                                                </button>
                                                             </div>
-                                                            <div class="col-md-6" >
+                                                            <!-- Location and House Information -->
+                                                            <h5 class="card-title fs-4 text-primary mb-3 custom-card-title" ><i class="fas fa-map-marker-alt mr-2"></i> ${post.house.location}</h5>
+                                                            <div>
+                                                                <h5 class="main-heading">House Information</h5>
+                                                                <table class="table-no-border">
+                                                                    <tr>
+                                                                        <td>Price: ${post.price} $</td>
+                                                                        <td>Area: ${post.house.area} m<sup>2</sup></td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Type: ${post.house.type_of_house.type_of_house_name}</td>
+                                                                        <td>Number of Rooms: ${post.house.number_of_room}</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Purpose: ${post.purpose.purpose_name}</td>
+                                                                        <td>House status: ${post.house_status.status_name}</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>
+                                                                            Time create: ${post.fommated_create_time}
+                                                                        </td>
+                                                                        <td>
+
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
+                                                            </div>
+                                                            <div class="description-section">
+                                                                <p><span class="info-label">Description:</span> ${post.house.description}</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <!-- User Information -->
+                                                            <div class="mb-3 text-center">
                                                                 <img src="${post.house.getHouse_owner().getAvatar()}" alt="avatar" style="width: 200px; height: 200px; border-radius: 50px"/>
                                                                 <c:forEach items="${accounts}" var="account">
                                                                     <c:if test="${account.getUser_id() == post.house.getHouse_owner().getUser_id()}">
                                                                         <h5>${account.getUser_name()}</h5>
                                                                     </c:if>
                                                                 </c:forEach>
-                                                                <div class="bg-dark text-white p-1 rounded center h4">User Information</div>
-                                                                <div class="mb-3">
-                                                                    <label for="user-id">User ID:</label>
-                                                                    <input type="text" class="form-control" id="user-id" value="${post.house.house_owner.getUser_id()}" readonly>
-                                                                </div>
-                                                                <div class=" mb-3">
-                                                                    <label for="full-name">Full Name:</label>
-                                                                    <input type="text" class="form-control" id="full-name" value="${post.house.house_owner.getFull_name()}" readonly>
-                                                                </div>
-                                                                <div class="mb-3">
-                                                                    <label for="date-of-birth">Date of Birth:</label>
-                                                                    <input type="text" class="form-control" id="date-of-birth" value="${post.house.house_owner.getDate_of_birth()}" readonly>
-                                                                </div>
-                                                                <div class="mb-3">
-                                                                    <label for="email">Email:</label>
-                                                                    <input type="email" class="form-control" id="email" value="${post.house.house_owner.getEmail()}" readonly>
-                                                                </div>
-                                                                <div class="mb-3">
-                                                                    <label for="phone-number">Phone Number:</label>
-                                                                    <input type="text" class="form-control" id="phone-number" value="${post.house.house_owner.getPhone_number()}" readonly>
-                                                                </div>
-                                                                <div class="mb-3">
-                                                                    <label for="address">Address:</label>
-                                                                    <textarea class="form-control" id="address" rows="3" readonly>${post.house.house_owner.getAddress()}</textarea>
-                                                                </div>
+                                                            </div>
+                                                            <div class="bg-dark text-white p-1 rounded center h4">User Information</div>
+                                                            <div class="mb-3">
+                                                                <label for="user-id">User ID:</label>
+                                                                <input type="text" class="form-control" id="user-id" value="${post.house.house_owner.getUser_id()}" readonly>
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label for="full-name">Full Name:</label>
+                                                                <input type="text" class="form-control" id="full-name" value="${post.house.house_owner.getFull_name()}" readonly>
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label for="date-of-birth">Date of Birth:</label>
+                                                                <input type="text" class="form-control" id="date-of-birth" value="${post.house.house_owner.getDate_of_birth()}" readonly>
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label for="email">Email:</label>
+                                                                <input type="email" class="form-control" id="email" value="${post.house.house_owner.getEmail()}" readonly>
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label for="phone-number">Phone Number:</label>
+                                                                <input type="text" class="form-control" id="phone-number" value="${post.house.house_owner.getPhone_number()}" readonly>
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label for="address">Address:</label>
+                                                                <textarea class="form-control" id="address" rows="3" readonly>${post.house.house_owner.getAddress()}</textarea>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                    </div>
+                                                </div>
+
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -199,14 +241,59 @@
                                 <td class="center">
                                     <c:choose>
                                         <c:when test="${post.post_status.getStatus_id() eq 1}">
-                                            <div class="btn-group">                                    
-                                                <a href="${pageContext.request.contextPath}/post/status?statusId=2&&postId=${post.getPost_id()}" class="btn btn-outline-success">Accept</a>
-                                                <a href="${pageContext.request.contextPath}/post/status?statusId=3&&postId=${post.getPost_id()}" class="btn btn-outline-danger">Cancel</a>
+                                            <div class="btn-group"> 
+                                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#acceptBackdrop${post.getPost_id()}">Accept</button>
+                                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#cancelBackdrop${post.getPost_id()}">Cancel</button>
+
+                                            </div>                                            
+                                            <!-- accept Modal -->
+                                            <div class="modal fade" id="acceptBackdrop${post.getPost_id()}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <div class="logo-container">
+                                                                <img class="logo" src="${pageContext.request.contextPath}/images/demo/image-removebg-preview.png" alt="image"/>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-body center">
+                                                            Are your sure for accept this post?
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <a href="${pageContext.request.contextPath}/post/status?statusId=2&&postId=${post.getPost_id()}&&message=""" class="btn btn-outline-success">Submit</a>
+                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
+
+                                            <!-- cancel Modal -->
+                                            <div class="modal fade" id="cancelBackdrop${post.getPost_id()}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <div class="logo-container">
+                                                                <img class="logo" src="${pageContext.request.contextPath}/images/demo/image-removebg-preview.png" alt="image"/>
+                                                            </div>                                                            
+                                                        </div>
+                                                        <div class="modal-body">
+
+                                                            <form action="${pageContext.request.contextPath}/post/status" method="post">
+                                                                <p>are you sure for cancel this post?</p>
+                                                                <input type="hidden" name="postId" value="${post.getPost_id()}">
+                                                                <input type="hidden" name="statusId" value="3">
+                                                                <textarea class="form-control" name="message" rows="3" cols="10" placeholder="Please enter your message" required></textarea>  
+                                                                <div class="modal-footer">
+                                                                    <button class="btn btn-outline-danger">Submit</button>
+                                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
                                         </c:when>
-                                        <c:otherwise>
-                                            <a href="${pageContext.request.contextPath}/post/deactive?postId=${post.getPost_id()}" class="btn btn-outline-info">Deactivate Post</a>
-                                        </c:otherwise>
                                     </c:choose>                            
                                 </td>
                             </tr>

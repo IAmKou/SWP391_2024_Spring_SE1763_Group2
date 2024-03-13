@@ -32,20 +32,22 @@ import model.User;
  */
 public class PostDAO {
 
-    public void changePostStatusByAdmin(int post_id, int status, int admin_id) {
+    public void changePostStatusByAdmin(int post_id, int status, int admin_id, String message) {
         try {
             String sql = "UPDATE `house_finder_project`.`post`\n"
                     + "SET\n"
                     + "\n"
                     + "`admin_id` = ?,\n"
-                    + "`post_status` =?\n"
+                    + "`post_status` =?,\n"
+                    + "`admin_message` =?\n"
                     + "WHERE `post_id` = ?;";
             DBContext db = new DBContext();
             Connection con = db.getConnection();
             PreparedStatement stm = con.prepareStatement(sql);
             stm.setInt(1, admin_id);
             stm.setInt(2, status);
-            stm.setInt(3, post_id);
+            stm.setInt(4, post_id);
+            stm.setString(3, message);
             stm.executeUpdate();
 
             con.close();
@@ -197,13 +199,12 @@ public class PostDAO {
         } catch (SQLException ex) {
             Logger.getLogger(PostDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }
 
     public List<Post> getUserPost(int user_id) {
         List<Post> posts = new ArrayList<>();
         try {
-            String sql = "SELECT post.post_id, post.house_id,post.purpose_id, purpose.purpose_name, post.price, post.create_time,post.house_status,"
+            String sql = "SELECT post.post_id, post.house_id,post.purpose_id, purpose.purpose_name, post.price, post.create_time,post.house_status,post.active_feedback,"
                     + " house_status.status_name as 'house_status_name', \n"
                     + "post_status.status_name as'post_status', "
                     + "type_of_house.type_of_house_name, house.location, "
@@ -224,7 +225,7 @@ public class PostDAO {
                     + "    request_status AS post_status ON post_status.status_id = post.post_status\n"
                     + "join \n"
                     + "	type_of_house on type_of_house.type_of_house_id = house.type_of_house_id\n"
-                    + "    where poster_id = ? and post.post_status IN (2, 3)\n"
+                    + "    where poster_id = ? and post.post_status = 2\n"
                     + "    ";
             DBContext db = new DBContext();
             PreparedStatement stm;
@@ -270,6 +271,7 @@ public class PostDAO {
                     post.setHouse_status(house_status);
                     post.setPost_status(post_status);
                     post.setPurpose(purpose);
+                    post.setActive_feedback(rs.getBoolean("active_feedback"));
 //                    post.setStart_time(rs.getObject("start_time", LocalDateTime.class));
 
                     Timestamp timeStamp = rs.getTimestamp("create_time");
@@ -278,7 +280,6 @@ public class PostDAO {
                     String formattedDateTime = createDateTime.format(formatter);
                     post.setCreate_time(createDateTime);
                     post.setFommated_create_time(formattedDateTime);
-
                     posts.add(post);
                 }
             }
@@ -373,7 +374,7 @@ public class PostDAO {
                     post.setHouse_status(house_status);
                     post.setPost_status(post_status);
                     post.setPurpose(purpose);
-//                    post.setAdmin_message(rs.getString("admin_message"));
+                    post.setAdmin_message(rs.getString("admin_message"));
 
                     posts.add(post);
                 }
@@ -446,6 +447,7 @@ public class PostDAO {
                     + "    purpose.purpose_id, \n"
                     + "    purpose.purpose_name, \n"
                     + "    post.price,\n"
+                    + "    post.active_feedback,\n"
                     + "    house_status.status_name AS house_status, \n"
                     + "    post_status.status_name AS post_status_name, \n"
                     + "    post_status.status_id AS post_status_id, \n"
@@ -459,7 +461,8 @@ public class PostDAO {
                     + "    user.full_name,\n"
                     + "    user.phone_number,\n"
                     + "    user.email,\n"
-                    + "    user.date_of_birth\n"
+                    + "    user.date_of_birth,\n"
+                    + "    user.avatar\n"
                     + "FROM \n"
                     + "    post\n"
                     + "JOIN \n"
@@ -502,6 +505,7 @@ public class PostDAO {
                         poster.setPhone_number(rs.getString("phone_number"));
                         poster.setEmail(rs.getString("email"));
                         poster.setDate_of_birth(rs.getDate("date_of_birth"));
+                        poster.setAvatar(rs.getString("avatar"));
 
                         House house = new House();
                         house.setHouse_id(rs.getInt("house_id"));
@@ -519,7 +523,7 @@ public class PostDAO {
                         post.setHouse_status(house_status);
                         post.setPost_status(post_status);
                         post.setPurpose(purpose);
-                        
+                        post.setActive_feedback(rs.getBoolean("active_feedback"));
                         return post;
                     }
 
@@ -559,7 +563,7 @@ public class PostDAO {
                     + "    user.date_of_birth,\n"
                     + "    post.end_time,\n"
                     + "    post.admin_id,\n"
-                    + "    post.start_time\n"
+                    + "    post.create_time\n"
                     + "FROM \n"
                     + "    post\n"
                     + "JOIN \n"
@@ -617,7 +621,7 @@ public class PostDAO {
                     post.setPurpose(purpose);
                     post.setAdmin_id(rs.getInt("admin_id"));
                     post.setEnd_time(rs.getObject("end_time", LocalDateTime.class));
-                    post.setCreate_time(rs.getObject("start_time", LocalDateTime.class));
+                    post.setCreate_time(rs.getObject("create_time", LocalDateTime.class));
 
                     list.add(post);
                 }
@@ -651,7 +655,8 @@ public class PostDAO {
                     + "    user.address,\n"
                     + "    user.phone_number,\n"
                     + "    user.email,\n"
-                    + "    user.avatar\n"
+                    + "    user.avatar,\n"
+                    + "    post.create_time\n"
                     + "FROM \n"
                     + "    post\n"
                     + "JOIN \n"
@@ -709,7 +714,16 @@ public class PostDAO {
                     post.setHouse_status(house_status);
                     post.setPost_status(post_status);
                     post.setPurpose(purpose);
+
+                    Timestamp timeStamp = rs.getTimestamp("create_time");
+                    LocalDateTime createDateTime = timeStamp.toLocalDateTime();
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+                    String formattedDateTime = createDateTime.format(formatter);
+                    post.setCreate_time(createDateTime);
+                    post.setFommated_create_time(formattedDateTime);
+
                     posts.add(post);
+
                 }
 
             }
