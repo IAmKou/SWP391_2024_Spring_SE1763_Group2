@@ -156,9 +156,13 @@
                             </tr>
 
                         </table>
-                            <p style="color: blue">${requestScope.msg}</p>
-                        <a href="${pageContext.request.contextPath}/changePassword.jsp"><button class="btn " style="float: right 45px;">Change Password</button></a>
-                        <a href="${pageContext.request.contextPath}/updateUser"><button class="btn " style="float: right 45px;">Edit</button></a>
+                        <p style="color: blue">${requestScope.msg}</p>
+                        <a href="${pageContext.request.contextPath}/changePassword.jsp">
+                            <button class="btn" style="float: right; margin-right: 45px;">Change Password</button>
+                        </a>
+                        <a href="${pageContext.request.contextPath}/updateUser">
+                            <button class="btn" style="float: right; margin-right: 45px;">Edit</button>
+                        </a>
                     </section>
                 </div>
         </div>
