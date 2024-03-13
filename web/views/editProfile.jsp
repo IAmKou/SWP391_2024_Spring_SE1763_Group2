@@ -118,42 +118,45 @@
                                     </tr>
                                     <tr>
                                         <th>Full Name:</th>
-                                        <td> <input type="text" name="full_name" id="fullName" value="${param1.getFull_name()}" placeholder="${param1.getFull_name()}"></td>
+                                        <td> <input type="text" name="full_name" id="fullName" value="${sessionScope.account.getFull_name()}" placeholder="${sessionScope.account.getFull_name()}"></td>
                                     </tr>
                                     <tr>
                                         <th>Date Of Birth: </th>
-                                        <td><input type="date" name="date_of_birth" id="phone" value="${param1.getDate_of_birth()}" placeholder="${param1.getDate_of_birth()}"></td>
+                                        <td><input type="date" name="date_of_birth" id="phone" value="${sessionScope.account.getDate_of_birth()}" placeholder="${sessionScope.account.getDate_of_birth()}"></td>
                                     </tr>
                                     <tr>
                                         <th>Address:</th>
-                                        <td><input type="text" name="address" id="address" value="${param1.getAddress()}"></td>
+                                        <td><input type="text" name="address" id="address" value="${sessionScope.account.getAddress()}"></td>
                                     </tr>
 
                                     <tr>
                                         <th>Phone Number:</th>
-                                        <td><input type="text" name="phone_number" id="phone" value="${param1.getPhone_number()}"></td>
+                                        <td><input type="text" name="phone_number" id="phone" value="${sessionScope.account.getPhone_number()}"></td>
                                     </tr>
                                     <tr>
                                         <th>Email:</th>
-                                        <td><input type="email" name="email" id="email" value="${param1.getEmail()}"></td>
+                                        <td><input type="email" name="email" id="email" value="${sessionScope.account.getEmail()}"></td>
                                     </tr>
                                     <tr>
                                         <th>Avatar: </th>
-                                        <td><input type="file" name="file"><img src="${param1.getAvatar()}" class="avatar"></td>
+                                        <td><input type="file" name="file"><img src="${sessionScope.account.getAvatar()}" class="avatar"></td>
                                     </tr>
 
                                 </table>
                                 <p style="color: red">${requestScope.msg}</p>
-                                
-                                <a href="${pageContext.request.contextPath}/myProfile"><button class="btn"  style="float: right 45px;">Cancel</button></a>
-                                <button class="btn" style="float: right 45px;" type="submit">Submit</button>
+
+                                <a href="${pageContext.request.contextPath}/myProfile">
+                                    <button class="btn" style="float: right; margin-right: 45px;">Cancel</button>
+                                </a>
+
+                                <button class="btn" style="float: right; margin-right: 45px;" type="submit">Submit</button>
                             </form>            
 
 
                         </c:if>
                         <c:if test="${msg ne null}">
                             <h4>${msg}</h4>
-                            <a href="${pageContext.request.contextPath}/logIn.jsp"><button class="btn"  style="float: right 45px;">Login</button></a>
+                            <a href="${pageContext.request.contextPath}/logIn.jsp"><button class="btn" style="float: right; margin-right: 45px;" type="submit">Login</button>
 
                         </c:if>
 
