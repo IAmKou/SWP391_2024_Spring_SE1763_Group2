@@ -154,12 +154,19 @@
                             </tr>
                             <tr>
                                 <th>Avatar: </th>
-                                <td><img src="${requestScope.user.avatar} " style="min-height: 100px; max-height: auto"></td>
+                                <td><img src="${requestScope.user.avatar} " class="avatar" ></td>
                             </tr>
                         </table>
-                        <a href="updateUser"><button class="btn "  style="float: right 45px;">Update</button></a>
+                            <p style="color: blue">${requestScope.msg}</p>
+                        <a href="${pageContext.request.contextPath}/changePassword.jsp">
+                            <button class="btn" style="float: right; margin-right: 45px;">Change Password</button>
+                        </a>
+                        <a href="${pageContext.request.contextPath}/updateUser">
+                            <button class="btn" style="float: right; margin-right: 45px;">Edit</button>
+                        </a>
                     </section>
                 </div>
+                            
                 <!-- </div> -->
         </div>
     </div>
