@@ -31,17 +31,21 @@ public class CancelBooking extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         String meetingIdStr = request.getParameter("meeting_id");
         int meetingId = Integer.parseInt(meetingIdStr);
-
+        String message = request.getParameter("message").trim();
+        
+        if(message == null) message ="";
+        
         if (meetingId != 0) {
             MeetingDAO meetingDao = new MeetingDAO();
-            meetingDao.ChangeCancelStatus(meetingId);
+            meetingDao.ChangeCancelStatus(meetingId, message);
         } else {
             int bookingId = Integer.parseInt(request.getParameter("booking_id"));
             BookingDAO bookingDao = new BookingDAO();
-            bookingDao.changeCancelStatus(bookingId);
+            bookingDao.changeCancelStatus(bookingId, message);
         }
-
-        response.sendRedirect(request.getContextPath() + "/request/view");
+        
+        request.setAttribute("success", "cancelling order successfully.");
+        request.getRequestDispatcher("/request/view").forward(request, response);
     } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

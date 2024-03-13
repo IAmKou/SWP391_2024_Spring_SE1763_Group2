@@ -31,11 +31,10 @@ public class AcceptBooking extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String meetingIdStr = request.getParameter("meeting_id");
-        String message = request.getParameter("message");
-        message = message.trim();
-
+        String message = request.getParameter("message").trim();
         int meetingId = Integer.parseInt(meetingIdStr);
-
+        
+        if(message == null) message ="";
         if (meetingId != 0) {
             MeetingDAO meetingDao = new MeetingDAO();
             meetingDao.ChangeAcceptedStatus(meetingId, message);
@@ -44,8 +43,9 @@ public class AcceptBooking extends HttpServlet {
             BookingDAO bookingDao = new BookingDAO();
             bookingDao.changeAcceptedStatus(bookingId, message);
         }
-
-        response.sendRedirect(request.getContextPath() + "/request/view");
+        
+        request.setAttribute("success", "accepting order successfully.");
+        request.getRequestDispatcher("/request/view").forward(request, response);
 
     }
 

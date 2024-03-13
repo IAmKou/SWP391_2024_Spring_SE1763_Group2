@@ -18,18 +18,19 @@ import model.Meeting;
  * @author FPTSHOP
  */
 public class MeetingDAO extends DBContext {
-    
-    public void ChangeCancelStatus(int meetingId) {
+
+    public void ChangeCancelStatus(int meetingId, String message) {
         try {
             String sql = "UPDATE `house_finder_project`.`appointment`\n"
                     + "SET\n"
-                    + "`appointment_status` = 3\n"
+                    + "`appointment_status` = 3,\n"
+                    + "`response_message` = ?\n"
                     + "WHERE `appointment_id` = ?;";
             DBContext db = new DBContext();
             Connection con = db.getConnection();
             PreparedStatement stm = con.prepareStatement(sql);
-            stm.setInt(1, meetingId);
-            
+            stm.setInt(2, meetingId);
+            stm.setString(1, message);
             stm.executeUpdate();
             con.close();
         } catch (SQLException ex) {
