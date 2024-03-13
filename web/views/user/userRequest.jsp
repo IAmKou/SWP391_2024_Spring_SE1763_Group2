@@ -186,7 +186,7 @@
                                                                                                 </div>
                                                                                                 <div class="bg-dark text-white p-1 rounded center h4">Response</div>
                                                                                                 <div class="form-group mb-3">
-                                                                                                    <textarea class="form-control" rows="5"readonly> ${booking.meeting.getResponeMessage()}</textarea>
+                                                                                                    <textarea class="form-control" rows="5"readonly> <c:if test="${ empty booking.meeting.getResponeMessage()}">Nothing</c:if>${booking.meeting.getResponeMessage()}</textarea>
                                                                                                 </div>
                                                                                             </c:if>
                                                                                         </c:forEach>
@@ -229,7 +229,7 @@
                                                                                                 </div>
                                                                                                 <div class="bg-dark text-white p-1 rounded center h4">Response</div>
                                                                                                 <div class="form-group mb-3">
-                                                                                                    <textarea class="form-control" rows="5"readonly> ${booking.booking.getResponseMessage()}</textarea>
+                                                                                                    <textarea class="form-control" rows="5"readonly><c:if test="${ empty booking.booking.getResponseMessage()}">'Nothing</c:if> ${booking.booking.getResponseMessage()}</textarea>
                                                                                                 </div>
                                                                                             </c:if>
                                                                                         </c:forEach>

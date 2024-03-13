@@ -42,6 +42,7 @@ public class ChangePostStatusByAdmin extends HttpServlet {
         }
 
         String postIdStr = request.getParameter("postId");
+        String message = request.getParameter("message").trim();
         String statusIdStr = request.getParameter("statusId");
 
         if (postIdStr == null || postIdStr.isEmpty() || statusIdStr == null || statusIdStr.isEmpty()) {
@@ -53,7 +54,7 @@ public class ChangePostStatusByAdmin extends HttpServlet {
         try {
             int postId = Integer.parseInt(postIdStr);
             int statusId = Integer.parseInt(statusIdStr);
-            
+            if(message == null) message = "";
             if(statusId != 2 && statusId != 3){
                 throw new Exception("this status is not valid.");
             }
@@ -69,7 +70,7 @@ public class ChangePostStatusByAdmin extends HttpServlet {
                 throw new Exception("This post cannot change status.");
             }
 
-            postDao.changePostStatusByAdmin(postId, statusId, admin.getUser_id());
+            postDao.changePostStatusByAdmin(postId, statusId, admin.getUser_id(),message);
             request.setAttribute("success", "Updated successfully at Post ID: " + post.getPost_id());
         } catch (NumberFormatException e) {
             request.setAttribute("alert", "Invalid Post ID or Status ID format.");

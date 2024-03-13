@@ -255,11 +255,11 @@
                                                                 <img class="logo" src="${pageContext.request.contextPath}/images/demo/image-removebg-preview.png" alt="image"/>
                                                             </div>
                                                         </div>
-                                                        <div class="modal-body row">
+                                                        <div class="modal-body center">
                                                             Are your sure for accept this post?
                                                         </div>
                                                         <div class="modal-footer">
-                                                            <a href="${pageContext.request.contextPath}/post/status?statusId=2&&postId=${post.getPost_id()}" class="btn btn-outline-success">Submit</a>
+                                                            <a href="${pageContext.request.contextPath}/post/status?statusId=2&&postId=${post.getPost_id()}&&message=""" class="btn btn-outline-success">Submit</a>
                                                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                                         </div>
                                                     </div>
@@ -276,12 +276,19 @@
                                                             </div>                                                            
                                                         </div>
                                                         <div class="modal-body">
-                                                            are you sure for cancel this post?
+
+                                                            <form action="${pageContext.request.contextPath}/post/status" method="post">
+                                                                <p>are you sure for cancel this post?</p>
+                                                                <input type="hidden" name="postId" value="${post.getPost_id()}">
+                                                                <input type="hidden" name="statusId" value="3">
+                                                                <textarea class="form-control" name="message" rows="3" cols="10" placeholder="Please enter your message" required></textarea>  
+                                                                <div class="modal-footer">
+                                                                    <button class="btn btn-outline-danger">Submit</button>
+                                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                                </div>
+                                                            </form>
                                                         </div>
-                                                        <div class="modal-footer">
-                                                            <a href="${pageContext.request.contextPath}/post/status?statusId=3&&postId=${post.getPost_id()}" class="btn btn-outline-danger">Submit</a>
-                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                        </div>
+
                                                     </div>
                                                 </div>
                                             </div>

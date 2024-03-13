@@ -78,6 +78,7 @@ public class ViewPostByStatus extends HttpServlet {
                 image.setImageDataAsBase64(imageDataBase64);
             }
             post.getHouse().setImage(images);
+            System.out.println("post message" + post.getAdmin_message());
         }
         
         request.setAttribute("totalPages", totalPages);

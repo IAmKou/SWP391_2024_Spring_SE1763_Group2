@@ -32,20 +32,22 @@ import model.User;
  */
 public class PostDAO {
 
-    public void changePostStatusByAdmin(int post_id, int status, int admin_id) {
+    public void changePostStatusByAdmin(int post_id, int status, int admin_id, String message) {
         try {
             String sql = "UPDATE `house_finder_project`.`post`\n"
                     + "SET\n"
                     + "\n"
                     + "`admin_id` = ?,\n"
-                    + "`post_status` =?\n"
+                    + "`post_status` =?,\n"
+                    + "`admin_message` =?\n"
                     + "WHERE `post_id` = ?;";
             DBContext db = new DBContext();
             Connection con = db.getConnection();
             PreparedStatement stm = con.prepareStatement(sql);
             stm.setInt(1, admin_id);
             stm.setInt(2, status);
-            stm.setInt(3, post_id);
+            stm.setInt(4, post_id);
+            stm.setString(3, message);
             stm.executeUpdate();
 
             con.close();
@@ -372,7 +374,7 @@ public class PostDAO {
                     post.setHouse_status(house_status);
                     post.setPost_status(post_status);
                     post.setPurpose(purpose);
-//                    post.setAdmin_message(rs.getString("admin_message"));
+                    post.setAdmin_message(rs.getString("admin_message"));
 
                     posts.add(post);
                 }
@@ -521,7 +523,6 @@ public class PostDAO {
                         post.setHouse_status(house_status);
                         post.setPost_status(post_status);
                         post.setPurpose(purpose);
-                        
                         post.setActive_feedback(rs.getBoolean("active_feedback"));
                         return post;
                     }
@@ -562,7 +563,7 @@ public class PostDAO {
                     + "    user.date_of_birth,\n"
                     + "    post.end_time,\n"
                     + "    post.admin_id,\n"
-                    + "    post.start_time\n"
+                    + "    post.create_time\n"
                     + "FROM \n"
                     + "    post\n"
                     + "JOIN \n"
@@ -620,7 +621,7 @@ public class PostDAO {
                     post.setPurpose(purpose);
                     post.setAdmin_id(rs.getInt("admin_id"));
                     post.setEnd_time(rs.getObject("end_time", LocalDateTime.class));
-                    post.setCreate_time(rs.getObject("start_time", LocalDateTime.class));
+                    post.setCreate_time(rs.getObject("create_time", LocalDateTime.class));
 
                     list.add(post);
                 }
