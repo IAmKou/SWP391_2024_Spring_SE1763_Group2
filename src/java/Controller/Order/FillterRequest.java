@@ -2,10 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package Controller.Booking;
+package Controller.Order;
 
 import dao.OrderDAO;
-import dao.PostDAO;
 import dao.StatusDAO;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
@@ -17,7 +16,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import model.Order;
-import model.Post;
 import model.Status;
 import model.User;
 
@@ -25,7 +23,7 @@ import model.User;
  *
  * @author FPTSHOP
  */
-public class ViewUserBooking extends HttpServlet {
+public class FillterRequest extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,9 +38,11 @@ public class ViewUserBooking extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("account");
-        
+
         String dateParam = request.getParameter("date");
-        String statusParam = request.getParameter("status");
+        String customerNameParam = request.getParameter("customer_name");
+        String statusStr = request.getParameter("status");
+
         int currentPage = 1;
         int recordsPerPage = 10;
 
@@ -57,54 +57,45 @@ public class ViewUserBooking extends HttpServlet {
         }
 
         OrderDAO orderDao = new OrderDAO();
-        List<Order> allOrders = orderDao.getOrderListByCustomer(user.getUser_id());
-        
+        List<Order> allOrders = orderDao.getOrderListByOwnerHouse(user.getUser_id());
+
         if (dateParam != null && !dateParam.isEmpty()) {
             LocalDate date = LocalDate.parse(dateParam);
             allOrders = filterByDate(allOrders, date);
         }
-        if (statusParam != null && !statusParam.isEmpty()) {
-            int status_id = Integer.parseInt(statusParam);
-            allOrders = filterByStatus(allOrders, status_id);
+
+        if (customerNameParam != null && !customerNameParam.isEmpty()) {
+            customerNameParam = customerNameParam.trim();
+            allOrders = filterByCustomerName(allOrders, customerNameParam);
         }
-        
-        int totalOrders = allOrders.size();
-        int totalPages = (int) Math.ceil((double) totalOrders / recordsPerPage);
+
+        if (statusStr != null && !statusStr.isEmpty()) {
+            int status = Integer.parseInt(statusStr);
+            allOrders = filterByStatus(allOrders, status);
+        }
+
+        int totalBookings = allOrders.size();
+        int totalPages = (int) Math.ceil((double) totalBookings / recordsPerPage);
 
         // Kiểm tra nếu currentPage vượt quá totalPages, đặt lại currentPage là totalPages
         if (currentPage > totalPages && totalPages > 0) {
             currentPage = totalPages;
         }
-
+        
         int start = (currentPage - 1) * recordsPerPage;
-        int end = Math.min(currentPage * recordsPerPage, totalOrders);
+        int end = Math.min(currentPage * recordsPerPage, totalBookings);
 
         List<Order> orders = allOrders.subList(start, end);
 
-        PostDAO postDao = new PostDAO();
-        List<Post> posts = new ArrayList<>(); // Khởi tạo danh sách
-      
-        
-        for (Order allOrder : allOrders) {
-            Post post = new Post();
-            if (allOrder.getBooking().getPost_id() != 0) {
-                post = postDao.getPost(allOrder.getBooking().getPost_id());
-            } else {
-                post = postDao.getPost(allOrder.getMeeting().getPostId());
-            }
-            posts.add(post);
-        }
+        StatusDAO statusDAO = new StatusDAO();
+        List<Status> statuses = statusDAO.getStatus();
 
-        StatusDAO statusDao = new StatusDAO();
-        List<Status> statuses = statusDao.getStatus();
-        
         request.setAttribute("statuses", statuses);
-        request.setAttribute("posts", posts);
-        request.setAttribute("bookings", orders);
-        request.setAttribute("totalBooking", allOrders.size());
-        request.setAttribute("totalPages", totalPages);
+        request.setAttribute("requests", orders);
+        request.setAttribute("fillterTotalRequest", allOrders.size());
+        request.setAttribute("fillterTotalPages", totalPages);
         request.setAttribute("currentPage", currentPage);
-        request.getRequestDispatcher("../views/user/userRequest.jsp").forward(request, response);
+        request.getRequestDispatcher("/views/user/customerRequest.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -148,6 +139,7 @@ public class ViewUserBooking extends HttpServlet {
 
     public List<Order> filterByDate(List<Order> orders, LocalDate date) {
         List<Order> filteredOrders = new ArrayList<>();
+
         for (Order order : orders) {
             if (order.getBooking() != null && order.getBooking().getBooking_date() != null && order.getBooking().getBooking_date().toLocalDate().equals(date)) {
                 filteredOrders.add(order);
@@ -155,18 +147,41 @@ public class ViewUserBooking extends HttpServlet {
                 filteredOrders.add(order);
             }
         }
+
         return filteredOrders;
     }
-    
-    private List<Order> filterByStatus(List<Order> orders, int status_id) {
+
+    public List<Order> filterByStatus(List<Order> orders, int status) {
         List<Order> filteredOrders = new ArrayList<>();
+
         for (Order order : orders) {
-            if (order.getBooking() != null && order.getBooking().getStatus() != null && order.getBooking().getStatus().getStatus_id() == status_id) {
+            if (order.getBooking() != null && order.getBooking().getStatus() != null
+                    && order.getBooking().getStatus().getStatus_id() == status) {
                 filteredOrders.add(order);
-            }else if(order.getMeeting() != null && order.getMeeting().getMeetingStatus()!= null && order.getMeeting().getMeetingStatus().getStatus_id() == status_id){
+            } else if (order.getMeeting() != null && order.getMeeting().getMeetingStatus() != null
+                    && order.getMeeting().getMeetingStatus().getStatus_id() == status) {
                 filteredOrders.add(order);
             }
         }
+
+        return filteredOrders;
+
+    }
+
+    public List<Order> filterByCustomerName(List<Order> orders, String customerName) {
+        List<Order> filteredOrders = new ArrayList<>();
+
+        for (Order order : orders) {
+            if (order.getBooking() != null && order.getBooking().getUser() != null
+                    && order.getBooking().getUser().getFull_name().trim().equalsIgnoreCase(customerName)) {
+                filteredOrders.add(order);
+            } else if (order.getMeeting() != null && order.getMeeting().getCustomer() != null
+                    && order.getMeeting().getCustomer().getFull_name().trim().equalsIgnoreCase(customerName)) {
+                filteredOrders.add(order);
+            }
+        }
+
         return filteredOrders;
     }
+
 }

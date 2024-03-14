@@ -1,4 +1,4 @@
-package Controller.Booking;
+package Controller.Order;
 
 import dao.OrderDAO;
 import dao.PostDAO;

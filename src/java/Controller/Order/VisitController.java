@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package Controller.Booking;
+package Controller.Order;
 
 import dao.HouseDAO;
 import dao.MeetingDAO;
@@ -47,7 +47,7 @@ public class VisitController extends HttpServlet {
             int postId = Integer.parseInt(postIdStr);
             
             PostDAO postDao = new PostDAO();
-            int owner_house = postDao.getOwnerPost(postId);
+            int owner_house = postDao.getOwnerId(postId);
             
             if(customer.getUser_id() == owner_house){
                 throw new Exception("You cannot book your own house.");
