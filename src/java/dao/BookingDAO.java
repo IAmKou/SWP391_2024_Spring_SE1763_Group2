@@ -11,12 +11,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Booking;
 import model.PaymentMethod;
-import model.Post;
 import model.Status;
 import model.User;
 
@@ -26,16 +24,18 @@ import model.User;
  */
 public class BookingDAO extends DBContext {
 
-    public void changeCancelStatus(int bookingId) {
+    public void changeCancelStatus(int bookingId, String message) {
         try {
             String sql = "UPDATE `booking`\n"
                     + "SET\n"
+                    + "`response_message` = ?,\n"
                     + "`booking_status` = 3\n"
                     + "WHERE `booking_id` = ?";
             DBContext db = new DBContext();
             Connection con = db.getConnection();
             PreparedStatement stm = con.prepareStatement(sql);
-            stm.setInt(1, bookingId);
+            stm.setInt(2, bookingId);
+            stm.setString(1, message);
             stm.executeUpdate();
 
             con.close();
@@ -137,14 +137,13 @@ public class BookingDAO extends DBContext {
                     u.setUser_id(rs.getInt("user_id"));
                     u.setAvatar(rs.getString("avatar"));
                     u.setFull_name(rs.getString("full_name"));
-                    
+
                     Status booking_status = new Status();
                     booking_status.setStatus_id(rs.getInt("booking_status"));
-                    
+
                     PaymentMethod p = new PaymentMethod();
                     p.setMethod_id(rs.getInt("payment_method"));
-                    
-                    
+
                     b = new Booking();
                     b.setBooking_id(rs.getInt("booking_id"));
                     b.setUser(u);

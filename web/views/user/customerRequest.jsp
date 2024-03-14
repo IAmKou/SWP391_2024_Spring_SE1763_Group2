@@ -108,6 +108,18 @@
                                     </div>
                                 </div>
                             </form>
+                            <div class="col-md-12">
+                                <c:if test="${alert ne null}">
+                                    <div class="alert alert-warning h5">                                   
+                                        ${alert}
+                                    </div>
+                                </c:if>
+                                <c:if test="${success ne null}">
+                                    <div class="alert alert-success h5">
+                                        ${success}
+                                    </div>
+                                </c:if>
+                            </div>
                             <c:if test="${not empty requests}">
                                 <div class="row">
                                     <div class="table-responsive">
@@ -255,6 +267,7 @@
                                                                                             <input type="hidden" name="meeting_id" value="${request.meeting.getMeeting_id()}">
                                                                                             <input type="hidden" name="booking_id" value="${request.booking.getBooking_id()}">
                                                                                             <p>Are you sure to reject this order?</p>
+                                                                                            <textarea name="message" rows="5" class="form-control" placeholder="Give your customer the reason of cancelling" required></textarea>
                                                                                             <div class="modal-footer">
                                                                                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                                                                                 <button type="submit" class="btn btn-primary">Accept</button>
