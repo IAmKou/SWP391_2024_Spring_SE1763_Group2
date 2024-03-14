@@ -296,6 +296,7 @@
                             <h5 class="main-heading">Rate and Comment</h5>
                             <!-- Rating stars -->
                             <!-- Comment input -->
+                            <p style="color: red">${requestScope.msg}</p>
                             <c:if test="${b ne null}">
                                 <form action="FeedbackController" method="post">
                                     <input type="hidden" value="${sessionScope.user.user_id}" name="uid"/>
@@ -332,7 +333,7 @@
                                         </c:if>
 
                                         <c:if test="${sessionScope.user.user_id ne list.user_id}">
-                                            <a href="ReportFeedbackController?fid=${list.feedback_id}&uid=${sessionScope.user.user_id}&tid=${post.post_id}&fcontent=${content}" class="btn btn-warning">Report</a>
+                                            <a href="ReportFeedbackController?fid=${list.feedback_id}&uid=${sessionScope.user.user_id}&tid=${post.post_id}&fcontent=${list.content}" class="btn btn-warning">Report</a>
                                         </c:if>
                                     </div>
                                 </c:forEach>
@@ -343,7 +344,6 @@
                 </div>
             </div>
         </div>
-        <p style="color: red">${requestScope.msg}</p>
         <script>
             function checkSession() {
                 var xhr = new XMLHttpRequest();
