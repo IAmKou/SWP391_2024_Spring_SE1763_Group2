@@ -5,6 +5,7 @@
 
 package Controller.Feedback;
 
+import dao.FeedbackDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -12,6 +13,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.time.LocalDateTime;
 
 /**
  *
@@ -29,19 +31,17 @@ public class ReportFeedbackController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ReportFeedbackController</title>");  
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ReportFeedbackController at " + request.getContextPath () + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
+        int fid = Integer.parseInt(request.getParameter("fid"));
+        int pid = Integer.parseInt(request.getParameter("tid"));
+        int uid = Integer.parseInt(request.getParameter("uid"));
+        String fcontent = request.getParameter("fcontent");
+        LocalDateTime now = LocalDateTime.now();
+        String msg = "Reported";
+        String redirectURL = request.getContextPath() + "/views/post.jsp?msg=" + msg;
+        
+        FeedbackDAO dao = new FeedbackDAO();
+        dao.insertReport(fid, pid, uid, now, fcontent);
+        response.sendRedirect(redirectURL);
     } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
