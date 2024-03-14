@@ -72,13 +72,27 @@
                     <jsp:include page="/sample/left_side_bar_for_admin_account.jsp"/>
                     <div class="content grid3_4 borderEntity " style="height: 450px;">
                         <section class="ftco-section">
-                            <form action="ViewReportDetail" method="post"> 
-                                <c:forEach var="report" items="${requestScope.list}">
-                                    Report:<input type="text" name="rid" readonly required value="${report.report_id}">
-                                    <button type=submit><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check" viewBox="0 0 16 16">
-                                    <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425z"/>
-                                    </svg>
-                                    </button>
+                            <form action="ViewReportDetail" method="post">
+                                <c:forEach var="re" items="${report}">
+                                    <table>
+                                        <tr>
+                                            <th>ID</th>
+                                            <td>${re.report_id}</td><!-- comment -->
+                                        <input type="hidden" value="${re.report_id}" name="rid"/>
+                                            <th>Time Reported</th>
+                                            <td>${re.report_time}</td>
+                                        
+                                            <th>View Detail</th>
+                                            <td>
+                                                <button type="submit">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check" viewBox="0 0 16 16">
+                                                    <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425z"/>
+                                                    </svg>
+                                            </td>
+                                            </button>
+                                        </tr>
+                                    </table>
+
                                 </c:forEach>
                                 <p style="color: red">${requestScope.msg}</p>
                             </form>
