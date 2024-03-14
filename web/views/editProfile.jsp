@@ -118,31 +118,33 @@
                                     </tr>
                                     <tr>
                                         <th>Full Name:</th>
-                                        <td> <input type="text" name="full_name" id="fullName" value="${sessionScope.account.getFull_name()}" placeholder="${sessionScope.account.getFull_name()}"></td>
+                                        <td> <input type="text" name="full_name" id="fullName" required value="${sessionScope.account.getFull_name()}" placeholder="${sessionScope.account.getFull_name()}"></td>
                                     </tr>
                                     <tr>
                                         <th>Date Of Birth: </th>
-                                        <td><input type="date" name="date_of_birth" id="phone" value="${sessionScope.account.getDate_of_birth()}" placeholder="${sessionScope.account.getDate_of_birth()}"></td>
+                                        <td><input type="date" name="date_of_birth" id="phone" required value="${sessionScope.account.getDate_of_birth()}" placeholder="${sessionScope.account.getDate_of_birth()}"></td>
                                     </tr>
                                     <tr>
                                         <th>Address:</th>
-                                        <td><input type="text" name="address" id="address" value="${sessionScope.account.getAddress()}"></td>
+                                        <td><input type="text" name="address" id="address" required value="${sessionScope.account.getAddress()}"></td>
                                     </tr>
 
                                     <tr>
                                         <th>Phone Number:</th>
-                                        <td><input type="text" name="phone_number" id="phone" value="${sessionScope.account.getPhone_number()}"></td>
+                                        <td><input type="text" pattern="[0-9]{10}" name="phone_number" id="phone" required value="${sessionScope.account.getPhone_number()}"></td>
                                     </tr>
                                     <tr>
                                         <th>Email:</th>
-                                        <td><input type="email" name="email" id="email" value="${sessionScope.account.getEmail()}"></td>
+                                        <td><input type="email" name="email" id="email" required value="${sessionScope.account.getEmail()}"></td>
                                     </tr>
                                     <tr>
                                         <th>Avatar: </th>
                                         <td><input type="file" name="file"><img src="${sessionScope.account.getAvatar()}" class="avatar"></td>
                                     </tr>
+                                    
 
                                 </table>
+                                    <input type="hidden" value="${sessionScope.account.getAvatar()}" name="avatar">
                                 <p style="color: red">${requestScope.msg}</p>
 
                                 <a href="${pageContext.request.contextPath}/myProfile">
