@@ -332,7 +332,7 @@
                                         </c:if>
 
                                         <c:if test="${sessionScope.user.user_id ne list.user_id}">
-                                            <a href="ReportFeedbackController" class="btn btn-warning">Report</a>
+                                            <a href="ReportFeedbackController?fid=${list.feedback_id}&uid=${sessionScope.user.user_id}&tid=${post.post_id}&fcontent=${content}" class="btn btn-warning">Report</a>
                                         </c:if>
                                     </div>
                                 </c:forEach>
