@@ -97,7 +97,7 @@
                     </li>
                     <li>Notification Management
                         <ul>
-                            <li><a href="sendNotification.jsp">Send Notification</a></li>
+                            <li><a href="${pageContext.request.contextPath}/sendNotification.jsp">Send Notification</a></li>
                         </ul>
                     </li>
                 </ul>
