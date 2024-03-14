@@ -44,6 +44,7 @@ public class autoEndPost {
                 LocalDateTime endTime = post.getEnd_time();
                 if (now.isAfter(endTime)) {
                     updateStatusInDatabase(post.getPost_id());
+                    System.out.println(post.getPoster_id());
                     sendNotification(post.getPoster_id(), now);
                     notifiedPosts.add(post.getPost_id()); // Mark post as notified
                 }
@@ -65,6 +66,9 @@ public class autoEndPost {
         NotificationDAO dao = new NotificationDAO();
         String message = "Your post have expired";
         dao.insertNotification(poster_id, message, time);
+    }
+        public static boolean isRunning() {
+        return isRunning;
     }
 }
 
