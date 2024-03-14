@@ -62,11 +62,7 @@ public class updateUser extends HttpServlet {
             String phone_number_str = request.getParameter("phone_number");
             String email = request.getParameter("email");
             Part filePart = request.getPart("file");
-            // Kiểm tra xem các trường thông tin có được cung cấp không
-            if (full_name == null || dateOfBirthStr == null || address == null || phone_number_str == null || email == null) {
-                throw new ServletException("Vui lòng điền đầy đủ thông tin.");
-            }
-
+            String avatar = request.getParameter("avatar");
             // Kiểm tra định dạng của ngày sinh
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             java.util.Date dateOfBirthUtil;
@@ -76,18 +72,10 @@ public class updateUser extends HttpServlet {
                 throw new ServletException("Định dạng ngày sinh không hợp lệ. Sử dụng định dạng yyyy-MM-dd.");
             }
             java.sql.Date date_of_birth = new java.sql.Date(dateOfBirthUtil.getTime());
-
-            // Kiểm tra định dạng của số điện thoại
-//            int phone_number;
-//            try {
-//                phone_number = Integer.parseInt(phone_number_str);
-//            } catch (NumberFormatException e) {
-//                throw new ServletException("Số điện thoại phải là một số nguyên.");
-//            }
-            // Kiểm tra định dạng của email
             if (!email.matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
                 throw new ServletException("Địa chỉ email không hợp lệ.");
             }
+
             InputStream inputStream = filePart.getInputStream();
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             byte[] buffer = new byte[4096];
@@ -99,6 +87,7 @@ public class updateUser extends HttpServlet {
 
             // Determine the media type based on the file's extension
             String fileName = filePart.getSubmittedFileName();
+            if (!fileName.isEmpty()){
             String mediaTypeString;
             if (fileName.endsWith(".jpg") || fileName.endsWith(".jpeg")) {
                 mediaTypeString = "image/jpeg";
@@ -158,12 +147,40 @@ public class updateUser extends HttpServlet {
                     redirectURL += "?message=" + msg; 
                     response.sendRedirect(redirectURL);   
                 }
-            } catch (Exception e) {
+            }catch (Exception e) {
                 // Xử lý bất kỳ ngoại lệ nào
                 String redirectURL = request.getContextPath() + "/updateProfileController?userId=" + userId;
                 msg = e.getMessage();
                 redirectURL += "&message=" + msg; 
                 response.sendRedirect(redirectURL);
+            }
+            }else{
+            User user = new User();
+
+                    user.setUser_id(u.getUser_id()); // ???
+                    user.setFull_name(full_name);
+                    user.setDate_of_birth(date_of_birth);
+                    user.setAddress(address);
+                    user.setPhone_number(phone_number_str);
+                    user.setEmail(email);
+                    user.setAvatar(avatar);
+                    // Cập nhật người dùng trong cơ sở dữ liệu
+                    UserDAO userDAO = new UserDAO();
+                    userDAO.updateUser(user);
+                    
+                    HttpSession session = request.getSession();
+                    session.removeAttribute("account");
+                    session.removeAttribute("user");
+                    int uid = user.getUser_id();
+                    AccountDAO dao = new AccountDAO();
+                    Account a = dao.getAccountByUserId(uid);
+                    session.setAttribute("user", a);
+                    session.setAttribute("account", user);
+                    
+                    msg="Update successfully";
+                    String redirectURL = request.getContextPath() + "/viewProfile" ;
+                    redirectURL += "?message=" + msg; 
+                    response.sendRedirect(redirectURL);  
             }
         } catch (ServletException se) {
                 String redirectURL = request.getContextPath() + "/updateProfileController";
