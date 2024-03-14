@@ -13,6 +13,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
 import model.Report;
 
@@ -34,7 +35,7 @@ public class ViewAllReport extends HttpServlet {
     throws ServletException, IOException {
         FeedbackDAO dao = new FeedbackDAO();
         ArrayList<Report> f = dao.getAllReport();
-        request.setAttribute("list", f);
+        request.setAttribute("report", f);
         request.getRequestDispatcher("/views/admin/reportList.jsp").forward(request, response);
     } 
 
