@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package Controller.Booking;
+package Controller.Order;
 
 import dao.BookingDAO;
 import dao.MeetingDAO;
@@ -17,7 +17,7 @@ import jakarta.servlet.http.HttpServletResponse;
  *
  * @author FPTSHOP
  */
-public class CancelBooking extends HttpServlet {
+public class RejectOrder extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.

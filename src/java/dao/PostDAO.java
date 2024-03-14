@@ -76,7 +76,7 @@ public class PostDAO {
 
     }
 
-    public int getOwnerPost(int post_id) {
+    public int getOwnerId(int post_id) {
         try {
             String sql = "SELECT poster_id from post where post_id =?;";
             DBContext db = new DBContext();

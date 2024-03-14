@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package Controller.Booking;
+package Controller.Order;
 
 import dao.OrderDAO;
 import dao.StatusDAO;
@@ -15,15 +15,15 @@ import jakarta.servlet.http.HttpSession;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import model.User;
 import model.Order;
 import model.Status;
-import model.User;
 
 /**
  *
  * @author FPTSHOP
  */
-public class FillterRequest extends HttpServlet {
+public class ViewRequest extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,7 +38,6 @@ public class FillterRequest extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("account");
-
         String dateParam = request.getParameter("date");
         String customerNameParam = request.getParameter("customer_name");
         String statusStr = request.getParameter("status");
@@ -81,7 +80,7 @@ public class FillterRequest extends HttpServlet {
         if (currentPage > totalPages && totalPages > 0) {
             currentPage = totalPages;
         }
-        
+
         int start = (currentPage - 1) * recordsPerPage;
         int end = Math.min(currentPage * recordsPerPage, totalBookings);
 
@@ -92,10 +91,10 @@ public class FillterRequest extends HttpServlet {
 
         request.setAttribute("statuses", statuses);
         request.setAttribute("requests", orders);
-        request.setAttribute("fillterTotalRequest", allOrders.size());
-        request.setAttribute("fillterTotalPages", totalPages);
+        request.setAttribute("totalRequest", allOrders.size());
+        request.setAttribute("totalPages", totalPages);
         request.setAttribute("currentPage", currentPage);
-        request.getRequestDispatcher("/views/user/customerRequest.jsp").forward(request, response);
+        request.getRequestDispatcher("../views/user/customerRequest.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -183,5 +182,4 @@ public class FillterRequest extends HttpServlet {
 
         return filteredOrders;
     }
-
 }

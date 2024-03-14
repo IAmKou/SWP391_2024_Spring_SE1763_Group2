@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package Controller.Booking;
+package Controller.Order;
 
 import dao.BookingDAO;
 import dao.PostDAO;
@@ -46,7 +46,7 @@ public class BookingController extends HttpServlet {
             int postId = Integer.parseInt(postIdStr);
 
             PostDAO postDao = new PostDAO();
-            int owner_house = postDao.getOwnerPost(postId);
+            int owner_house = postDao.getOwnerId(postId);   
 
             if (user.getUser_id() == owner_house) {
                 throw new Exception("You cannot book your own house.");
@@ -89,7 +89,7 @@ public class BookingController extends HttpServlet {
             } else {
                 Duration duration = Duration.between(currentDate, checkInDate);
                 long hour = duration.toHours();
-                if (hour < 12) {
+                if (hour < 24) {
                     throw new Exception("Check-in time must be 12 hour greater than the time of booking");
                 }
             }
@@ -124,7 +124,7 @@ public class BookingController extends HttpServlet {
                     String note = request.getParameter("note").trim();
                     booking.setNote(note);
                 } else {
-                    throw new Exception("Your note must less than 200 characters.");
+                    throw new Exception("Your note must less than 100 characters.");
                 }
             } else {
                 String note = "";
