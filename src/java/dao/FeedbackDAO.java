@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.Report;
 import model.feedback;
 
 /**
@@ -74,7 +75,7 @@ public class FeedbackDAO {
             DBContext db = new DBContext();
             Connection con = db.getConnection();
             if (con != null) {
-                String sql = "SELECT * from `feedback` where post_id = ;'" + post_id + "'";
+                String sql = "SELECT * from `feedback` where post_id = '" + post_id + "'";
                 Statement call = con.createStatement();
                 ResultSet rs = call.executeQuery(sql);
                 //assign value for object items then return it
@@ -127,4 +128,39 @@ public class FeedbackDAO {
         }
         return false;
     }
+
+    public void insertReport(int fid, int pid, int uid, LocalDateTime report_time, String fcontent) {
+        try {
+            DBContext db = new DBContext();
+            Connection con = db.getConnection();
+
+            String sql = "Insert into `report` (fid,uid,pid,report_time)"
+                    + "values (?,?,?,?)";
+            PreparedStatement st = con.prepareStatement(sql);
+            st = con.prepareStatement(sql);
+            st.setInt(1, fid);
+            st.setInt(2, uid);
+            st.setInt(3, pid);
+            st.setObject(4, report_time);
+            st.setString(5, fcontent);
+            int row = st.executeUpdate();
+            st.close();
+            con.close();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public ArrayList<Report> getAllReport() {
+        ArrayList<Report> list = new ArrayList<>();
+        try {
+            DBContext db = new DBContext();
+            Connection con = db.getConnection();
+            
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return list;
+    }
+
 }
