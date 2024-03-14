@@ -28,7 +28,7 @@
         <section class="hoc container clear " >
             <div class="sectiontitle">
                 <h4 class="heading">Result:</h4>
-                <p>There are ${num}${requestScope.msg} houses found</p>
+                <p>There are ${num} houses found</p>
 
             </div>
             <div id="latest" class="group" >
@@ -75,12 +75,32 @@
             </div>
         </section>
         <script>
-            function updatePrice(value) {
-                document.getElementById('priceOutput').textContent = value;
+            function checkAutoEndPostStatus() {
+                fetch('/handleAutoEndPost') // Endpoint to check auto end post status
+                        .then(response => response.json())
+                        .then(data => {
+                            if (!data.autoEndPostRunning) {
+                                // Auto end post process has stopped, trigger auto-fetch mechanism
+                                console.log('Auto end post process has stopped. Triggering auto-fetch...');
+                                // Call function to auto-fetch posts
+                                autoFetchPosts();
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error checking auto end post status:', error);
+                            // Handle errors if needed
+                        });
             }
-            function updateArea(value) {
-                document.getElementById('areaOutput').textContent = value;
+
+            function autoFetchPosts() {
+                // Implement logic to fetch posts automatically
+                console.log('Fetching posts automatically...');
+                // Example: Reload the page to fetch new posts
+                window.location.reload();
             }
+
+// Check auto end post status periodically
+            setInterval(checkAutoEndPostStatus, 60000); // Check every minute (adjust as needed)
         </script>
         <jsp:include page="footer.jsp"/>
     </body>
