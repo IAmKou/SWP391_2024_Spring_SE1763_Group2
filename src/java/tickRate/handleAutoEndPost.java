@@ -23,4 +23,7 @@ public class handleAutoEndPost implements ServletContextListener{
         // Stop the background task when the web application stops
         autoEndPost.stopAutoEndPost();
     }
+        public static boolean isAutoEndPostRunning() {
+        return autoEndPost.isRunning();
+    }
 }
