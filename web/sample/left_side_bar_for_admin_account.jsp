@@ -88,13 +88,11 @@
                     <li><a href="${pageContext.request.contextPath}/viewUserList" style="font-weight: bold;">User Management</a></li>
                     <ul>
                         <li><a href="${pageContext.request.contextPath}/viewUserList">User List</a></li>
-                        <li><a href="#">Updating</a></li>
-                        <li><a href="#">Updating</a></li>
                     </ul>
                     <li><a href="vieworder.html">Post Management</a>
                         <ul>
                             <li><a href="${pageContext.request.contextPath}/post/list">List Post</a></li>
-                            <li><a href="#">Updating</a></li>
+                            <li><a href="${pageContext.request.contextPath}/ViewAllReport">View Report</a></li>
                         </ul>
                     </li>
                     <li>Notification Management
