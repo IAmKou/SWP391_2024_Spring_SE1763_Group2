@@ -5,6 +5,7 @@
 
 package Controller.Feedback;
 
+import dao.NotificationDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -12,6 +13,13 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import model.GNotification;
+import model.Notification;
+import model.User;
 
 /**
  *
@@ -29,19 +37,23 @@ public class ReportResponseController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ReportResponseController</title>");  
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ReportResponseController at " + request.getContextPath () + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
+        int fuid = Integer.parseInt(request.getParameter("fuid"));
+        String message = request.getParameter("message");
+        User user = (User) request.getSession().getAttribute("account");
+        int uid = user.getUser_id();
+        LocalDateTime now =  LocalDateTime.now();
+        NotificationDAO dao = new NotificationDAO();
+        dao.insertNotification(fuid, message, now);
+        ArrayList<Notification> noti = dao.getAllNotificationByUserId(uid);
+        ArrayList<GNotification> gnoti = dao.getAllGlobalNotification();
+        List<Object> allNotifications = new ArrayList<>();
+        allNotifications.addAll(noti);
+        allNotifications.addAll(gnoti);
+        HttpSession session = request.getSession();
+        session.removeAttribute("notifications");
+        session.setAttribute("notifications", allNotifications);
+        request.setAttribute("msg", "Send succesfully");
+        request.getRequestDispatcher("ViewAllReport").forward(request, response);
     } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
