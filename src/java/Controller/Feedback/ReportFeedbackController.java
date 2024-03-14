@@ -36,12 +36,17 @@ public class ReportFeedbackController extends HttpServlet {
         int uid = Integer.parseInt(request.getParameter("uid"));
         String fcontent = request.getParameter("fcontent");
         LocalDateTime now = LocalDateTime.now();
-        String msg = "Reported";
-        String redirectURL = request.getContextPath() + "/views/post.jsp?msg=" + msg;
+       
         
         FeedbackDAO dao = new FeedbackDAO();
+        if(dao.alreadyReported(fid)){
+            request.setAttribute("msg", "Already Reported");
+           
+        }else{
+        request.setAttribute("msg", "Reported");
         dao.insertReport(fid, pid, uid, now, fcontent);
-        response.sendRedirect(redirectURL);
+        }
+        request.getRequestDispatcher("/views/post.jsp").forward(request, response);
     } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
