@@ -14,6 +14,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import java.util.List;
 import model.Report;
 import model.feedback;
 
@@ -35,8 +36,8 @@ public class ViewReportDetail extends HttpServlet {
     throws ServletException, IOException {
         int rid = Integer.parseInt(request.getParameter("rid"));
         FeedbackDAO dao = new FeedbackDAO();
-//        Report r = dao.viewReportDetail(rid);
-//        request.setAttribute("list", r);
+        List<Report> r = dao.getReportDetail(rid);
+        request.setAttribute("list", r);
         request.getRequestDispatcher("/views/admin/reportDetail.jsp").forward(request, response);
     } 
 
