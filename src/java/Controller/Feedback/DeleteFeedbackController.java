@@ -36,10 +36,9 @@ public class DeleteFeedbackController extends HttpServlet {
             throws ServletException, IOException {
         int uid = Integer.parseInt(request.getParameter("uid"));
         int pid = Integer.parseInt(request.getParameter("tid"));
-        int fid = Integer.parseInt(request.getParameter("fid"));
         
         FeedbackDAO dao = new FeedbackDAO();
-        dao.deleteFeedback(fid,uid,pid);
+        dao.deleteFeedback(uid);
         HttpSession ses = request.getSession();
         ses.removeAttribute("feedback");
         ArrayList<feedback> f = dao.getAllFeedbackInAPost(pid);
