@@ -32,7 +32,7 @@ public class SearchDAO {
             Connection con = db.getConnection();
             // if connection is secured, proceed to execute query and retrieve data into and return a list
             if (con != null) {
-                String sql = "SELECT post.post_id, post.house_id, post.purpose_id, purpose.purpose_name, post.price, post.start_time,"
+                String sql = "SELECT post.post_id, post.house_id, post.purpose_id, purpose.purpose_name, post.price, post.create_time,"
                         + " house_status.status_name AS 'house_status', \n"
                         + " post_status.status_name AS 'post_status', "
                         + " type_of_house.type_of_house_name, house.location, "
@@ -95,7 +95,7 @@ public class SearchDAO {
                     post.setHouse_status(house_status);
                     post.setPost_status(post_status);
                     post.setPurpose(purposer);
-                    post.setStart_time(rs.getObject("start_time", LocalDateTime.class));
+                    post.setStart_time(rs.getObject("create_time", LocalDateTime.class));
                     list.add(post);
                 }
                 stm.close();
@@ -115,7 +115,7 @@ public class SearchDAO {
             Connection con = db.getConnection();
             // if connection is secured, proceed to execute query and retrieve data into and return a list
             if (con != null) {
-                String sql = "SELECT post.post_id, post.house_id, post.purpose_id, purpose.purpose_name, post.price, post.start_time,"
+                String sql = "SELECT post.post_id, post.house_id, post.purpose_id, purpose.purpose_name, post.price, post.create_time,"
                         + " house_status.status_name AS 'house_status', \n"
                         + " post_status.status_name AS 'post_status', "
                         + " type_of_house.type_of_house_name, house.location, "
@@ -178,7 +178,7 @@ public class SearchDAO {
                     post.setHouse_status(house_status);
                     post.setPost_status(post_status);
                     post.setPurpose(purposer);
-                    post.setStart_time(rs.getObject("start_time", LocalDateTime.class));
+                    post.setStart_time(rs.getObject("create_time", LocalDateTime.class));
                     list.add(post);
                 }
                 stm.close();
@@ -198,7 +198,7 @@ public class SearchDAO {
             Connection con = db.getConnection();
             //if connection is secured, proceed to execute query and retrieve data into and return a list
             if (con != null) {
-                String sql = "SELECT post.post_id, post.house_id,post.purpose_id, purpose.purpose_name, post.price, post.start_time,"
+                String sql = "SELECT post.post_id, post.house_id,post.purpose_id, purpose.purpose_name, post.price, post.create_time,"
                         + " house_status.status_name as 'house_status', \n"
                         + "post_status.status_name as'post_status', "
                         + "type_of_house.type_of_house_name, house.location, "
@@ -263,7 +263,7 @@ public class SearchDAO {
                     post.setHouse_status(house_status);
                     post.setPost_status(post_status);
                     post.setPurpose(purposer);
-                    post.setStart_time(rs.getObject("start_time", LocalDateTime.class));
+                    post.setStart_time(rs.getObject("create_time", LocalDateTime.class));
                     list.add(post);
                 }
                 stm.close();
@@ -283,7 +283,7 @@ public class SearchDAO {
             Connection con = db.getConnection();
             //if connection is secured, proceed to execute query and retrieve data into and return a list
             if (con != null) {
-                String sql = "SELECT post.post_id, post.house_id,post.purpose_id, purpose.purpose_name, post.price, post.start_time,"
+                String sql = "SELECT post.post_id, post.house_id,post.purpose_id, purpose.purpose_name, post.price, post.create_time,"
                         + " house_status.status_name as 'house_status', \n"
                         + "post_status.status_name as'post_status', "
                         + "type_of_house.type_of_house_name, house.location, "
@@ -348,7 +348,7 @@ public class SearchDAO {
                     post.setHouse_status(house_status);
                     post.setPost_status(post_status);
                     post.setPurpose(purposer);
-                    post.setStart_time(rs.getObject("start_time", LocalDateTime.class));
+                    post.setStart_time(rs.getObject("create_time", LocalDateTime.class));
                     list.add(post);
                 }
                 stm.close();
@@ -367,7 +367,7 @@ public class SearchDAO {
             Connection con = db.getConnection();
             //if connection is secured, proceed to execute query and retrieve data into and return a list
             if (con != null) {
-                String sql = "SELECT post.post_id, post.house_id,post.purpose_id, purpose.purpose_name, post.price, post.start_time,"
+                String sql = "SELECT post.post_id, post.house_id,post.purpose_id, purpose.purpose_name, post.price, post.create_time,"
                         + " house_status.status_name as 'house_status', \n"
                         + "post_status.status_name as'post_status', "
                         + "type_of_house.type_of_house_name, house.location, "
@@ -432,7 +432,7 @@ public class SearchDAO {
                     post.setHouse_status(house_status);
                     post.setPost_status(post_status);
                     post.setPurpose(purposer);
-                    post.setStart_time(rs.getObject("start_time", LocalDateTime.class));
+                    post.setStart_time(rs.getObject("create_time", LocalDateTime.class));
                     list.add(post);
                 }
                 stm.close();
@@ -451,7 +451,7 @@ public class SearchDAO {
             Connection con = db.getConnection();
             //if connection is secured, proceed to execute query and retrieve data into and return a list
             if (con != null) {
-                String sql = "SELECT post.post_id, post.house_id,post.purpose_id, purpose.purpose_name, post.price, post.start_time,"
+                String sql = "SELECT post.post_id, post.house_id,post.purpose_id, purpose.purpose_name, post.price, post.create_time,"
                         + " house_status.status_name as 'house_status', \n"
                         + "post_status.status_name as'post_status', "
                         + "type_of_house.type_of_house_name, house.location, "
@@ -516,7 +516,7 @@ public class SearchDAO {
                     post.setHouse_status(house_status);
                     post.setPost_status(post_status);
                     post.setPurpose(purposer);
-                    post.setStart_time(rs.getObject("start_time", LocalDateTime.class));
+                    post.setStart_time(rs.getObject("create_time", LocalDateTime.class));
                     list.add(post);
                 }
                 stm.close();
