@@ -139,7 +139,7 @@ public class SearchPostController extends HttpServlet {
     private ArrayList<Post> getPostByNumberOfRoom(String num) {
         SearchDAO dao = new SearchDAO();
         int numroom = 0;
-        if (!num.isEmpty() && num != null){
+        if (!num.isEmpty() && num != null && num.matches("\\d+")){
         numroom = Integer.parseInt(num);
         }
         return dao.getAllPostByNumberOfRoom(numroom);
@@ -147,7 +147,7 @@ public class SearchPostController extends HttpServlet {
     private ArrayList<Post> getPostByPrice(String price) {
         SearchDAO dao = new SearchDAO();
         int pri = 0;
-        if (!price.isEmpty() && price != null){
+        if (!price.isEmpty() && price != null && price.matches("\\d+")){
         pri = Integer.parseInt(price);
         }
         return dao.getAllPostByPrice(pri);
@@ -155,7 +155,7 @@ public class SearchPostController extends HttpServlet {
         private ArrayList<Post> getPostByArea(String price) {
         SearchDAO dao = new SearchDAO();
         int pri = 0;
-        if (!price.isEmpty() && price != null){
+        if (!price.isEmpty() && price != null && price.matches("\\d+")){
         pri = Integer.parseInt(price);
         }
         return dao.getAllPostByArea(pri);
