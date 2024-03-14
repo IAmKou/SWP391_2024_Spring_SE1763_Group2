@@ -581,6 +581,7 @@ public class PostDAO {
                     purposer.setPurpose_name(rs.getString("purpose_name"));
 
                     User u = new User();
+                    u.setUser_id(rs.getInt("poster_id")); // Retrieve and set the poster_id
                     u.setFull_name(rs.getString("full_name"));
                     u.setAddress(rs.getString("address"));
                     u.setPhone_number(rs.getString("phone_number"));
@@ -598,6 +599,7 @@ public class PostDAO {
                     Post post = new Post();
                     post.setPost_id(rs.getInt("post_id"));
                     post.setPrice(rs.getInt("price"));
+                    post.setPoster_id(rs.getInt("poster_id"));
                     post.setHouse(house);
                     post.setHouse_status(house_status);
                     post.setPost_status(post_status);
