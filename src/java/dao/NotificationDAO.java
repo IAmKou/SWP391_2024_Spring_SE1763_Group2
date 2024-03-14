@@ -69,7 +69,7 @@ public class NotificationDAO {
         ArrayList<Notification> list = new ArrayList<>();
         Connection con = new DBContext().getConnection();
         try {
-            String sql = "SELECT * FROM notification where recipient_id ='" + id + "'";
+            String sql = "SELECT * FROM notification where recipient_id ='" + id + "' ORDER BY create_at DESC";
 
             try ( PreparedStatement stm = con.prepareStatement(sql);  ResultSet rs = stm.executeQuery();) {
                 while (rs.next()) {
@@ -91,7 +91,7 @@ public class NotificationDAO {
         ArrayList<GNotification> list = new ArrayList<>();
         Connection con = new DBContext().getConnection();
         try {
-            String sql = "SELECT * FROM global_notification";
+            String sql = "SELECT * FROM global_notification ORDER BY created_at DESC";
 
             try ( PreparedStatement stm = con.prepareStatement(sql);  ResultSet rs = stm.executeQuery();) {
                 while (rs.next()) {
