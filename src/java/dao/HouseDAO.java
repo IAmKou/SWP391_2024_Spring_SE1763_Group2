@@ -23,7 +23,7 @@ public class HouseDAO extends DBContext {
 
     public void updateHouseStatus(int postId, int statusId) {
         try {
-            String sql = "UPDATE `house_finder_project`.`post`\n"
+            String sql = "UPDATE `post`\n"
                     + "SET\n"
                     + "`house_status` = ?\n"
                     + "WHERE `post_id` = ?;";

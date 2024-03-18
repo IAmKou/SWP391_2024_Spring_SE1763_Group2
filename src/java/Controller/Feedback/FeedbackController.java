@@ -29,7 +29,13 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 import org.json.JSONException;
 import org.json.JSONObject;
+import jakarta.servlet.annotation.MultipartConfig;
 
+@MultipartConfig(
+    location = "${java.io.tmpdir}",
+    maxFileSize = 20848820,    // Maximum size allowed for uploaded files (in bytes)
+    maxRequestSize = 418018841 // Maximum size allowed for multipart/form-data requests (in bytes)
+)
 /**
  *
  * @author luong
@@ -46,12 +52,13 @@ public class FeedbackController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-       String content = request.getParameter("comment");
+       String content = request.getParameter("content");
        int uid = Integer.parseInt(request.getParameter("uid"));
        int pid = Integer.parseInt(request.getParameter("pid"));
        String name = request.getParameter("uname");
        Part filePart = request.getPart("file");
        String msg = "";
+       if (filePart!=null){
         InputStream inputStream = filePart.getInputStream();
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             byte[] buffer = new byte[4096];
@@ -63,6 +70,7 @@ public class FeedbackController extends HttpServlet {
 
             // Determine the media type based on the file's extension
             String fileName = filePart.getSubmittedFileName();
+            
             String mediaTypeString;
             if (fileName.endsWith(".jpg") || fileName.endsWith(".jpeg")) {
                 mediaTypeString = "image/jpeg";
@@ -96,12 +104,20 @@ public class FeedbackController extends HttpServlet {
                     System.out.println("Extracted imageUrl: " + imageUrl);
                     FeedbackDAO dao = new FeedbackDAO();
                     LocalDateTime now = LocalDateTime.now();
-                    dao.insertFeedback(pid, uid, content, now, imageUrl, name);
-                    String redirectURL = request.getContextPath() + "/views/post.jsp" ;
-                    redirectURL += "?message=" + msg; 
+                    dao.insertFeedback(pid, uid, name, now, content,imageUrl);
+                    String redirectURL = request.getContextPath() + "/view" ;
+                    redirectURL += "?message=" + msg + "&post_id=" + pid; 
                     response.sendRedirect(redirectURL);   
                 }
-    } 
+            }
+    }else{
+                FeedbackDAO dao = new FeedbackDAO();
+                    LocalDateTime now = LocalDateTime.now();
+                    dao.insertFeedback(pid, uid, name, now, content, null);
+                    String redirectURL = request.getContextPath() + "/view" ;
+                    redirectURL += "?message=" + msg + "&post_id=" + pid; 
+                    response.sendRedirect(redirectURL);   
+            } 
     }
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /** 

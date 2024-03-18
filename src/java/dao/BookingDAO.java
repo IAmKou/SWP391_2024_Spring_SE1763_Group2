@@ -129,7 +129,7 @@ public class BookingDAO extends DBContext {
             DBContext db = new DBContext();
             Connection con = db.getConnection();
             if (con != null) {
-                String sql = "Select * from `booking` where post_id = '" + post_id + "' and user_id = '" + user_id + "'";
+                String sql = "Select booking.*, user.full_name,user.avatar from booking join user on user.user_id = booking.user_id where booking.post_id = '" + post_id + "' and booking.user_id = '" + user_id + "'";
                 Statement call = con.createStatement();
                 ResultSet rs = call.executeQuery(sql);
                 while (rs.next()) {

@@ -82,7 +82,7 @@
                                     </svg>                                    
                                     <ul>
                                         <c:forEach var="noti" items="${sessionScope.notifications}" varStatus="status">
-                                            <c:if test="${status.index lt 5}"> <!-- Limit to the first 5 notifications -->
+                                            <c:if test="${status.index lt 3}"> <!-- Limit to the first 3 notifications -->
                                             <li><a href="#">${noti.message} ${noti.created_at}</a></li>  
                                             </c:if>
                                             </c:forEach>

@@ -46,22 +46,22 @@ public class FeedbackDAO {
 
     }
 
-    public void insertFeedback(int post_id, int user_id, String comment, LocalDateTime created_at, String img, String name) {
+    public void insertFeedback(int post_id, int user_id, String name, LocalDateTime created_at, String comment, String img) {
         try {
             DBContext db = new DBContext();
             Connection con = db.getConnection();
 
             // Prepare the SQL statement
-            String sql = "INSERT INTO `feedback` (post_id,user_id,username,created_at,comment,image_link)"
-                    + "VALUES (?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO `feedback` (post_id,user_id,username,created_at,content,image_link)"
+                    + "VALUES (?, ?, ?, ?, ?, ?)";
             PreparedStatement st = con.prepareStatement(sql);
             st = con.prepareStatement(sql);
             st.setInt(1, post_id);
             st.setInt(2, user_id);
             st.setString(3, name);
-            st.setString(3, comment);
             st.setObject(4, created_at);
-            st.setString(5, img);
+            st.setString(5, comment);
+            st.setString(6, img);
             // avatar ?
             int row = st.executeUpdate();
             st.close();

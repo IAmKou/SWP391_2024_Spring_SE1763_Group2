@@ -131,11 +131,11 @@
 
                                     <tr>
                                         <th>Phone Number:</th>
-                                        <td><input type="text" pattern="[0-9]{10}" name="phone_number" id="phone" required value="${sessionScope.account.getPhone_number()}"></td>
+                                        <td><input type="text" pattern="0\d{9}" name="phone_number" id="phone" required value="${sessionScope.account.getPhone_number()}"></td>
                                     </tr>
                                     <tr>
                                         <th>Email:</th>
-                                        <td><input type="email" name="email" id="email" required value="${sessionScope.account.getEmail()}"></td>
+                                        <td><input type="email" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" name="email" id="email" required value="${sessionScope.account.getEmail()}"></td>
                                     </tr>
                                     <tr>
                                         <th>Avatar: </th>

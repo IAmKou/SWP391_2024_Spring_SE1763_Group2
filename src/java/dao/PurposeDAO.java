@@ -25,7 +25,7 @@ public class PurposeDAO extends DBContext {
         List<Purpose> purposes = new ArrayList<>();
 
         try {
-            String sql = "SELECT * FROM house_finder_project.purpose;";
+            String sql = "SELECT * FROM purpose;";
             DBContext db = new DBContext();
             Connection con = db.getConnection();
             PreparedStatement stm = con.prepareStatement(sql);

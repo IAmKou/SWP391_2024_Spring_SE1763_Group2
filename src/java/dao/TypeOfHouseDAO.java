@@ -25,7 +25,7 @@ public class TypeOfHouseDAO extends DBContext {
         List<TypeOfHouse> types = new ArrayList<>();
 
         try {
-            String sql = "SELECT * FROM house_finder_project.type_of_house;";
+            String sql = "SELECT * FROM type_of_house;";
             DBContext db = new DBContext();
             Connection con = db.getConnection();
             PreparedStatement stm = con.prepareStatement(sql);

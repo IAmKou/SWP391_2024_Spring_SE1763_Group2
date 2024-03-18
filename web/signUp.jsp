@@ -94,11 +94,11 @@
                                     </div> 
                                     <div class="form-group">
                                         <label for="phone">Phone Number: <span class="required-field"></span></label>
-                                        <input type="number" name="phone"class="form-control rounded-left" placeholder="Phone: " required id="phone">
+                                        <input type="number" pattern="0\d{9}" name="phone"class="form-control rounded-left" placeholder="Phone: " required id="phone">
                                     </div>
                                     <div class="form-group">
                                         <label for="email">Email: <span class="required-field"></span></label>
-                                        <input type="text" name="email"class="form-control rounded-left" placeholder="Email: " required id="email" maxlength="30">
+                                        <input type="text" name="email" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" class="form-control rounded-left" placeholder="Email: " required id="email" maxlength="30">
                                     </div>
                                     <p style="color: red">${requestScope.message}</p>
                                     <div class="form-group">

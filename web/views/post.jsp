@@ -55,6 +55,11 @@
             .link-button:hover {
                 background-color: #0056b3; /* Darker shade of blue on hover */
             }
+            .image{
+                width: 100px;
+                height: 100px;
+                
+            }
         </style>
     </head>
     <body>
@@ -296,16 +301,16 @@
                             <h5 class="main-heading">Rate and Comment</h5>
                             <!-- Rating stars -->
                             <!-- Comment input -->
-                            <p style="color: red">${requestScope.msg}</p>
-                            <c:if test="${b ne null}">
-                                <form action="FeedbackController" method="post">
+                            <p style="color: red">${msg}</p>
+                            <c:if test="${bob ne null}">
+                                <form action="FeedbackController" method="post" enctype="multipart/form-data"/>
                                     <input type="hidden" value="${sessionScope.user.user_id}" name="uid"/>
                                     <input type="hidden" value="${post.post_id}" name="pid"/>
                                     <input type="hidden" value="${sessionScope.account.full_name}" name="uname"/>
 
                                     <div class="form-group mt-3">
                                         <label for="comment">Your Comment:</label>
-                                        <textarea class="form-control" id="comment" rows="3" required></textarea>
+                                        <textarea class="form-control" id="comment" rows="3" required name="content"></textarea>
                                     </div>
 
                                     <div class="form-group mt-3">
@@ -322,6 +327,7 @@
                                     <div style="color: white; margin-right: 10px">
                                         ${list.username} : 
                                         <input type="text" class="form-control" value="${list.content}" name="content"/> 
+                                        <img src="${list.image_link}" class="image"/>
                                         ${list.created_at}
                                         <input type="hidden" value="${list.feedback_id}" name="fid"/>
                                         <input type="hidden" value="${sessionScope.user.user_id}" name="uid"/>
@@ -329,7 +335,7 @@
 
                                         <c:if test="${sessionScope.user.user_id eq list.user_id}">
                                             <button type="submit" class="btn btn-primary" name="action" value="update">Update</button>
-                                            <a href="DeleteFeedbackController?fid=${list.feedback_id}&uid=${sessionScope.user.user_id}&tid=${post.post_id}" class="btn btn-danger">Delete</a>
+                                            <a href="DeleteFeedbackController?fid=${list.feedback_id}&uid=${sessionScope.user.user_id}&tid=${post.post_id}" class="btn btn-danger" style="margin-right: 45px">Delete</a>
                                         </c:if>
 
                                         <c:if test="${sessionScope.user.user_id ne list.user_id}">

@@ -36,15 +36,17 @@ public class DeleteFeedbackController extends HttpServlet {
             throws ServletException, IOException {
         int uid = Integer.parseInt(request.getParameter("uid"));
         int pid = Integer.parseInt(request.getParameter("tid"));
-        
+        int fid = Integer.parseInt(request.getParameter("fid"));
         FeedbackDAO dao = new FeedbackDAO();
-        dao.deleteFeedback(uid);
+        dao.deleteFeedback(fid);
         HttpSession ses = request.getSession();
         ses.removeAttribute("feedback");
         ArrayList<feedback> f = dao.getAllFeedbackInAPost(pid);
         ses.setAttribute("feedback", f);
-        request.setAttribute("msg", "Deleted");
-        request.getRequestDispatcher("/views/post.jsp").forward(request, response);
+        String msg = "Deleted";
+        String redirectURL = request.getContextPath() + "/view";
+        redirectURL += "?message=" + msg + "&post_id=" + pid;
+        response.sendRedirect(redirectURL);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -34,20 +34,20 @@ public class PostDAO {
 
     public void changePostStatusByAdmin(int post_id, int status, int admin_id, String message) {
         try {
-            String sql = "UPDATE `house_finder_project`.`post`\n"
+            String sql = "UPDATE `post`\n"
                     + "SET\n"
                     + "\n"
                     + "`admin_id` = ?,\n"
-                    + "`post_status` =?,\n"
-                    + "`admin_message` =?\n"
+                    + "`post_status` =?\n"
+//                    + "`admin_message` =?\n"
                     + "WHERE `post_id` = ?;";
             DBContext db = new DBContext();
             Connection con = db.getConnection();
             PreparedStatement stm = con.prepareStatement(sql);
             stm.setInt(1, admin_id);
             stm.setInt(2, status);
-            stm.setInt(4, post_id);
-            stm.setString(3, message);
+            stm.setInt(3, post_id);
+//            stm.setString(3, message);
             stm.executeUpdate();
 
             con.close();

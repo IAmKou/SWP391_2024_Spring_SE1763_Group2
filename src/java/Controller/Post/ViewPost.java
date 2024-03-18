@@ -76,7 +76,9 @@ public class ViewPost extends HttpServlet {
         PostDAO Pdao = new PostDAO();
         Post post = null;
         BookingDAO dao = new BookingDAO();
-
+        
+        String msg = request.getParameter("msg");
+        User user = (User) request.getSession().getAttribute("account");
         String post_id_str = request.getParameter("post_id");
         int pid = Integer.parseInt(post_id_str);
         
@@ -94,7 +96,6 @@ public class ViewPost extends HttpServlet {
                 String imageDataBase64 = Base64.getEncoder().encodeToString(image.getImageData());
                 image.setImageDataAsBase64(imageDataBase64);
             }
-            User user = (User) request.getSession().getAttribute("account");
             int uid = user.getUser_id();
             Booking b = dao.getBookingByPost(pid, uid);
 
@@ -105,6 +106,7 @@ public class ViewPost extends HttpServlet {
             ArrayList<feedback> f = fdao.getAllFeedbackInAPost(pid);
             
             HttpSession session = request.getSession();
+            request.setAttribute("msg", msg);
             session.setAttribute("feedback", f);
             request.setAttribute("bob", b);
             session.setAttribute("methods", methods);

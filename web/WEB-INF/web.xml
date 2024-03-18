@@ -114,6 +114,16 @@
         <servlet-name>ChangeFeedbackStatusOfPost</servlet-name>
         <servlet-class>Controller.Feedback.ChangeFeedbackStatusOfPost</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>FeedbackController</servlet-name>
+        <servlet-class>Controller.Feedback.FeedbackController</servlet-class>
+        <multipart-config>
+            <location>${java.io.tmpdir}</location>
+            <max-file-size>20848820</max-file-size>
+            <max-request-size>418018841</max-request-size>
+            <file-size-threshold>1048576</file-size-threshold>
+        </multipart-config>
+    </servlet>
     <servlet-mapping>
         <servlet-name>addNewPost</servlet-name>
         <url-pattern>/post/add</url-pattern>
@@ -224,6 +234,10 @@
     <servlet-mapping>
         <servlet-name>ChangeFeedbackStatusOfPost</servlet-name>
         <url-pattern>/feedback/change</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>FeedbackController</servlet-name>
+        <url-pattern>/FeedbackController</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

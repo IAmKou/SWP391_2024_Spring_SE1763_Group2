@@ -25,7 +25,7 @@ public class StatusDAO extends DBContext {
         List<Status> statuses = new ArrayList<>();
 
         try {
-            String sql = "SELECT * FROM house_finder_project.request_status\n"
+            String sql = "SELECT * FROM request_status\n"
                     + "WHERE status_id IN (1, 2, 3);";
             DBContext db = new DBContext();
             try ( Connection con = db.getConnection();  PreparedStatement stm = con.prepareStatement(sql)) {
