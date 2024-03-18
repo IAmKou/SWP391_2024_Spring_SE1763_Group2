@@ -77,7 +77,7 @@ public class ViewPost extends HttpServlet {
         Post post = null;
         BookingDAO dao = new BookingDAO();
         
-        String msg = request.getParameter("msg");
+        String msg = request.getParameter("message");
         User user = (User) request.getSession().getAttribute("account");
         String post_id_str = request.getParameter("post_id");
         int pid = Integer.parseInt(post_id_str);
