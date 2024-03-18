@@ -58,7 +58,7 @@
             .image{
                 width: 100px;
                 height: 100px;
-                
+
             }
         </style>
     </head>
@@ -303,22 +303,23 @@
                             <!-- Comment input -->
                             <p style="color: red">${msg}</p>
                             <c:if test="${bob ne null}">
-                                <form action="FeedbackController" method="post" enctype="multipart/form-data"/>
-                                    <input type="hidden" value="${sessionScope.user.user_id}" name="uid"/>
-                                    <input type="hidden" value="${post.post_id}" name="pid"/>
-                                    <input type="hidden" value="${sessionScope.account.full_name}" name="uname"/>
+                                <form action="FeedbackController" method="post"  enctype="multipart/form-data" onsubmit="return validateForm()"/>
+                                <input type="hidden" value="${sessionScope.user.user_id}" name="uid"/>
+                                <input type="hidden" value="${post.post_id}" name="pid"/>
+                                <input type="hidden" value="${sessionScope.account.full_name}" name="uname"/>
 
-                                    <div class="form-group mt-3">
-                                        <label for="comment">Your Comment:</label>
-                                        <textarea class="form-control" id="comment" rows="3" required name="content"></textarea>
-                                    </div>
+                                <div class="form-group mt-3">
+                                    <label for="comment">Your Comment:</label>
+                                    <textarea class="form-control" id="comment" rows="3" required name="content"></textarea>
+                                </div>
 
-                                    <div class="form-group mt-3">
-                                        <label for="image">Upload Image:</label>
-                                        <input type="file" class="form-control-file" id="image" name="image">
-                                    </div>
+                                <div class="form-group mt-3">
+                                    <label for="image">Upload Image:</label>
+                                    <input type="file" class="form-control-file" id="image" name="image" onchange="validateFile(this)" required/>
+                                    <small id="imageError" class="text-danger" style="display: none;">Please select a file.</small>
+                                </div>
 
-                                    <button class="btn btn-primary" id="submitComment">Submit</button>
+                                <button class="btn btn-primary" id="submitComment">Submit</button>
                                 </form>
                             </c:if>
 
@@ -368,6 +369,27 @@
             document.getElementById('bookHouseBtn').addEventListener('click', function () {
                 checkSession();
             });
+            function validateForm() {
+                var content = document.getElementById("comment").value.trim();
+
+                if (content === "") {
+                    alert("Please enter your comment.");
+                    return false; // Prevent form submission
+                }
+
+                // If content is not empty, allow form submission
+                return true;
+            }
+            function validateFile(input) {
+                var fileInput = input;
+                var errorMessage = document.getElementById('imageError');
+
+                if (!fileInput.files || !fileInput.files[0]) {
+                    errorMessage.style.display = 'block';
+                } else {
+                    errorMessage.style.display = 'none';
+                }
+            }
         </script>
         <jsp:include page="footer.jsp"/>
     </body>
