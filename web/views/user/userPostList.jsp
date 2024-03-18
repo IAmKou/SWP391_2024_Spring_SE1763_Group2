@@ -47,7 +47,7 @@
                 <div class="col-md-10">
                     <div class="row">
                         <div class="col-md-12 mb-4">
-                            <form id="filterForm" action="${pageContext.request.contextPath}/post/view/fillter" method="get">
+                            <form id="filterForm" action="${pageContext.request.contextPath}/post/view" method="get">
                                 <div class="row m-4">
                                     <div class="col-md-3">
                                         <div class="form-group">

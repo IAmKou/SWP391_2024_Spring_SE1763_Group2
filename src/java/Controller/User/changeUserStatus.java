@@ -57,12 +57,9 @@ public class ChangeUserStatus extends HttpServlet {
             int userId = Integer.parseInt(userIdStr);
             AccountDAO accountDao = new AccountDAO();
             Account acc = accountDao.getAccountByUserId(userId);
-            if (acc == null) {
+            
+            if (acc == null || acc.getRole_id() ==1) {
                 throw new Exception("User with ID " + userId + " not found.");
-            }
-
-            if (acc.getRole_id() == 1) {
-                throw new Exception("Cannot deactivate admin.");
             }
 
             int newStatus = (acc.isActive()) ? 0 : 1;

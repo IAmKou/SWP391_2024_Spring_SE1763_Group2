@@ -48,7 +48,6 @@
                             <label for="poster">Poster:</label>
                             <select id="poster" class="form-control" name="poster">
                                 <option value="">-- Select Poster --</option>
-                                <c:set var="seenUserIds" value="" />
                                 <c:forEach items="${accounts}" var="account">
                                     <option value="${account.getUser_id()}">${account.getUser_name()}</option>
                                 </c:forEach>
@@ -256,11 +255,15 @@
                                                             </div>
                                                         </div>
                                                         <div class="modal-body center">
-                                                            Are your sure for accept this post?
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <a href="${pageContext.request.contextPath}/post/status?statusId=2&&postId=${post.getPost_id()}&&message=""" class="btn btn-outline-success">Submit</a>
-                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                            <form action="${pageContext.request.contextPath}/post/status" method="post">
+                                                                <p>Are your sure for accept this post?</p>
+                                                                <input type="hidden" name="postId" value="${post.getPost_id()}">
+                                                                <input type="hidden" name="statusId" value="2">
+                                                                <div class="modal-footer">
+                                                                    <button class="btn btn-outline-danger">Submit</button>
+                                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                                </div>
+                                                            </form>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -276,9 +279,8 @@
                                                             </div>                                                            
                                                         </div>
                                                         <div class="modal-body">
-
                                                             <form action="${pageContext.request.contextPath}/post/status" method="post">
-                                                                <p>are you sure for cancel this post?</p>
+                                                                <p>Are you sure for cancel this post?</p>
                                                                 <input type="hidden" name="postId" value="${post.getPost_id()}">
                                                                 <input type="hidden" name="statusId" value="3">
                                                                 <textarea class="form-control" name="message" rows="3" cols="10" placeholder="Please enter your message" required></textarea>  

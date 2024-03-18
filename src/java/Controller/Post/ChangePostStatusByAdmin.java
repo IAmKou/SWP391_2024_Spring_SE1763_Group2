@@ -6,7 +6,6 @@ package Controller.Post;
 
 import dao.PostDAO;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -36,29 +35,11 @@ public class ChangePostStatusByAdmin extends HttpServlet {
         HttpSession session = request.getSession();
         Account admin = (Account) session.getAttribute("user");
 
-        if (admin == null || admin.getRole_id() != 1) {
-            response.sendRedirect(request.getContextPath() + "/");
-            return;
-        }
-
-        String postIdStr = request.getParameter("postId");
-        String message = request.getParameter("message").trim();
-        String statusIdStr = request.getParameter("statusId");
-
-        if (postIdStr == null || postIdStr.isEmpty() || statusIdStr == null || statusIdStr.isEmpty()) {
-            request.setAttribute("alert", "Post ID and status are required.");
-            request.getRequestDispatcher("/post/list").forward(request, response);
-            return;
-        }
 
         try {
-            int postId = Integer.parseInt(postIdStr);
-            int statusId = Integer.parseInt(statusIdStr);
-            if(message == null) message = "";
-            if(statusId != 2 && statusId != 3){
-                throw new Exception("this status is not valid.");
-            }
-            
+            int postId = validatePostId(request);
+            int statusId = validatestatusIdStr(request);
+            String message = getMessage(request);
             PostDAO postDao = new PostDAO();
             Post post = postDao.getPost(postId);
 
@@ -70,10 +51,8 @@ public class ChangePostStatusByAdmin extends HttpServlet {
                 throw new Exception("This post cannot change status.");
             }
 
-            postDao.changePostStatusByAdmin(postId, statusId, admin.getUser_id(),message);
+            postDao.changePostStatusByAdmin(postId, statusId, admin.getUser_id(), message);
             request.setAttribute("success", "Updated successfully at Post ID: " + post.getPost_id());
-        } catch (NumberFormatException e) {
-            request.setAttribute("alert", "Invalid Post ID or Status ID format.");
         } catch (Exception e) {
             request.setAttribute("alert", e.getMessage());
         }
@@ -120,4 +99,42 @@ public class ChangePostStatusByAdmin extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
+    private int validatePostId(HttpServletRequest request) throws Exception {
+        String postIdStr = request.getParameter("postId");
+
+        if (postIdStr == null || postIdStr.isEmpty()) {
+            throw new Exception("This post is unavailable.");
+        }
+
+        return Integer.parseInt(postIdStr);
+    }
+
+    private int validatestatusIdStr(HttpServletRequest request) throws Exception {
+        String statusIdStr = request.getParameter("statusId");
+
+        if (statusIdStr == null || statusIdStr.isEmpty()) {
+            throw new Exception("This status is unavailable.");
+        }
+        
+        int statusId = Integer.parseInt(statusIdStr);
+        if (statusId != 2 && statusId != 3) {
+            throw new Exception("this status is not valid.");
+        }
+        return statusId;
+    }
+
+    private String getMessage(HttpServletRequest request) throws Exception {
+        String message = request.getParameter("message");
+
+        if (message == null || message.isEmpty()) {
+            return null;
+        }
+
+        message = message.trim();
+        if (message.length() > 100) {
+            throw new Exception("Your note must less than 100 characters.");
+        }
+
+        return message;
+    }
 }

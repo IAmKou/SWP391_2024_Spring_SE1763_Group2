@@ -30,23 +30,38 @@ public class AcceptOrder extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String meetingIdStr = request.getParameter("meeting_id");
-        String message = request.getParameter("message").trim();
-        int meetingId = Integer.parseInt(meetingIdStr);
-        
-        if(message == null) message ="";
-        if (meetingId != 0) {
-            MeetingDAO meetingDao = new MeetingDAO();
-            meetingDao.ChangeAcceptedStatus(meetingId, message);
-        } else {
-            int bookingId = Integer.parseInt(request.getParameter("booking_id"));
-            BookingDAO bookingDao = new BookingDAO();
-            bookingDao.changeAcceptedStatus(bookingId, message);
-        }
-        
-        request.setAttribute("success", "accepting order successfully.");
-        request.getRequestDispatcher("/request/view").forward(request, response);
+        try {
+            String meetingIdStr = request.getParameter("meeting_id");
+            String message = request.getParameter("message");
 
+            if (meetingIdStr == null) {
+                throw new Exception("this order is unavailable.");
+            }
+            
+            int meetingId = Integer.parseInt(meetingIdStr);
+
+            if (message != null) {
+                message = message.trim();
+                if(message.length() > 100){
+                    throw new Exception("Your message must less than 100 characters");
+                }
+            }
+
+            if (meetingId != 0) {
+                MeetingDAO meetingDao = new MeetingDAO();
+                meetingDao.ChangeAcceptedStatus(meetingId, message);
+            } else {
+                int bookingId = Integer.parseInt(request.getParameter("booking_id"));
+                BookingDAO bookingDao = new BookingDAO();
+                bookingDao.changeAcceptedStatus(bookingId, message);
+            }
+
+            request.setAttribute("success", "accepting order successfully.");
+            request.getRequestDispatcher("/request/view").forward(request, response);
+        } catch (Exception e) {
+            request.setAttribute("alert", e.getMessage());
+            request.getRequestDispatcher("/request/view").forward(request, response);
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

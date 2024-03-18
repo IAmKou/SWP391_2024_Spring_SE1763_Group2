@@ -325,11 +325,16 @@
 
                             <form action="UpdateFeedbackController" method="post">
                                 <c:forEach var="list" items="${feedback}">
-                                    <div style="color: white; margin-right: 10px">
-                                        ${list.username} : 
-                                        <input type="text" class="form-control" value="${list.content}" name="content"/> 
-                                        <img src="${list.image_link}" class="image"/>
-                                        ${list.created_at}
+
+                                    <div>
+                                        <div class="d-flex justify-content-between mb-3">
+                                            <div class="d-flex align-items-center">
+                                                <img src="${pageContext.request.contextPath}/images/person_1.jpg" alt="image" style="width: 50px; height: 50px; border-radius: 50px; margin-right: 5px"/>
+                                                <p class="ml-2 mb-0">${list.username}</p>
+                                            </div>
+                                            <p class="pt-3">${list.created_at}</p>
+                                        </div>
+                                        <textarea type="text" class="form-control mb-3" value="" name="content" readonly>${list.content} </textarea>
                                         <input type="hidden" value="${list.feedback_id}" name="fid"/>
                                         <input type="hidden" value="${sessionScope.user.user_id}" name="uid"/>
                                         <input type="hidden" value="${post.post_id}" name="pid"/>
@@ -340,7 +345,7 @@
                                         </c:if>
 
                                         <c:if test="${sessionScope.user.user_id ne list.user_id}">
-                                            <a href="ReportFeedbackController?fid=${list.feedback_id}&uid=${sessionScope.user.user_id}&tid=${post.post_id}&fcontent=${list.content}" class="btn btn-warning">Report</a>
+                                            <a href="ReportFeedbackController?fid=${list.feedback_id}&uid=${sessionScope.user.user_id}&tid=${post.post_id}&fcontent=${list.content}" class="btn btn-outline-warning ">Report</a>
                                         </c:if>
                                     </div>
                                 </c:forEach>

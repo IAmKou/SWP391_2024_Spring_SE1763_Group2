@@ -15,6 +15,7 @@ import jakarta.servlet.http.HttpSession;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import model.Account;
 import model.User;
 import model.Order;
 import model.Status;
@@ -38,10 +39,13 @@ public class ViewRequest extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("account");
-        String dateParam = request.getParameter("date");
-        String customerNameParam = request.getParameter("customer_name");
-        String statusStr = request.getParameter("status");
-
+        Account acc = (Account) session.getAttribute("user");
+        
+        if(acc == null || acc.getRole_id() == 1){
+            response.sendRedirect("/");
+            return;
+        }
+        
         int currentPage = 1;
         int recordsPerPage = 10;
 
@@ -58,20 +62,11 @@ public class ViewRequest extends HttpServlet {
         OrderDAO orderDao = new OrderDAO();
         List<Order> allOrders = orderDao.getOrderListByOwnerHouse(user.getUser_id());
 
-        if (dateParam != null && !dateParam.isEmpty()) {
-            LocalDate date = LocalDate.parse(dateParam);
-            allOrders = filterByDate(allOrders, date);
-        }
-
-        if (customerNameParam != null && !customerNameParam.isEmpty()) {
-            customerNameParam = customerNameParam.trim();
-            allOrders = filterByCustomerName(allOrders, customerNameParam);
-        }
-
-        if (statusStr != null && !statusStr.isEmpty()) {
-            int status = Integer.parseInt(statusStr);
-            allOrders = filterByStatus(allOrders, status);
-        }
+        String dateParam = request.getParameter("date");
+        String customerNameParam = request.getParameter("customer_name");
+        String statusStr = request.getParameter("status");
+        
+        allOrders = filterOrder(dateParam, customerNameParam, statusStr, allOrders);
 
         int totalBookings = allOrders.size();
         int totalPages = (int) Math.ceil((double) totalBookings / recordsPerPage);
@@ -181,5 +176,23 @@ public class ViewRequest extends HttpServlet {
         }
 
         return filteredOrders;
+    }
+
+    private List<Order> filterOrder(String dateParam, String customerNameParam, String statusStr, List<Order> allOrders) {
+        if (dateParam != null && !dateParam.isEmpty()) {
+            LocalDate date = LocalDate.parse(dateParam);
+            allOrders = filterByDate(allOrders, date);
+        }
+
+        if (customerNameParam != null && !customerNameParam.isEmpty()) {
+            customerNameParam = customerNameParam.trim();
+            allOrders = filterByCustomerName(allOrders, customerNameParam);
+        }
+
+        if (statusStr != null && !statusStr.isEmpty()) {
+            int status = Integer.parseInt(statusStr);
+            allOrders = filterByStatus(allOrders, status);
+        }
+        return allOrders;
     }
 }

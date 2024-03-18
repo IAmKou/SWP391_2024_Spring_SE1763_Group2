@@ -247,33 +247,6 @@
                                         </div>
 
                                         <!-- Hiển thị các nút điều hướng phân trang -->
-                                        <c:if test="${not empty fillterTotalPages}">
-                                            <nav aria-label="Page navigation example" class="m-3">
-                                                <ul class="pagination">
-                                                    <li class="page-item">
-                                                        <a class="page-link" href="../booking/view/fillter?page=${currentPage - 1}" aria-label="Previous">
-                                                            <span aria-hidden="true">&laquo;</span>
-                                                            <span class="sr-only">Previous</span>
-                                                        </a>
-                                                    </li>
-                                                    <c:forEach begin="1" end="${fillterTotalPages}" var="page">
-                                                        <c:set var="activeClass" value="" />
-                                                        <c:if test="${currentPage eq page}">
-                                                            <c:set var="activeClass" value="active" />
-                                                        </c:if>
-                                                        <li class="page-item ${activeClass}">
-                                                            <a class="page-link" href="../booking/view/fillter?page=${page}">${page}</a>
-                                                        </li>
-                                                    </c:forEach>
-                                                    <li class="page-item">
-                                                        <a class="page-link" href="../booking/view/fillter?page=${currentPage + 1}" aria-label="Next">
-                                                            <span aria-hidden="true">&raquo;</span>
-                                                            <span class="sr-only">Next</span>
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </nav>
-                                        </c:if>
                                         <c:if test="${not empty totalPages}">
                                             <nav aria-label="Page navigation example" class="m-3">
                                                 <ul class="pagination">

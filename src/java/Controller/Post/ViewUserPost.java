@@ -14,6 +14,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 import model.Image;
@@ -82,7 +84,26 @@ public class ViewUserPost extends HttpServlet {
         }
         PostDAO postDAO = new PostDAO();
         List<Post> allPosts = postDAO.getUserPost(user.getUser_id());
+        
+        String priceParam = request.getParameter("price");
+        String purposeParam = request.getParameter("purpose");
+        String dateParam = request.getParameter("date");
+        
+        if (priceParam != null && !priceParam.isEmpty()) {
+            int price = Integer.parseInt(priceParam);
+            allPosts = filterByPrice(allPosts, price);
+        }
 
+        if (purposeParam != null && !purposeParam.isEmpty()) {
+            int purposeId = Integer.parseInt(purposeParam);
+            allPosts = filterByPurpose(allPosts, purposeId);
+        }
+
+        if (dateParam != null && !dateParam.isEmpty()) {
+            LocalDate date = LocalDate.parse(dateParam);
+            allPosts = filterByDate(allPosts, date);
+        }
+        
         int totalPosts = allPosts.size();
         int totalPages = (int) Math.ceil((double) totalPosts / recordsPerPage);
 
@@ -141,4 +162,33 @@ public class ViewUserPost extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
+     private List<Post> filterByPrice(List<Post> posts, int price) {
+        List<Post> filteredPosts = new ArrayList<>();
+        for (Post post : posts) {
+            if (post.getPrice() <= price) {
+                filteredPosts.add(post);
+            }
+        }
+        return filteredPosts;
+    }
+
+    private List<Post> filterByPurpose(List<Post> posts, int purpose_id) {
+        List<Post> filteredPosts = new ArrayList<>();
+        for (Post post : posts) {
+            if (post.getPurpose().getPurpose_id() == purpose_id) {
+                filteredPosts.add(post);
+            }
+        }
+        return filteredPosts;
+    }
+
+    private List<Post> filterByDate(List<Post> posts, LocalDate date) {
+        List<Post> filteredPosts = new ArrayList<>();
+        for (Post post : posts) {
+            if (post.getStart_time().toLocalDate().equals(date)) {
+                filteredPosts.add(post);
+            }
+        }
+        return filteredPosts;
+    }
 }

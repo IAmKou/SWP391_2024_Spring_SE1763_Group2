@@ -48,10 +48,6 @@ public class ViewListPostByAdmin extends HttpServlet {
             return;
         }
 
-        String posterIdStr = request.getParameter("poster");
-        String statusIdStr = request.getParameter("status");
-        String location = request.getParameter("location");
-        String postIdStr = request.getParameter("post_id");
         int currentPage = 1;
         int recordsPerPage = 10;
 
@@ -65,42 +61,14 @@ public class ViewListPostByAdmin extends HttpServlet {
         PostDAO postDao = new PostDAO();
         List<Post> Allposts = postDao.allPost();
 
-        AccountDAO accountDao = new AccountDAO();
-        List<Account> accounts = new ArrayList<>();
+        List<Account> accounts = getAccount(Allposts);
 
-        for (Post Allpost : Allposts) {
-            Account user = accountDao.getAccountByUserId(Allpost.getHouse().getHouse_owner().getUser_id());
-            boolean isUserExist = false;
-            for (Account existingUser : accounts) {
-                if (existingUser.getUser_id() == user.getUser_id()) {
-                    isUserExist = true;
-                    break;
-                }
-            }
-            if (!isUserExist) {
-                accounts.add(user);
-            }
-        }
+        String posterIdStr = request.getParameter("poster");
+        String statusIdStr = request.getParameter("status");
+        String location = request.getParameter("location");
+        String postIdStr = request.getParameter("post_id");
 
-        if (postIdStr != null && !postIdStr.isEmpty()) {
-            int postId = Integer.parseInt(postIdStr);
-            Allposts = filterByPostId(Allposts, postId);
-        }
-
-        if (posterIdStr != null && !posterIdStr.isEmpty()) {
-            int posterId = Integer.parseInt(posterIdStr);
-            Allposts = filterByPoster(Allposts, posterId);
-        }
-
-        if (statusIdStr != null && !statusIdStr.isEmpty()) {
-            int statusId = Integer.parseInt(statusIdStr);
-            Allposts = filterByStatus(Allposts, statusId);
-        }
-
-        if (location != null && !location.isEmpty()) {
-            location = location.toLowerCase();
-            Allposts = filterByLocation(Allposts, location);
-        }
+        Allposts = filter(postIdStr, posterIdStr, statusIdStr, location, Allposts);
 
         int totalPosts = Allposts.size();
         int totalPages = (int) Math.ceil((double) totalPosts / recordsPerPage);
@@ -113,20 +81,7 @@ public class ViewListPostByAdmin extends HttpServlet {
         int end = Math.min(currentPage * recordsPerPage, totalPosts);
 
         List<Post> posts = Allposts.subList(start, end);
-        ImageDAO imageDAO = new ImageDAO();
-
-        for (Post post : posts) {
-            int houseId = post.getHouse().getHouse_id();
-
-            List<Image> images = imageDAO.getImages(houseId);
-
-            for (Image image : images) {
-                byte[] imageData = image.getImageData();
-                String imageDataBase64 = Base64.getEncoder().encodeToString(imageData);
-                image.setImageDataAsBase64(imageDataBase64);
-            }
-            post.getHouse().setImage(images);
-        }
+        posts = getPostImage(posts);
 
         StatusDAO statusDao = new StatusDAO();
         List<Status> statuses = statusDao.getStatus();
@@ -179,6 +134,31 @@ public class ViewListPostByAdmin extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
+    private List<Post> filter(String postIdStr, String posterIdStr, String statusIdStr, String location, List Allposts) {
+
+        if (postIdStr != null && !postIdStr.isEmpty()) {
+            int postId = Integer.parseInt(postIdStr);
+            Allposts = filterByPostId(Allposts, postId);
+        }
+
+        if (posterIdStr != null && !posterIdStr.isEmpty()) {
+            int posterId = Integer.parseInt(posterIdStr);
+            Allposts = filterByPoster(Allposts, posterId);
+        }
+
+        if (statusIdStr != null && !statusIdStr.isEmpty()) {
+            int statusId = Integer.parseInt(statusIdStr);
+            Allposts = filterByStatus(Allposts, statusId);
+        }
+
+        if (location != null && !location.isEmpty()) {
+            location = location.toLowerCase();
+            Allposts = filterByLocation(Allposts, location);
+        }
+
+        return Allposts;
+    }
+
     public List<Post> filterByPoster(List<Post> posts, int user_id) {
         List<Post> filteredPosts = new ArrayList<>();
 
@@ -224,5 +204,43 @@ public class ViewListPostByAdmin extends HttpServlet {
             }
         }
         return fillteredPosts;
+    }
+
+    private List<Account> getAccount(List<Post> Allposts) {
+        AccountDAO accountDao = new AccountDAO();
+        List<Account> accounts = new ArrayList<>();
+        for (Post Allpost : Allposts) {
+            Account user = accountDao.getAccountByUserId(Allpost.getHouse().getHouse_owner().getUser_id());
+            boolean isUserExist = false;
+            for (Account existingUser : accounts) {
+                if (existingUser.getUser_id() == user.getUser_id()) {
+                    isUserExist = true;
+                    break;
+                }
+            }
+            if (!isUserExist) {
+                accounts.add(user);
+            }
+        }
+        return accounts;
+    }
+
+    private List<Post> getPostImage(List<Post> posts) throws IOException {
+        ImageDAO imageDAO = new ImageDAO();
+
+        for (Post post : posts) {
+            int houseId = post.getHouse().getHouse_id();
+
+            List<Image> images = imageDAO.getImages(houseId);
+
+            for (Image image : images) {
+                byte[] imageData = image.getImageData();
+                String imageDataBase64 = Base64.getEncoder().encodeToString(imageData);
+                image.setImageDataAsBase64(imageDataBase64);
+            }
+            post.getHouse().setImage(images);
+        }
+        
+        return posts;
     }
 }

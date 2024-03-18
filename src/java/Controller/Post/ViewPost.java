@@ -104,7 +104,6 @@ public class ViewPost extends HttpServlet {
 
             FeedbackDAO fdao = new FeedbackDAO();
             ArrayList<feedback> f = fdao.getAllFeedbackInAPost(pid);
-            
             HttpSession session = request.getSession();
             request.setAttribute("msg", msg);
             session.setAttribute("feedback", f);

@@ -10,9 +10,6 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import java.sql.SQLException;
-import model.User;
 
 /**
  *
@@ -31,28 +28,13 @@ public class ChangeHouseStatusByUser extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        User user = (User) session.getAttribute("account");
-
-        if (user == null) {
-            response.sendRedirect(request.getContextPath() + "/logIn.jsp");
-            return;
-        }
-
-        String postIdStr = request.getParameter("post_id");
-        String statusIdStr = request.getParameter("current_status");
-
         try {
-            int postId = Integer.parseInt(postIdStr);
-            int statusId = Integer.parseInt(statusIdStr);
-
-            HouseDAO houseDao = new HouseDAO();
-            int newStatusId = (statusId == 4) ? 5 : 4;
-            houseDao.updateHouseStatus(postId, newStatusId);
-            
+            int postId = validatePostId(request);
+            int statusId = validatestatusIdStr(request);
+            addNewStatusToDataBase(postId, statusId);
             request.setAttribute("success", "Update house status at Post ID: " + postId + " successfully.");
-        } catch (NumberFormatException ex) {
-            request.setAttribute("error", "An error occurred while processing the request.");
+        } catch (Exception e) {
+            request.setAttribute("alert", e.getMessage());
         }
         request.getRequestDispatcher("/post/view").forward(request, response);
     }
@@ -95,5 +77,35 @@ public class ChangeHouseStatusByUser extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+    private int validatePostId(HttpServletRequest request) throws Exception {
+        String postIdStr = request.getParameter("post_id");
+
+        if (postIdStr == null || postIdStr.isEmpty()) {
+            throw new Exception("This post is unavailable.");
+        }
+
+        return Integer.parseInt(postIdStr);
+    }
+
+    private int validatestatusIdStr(HttpServletRequest request) throws Exception {
+        String statusIdStr = request.getParameter("current_status");
+
+        if (statusIdStr == null || statusIdStr.isEmpty()) {
+            throw new Exception("This status is unavailable.");
+        }
+
+        return Integer.parseInt(statusIdStr);
+    }
+
+    private void addNewStatusToDataBase(int postId, int statusId) throws Exception {
+        try {
+            HouseDAO houseDao = new HouseDAO();
+            int newStatusId = (statusId == 4) ? 5 : 4;
+            houseDao.updateHouseStatus(postId, newStatusId);
+        } catch (Exception e) {
+            throw new Exception("An error occurred while processing.");
+        }
+    }
 
 }

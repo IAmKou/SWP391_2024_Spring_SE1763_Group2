@@ -16,6 +16,7 @@ import jakarta.servlet.http.HttpSession;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import model.Account;
 import model.Order;
 import model.Post;
 import model.Status;
@@ -40,17 +41,12 @@ public class ViewUserOrder extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("account");
-        
-        String dateParam = request.getParameter("date");
-        String statusParam = request.getParameter("status");
+                
         int currentPage = 1;
         int recordsPerPage = 10;
 
-        // Xác định trang hiện tại từ tham số "page" của request
         if (request.getParameter("page") != null) {
             currentPage = Integer.parseInt(request.getParameter("page"));
-
-            // Kiểm tra nếu requestedPage nhỏ hơn 1, đặt currentPage là 1
             if (currentPage < 1) {
                 currentPage = 1;
             }
@@ -59,19 +55,14 @@ public class ViewUserOrder extends HttpServlet {
         OrderDAO orderDao = new OrderDAO();
         List<Order> allOrders = orderDao.getOrderListByCustomer(user.getUser_id());
         
-        if (dateParam != null && !dateParam.isEmpty()) {
-            LocalDate date = LocalDate.parse(dateParam);
-            allOrders = filterByDate(allOrders, date);
-        }
-        if (statusParam != null && !statusParam.isEmpty()) {
-            int status_id = Integer.parseInt(statusParam);
-            allOrders = filterByStatus(allOrders, status_id);
-        }
+        String dateParam = request.getParameter("date");
+        String statusParam = request.getParameter("status");
+        
+        allOrders = filterOrder(dateParam, statusParam, allOrders);
         
         int totalOrders = allOrders.size();
         int totalPages = (int) Math.ceil((double) totalOrders / recordsPerPage);
 
-        // Kiểm tra nếu currentPage vượt quá totalPages, đặt lại currentPage là totalPages
         if (currentPage > totalPages && totalPages > 0) {
             currentPage = totalPages;
         }
@@ -80,11 +71,9 @@ public class ViewUserOrder extends HttpServlet {
         int end = Math.min(currentPage * recordsPerPage, totalOrders);
 
         List<Order> orders = allOrders.subList(start, end);
-
+        
         PostDAO postDao = new PostDAO();
         List<Post> posts = new ArrayList<>(); 
-      
-        
         for (Order allOrder : allOrders) {
             Post post = new Post();
             if (allOrder.getBooking().getPost_id() != 0) {
@@ -94,12 +83,11 @@ public class ViewUserOrder extends HttpServlet {
             }
             posts.add(post);
         }
-
         StatusDAO statusDao = new StatusDAO();
         List<Status> statuses = statusDao.getStatus();
         
-        request.setAttribute("statuses", statuses);
         request.setAttribute("posts", posts);
+        request.setAttribute("statuses", statuses);
         request.setAttribute("bookings", orders);
         request.setAttribute("totalBooking", allOrders.size());
         request.setAttribute("totalPages", totalPages);
@@ -168,5 +156,17 @@ public class ViewUserOrder extends HttpServlet {
             }
         }
         return filteredOrders;
+    }
+
+    private List<Order> filterOrder(String dateParam, String statusParam, List<Order> allOrders) {
+        if (dateParam != null && !dateParam.isEmpty()) {
+            LocalDate date = LocalDate.parse(dateParam);
+            allOrders = filterByDate(allOrders, date);
+        }
+        if (statusParam != null && !statusParam.isEmpty()) {
+            int status_id = Integer.parseInt(statusParam);
+            allOrders = filterByStatus(allOrders, status_id);
+        }
+        return allOrders;
     }
 }

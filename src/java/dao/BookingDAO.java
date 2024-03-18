@@ -65,8 +65,7 @@ public class BookingDAO extends DBContext {
 
     }
 
-    public void addBooking(Booking booking) {
-        try {
+    public void addBooking(Booking booking) throws SQLException {
             String sql = "INSERT INTO `booking`\n"
                     + "(`user_id`,\n"
                     + "`booking_status`,\n"
@@ -93,9 +92,6 @@ public class BookingDAO extends DBContext {
             stm.executeUpdate();
 
             con.close();
-        } catch (SQLException ex) {
-            Logger.getLogger(BookingDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
 
     }
 

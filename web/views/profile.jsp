@@ -112,12 +112,12 @@
                                                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop_${post.post_id}">Overview</button>
                                                         <c:if test="${post.post_status.status_id eq 3}">
                                                             <a href="${pageContext.request.contextPath}/post/update?post_id=${post.post_id}" class="btn btn-outline-info">Update</a>
-                                                            <button type="button" class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#messageStaticBackdrop">
+                                                            <button type="button" class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#messageStaticBackdrop_${post.post_id}">
                                                                 Message
                                                             </button>                                                            
                                                         </c:if>
                                                         <!-- Modal -->
-                                                        <div class="modal fade" id="messageStaticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                                        <div class="modal fade" id="messageStaticBackdrop_${post.post_id}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                                                             <div class="modal-dialog">
                                                                 <div class="modal-content">
                                                                     <div class="modal-header">

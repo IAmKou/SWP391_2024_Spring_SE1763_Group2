@@ -67,20 +67,8 @@
         <servlet-class>Controller.Post.viewAllPost_For_User_View</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>FillterPost</servlet-name>
-        <servlet-class>Controller.Post.FillterUserPost</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>ViewUserBooking</servlet-name>
         <servlet-class>Controller.Order.ViewUserOrder</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>FillterUserBooking</servlet-name>
-        <servlet-class>Controller.Order.FillterUserBooking</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>FillterRequest</servlet-name>
-        <servlet-class>Controller.Order.FillterRequest</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>CheckSessionServlet</servlet-name>
@@ -188,20 +176,8 @@
         <url-pattern>/Search</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>FillterPost</servlet-name>
-        <url-pattern>/post/view/fillter</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>ViewUserBooking</servlet-name>
         <url-pattern>/booking/view</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>FillterUserBooking</servlet-name>
-        <url-pattern>/booking/view/fillter</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>FillterRequest</servlet-name>
-        <url-pattern>/request/view/fillter</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>CheckSessionServlet</servlet-name>
