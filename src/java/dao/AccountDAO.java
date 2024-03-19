@@ -48,7 +48,7 @@ public class AccountDAO extends DBContext {
 
     public void changeStatus(int user_id, int status) {
     try {
-        String sql = "UPDATE `house_finder_project`.`account` SET `active` = ? WHERE user_id = ?";
+        String sql = "UPDATE `account` SET `active` = ? WHERE user_id = ?";
         DBContext db = new DBContext();
         Connection con = db.getConnection();
         PreparedStatement stm = con.prepareStatement(sql);
@@ -67,7 +67,7 @@ public class AccountDAO extends DBContext {
     public List<Account> getAccountList(){
          List<Account> accounts = new ArrayList<>();
         try {            
-            String sql = "SELECT * FROM house_finder_project.account;";
+            String sql = "SELECT * FROM account;";
             DBContext db = new DBContext();
             Connection con = db.getConnection();
             PreparedStatement stm = con.prepareStatement(sql);

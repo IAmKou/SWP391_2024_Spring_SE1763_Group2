@@ -104,7 +104,7 @@ public class ImageDAO extends DBContext {
         List<Image> images = new ArrayList<>();
         try {
 
-            String sql = "SELECT image_link, image_id FROM house_finder_project.image where house_id = 117;";
+            String sql = "SELECT image_link, image_id FROM image where house_id = 117;";
             DBContext db = new DBContext();
             Connection con = db.getConnection();
             PreparedStatement stm = con.prepareStatement(sql);

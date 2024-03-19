@@ -21,7 +21,7 @@ public class MeetingDAO extends DBContext {
 
     public void ChangeCancelStatus(int meetingId, String message) {
         try {
-            String sql = "UPDATE `house_finder_project`.`appointment`\n"
+            String sql = "UPDATE `appointment`\n"
                     + "SET\n"
                     + "`appointment_status` = 3,\n"
                     + "`response_message` = ?\n"
@@ -41,7 +41,7 @@ public class MeetingDAO extends DBContext {
 
     public void ChangeAcceptedStatus(int meetingId, String message) {
         try {
-            String sql = "UPDATE `house_finder_project`.`appointment`\n"
+            String sql = "UPDATE `appointment`\n"
                     + "SET\n"
                     + "`response_message` = ?,\n"
                     + "`appointment_status` = 2\n"
@@ -61,7 +61,7 @@ public class MeetingDAO extends DBContext {
 
     public void addMeeting(Meeting meeting) {
         try {
-            String sql = "INSERT INTO `house_finder_project`.`appointment`\n"
+            String sql = "INSERT INTO `appointment`\n"
                     + "(`customer_id`,\n"
                     + "`post_id`,\n"
                     + "`booking_date`,\n"
@@ -93,7 +93,7 @@ public class MeetingDAO extends DBContext {
         Boolean isDuplicate = false;
         try {
             String sql = "SELECT COUNT(*) AS count_duplicates\n"
-                    + "FROM house_finder_project.appointment\n"
+                    + "FROM appointment\n"
                     + "WHERE customer_id = ? AND post_id = ? AND status = 1;";
             DBContext db = new DBContext();
             Connection con = db.getConnection();

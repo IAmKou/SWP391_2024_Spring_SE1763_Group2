@@ -141,10 +141,10 @@
                                         <th>Avatar: </th>
                                         <td><input type="file" name="file"><img src="${sessionScope.account.getAvatar()}" class="avatar"></td>
                                     </tr>
-                                    
+
 
                                 </table>
-                                    <input type="hidden" value="${sessionScope.account.getAvatar()}" name="avatar">
+                                <input type="hidden" value="${sessionScope.account.getAvatar()}" name="avatar">
                                 <p style="color: red">${requestScope.msg}</p>
 
                                 <a href="${pageContext.request.contextPath}/myProfile">
@@ -160,7 +160,7 @@
                             <h4>${msg}</h4>
                             <a href="${pageContext.request.contextPath}/logIn.jsp"><button class="btn" style="float: right; margin-right: 45px;" type="submit">Login</button>
 
-                        </c:if>
+                            </c:if>
 
                     </section>
 
@@ -188,6 +188,20 @@
         }
         return true;
     }
+    document.getElementById('phone').addEventListener('input', function (e) {
+        if (!/0\d{9}/.test(e.target.value)) {
+            e.target.setCustomValidity('Please enter a valid phone number starting with 0 followed by 9 digits');
+        } else {
+            e.target.setCustomValidity('');
+        }
+    });
+    document.getElementById('email').addEventListener('input', function (e) {
+        if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(e.target.value)) {
+            e.target.setCustomValidity('Please enter a valid email address');
+        } else {
+            e.target.setCustomValidity('');
+        }
+    });
 </script>
 </body>
 </html>

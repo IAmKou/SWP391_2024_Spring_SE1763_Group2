@@ -100,7 +100,7 @@
                                         <label for="email">Email: <span class="required-field"></span></label>
                                         <input type="text" name="email" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" class="form-control rounded-left" placeholder="Email: " required id="email" maxlength="30">
                                     </div>
-                                    <p style="color: red">${requestScope.message}</p>
+                                    <p style="color: red">${requestScope.msg}</p>
                                     <div class="form-group">
                                         <button type="submit" class="form-control btn btn-primary rounded submit px-3">Submit</button>
                                     </div>
@@ -116,5 +116,21 @@
                 </div>
             </section>
         </form>
+        <script>
+            document.getElementById('phone').addEventListener('input', function (e) {
+                if (!/0\d{9}/.test(e.target.value)) {
+                    e.target.setCustomValidity('Please enter a valid phone number starting with 0 followed by 9 digits');
+                } else {
+                    e.target.setCustomValidity('');
+                }
+            });
+            document.getElementById('email').addEventListener('input', function (e) {
+                if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(e.target.value)) {
+                    e.target.setCustomValidity('Please enter a valid email address');
+                } else {
+                    e.target.setCustomValidity('');
+                }
+            });
+        </script>                     
     </body>
 </html>

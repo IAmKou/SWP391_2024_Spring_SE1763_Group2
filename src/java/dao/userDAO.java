@@ -305,9 +305,9 @@ public class UserDAO {
         int role = 0;
         try {
 
-            String sql = "select house_finder.account.role_id from house_finder.account\n"
-                    + "join house_finder.user on house_finder.user.user_id = house_finder.account.user_id\n"
-                    + "where house_finder.user.user_id = ?";
+            String sql = "select account.role_id from account\n"
+                    + "join house_finder.user on user.user_id = account.user_id\n"
+                    + "where user.user_id = ?";
 
             try (
                      PreparedStatement stm = con.prepareStatement(sql);) {

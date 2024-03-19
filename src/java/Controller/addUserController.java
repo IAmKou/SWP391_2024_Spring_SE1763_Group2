@@ -77,7 +77,7 @@ public class addUserController extends HttpServlet {
                 msg = "Confirm pass not match !!!";
             } //Validate phone 
             else if (dao.phoneIsExist(phone)) {
-                msg = "This username has already existed!!!";                
+                msg = "This phone number has already existed!!!";                
             } //validate email
             else if (dao.emailIsExist(email)) {
                 msg = "This email has already existed!!!";

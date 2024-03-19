@@ -49,7 +49,7 @@ public class StatusDAO extends DBContext {
     public Status getStatusById(int id) {
 
         try {
-            String sql = "SELECT * FROM house_finder_project.request_status\n"
+            String sql = "SELECT * FROM request_status\n"
                     + "status_id = ? limit 1";
             DBContext db = new DBContext();
             try ( Connection con = db.getConnection();  PreparedStatement stm = con.prepareStatement(sql)) {

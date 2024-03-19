@@ -78,12 +78,24 @@ public class FeedbackDAO {
             DBContext db = new DBContext();
             Connection con = db.getConnection();
             if (con != null) {
-                String sql = "SELECT * from `feedback` where post_id = '" + post_id + "'";
+                String sql = "SELECT feedback.* , user.avatar from `feedback` join `user` on user.user_id = feedback.user_id where post_id = '" + post_id + "'";
                 Statement call = con.createStatement();
                 ResultSet rs = call.executeQuery(sql);
                 //assign value for object items then return it
                 while (rs.next()) {
-                    list.add(new feedback(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getString(4), rs.getObject(5, LocalDateTime.class), rs.getString(6), rs.getString(7)));
+                    User u = new User();
+                    u.setAvatar(rs.getString("avatar"));
+                    
+                    feedback f = new feedback();
+                    f.setFeedback_id(rs.getInt("feedback_id"));
+                    f.setPost_id(post_id);
+                    f.setImage_link(rs.getString("image_link"));
+                    f.setUser_id(rs.getInt("user_id"));
+                    f.setUser(u);
+                    f.setContent(rs.getString("content"));
+                    f.setUsername(rs.getString("username"));
+                    f.setCreated_at(rs.getObject("created_at", LocalDateTime.class));
+                    list.add(f);
                 }
                 call.close();
                 con.close();
@@ -217,13 +229,14 @@ public class FeedbackDAO {
         return list;
     }
 
-    public boolean alreadyReported(int fid) {
+    public boolean alreadyReported(int fid,int uid) {
         try {
             DBContext db = new DBContext();
             Connection con = db.getConnection();
-            String query = "select count(*) as num from `report` where `fid` = ?";
+            String query = "select count(*) as num from `report` where `fid` = ? and `uid` = ?";
             PreparedStatement ps = con.prepareStatement(query);
             ps.setInt(1, fid);
+            ps.setInt(2,uid);
             ResultSet rslt = ps.executeQuery();
             if (rslt.next()) {
                 return Integer.parseInt(rslt.getString(1)) > 0;

@@ -14,6 +14,7 @@ public class feedback {
     private int feedback_id;
     private int post_id;
     private int user_id;
+    private User user;
     private LocalDateTime created_at;
     private String username;
     private String content;
@@ -22,15 +23,26 @@ public class feedback {
     public feedback() {
     }
 
-    public feedback(int feedback_id, int post_id, int user_id , String username, LocalDateTime created_at, String content, String image_link) {
+    public feedback(int feedback_id, int post_id, int user_id, User user, LocalDateTime created_at, String username, String content, String image_link) {
         this.feedback_id = feedback_id;
         this.post_id = post_id;
         this.user_id = user_id;
+        this.user = user;
         this.created_at = created_at;
         this.username = username;
         this.content = content;
         this.image_link = image_link;
     }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+
 
     public String getUsername() {
         return username;

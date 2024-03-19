@@ -101,7 +101,7 @@ public class HouseDAO extends DBContext {
         try {
             String sql = "SELECT \n"
                     + "    `house`.`house_owner_id`\n"
-                    + "FROM `house_finder_project`.`house`"
+                    + "FROM `house`"
                     + " join post on post.house_id = house_id"
                     + "where house_id = ?;";
 
@@ -129,7 +129,7 @@ public class HouseDAO extends DBContext {
     public void updateHouse(House house) {
 
         try {
-            String sql = "UPDATE `house_finder_project`.`house`\n"
+            String sql = "UPDATE `house`\n"
                     + "SET\n"
                     + "`type_of_house_id` = ?,\n"
                     + "`location` = ?,\n"

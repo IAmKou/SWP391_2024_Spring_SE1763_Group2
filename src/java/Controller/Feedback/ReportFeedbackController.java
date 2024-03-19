@@ -39,7 +39,7 @@ public class ReportFeedbackController extends HttpServlet {
        
         
         FeedbackDAO dao = new FeedbackDAO();
-        if(dao.alreadyReported(fid)){
+        if(dao.alreadyReported(fid,uid)){
             request.setAttribute("msg", "Already Reported");
            
         }else{

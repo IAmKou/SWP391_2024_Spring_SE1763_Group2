@@ -47,7 +47,7 @@ public class PurposeDAO extends DBContext {
     public Purpose getPurposeById(int id) {
 
         try {
-            String sql = "SELECT * FROM house_finder_project.purpose where purpose_id = ? limit 1;";
+            String sql = "SELECT * FROM purpose where purpose_id = ? limit 1;";
             DBContext db = new DBContext();
             Connection con = db.getConnection();
             PreparedStatement stm = con.prepareStatement(sql);

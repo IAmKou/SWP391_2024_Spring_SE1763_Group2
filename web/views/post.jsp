@@ -313,11 +313,7 @@
                                     <textarea class="form-control" id="comment" rows="3" required name="content"></textarea>
                                 </div>
 
-                                <div class="form-group mt-3">
-                                    <label for="image">Upload Image:</label>
-                                    <input type="file" class="form-control-file" id="image" name="image" onchange="validateFile(this)" required/>
-                                    <small id="imageError" class="text-danger" style="display: none;">Please select a file.</small>
-                                </div>
+                             
 
                                 <button class="btn btn-primary" id="submitComment">Submit</button>
                                 </form>
@@ -329,12 +325,12 @@
                                     <div>
                                         <div class="d-flex justify-content-between mb-3">
                                             <div class="d-flex align-items-center">
-                                                <img src="${pageContext.request.contextPath}/images/person_1.jpg" alt="image" style="width: 50px; height: 50px; border-radius: 50px; margin-right: 5px"/>
+                                                <img src="${list.user.avatar}" alt="image" style="width: 50px; height: 50px; border-radius: 50px; margin-right: 5px"/>
                                                 <p class="ml-2 mb-0">${list.username}</p>
                                             </div>
                                             <p class="pt-3">${list.created_at}</p>
                                         </div>
-                                        <textarea type="text" class="form-control mb-3" value="" name="content" readonly>${list.content} </textarea>
+                                        <textarea type="text" class="form-control mb-3" name="content">${list.content}</textarea>
                                         <input type="hidden" value="${list.feedback_id}" name="fid"/>
                                         <input type="hidden" value="${sessionScope.user.user_id}" name="uid"/>
                                         <input type="hidden" value="${post.post_id}" name="pid"/>
