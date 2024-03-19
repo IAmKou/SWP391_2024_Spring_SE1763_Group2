@@ -313,7 +313,7 @@
                                     <textarea class="form-control" id="comment" rows="3" required name="content"></textarea>
                                 </div>
 
-                             
+
 
                                 <button class="btn btn-primary" id="submitComment">Submit</button>
                                 </form>
@@ -330,7 +330,7 @@
                                             </div>
                                             <p class="pt-3">${list.created_at}</p>
                                         </div>
-                                        <textarea type="text" class="form-control mb-3" name="content">${list.content}</textarea>
+                                        <textarea type="text" class="form-control mb-3" name="content" id="content-${list.feedback_id}">${list.content}</textarea>
                                         <input type="hidden" value="${list.feedback_id}" name="fid"/>
                                         <input type="hidden" value="${sessionScope.user.user_id}" name="uid"/>
                                         <input type="hidden" value="${post.post_id}" name="pid"/>
@@ -344,6 +344,18 @@
                                             <a href="ReportFeedbackController?fid=${list.feedback_id}&uid=${sessionScope.user.user_id}&tid=${post.post_id}&fcontent=${list.content}" class="btn btn-outline-warning ">Report</a>
                                         </c:if>
                                     </div>
+                                    <script>
+                                        // Get the textarea element
+                                        var contentTextarea = document.getElementById('content-${list.feedback_id}');
+
+                                        // Set the readonly attribute based on the ownership status
+                                        var isOwner = ${sessionScope.user.user_id}; // Assuming sessionScope.user.user_id contains the user ID of the current user
+                                        var ownerId = ${list.user_id}; // Assuming list.user_id contains the user ID of the owner of the feedback
+
+                                        if (isOwner !== ownerId) {
+                                            contentTextarea.readOnly = true;
+                                        }
+                                    </script>
                                 </c:forEach>
                             </form>
 
@@ -381,16 +393,7 @@
                 // If content is not empty, allow form submission
                 return true;
             }
-            function validateFile(input) {
-                var fileInput = input;
-                var errorMessage = document.getElementById('imageError');
 
-                if (!fileInput.files || !fileInput.files[0]) {
-                    errorMessage.style.display = 'block';
-                } else {
-                    errorMessage.style.display = 'none';
-                }
-            }
         </script>
         <jsp:include page="footer.jsp"/>
     </body>
