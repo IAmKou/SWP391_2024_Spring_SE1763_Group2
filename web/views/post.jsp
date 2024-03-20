@@ -330,7 +330,7 @@
                                             </div>
                                             <p class="pt-3">${list.created_at}</p>
                                         </div>
-                                        <textarea type="text" class="form-control mb-3" name="content" id="content-${list.feedback_id}">${list.content}</textarea>
+                                        <textarea type="text" class="form-control mb-3" name="content" required id="content-${list.feedback_id}">${list.content}</textarea>
                                         <input type="hidden" value="${list.feedback_id}" name="fid"/>
                                         <input type="hidden" value="${sessionScope.user.user_id}" name="uid"/>
                                         <input type="hidden" value="${post.post_id}" name="pid"/>
