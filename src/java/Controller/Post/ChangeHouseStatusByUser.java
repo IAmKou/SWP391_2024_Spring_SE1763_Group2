@@ -10,6 +10,8 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import model.Account;
 
 /**
  *
@@ -28,6 +30,13 @@ public class ChangeHouseStatusByUser extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        Account acc = (Account) session.getAttribute("user");
+
+        if (acc == null || acc.getRole_id() != 2) {
+            request.getRequestDispatcher("/logIn.jsp").forward(request, response);
+            return;
+        }
         try {
             int postId = validatePostId(request);
             int statusId = validatestatusIdStr(request);

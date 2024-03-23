@@ -23,6 +23,7 @@ import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
+import model.Account;
 import model.House;
 import model.Post;
 import model.Purpose;
@@ -75,14 +76,20 @@ public class CreatePost extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        Account acc = (Account) session.getAttribute("user");
 
+        if (acc == null || acc.getRole_id() != 2) {
+            request.getRequestDispatcher("/logIn.jsp").forward(request, response);
+            return;
+        }
+        
         TypeOfHouseDAO type_of_house_DAO = new TypeOfHouseDAO();
         List<TypeOfHouse> types = type_of_house_DAO.getType();
 
         PurposeDAO purpose_DAO = new PurposeDAO();
         List<Purpose> purposes = purpose_DAO.getPurpose();
 
-        HttpSession session = request.getSession();
         session.setAttribute("purposes", purposes);
         session.setAttribute("types", types);
         request.getRequestDispatcher("../views/addPost.jsp").forward(request, response);
@@ -102,7 +109,7 @@ public class CreatePost extends HttpServlet {
 
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("account");
-
+        
         String description = request.getParameter("description");
         description = description.trim();
 

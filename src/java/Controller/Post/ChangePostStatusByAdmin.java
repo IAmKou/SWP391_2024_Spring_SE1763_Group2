@@ -35,6 +35,10 @@ public class ChangePostStatusByAdmin extends HttpServlet {
         HttpSession session = request.getSession();
         Account admin = (Account) session.getAttribute("user");
 
+        if (admin == null || admin.getRole_id() != 1) {
+            request.getRequestDispatcher("/logIn.jsp").forward(request, response);
+            return;
+        }
 
         try {
             int postId = validatePostId(request);

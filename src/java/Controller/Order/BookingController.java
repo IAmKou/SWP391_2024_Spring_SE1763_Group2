@@ -40,6 +40,12 @@ public class BookingController extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("account");
+        Account acc = (Account) session.getAttribute("user");
+
+        if (acc == null || acc.getRole_id() != 2) {
+            request.getRequestDispatcher("/logIn.jsp").forward(request, response);
+            return;
+        }
         try {
             int postId = getPostId(request);
             validateBooking(postId, user);

@@ -23,6 +23,7 @@ import java.io.InputStream;
 import java.util.Base64;
 import java.util.Collection;
 import java.util.List;
+import model.Account;
 import model.House;
 import model.Image;
 import model.Post;
@@ -75,7 +76,14 @@ public class UpdatePost extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        Account acc = (Account) session.getAttribute("user");
 
+        if (acc == null || acc.getRole_id() != 2) {
+            request.getRequestDispatcher("/logIn.jsp").forward(request, response);
+            return;
+        }
+        
         String post_id_str = request.getParameter("post_id");
         int post_id = Integer.parseInt(post_id_str);
         PostDAO post_DAO = new PostDAO();
@@ -96,7 +104,6 @@ public class UpdatePost extends HttpServlet {
         }
         post.getHouse().setImage(images);
 
-        HttpSession session = request.getSession();
         session.setAttribute("purposes", purposes);
         session.setAttribute("types", types);
         session.setAttribute("post", post);

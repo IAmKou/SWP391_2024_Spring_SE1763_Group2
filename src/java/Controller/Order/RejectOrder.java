@@ -11,6 +11,8 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import model.Account;
 
 /**
  *
@@ -30,6 +32,13 @@ public class RejectOrder extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        HttpSession session = request.getSession();
+        Account acc = (Account) session.getAttribute("user");
+
+        if (acc == null || acc.getRole_id() != 2) {
+            request.getRequestDispatcher("/logIn.jsp").forward(request, response);
+            return;
+        }
         try {
             String meetingIdStr = request.getParameter("meeting_id");
             String message = request.getParameter("message");

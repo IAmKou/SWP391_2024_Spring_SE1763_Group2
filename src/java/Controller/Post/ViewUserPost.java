@@ -18,6 +18,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
+import model.Account;
 import model.Image;
 import model.Post;
 import model.Purpose;
@@ -69,7 +70,12 @@ public class ViewUserPost extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("account");
-        
+        Account acc = (Account) session.getAttribute("user");
+
+        if (acc == null || acc.getRole_id() != 2) {
+            request.getRequestDispatcher("/logIn.jsp").forward(request, response);
+            return;
+        }
         int currentPage = 1;
         int recordsPerPage = 3;
 

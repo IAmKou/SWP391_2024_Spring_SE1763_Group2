@@ -41,8 +41,8 @@ public class ViewRequest extends HttpServlet {
         User user = (User) session.getAttribute("account");
         Account acc = (Account) session.getAttribute("user");
         
-        if(acc == null || acc.getRole_id() == 1){
-            response.sendRedirect("/");
+        if(acc == null || acc.getRole_id() != 2){
+            response.sendRedirect("/logIn.jsp");
             return;
         }
         
