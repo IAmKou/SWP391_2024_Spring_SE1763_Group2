@@ -57,9 +57,9 @@ public class CheckSessionServlet extends HttpServlet {
         HttpSession session = request.getSession(false); // Không tạo phiên mới nếu không tồn tại
 
         if (session != null && session.getAttribute("account") != null) {
-            response.getWriter().write("true"); // Thuộc tính "account" tồn tại trong HttpSession
+            response.getWriter().write("true"); 
         } else {
-            response.getWriter().write("false"); // Thuộc tính "account" không tồn tại trong HttpSession
+            response.getWriter().write("false"); 
         }
     } 
 

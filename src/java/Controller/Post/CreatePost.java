@@ -144,8 +144,8 @@ public class CreatePost extends HttpServlet {
                 throw new Exception("Location or description is too long.");
             }
 
-            if (price <= 0 || area <= 0) {
-                throw new Exception("Price and area must be positive numeric values.");
+            if (price <= 0 || price >=1000000000 || area >= 100000000 || area <= 0) {
+                throw new Exception("Price or area is invalid.");
             }            
 
             //đặt giá trị cho các thuộc tính của đối tượng
